@@ -11,7 +11,7 @@ public class GrapheTest {
 	private Graphe graphe;
 
 	@Before
-	public void setUp() {
+	public void setUp() throws LongueursMotsDifferentesException {
 		final String[] lesMots = { "lion", "pion", "paon", "lion" };
 		graphe = new Graphe(lesMots);
 	}
@@ -22,10 +22,17 @@ public class GrapheTest {
 		final MotGraphe mot2 = graphe.getMot(1);
 		final MotGraphe mot3 = graphe.getMot(2);
 		final MotGraphe mot4 = graphe.getMot(3);
-		assertTrue(graphe.diffUneLettre(mot1.getLibelle(), mot2.getLibelle()));
-		assertFalse(graphe.diffUneLettre(mot1.getLibelle(), mot3.getLibelle()));
-		assertTrue(graphe.diffUneLettre(mot2.getLibelle(), mot3.getLibelle()));
-		assertFalse(graphe.diffUneLettre(mot1.getLibelle(), mot4.getLibelle()));
+		assertTrue(Graphe.diffUneLettre(mot1.getLibelle(), mot2.getLibelle()));
+		assertFalse(Graphe.diffUneLettre(mot1.getLibelle(), mot3.getLibelle()));
+		assertTrue(Graphe.diffUneLettre(mot2.getLibelle(), mot3.getLibelle()));
+		assertFalse(Graphe.diffUneLettre(mot1.getLibelle(), mot4.getLibelle()));
+	}
+	
+	@Test(expected=LongueursMotsDifferentesException.class)
+	public void testDiffUneLettreException() throws LongueursMotsDifferentesException {
+		final String mot1 = "algorithme";
+		final String mot2 = "application";
+		assertTrue(Graphe.diffUneLettre(mot1, mot2));
 	}
 
 	// @Test

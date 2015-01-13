@@ -6,10 +6,10 @@
 
 package lettre;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Queue;
 
 /**
  *
@@ -18,19 +18,14 @@ import java.util.Queue;
 public class Graphe {
 
 	private MotGraphe[] _mots;
-	private boolean[] _dejaVu;
-	private int[] _peres;
 
-	public Graphe(String[] lesMots) {
+	public Graphe(String[] lesMots) throws LongueursMotsDifferentesException {
 		final int nbMots = lesMots.length;
 		_mots = new MotGraphe[nbMots];
-		_dejaVu = new boolean[nbMots];
-		_peres = new int[nbMots];
 		for (int i = 0; i < nbMots; i++) {
 			_mots[i] = new MotGraphe(lesMots[i]);
-			_dejaVu[i] = false;
-			_peres[i] = -1;
 		}
+		initListeSuccesseursTousMots();
 	}
 
 	public MotGraphe getMot(int i) {
@@ -44,7 +39,7 @@ public class Graphe {
 		motD.addSuccesseur(s);
 	}
 
-	public boolean diffUneLettre(String mot1, String mot2)
+	public static boolean diffUneLettre(String mot1, String mot2)
 			throws LongueursMotsDifferentesException {
 		if (mot1.length() != mot2.length()) {
 			throw new LongueursMotsDifferentesException();
@@ -74,37 +69,41 @@ public class Graphe {
 	}
 
 	public void dfs(int x) {
-		_dejaVu[x] = true;
+		_mots[x].setDejaVu(true);
 		System.out.print(_mots[x] + " ");
 		final List<Integer> listeSuccesseursMot = _mots[x]
 				.getListeSuccesseurs();
 		final Iterator<Integer> iterateurListe = listeSuccesseursMot.iterator();
 		while (iterateurListe.hasNext()) {
 			final int y = iterateurListe.next();
-			if (!_dejaVu[y]) {
-				_peres[y] = x;
+			final MotGraphe motY = _mots[y];
+			if (!motY.dejaVu()) {
+				motY.setPere(x);
 				dfs(y);
 			}
 		}
 	}
 
-	public void bfsIteratif(int x) {
-		final Queue<Integer> pileSommets = new LinkedList<Integer>();
-		_dejaVu[x] = true;
-		System.out.print(_mots[x] + " ");
-		pileSommets.add(x);
+	public void bfsIteratif(int s) {
+		final Deque<Integer> pileSommets = new ArrayDeque<Integer>();
+		final int[] d = new int[_mots.length];
+		d[s] = 0;
+		_mots[s].setDejaVu(true);
+		pileSommets.addLast(s);
 		while (!pileSommets.isEmpty()) {
-			final int y = pileSommets.remove();
-			final List<Integer> listeSuccesseursY = _mots[y]
+			final int x = pileSommets.removeFirst();
+			final List<Integer> listeSuccesseursY = _mots[x]
 					.getListeSuccesseurs();
 			final Iterator<Integer> iterateurListe = listeSuccesseursY
 					.iterator();
 			while (iterateurListe.hasNext()) {
-				final int successeur = iterateurListe.next();
-				if (!_dejaVu[successeur]) {
-					System.out.print(_mots[successeur] + " ");
-					_dejaVu[successeur] = true;
-					pileSommets.add(successeur);
+				final int y = iterateurListe.next();
+				final MotGraphe motY = _mots[y];
+				if (!motY.dejaVu()) {
+					motY.setDejaVu(true);
+					motY.setPere(x);
+					d[y] = d[x] + 1;
+					pileSommets.addLast(y);
 				}
 			}
 		}
@@ -118,14 +117,92 @@ public class Graphe {
 		throw new IllegalArgumentException(mot + " n'est pas dans le tableau.");
 	}
 
-	public void chemin(String from, String to) {
+	public static void printListeMots(Deque<String> listeMots) {
+		final Iterator<String> iterateurList = listeMots.iterator();
+		while (iterateurList.hasNext()) {
+			System.out.print(iterateurList.next() + " ");
+		}
+		System.out.println();
+	}
 
+	private Deque<String> getListeMotsFromTo(int indiceFrom, int indiceTo) {
+		final Deque<String> listeMots = new ArrayDeque<String>();
+		while (indiceTo != indiceFrom) {
+			listeMots.addFirst(_mots[indiceTo].getLibelle());
+			indiceTo = _mots[indiceTo].getPere();
+		}
+		listeMots.addFirst(_mots[indiceFrom].getLibelle());
+		return listeMots;
+	}
+
+	public Deque<String> chemin(String from, String to, boolean verbose)
+			throws LongueursMotsDifferentesException {
+		if (verbose) {
+			System.out.println("Graphe.chemin()");
+		}
+		if (from.length() != to.length()) {
+			throw new LongueursMotsDifferentesException();
+		}
+		reset();
+		int indiceFrom = getIndiceMot(from);
+		int indiceTo = getIndiceMot(to);
+		bfsIteratif(indiceFrom);
+		if (_mots[indiceTo].getPere() == -1) {
+			if (verbose) {
+				System.out.println("Il n'y a pas de chemin entre "
+						+ _mots[indiceFrom] + " et " + _mots[indiceTo]);
+			}
+			return null;
+		} else {
+			final Deque<String> listeMots = getListeMotsFromTo(indiceFrom,
+					indiceTo);
+			if (verbose) {
+				System.out.println("Plus court chemin : ");
+				printListeMots(listeMots);
+			}
+			return listeMots;
+		}
+	}
+
+	public Deque<String> getExcentriciteMot(int i, boolean[] dejaTraite)
+			throws LongueursMotsDifferentesException {
+		final MotGraphe mot = _mots[i];
+		Deque<String> cheminExcentriciteMax = new ArrayDeque<String>();
+		for (int j = 0; j < _mots.length; j++) {
+			if (j != i && !dejaTraite[j]) {
+				final Deque<String> cheminIJ = chemin(mot.getLibelle(),
+						_mots[j].getLibelle(), false);
+				if (cheminIJ != null
+						&& cheminIJ.size() > cheminExcentriciteMax.size()) {
+					cheminExcentriciteMax = cheminIJ;
+				}
+			}
+		}
+		return cheminExcentriciteMax;
+	}
+
+	public Deque<String> getMaxExcentriciteGraphe()
+			throws LongueursMotsDifferentesException {
+		Deque<String> max = new ArrayDeque<String>();
+		final boolean[] dejaTraite = new boolean[_mots.length];
+		for (int i = 0; i < _mots.length; i++) {
+			final Deque<String> cheminExcentriciteCourant = getExcentriciteMot(
+					i, dejaTraite);
+			if (cheminExcentriciteCourant != null
+					&& cheminExcentriciteCourant.size() > max.size()) {
+				max = cheminExcentriciteCourant;
+			}
+			dejaTraite[i] = true;
+		}
+		return max;
 	}
 
 	public void visit() {
+		System.out.println("Graphe.visit()");
+		reset();
 		int nbComposantes = 1;
 		for (int i = 0; i < _mots.length; i++) {
-			if (!_dejaVu[i]) {
+			if (!_mots[i].dejaVu()) {
 				System.out.printf("%2d: ", nbComposantes);
 				dfs(i);
 				System.out.println();
@@ -135,7 +212,9 @@ public class Graphe {
 	}
 
 	public void affiche() {
+		System.out.println("Graphe.affiche()");
 		for (int i = 0; i < _mots.length; i++) {
+
 			final MotGraphe motCourant = _mots[i];
 			System.out.printf("%2d", i);
 			System.out.print(" : " + motCourant + " -> ");
@@ -151,19 +230,11 @@ public class Graphe {
 		}
 	}
 
-	public void resetDejaVu() {
-		for (int i = 0; i < _dejaVu.length; i++) {
-			_dejaVu[i] = false;
-		}
-	}
-
-	public void test() {
-		for (int i = 0; i < _peres.length; i++) {
-			System.out.print(_mots[i] + " -> ");
-			if (_peres[i] != -1)
-				System.out.println(_mots[_peres[i]]);
-			else
-				System.out.println();
+	public void reset() {
+		for (int i = 0; i < _mots.length; i++) {
+			final MotGraphe motI = _mots[i];
+			motI.setDejaVu(false);
+			motI.setPere(-1);
 		}
 	}
 
@@ -173,13 +244,15 @@ public class Graphe {
 				"gnu", "glu", "gui", "guy", "gre", "gue", "ace", "acm", "agi",
 				"ait", "aie", "ail", "air", "and", "alu", "ami", "arc", "are",
 				"art", "apr", "avr", "sur", "mat", "mur" };
-		final Graphe graphe = new Graphe(dico3Court);
-		graphe.initListeSuccesseursTousMots();
-		graphe.affiche();
-		System.out.println();
-		graphe.visit();
-		System.out.println();
-		graphe.test();
-		// graphe.bfsIteratif(graphe.getIndiceMot("lion"));
+		final Graphe graphe = new Graphe(Dicos.dico5);
+		/*
+		 * graphe.affiche(); System.out.println(); graphe.visit();
+		 * System.out.println(); //graphe.chemin("lion", "peur");
+		 * System.out.println();
+		 */
+		System.out.println("graphe.getMaxExcentriciteGraphe()");
+		System.out.println(Dicos.dico3.length);
+		System.out.println(Dicos.dico4.length);
+		System.out.println(Dicos.dico5.length);
 	}
 }
