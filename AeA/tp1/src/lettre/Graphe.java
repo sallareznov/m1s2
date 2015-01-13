@@ -18,18 +18,12 @@ import java.util.Queue;
 public class Graphe {
 
 	private MotGraphe[] _mots;
-	private boolean[] _dejaVu;
-	private int[] _peres;
 
 	public Graphe(String[] lesMots) {
 		final int nbMots = lesMots.length;
 		_mots = new MotGraphe[nbMots];
-		_dejaVu = new boolean[nbMots];
-		_peres = new int[nbMots];
 		for (int i = 0; i < nbMots; i++) {
 			_mots[i] = new MotGraphe(lesMots[i]);
-			_dejaVu[i] = false;
-			_peres[i] = -1;
 		}
 	}
 
@@ -74,15 +68,15 @@ public class Graphe {
 	}
 
 	public void dfs(int x) {
-		_dejaVu[x] = true;
+		_mots[x].setDejaVu(true);
 		System.out.print(_mots[x] + " ");
 		final List<Integer> listeSuccesseursMot = _mots[x]
 				.getListeSuccesseurs();
 		final Iterator<Integer> iterateurListe = listeSuccesseursMot.iterator();
 		while (iterateurListe.hasNext()) {
 			final int y = iterateurListe.next();
-			if (!_dejaVu[y]) {
-				_peres[y] = x;
+			if (!_mots[y].dejaVu()) {
+				_mots[y].setPere(x);
 				dfs(y);
 			}
 		}
@@ -90,7 +84,7 @@ public class Graphe {
 
 	public void bfsIteratif(int x) {
 		final Queue<Integer> pileSommets = new LinkedList<Integer>();
-		_dejaVu[x] = true;
+		_mots[x].setDejaVu(true);
 		System.out.print(_mots[x] + " ");
 		pileSommets.add(x);
 		while (!pileSommets.isEmpty()) {
@@ -101,9 +95,9 @@ public class Graphe {
 					.iterator();
 			while (iterateurListe.hasNext()) {
 				final int successeur = iterateurListe.next();
-				if (!_dejaVu[successeur]) {
+				if (!_mots[successeur].dejaVu()) {
 					System.out.print(_mots[successeur] + " ");
-					_dejaVu[successeur] = true;
+					_mots[successeur].setDejaVu(true);
 					pileSommets.add(successeur);
 				}
 			}
@@ -123,9 +117,10 @@ public class Graphe {
 	}
 
 	public void visit() {
+		System.out.println("Graphe.visit()");
 		int nbComposantes = 1;
 		for (int i = 0; i < _mots.length; i++) {
-			if (!_dejaVu[i]) {
+			if (!_mots[i].dejaVu()) {
 				System.out.printf("%2d: ", nbComposantes);
 				dfs(i);
 				System.out.println();
@@ -135,6 +130,7 @@ public class Graphe {
 	}
 
 	public void affiche() {
+		System.out.println("Graphe.affiche()");
 		for (int i = 0; i < _mots.length; i++) {
 			final MotGraphe motCourant = _mots[i];
 			System.out.printf("%2d", i);
@@ -152,16 +148,16 @@ public class Graphe {
 	}
 
 	public void resetDejaVu() {
-		for (int i = 0; i < _dejaVu.length; i++) {
-			_dejaVu[i] = false;
+		for (int i = 0; i < _mots.length; i++) {
+			_mots[i].setDejaVu(false);
 		}
 	}
 
 	public void test() {
-		for (int i = 0; i < _peres.length; i++) {
+		for (int i = 0; i < _mots.length; i++) {
 			System.out.print(_mots[i] + " -> ");
-			if (_peres[i] != -1)
-				System.out.println(_mots[_peres[i]]);
+			if (_mots[i].getPere() != -1)
+				System.out.println(_mots[_mots[i].getPere()]);
 			else
 				System.out.println();
 		}
