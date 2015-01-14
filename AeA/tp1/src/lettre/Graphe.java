@@ -229,6 +229,32 @@ public class Graphe {
 			System.out.println();
 		}
 	}
+	
+	public int distanceLevenshtein(String u, String v) {
+		final int n = u.length();
+		final int m = v.length();
+		final int[][] table = new int[n + 1][m + 1];
+		for (int i = 0 ; i < n ; i++) {
+			for (int j = 0 ; j < m ; j++) {
+				if (i == 0) {
+					table[i][j] = j;
+				}
+				else {
+					if (j == 0) {
+						table[i][j] = i;
+					}
+					else {
+						if (u.charAt(i - 1) == v.charAt(i - 1)) {
+							table[i][j] = table[i-1][j-1];
+						}
+						else {
+							table[i][j] = 1 + Math.min(Math.min(table[i-1][j-1], table[i][j-1]), table[i-1][j]);
+						}
+					}
+				}
+			}
+		}
+	}
 
 	public void reset() {
 		for (int i = 0; i < _mots.length; i++) {
