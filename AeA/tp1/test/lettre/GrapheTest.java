@@ -13,7 +13,7 @@ public class GrapheTest {
 	@Before
 	public void setUp() throws LongueursMotsDifferentesException {
 		final String[] lesMots = { "lion", "pion", "paon", "lion" };
-		graphe = new Graphe(lesMots);
+		graphe = new Graphe(lesMots, 1, 1);
 	}
 
 	@Test

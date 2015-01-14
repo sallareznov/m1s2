@@ -1,15 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package lettre;
 
+import java.util.AbstractMap;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map.Entry;
 
 /**
  *
@@ -18,13 +14,17 @@ import java.util.List;
 public class Graphe {
 
 	private MotGraphe[] _mots;
+	private int _sup;
+	private int _dif;
 
-	public Graphe(String[] lesMots) throws LongueursMotsDifferentesException {
+	public Graphe(String[] lesMots, int sup, int dif) throws LongueursMotsDifferentesException {
 		final int nbMots = lesMots.length;
 		_mots = new MotGraphe[nbMots];
 		for (int i = 0; i < nbMots; i++) {
 			_mots[i] = new MotGraphe(lesMots[i]);
 		}
+		_sup = sup;
+		_dif = dif;
 		initListeSuccesseursTousMots();
 	}
 
@@ -55,8 +55,8 @@ public class Graphe {
 	public void initListeSuccesseursMot(int indiceMot)
 			throws LongueursMotsDifferentesException {
 		for (int i = indiceMot; i < _mots.length; i++) {
-			if (diffUneLettre(_mots[i].getLibelle(),
-					_mots[indiceMot].getLibelle()))
+			final Entry<Integer, Integer> operations = Graphe.getNbreOperations(_mots[i].getLibelle(), _mots[indiceMot].getLibelle());
+			if (operations.getKey() <= _sup && operations.getValue() <= _dif)
 				ajouteArete(i, indiceMot);
 		}
 	}
@@ -157,7 +157,7 @@ public class Graphe {
 			final Deque<String> listeMots = getListeMotsFromTo(indiceFrom,
 					indiceTo);
 			if (verbose) {
-				System.out.println("Plus court chemin : ");
+				System.out.println("Plus court chemin (" + from + " - " + to + ")");
 				printListeMots(listeMots);
 			}
 			return listeMots;
@@ -181,7 +181,7 @@ public class Graphe {
 		return cheminExcentriciteMax;
 	}
 
-	public Deque<String> getMaxExcentriciteGraphe()
+	public Deque<String> getCheminMaxExcentricite()
 			throws LongueursMotsDifferentesException {
 		Deque<String> max = new ArrayDeque<String>();
 		final boolean[] dejaTraite = new boolean[_mots.length];
@@ -229,35 +229,70 @@ public class Graphe {
 			System.out.println();
 		}
 	}
-	
-	public static int distanceLevenshtein(String u, String v) {
+
+	public static int[][] construireTableLevenshtein(String u, String v) {
 		final int n = u.length();
 		final int m = v.length();
 		final int[][] table = new int[n + 1][m + 1];
-//		for (int i = 0 ; i <= n ; i++) {
-//			
-//		}
-		for (int i = 0 ; i <= n ; i++) {
-			for (int j = 0 ; j <= m ; j++) {
+		for (int i = 0; i <= n; i++) {
+			for (int j = 0; j <= m; j++) {
 				if (i == 0) {
-					table[i][j] = 0;
-				}
-				else {
+					table[i][j] = j;
+				} else {
 					if (j == 0) {
 						table[i][j] = i;
-					}
-					else {
+					} else {
 						if (u.charAt(i - 1) == v.charAt(j - 1)) {
-							table[i][j] = table[i-1][j-1];
-						}
-						else {
-							table[i][j] = 1 + Math.min(table[i-1][j-1], table[i-1][j]);
+							table[i][j] = table[i - 1][j - 1];
+						} else {
+							table[i][j] = 1 + Math.min(Math.min(
+									table[i - 1][j - 1], table[i - 1][j]),
+									table[i][j - 1]);
 						}
 					}
 				}
 			}
 		}
-		return table[n][m];
+		return table;
+	}
+
+	public static Entry<Integer, Integer> getNbreOperations(String u, String v) {
+		int nbSup = 0;
+		int nbDif = 0;
+		final int n = u.length();
+		final int m = v.length();
+		final int[][] table = Graphe.construireTableLevenshtein(u, v);
+		int i = n;
+		int j = m;
+		while (table[i][j] != 0 || i != 0 || j != 0) {
+			if (i == 0) {
+				j--;
+			} else {
+				if (j == 0) {
+					nbSup++;
+					i--;
+				} else {
+					if (u.charAt(i - 1) == v.charAt(j - 1)) {
+						i--;
+						j--;
+					} else {
+						if (table[i][j] == 1 + table[i][j - 1]) {
+							j--;
+						} else {
+							if (table[i][j] == 1 + table[i - 1][j]) {
+								nbSup++;
+								i--;
+							} else {
+								nbDif++;
+								i--;
+								j--;
+							}
+						}
+					}
+				}
+			}
+		}
+		return new AbstractMap.SimpleImmutableEntry<Integer, Integer>(nbSup, nbDif);
 	}
 
 	public void reset() {
@@ -270,16 +305,16 @@ public class Graphe {
 
 	public static void main(String[] args)
 			throws LongueursMotsDifferentesException {
-		final String[] dico3Court = { "gag", "gai", "gaz", "gel", "gks", "gin",
-				"gnu", "glu", "gui", "guy", "gre", "gue", "ace", "acm", "agi",
-				"ait", "aie", "ail", "air", "and", "alu", "ami", "arc", "are",
-				"art", "apr", "avr", "sur", "mat", "mur" };
-		final Graphe graphe = new Graphe(Dicos.dico5);
-		/*
-		 * graphe.affiche(); System.out.println(); graphe.visit();
-		 * System.out.println(); //graphe.chemin("lion", "peur");
-		 * System.out.println();
-		 */
-		System.out.println(Graphe.distanceLevenshtein("carie", "durite"));
+//		final String[] dico3Court = { "gag", "gai", "gaz", "gel", "gks", "gin",
+//				"gnu", "glu", "gui", "guy", "gre", "gue", "ace", "acm", "agi",
+//				"ait", "aie", "ail", "air", "and", "alu", "ami", "arc", "are",
+//				"art", "apr", "avr", "sur", "mat", "mur" };
+		final Graphe graphe = new Graphe(Dicos.dico4, 0, 1);
+		graphe.visit();
+		System.out.println();
+		graphe.chemin("lion", "peur", true);
+		System.out.println();
+		System.out.println("Chemin d'excentricité maximale : ");
+		Graphe.printListeMots(graphe.getCheminMaxExcentricite());
 	}
 }
