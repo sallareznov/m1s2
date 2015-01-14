@@ -230,30 +230,34 @@ public class Graphe {
 		}
 	}
 	
-	public int distanceLevenshtein(String u, String v) {
+	public static int distanceLevenshtein(String u, String v) {
 		final int n = u.length();
 		final int m = v.length();
 		final int[][] table = new int[n + 1][m + 1];
-		for (int i = 0 ; i < n ; i++) {
-			for (int j = 0 ; j < m ; j++) {
+//		for (int i = 0 ; i <= n ; i++) {
+//			
+//		}
+		for (int i = 0 ; i <= n ; i++) {
+			for (int j = 0 ; j <= m ; j++) {
 				if (i == 0) {
-					table[i][j] = j;
+					table[i][j] = 0;
 				}
 				else {
 					if (j == 0) {
 						table[i][j] = i;
 					}
 					else {
-						if (u.charAt(i - 1) == v.charAt(i - 1)) {
+						if (u.charAt(i - 1) == v.charAt(j - 1)) {
 							table[i][j] = table[i-1][j-1];
 						}
 						else {
-							table[i][j] = 1 + Math.min(Math.min(table[i-1][j-1], table[i][j-1]), table[i-1][j]);
+							table[i][j] = 1 + Math.min(table[i-1][j-1], table[i-1][j]);
 						}
 					}
 				}
 			}
 		}
+		return table[n][m];
 	}
 
 	public void reset() {
@@ -276,9 +280,6 @@ public class Graphe {
 		 * System.out.println(); //graphe.chemin("lion", "peur");
 		 * System.out.println();
 		 */
-		System.out.println("graphe.getMaxExcentriciteGraphe()");
-		System.out.println(Dicos.dico3.length);
-		System.out.println(Dicos.dico4.length);
-		System.out.println(Dicos.dico5.length);
+		System.out.println(Graphe.distanceLevenshtein("carie", "durite"));
 	}
 }
