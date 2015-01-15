@@ -1,7 +1,11 @@
 package lettre;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -12,20 +16,15 @@ public class GrapheTest {
 
 	@Before
 	public void setUp() throws LongueursMotsDifferentesException {
-		final String[] lesMots = { "lion", "pion", "paon", "lion" };
-		graphe = new Graphe(lesMots, 1, 1);
+		final String[] lesMots = Dicos.dico4;
+		graphe = new Graphe(lesMots, 0, 1);
 	}
 
 	@Test
 	public void testDiffUneLettre() throws LongueursMotsDifferentesException {
-		final MotGraphe mot1 = graphe.getMot(0);
-		final MotGraphe mot2 = graphe.getMot(1);
-		final MotGraphe mot3 = graphe.getMot(2);
-		final MotGraphe mot4 = graphe.getMot(3);
-		assertTrue(Graphe.diffUneLettre(mot1.getLibelle(), mot2.getLibelle()));
-		assertFalse(Graphe.diffUneLettre(mot1.getLibelle(), mot3.getLibelle()));
-		assertTrue(Graphe.diffUneLettre(mot2.getLibelle(), mot3.getLibelle()));
-		assertFalse(Graphe.diffUneLettre(mot1.getLibelle(), mot4.getLibelle()));
+		assertTrue(Graphe.diffUneLettre("lion", "lien"));
+		assertFalse(Graphe.diffUneLettre("lion", "peur"));
+		assertTrue(Graphe.diffUneLettre("peur", "pour"));
 	}
 	
 	@Test(expected=LongueursMotsDifferentesException.class)
@@ -34,15 +33,23 @@ public class GrapheTest {
 		final String mot2 = "application";
 		assertTrue(Graphe.diffUneLettre(mot1, mot2));
 	}
-
-	// @Test
-	// public void testInitListeSuccesseursMot() {
-	// fail("Not yet implemented");
-	// }
-	//
-	// @Test
-	// public void testInitListeSuccesseursTousMots() {
-	// fail("Not yet implemented");
-	// }
+	
+	@Test
+	public void testChemin() {
+		final Deque<String> cheminAttendu = new ArrayDeque<String>();
+		cheminAttendu.addLast("lion");
+		cheminAttendu.addLast("pion");
+		cheminAttendu.addLast("paon");
+		cheminAttendu.addLast("pain");
+		cheminAttendu.addLast("paix");
+		cheminAttendu.addLast("poix");
+		cheminAttendu.addLast("poux");
+		cheminAttendu.addLast("pour");
+		cheminAttendu.addLast("peur");
+		final Deque<String> cheminObtenu = graphe.chemin("lion", "peur", false);
+		while (!cheminAttendu.isEmpty()) {
+			assertEquals(cheminAttendu.pop(), cheminObtenu.pop());
+		}
+	}
 
 }
