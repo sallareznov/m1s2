@@ -55,10 +55,11 @@ class CompteV3(CompteCommon):
 		# 	raise CreditNegatifError()
 		self.listeOperations.append(credit)
 
- 	def debiter(self, debit):
+# 	def debiter(self, debit):
+                
 # 		if (montant < 0):
 # 			raise DebitNegatifError()
- 		self.listeOperations.append(debit)
+# 		self.listeOperations.append(debit)
 
 class Operation:
 

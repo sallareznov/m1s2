@@ -9,7 +9,7 @@ from banque_v3 import Debit
 class TestCompteBancaire(unittest.TestCase):
 	
 	def setUp(self):
-		self.compte = Compte()
+		self.compte = CompteV3()
 
 	def test_initialiser_un_compte_bancaire(self) :
 		self.assertEqual(self.compte.listeOperations, [])
