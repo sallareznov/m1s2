@@ -1,9 +1,13 @@
-package motifs;
+package patterns;
 
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import bases.Base;
+import bases.BaseFactory;
+import patterns.Strand;
 
 /**
  * Classe de test de la classe Strand

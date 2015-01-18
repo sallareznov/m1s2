@@ -1,5 +1,4 @@
 import unittest
-from banque_common import CompteCommon
 from banque_common import CreditNegatifError
 from banque_common import DebitNegatifError
 from banque_v2 import CompteV2
@@ -36,8 +35,3 @@ class TestCompteBancaire(unittest.TestCase) :
 	def test_on_ne_peut_pas_debiter_un_montant_negatif(self):
 		self.compte.viderListeOperations()
 		self.assertRaises(DebitNegatifError, self.compte.debiter, -45.0)
-
-#	def __init__(self, arg):
-#		super(ClassName, self).__init__()
-#		self.arg = arg
-		

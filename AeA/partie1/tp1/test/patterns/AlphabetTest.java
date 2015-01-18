@@ -1,4 +1,4 @@
-package motifs;
+package patterns;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -6,9 +6,8 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
-/**
- * Classe de test de la classe Alphabet
- */
+import patterns.Alphabet;
+
 public class AlphabetTest {
 	
 	private Alphabet testedAlphabet;

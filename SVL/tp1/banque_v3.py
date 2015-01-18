@@ -37,7 +37,6 @@ DebitNegatifError
 
 class CompteV3(CompteCommon):
 
-
 	def __init__(self):
 		self.listeOperations = []
 
@@ -50,16 +49,17 @@ class CompteV3(CompteCommon):
 	def viderListeOperations(self):
 		self.listeOperations = []
 
-	def crediter(self, credit):
-		# if (credit.getMontant() < 0):
-		# 	raise CreditNegatifError()
+	def crediter(self, montant):
+		if (montant < 0):
+		 	raise CreditNegatifError()
+		credit = Credit(montant)
 		self.listeOperations.append(credit)
 
-# 	def debiter(self, debit):
-                
-# 		if (montant < 0):
-# 			raise DebitNegatifError()
-# 		self.listeOperations.append(debit)
+	def debiter(self, montant):
+		if (montant < 0):
+			raise DebitNegatifError()
+		debit = Debit(montant)
+		self.listeOperations.append(debit)
 
 class Operation:
 
@@ -80,7 +80,7 @@ class Debit(Operation):
 		self.montant = montant
 
 	def getMontant(self):
-		return -self.montant
+		return ((-1) * self.montant)
 # class CreditNegatifError(Exception):
 # 	pass
 

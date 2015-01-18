@@ -1,4 +1,7 @@
-package motifs;
+package patterns;
+
+import bases.Base;
+import bases.BaseFactory;
 
 /**
  * Classe représentant un brin d'ADN
@@ -16,6 +19,32 @@ public class Strand {
 	}
 	
 	/**
+	 * construit le brin d'ADN
+	 * @param word la chaine representant le contenu du brin
+	 */
+	public Strand(String word) {
+		content = new Base[word.length()];
+		final BaseFactory baseFactory = new BaseFactory();
+		for (int i = 0 ; i < word.length() ; i++) {
+			content[i] = baseFactory.createBase(word.charAt(i));
+		}
+	}
+	
+	/**
+	 * @return le contenu du brin
+	 */
+	public Base[] getContent() {
+		return content;
+	}
+	
+	/**
+	 * @return la taille du brin
+	 */
+	public int getSize() {
+		return content.length;
+	}
+	
+	/**
 	 * @return le brin reverse
 	 */
 	public Strand getReverse() {
@@ -28,7 +57,7 @@ public class Strand {
 	}
 	
 	/**
-	 * @return le brin complémentaire
+	 * @return le brin complementaire
 	 */
 	public Strand getComplementary() {
 		final int n = content.length;
@@ -40,7 +69,7 @@ public class Strand {
 	}
 	
 	/**
-	 * @return le brin reverse-complémentaire
+	 * @return le brin reverse-complementaire
 	 */
 	public Strand getReverseComplementary() {
 		final Strand reverseSubSequence = getReverse();

@@ -1,13 +1,8 @@
 """
+Common
 """
 
-class CreditNegatifError(Exception):
-	pass
-
-class DebitNegatifError(Exception):
-	pass
-
-class CompteCommon():
+class CompteCommon:
 
 	def solde(self):
 		pass
@@ -20,3 +15,9 @@ class CompteCommon():
 	
 	def debiter(self, montant):
 		pass
+
+class CreditNegatifError(Exception):
+	pass
+
+class DebitNegatifError(Exception):
+	pass

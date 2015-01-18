@@ -20,16 +20,13 @@ class TestCompteBancaire(unittest.TestCase):
 
 	def test_crediter_un_compte_affecte_son_solde(self):
 		self.compte.viderListeOperations()
-		credit = Credit(42.0)
-		self.compte.crediter(credit)
+		self.compte.crediter(42.0)
 		self.assertEqual(self.compte.solde(), 42.0)
 
 	def test_debiter_un_compte_affecte_son_solde(self):
 		self.compte.viderListeOperations()
-		credit = Credit(80.0)
-		debit = Debit(20.0)
-		self.compte.crediter(credit)
-		self.compte.debiter(debit)
+		self.compte.crediter(80.0)
+		self.compte.debiter(20.0)
 		self.assertEqual(self.compte.solde(), 60.0)
 
 	def test_on_ne_peut_pas_crediter_un_montant_negatif(self):
