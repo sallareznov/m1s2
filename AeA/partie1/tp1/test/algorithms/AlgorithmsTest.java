@@ -20,33 +20,37 @@ import algorithms.util.StrandOccurences;
 
 @RunWith(Parameterized.class)
 public class AlgorithmsTest {
-	
+
 	private Algorithm testedAlgorithm;
 	private List<Strand> strandsToLookFor;
-	
+
 	public AlgorithmsTest(Algorithm algorithm) {
 		this.testedAlgorithm = algorithm;
 	}
-	
+
 	@Parameters
 	public static Collection<Object[]> data() {
 		final char[] letters = { 'A', 'C', 'G', 'T' };
 		final Alphabet alphabet = new Alphabet(letters);
 		final String motif = "CTACTATATATC";
 		final Genome genome = new Genome(motif, alphabet);
-		final Object[][] data = { { new BruteForceAlgorithm(genome) }, { new ShiftOrAlgorithm(genome) }};
+		final Object[][] data = { { new BruteForceAlgorithm(genome) },
+				{ new ShiftOrAlgorithm(genome) },
+				{ new KarpRabinAlgorithm(genome) } };
 		return Arrays.asList(data);
 	}
-	
+
 	@Before
 	public void setUp() {
 		final Strand mainStrand = new Strand("TATA");
 		final Strand complementaryStrand = mainStrand.getComplementary();
 		final Strand reverseStrand = mainStrand.getReverse();
-		final Strand reverseComplementaryStrand = mainStrand.getReverseComplementary(); 
-		strandsToLookFor = Arrays.asList(mainStrand, complementaryStrand, reverseStrand, reverseComplementaryStrand);
+		final Strand reverseComplementaryStrand = mainStrand
+				.getReverseComplementary();
+		strandsToLookFor = Arrays.asList(mainStrand, complementaryStrand,
+				reverseStrand, reverseComplementaryStrand);
 	}
-	
+
 	@Test
 	public void testAlgorithms() {
 		final List<StrandOccurences> expectedOccurences = new ArrayList<StrandOccurences>();
@@ -60,7 +64,8 @@ public class AlgorithmsTest {
 		expectedOccurences.add(complementaryAndReverseStrandsOccurences);
 		expectedOccurences.add(complementaryAndReverseStrandsOccurences);
 		expectedOccurences.add(mainAndReverseComplementaryStrandsOccurences);
-		final List<StrandOccurences> actualOccurences = testedAlgorithm.findRepetitiveWords(strandsToLookFor);
+		final List<StrandOccurences> actualOccurences = testedAlgorithm
+				.findRepetitiveStrands(strandsToLookFor);
 		assertEquals(expectedOccurences, actualOccurences);
 	}
 }

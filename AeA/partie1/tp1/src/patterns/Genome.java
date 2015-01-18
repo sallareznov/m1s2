@@ -1,7 +1,7 @@
 package patterns;
 
 import bases.Base;
-import bases.BaseFactory;
+import bases.BaseFlyweightFactory;
 
 /**
  * Classe representant un genome
@@ -26,16 +26,16 @@ public class Genome {
 
 	/**
 	 * construit un genome
-	 * @param motif le motif
+	 * @param sequenceString le motif
 	 * @param alphabet
 	 */
-	public Genome(String motif, Alphabet alphabet) {
+	public Genome(String sequenceString, Alphabet alphabet) {
 		this.alphabet = alphabet;
-		this.size = motif.length();
+		this.size = sequenceString.length();
 		this.bases = new Base[this.size];
-		final BaseFactory baseFactory = new BaseFactory();
-		if (this.alphabet.acceptWord(motif))
-			this.bases = baseFactory.createBases(motif);
+		final BaseFlyweightFactory baseFactory = new BaseFlyweightFactory();
+		if (this.alphabet.acceptWord(sequenceString))
+			this.bases = baseFactory.createBases(sequenceString);
 		else
 			throw new IllegalArgumentException(
 					"String contains invalid letters for the alphabet");

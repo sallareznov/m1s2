@@ -6,7 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import bases.Base;
-import bases.BaseFactory;
+import bases.BaseFlyweightFactory;
 import patterns.Strand;
 
 /**
@@ -18,7 +18,7 @@ public class StrandTest {
 
 	@Before
 	public void setUp() {
-		final BaseFactory baseFactory = new BaseFactory();
+		final BaseFlyweightFactory baseFactory = new BaseFlyweightFactory();
 		final Base[] bases = { baseFactory.createGBase(),
 				baseFactory.createABase(), baseFactory.createTBase(),
 				baseFactory.createABase(), baseFactory.createCBase(),

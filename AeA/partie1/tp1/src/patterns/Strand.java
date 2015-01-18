@@ -1,7 +1,7 @@
 package patterns;
 
 import bases.Base;
-import bases.BaseFactory;
+import bases.BaseFlyweightFactory;
 
 /**
  * Classe représentant un brin d'ADN
@@ -24,7 +24,7 @@ public class Strand {
 	 */
 	public Strand(String word) {
 		content = new Base[word.length()];
-		final BaseFactory baseFactory = new BaseFactory();
+		final BaseFlyweightFactory baseFactory = new BaseFlyweightFactory();
 		for (int i = 0 ; i < word.length() ; i++) {
 			content[i] = baseFactory.createBase(word.charAt(i));
 		}

@@ -1,10 +1,22 @@
 package bases;
 
+import java.util.HashMap;
+import java.util.Map;
+
 
 /**
  * Factory servant a creer les bases
  */
-public class BaseFactory {
+public class BaseFlyweightFactory {
+	
+	private Map<Character, Base> bases;
+	
+	/**
+	 * construit une fabrique de bases
+	 */
+	public BaseFlyweightFactory() {
+		bases = new HashMap<Character, Base>();
+	}
 	
 	/**
 	 * creates a base 
@@ -13,13 +25,16 @@ public class BaseFactory {
 	 * @exception IllegalArgumentException si la base est incorrecte
 	 */
 	public Base createBase(char letter) {
-		switch (letter) {
-			case 'A' : return new Base('A', 'T');
-			case 'C' : return new Base('C', 'G');
-			case 'G' : return new Base('G', 'C');
-			case 'T' : return new Base('T', 'A');
-			default : throw new IllegalArgumentException("Base incorrecte !");
+		if (bases.get(letter) == null) {
+			switch (letter) {
+				case 'A' : bases.put('A', new Base('A', 'T')); break;
+				case 'C' : bases.put('C', new Base('C', 'G')); break;
+				case 'G' : bases.put('G', new Base('G', 'C')); break;
+				case 'T' : bases.put('T', new Base('T', 'A')); break;
+				default : throw new IllegalArgumentException("Base incorrecte !");
+			}
 		}
+		return bases.get(letter);
 	}
 	
 	/**
