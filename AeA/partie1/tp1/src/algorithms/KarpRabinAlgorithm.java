@@ -26,7 +26,7 @@ public class KarpRabinAlgorithm extends Algorithm {
 	public KarpRabinAlgorithm(Genome genome) {
 		super(genome);
 		final Alphabet alphabet = genome.getAlphabet();
-		final char[] alphabetLetters = alphabet.getLetters();
+		final Character[] alphabetLetters = alphabet.getLetters();
 		lettersValues = new HashMap<Character, Integer>();
 		for (int i = 0; i < alphabetLetters.length; i++) {
 			lettersValues.put(alphabetLetters[i], i + 1);

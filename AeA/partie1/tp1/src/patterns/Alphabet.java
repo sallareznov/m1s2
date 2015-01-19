@@ -1,28 +1,19 @@
-/**
- * Un alphabet est un ensemble fini de lettres
- */
 package patterns;
 
 /**
  * @author leo
- * 
+ * Un alphabet est un ensemble fini de lettres
  */
 public class Alphabet {
-	/**
-	 * Les mots de l'alphabet
-	 */
-	private char[] letters;
 
-	/**
-	 * La taille de l'alphabet
-	 */
+	private Character[] letters;
 	private int size;
 
 	/**
 	 * construit l'alphabet
 	 * @param letters les lettres qui composent l'alphabet
 	 */
-	public Alphabet(char[] letters) {
+	public Alphabet(Character[] letters) {
 		this.letters = letters;
 		this.size = letters.length;
 	}
@@ -30,7 +21,7 @@ public class Alphabet {
 	/**
 	 * @return les lettres de l'alphabet
 	 */
-	public char[] getLetters() {
+	public Character[] getLetters() {
 		return this.letters;
 	}
 

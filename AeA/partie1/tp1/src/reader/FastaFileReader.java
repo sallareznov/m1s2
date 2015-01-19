@@ -4,13 +4,22 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
+
+import patterns.Alphabet;
+import patterns.Genome;
+import bases.Base;
+import bases.BaseFlyweightFactory;
 
 public class FastaFileReader {
 	
 	private static final String[] FILE_EXTENSIONS = { ".fasta", ".fa" };
 	private static final char EXTENSION_MARKER = '.';
 	private static final char FASTA_FILE_FIRST_CHARACTER = '>';
-	private static final int NEWLINE_ASCII_CODE = 10;
+	private static final int NEWLINE_CHARACTER_ASCII_CODE = 10;
 	private String filename;
 	private BufferedReader reader;
 
@@ -36,20 +45,30 @@ public class FastaFileReader {
 		return false;
 	}
 	
-	public String getSequenceString() throws IOException, InvalidFastaFileException {
+	public Genome getGenomeFromFile() throws IOException, InvalidFastaFileException {
+		final List<Base> bases = new LinkedList<Base>();
+		final BaseFlyweightFactory baseFactory = new BaseFlyweightFactory();
+		final Set<Character> letters = new HashSet<Character>();
 		if (reader.read() != (int) FASTA_FILE_FIRST_CHARACTER) {
 			reader.close();
 			throw new InvalidFastaFileException();
 		}
-		final StringBuilder text = new StringBuilder();
 		// skip la premiere ligne du fichier
 		reader.readLine();
 		int characterCode;
 		while ((characterCode = reader.read()) != -1) {
-			if (characterCode != NEWLINE_ASCII_CODE)
-			text.append(Character.toChars(characterCode)[0]);
+			if ((characterCode != NEWLINE_CHARACTER_ASCII_CODE)) {
+				// ne fait rien si le caractere est deja dans l'alphabet
+				final char character = Character.toChars(characterCode)[0];
+				letters.add(character);
+				final Base createdBase = baseFactory.createBase(character);
+				bases.add(createdBase);
+			}
 		}
-		return text.toString();
+		final Base[] baseArray = bases.toArray(new Base[bases.size()]);
+		final Character[] lettersArray = letters.toArray(new Character[letters.size()]);
+		final Alphabet alphabet = new Alphabet(lettersArray);
+		return new Genome(baseArray, alphabet);
 	}
 	
 	public void close() throws IOException {

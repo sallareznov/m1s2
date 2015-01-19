@@ -9,7 +9,7 @@ public class GenomeTest {
 	
 	@Test
 	public void testConstructorWithoutException() {
-		final char[] letters = { 'A', 'C', 'G', 'T' };
+		final Character[] letters = { 'A', 'C', 'G', 'T' };
 		final Alphabet alphabet = new Alphabet(letters);
 		final String motif = "CTACTATATATC";
 		testedGenome = new Genome(motif, alphabet);
@@ -18,7 +18,7 @@ public class GenomeTest {
 	
 	@Test(expected=IllegalArgumentException.class)
 	public void testConstructorWithException() {
-		final char[] letters = { 'A', 'C', 'G', 'T' };
+		final Character[] letters = { 'A', 'C', 'G', 'T' };
 		final Alphabet alphabet = new Alphabet(letters);
 		final String motif = "CTACTATATUTC";
 		testedGenome = new Genome(motif, alphabet);

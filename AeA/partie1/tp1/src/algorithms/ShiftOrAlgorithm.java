@@ -41,7 +41,7 @@ public class ShiftOrAlgorithm extends Algorithm {
 		lettersVectors.clear();
 		final String strandString = strand.toString();
 		final Alphabet alphabet = getGenome().getAlphabet();
-		final char[] letters = alphabet.getLetters();
+		final Character[] letters = alphabet.getLetters();
 		for (int i = 0; i < alphabet.getSize(); i++) {
 			final char letter = letters[i];
 			final Integer[] currentLetterVector = new Integer[strandString

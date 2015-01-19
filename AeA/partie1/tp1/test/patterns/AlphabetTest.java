@@ -14,7 +14,7 @@ public class AlphabetTest {
 	
 	@Before
 	public void setUp() {
-		final char[] letters = { 'A', 'C', 'G', 'T' };
+		final Character[] letters = { 'A', 'C', 'G', 'T' };
 		testedAlphabet = new Alphabet(letters);
 	}
 	

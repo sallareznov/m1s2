@@ -56,7 +56,7 @@ public class FastaFileReaderTest {
 	@Test
 	public void testValidFastaFileContent() throws IOException, InvalidFastaFileException {
 		testedReader = new FastaFileReader(validFastaFileContent.getAbsolutePath());
-		testedReader.getSequenceString();
+		testedReader.getGenomeFromFile();
 		return;
 	}
 	
@@ -66,9 +66,8 @@ public class FastaFileReaderTest {
 		writer.write("dumb content");
 		writer.close();
 		testedReader = new FastaFileReader(invalidFastaFileContent.getAbsolutePath());
-		testedReader.getSequenceString();
+		testedReader.getGenomeFromFile();
 		testedReader.close();
-		
 	}
 
 }

@@ -8,37 +8,34 @@ import bases.BaseFlyweightFactory;
  */
 public class Genome {
 	
-	/**
-	 * L'alphabet dont depend le motif. Le motif ne peut contenir que des mots
-	 * de l'alphabet
-	 */
 	private Alphabet alphabet;
-
-	/**
-	 * Les mots qui composent le motif.
-	 */
 	private Base[] bases;
-
-	/**
-	 * La taille du mot
-	 */
 	private int size;
 
 	/**
 	 * construit un genome
 	 * @param sequenceString le motif
-	 * @param alphabet
+	 * @param alphabet l'alphabet
 	 */
 	public Genome(String sequenceString, Alphabet alphabet) {
 		this.alphabet = alphabet;
 		this.size = sequenceString.length();
-		this.bases = new Base[this.size];
 		final BaseFlyweightFactory baseFactory = new BaseFlyweightFactory();
 		if (this.alphabet.acceptWord(sequenceString))
 			this.bases = baseFactory.createBases(sequenceString);
 		else
 			throw new IllegalArgumentException(
 					"String contains invalid letters for the alphabet");
+	}
+	
+	/**
+	 * construit un genome
+	 * @param bases les bases du genome
+	 * @param alphabet l'alphabet
+	 */
+	public Genome(Base[] bases, Alphabet alphabet) {
+		this.bases = bases;
+		this.alphabet = alphabet;
 	}
 	
 	/**

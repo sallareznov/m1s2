@@ -30,7 +30,7 @@ public class AlgorithmsTest {
 
 	@Parameters
 	public static Collection<Object[]> data() {
-		final char[] letters = { 'A', 'C', 'G', 'T' };
+		final Character[] letters = { 'A', 'C', 'G', 'T' };
 		final Alphabet alphabet = new Alphabet(letters);
 		final String motif = "CTACTATATATC";
 		final Genome genome = new Genome(motif, alphabet);
