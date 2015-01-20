@@ -1,0 +1,6 @@
+TP :
+- refaire Compte et crediter en TDD
+	pomodoro + binôme
+- ajouter la fonctionnalité debiter()
+	(faire une nouvelle version)
+- refactoriser en transformant le solde interne en liste d'opérations (valeur positive pour un crédit, négative pour un débit)
