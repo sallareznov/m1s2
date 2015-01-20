@@ -9,7 +9,11 @@ package algos;
  */
 public class KMP
 {	
-
+	/**
+	 * Next représente la longueur du plus long mot possible tel que :
+	 * - 
+	 */
+	protected int[] next;
 	/**
 	 * 
 	 */
