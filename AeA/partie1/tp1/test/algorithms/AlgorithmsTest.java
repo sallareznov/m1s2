@@ -36,7 +36,8 @@ public class AlgorithmsTest {
 		final Genome genome = new Genome(motif, alphabet);
 		final Object[][] data = { { new BruteForceAlgorithm(genome) },
 				{ new ShiftOrAlgorithm(genome) },
-				{ new KarpRabinAlgorithm(genome) } };
+				{ new KarpRabinAlgorithm(genome) },
+				{ new KMPAlgorithm(genome) } };
 		return Arrays.asList(data);
 	}
 
