@@ -14,6 +14,7 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
 import patterns.Alphabet;
+import patterns.ConcreteStrand;
 import patterns.Genome;
 import patterns.Strand;
 import algorithms.util.StrandOccurences;
@@ -43,7 +44,7 @@ public class AlgorithmsTest {
 
 	@Before
 	public void setUp() {
-		final Strand mainStrand = new Strand("TATA");
+		final Strand mainStrand = new ConcreteStrand("TATA");
 		final Strand complementaryStrand = mainStrand.getComplementary();
 		final Strand reverseStrand = mainStrand.getReverse();
 		final Strand reverseComplementaryStrand = mainStrand
