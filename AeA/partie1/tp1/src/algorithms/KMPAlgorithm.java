@@ -60,7 +60,6 @@ public class KMPAlgorithm extends Algorithm {
 		final StrandOccurences strandOccurences = new StrandOccurences();
 		final Base[] genomeBases = getGenome().getBases();
 		final Base[] strandBases = strand.getContent();
-		this.preTreat(strand);
 		int i = 0;
 		while (i < genomeBases.length - strand.getSize() + 1) {
 			int j = 0;
@@ -72,7 +71,7 @@ public class KMPAlgorithm extends Algorithm {
 				strandOccurences.addIndex(i);
 				i++;
 			} else {
-				i = i + (j - next[j]);
+				i += (j - next[j]);
 			}
 		}
 		return strandOccurences;

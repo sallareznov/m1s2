@@ -35,10 +35,13 @@ public class AlgorithmsTest {
 		final Alphabet alphabet = new Alphabet(letters);
 		final String motif = "CTACTATATATC";
 		final Genome genome = new Genome(motif, alphabet);
-		final Object[][] data = { { new BruteForceAlgorithm(genome) },
+		final Object[][] data = {
+				{ new BruteForceAlgorithm(genome) },
 				{ new ShiftOrAlgorithm(genome) },
 				{ new KarpRabinAlgorithm(genome) },
-				{ new KMPAlgorithm(genome) } };
+				{ new KMPAlgorithm(genome) },
+				{ new BoyerMooreAlgorithm(genome) }
+		};
 		return Arrays.asList(data);
 	}
 

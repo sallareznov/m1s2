@@ -10,6 +10,8 @@ import java.util.Set;
 
 import patterns.Alphabet;
 import patterns.Genome;
+import reader.util.InvalidFastaFileException;
+import reader.util.NotAFastaFileException;
 import bases.Base;
 import bases.BaseFlyweightFactory;
 

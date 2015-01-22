@@ -10,6 +10,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import reader.util.InvalidFastaFileException;
+import reader.util.NotAFastaFileException;
+
 public class FastaFileReaderTest {
 
 	private FastaFileReader testedReader;

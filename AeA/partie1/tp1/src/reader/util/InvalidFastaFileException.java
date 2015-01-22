@@ -1,4 +1,4 @@
-package reader;
+package reader.util;
 
 /**
  * Exception susceptible d'etre lancee quand un fichier fasta teste n'est pas 
