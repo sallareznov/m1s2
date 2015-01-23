@@ -8,6 +8,11 @@ public class EmptyStrand implements Strand {
 	public Base[] getContent() {
 		return new Base[0];
 	}
+	
+	public Base getBaseAt(int index)
+	{
+		return this.getContent()[index];
+	}
 
 	@Override
 	public int getSize() {

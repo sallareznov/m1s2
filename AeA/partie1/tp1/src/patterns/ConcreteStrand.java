@@ -164,4 +164,10 @@ public class ConcreteStrand implements Strand {
 		return true;
 	}
 
+	@Override
+	public Base getBaseAt(int index)
+	{
+		return this.getContent()[index];
+	}
+
 }
