@@ -1,0 +1,14 @@
+refaire le test en isolation de la classe Caisse pour les fonctionnalités:
+- Visualation du solde ------------------------------------------------------------------------- Done
+- Payer un repas sans ticket-------------------------------------------------------------------- Done
+avec 
+ test d'interaction avec mockito ----------------------------------------------------------------Done
+ écriture de la doctest pour Caisse ( futur "test d'acceptation") -------------------------------Done
+ ecriture d'une doctest pour Carte au fur et à mesure -------------------------------------------Done
+
+Ensuite:
+- en TDD tester et ecrire Carte (ne devrait pas nécessiter de mocks) ----------------------------Done
+- executer la doctest de Carte pour tester l'intégration de Caisse avec la "vraie" Carte --------Done
+- tester en isolation payer un repas avec ticket pour caisse ------------------------------------Done
+- tester et ecrire Carte en conséquence ---------------------------------------------------------Done
+- executer doctest ------------------------------------------------------------------------------Done
