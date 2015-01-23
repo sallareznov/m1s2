@@ -36,5 +36,10 @@ public class BruteForceAlgorithm extends Algorithm {
 		}
 		return strandOccurences;
 	}
+	
+	@Override
+	public String toString() {
+		return "Algorithme naif (BruteForce)";
+	}
 
 }

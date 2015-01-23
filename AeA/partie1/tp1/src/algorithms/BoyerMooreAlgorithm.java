@@ -61,5 +61,10 @@ public class BoyerMooreAlgorithm extends Algorithm {
 		}
 		return strandOccurences;
 	}
+	
+	@Override
+	public String toString() {
+		return "Algorithme de Boyer-Moore";
+	}
 
 }

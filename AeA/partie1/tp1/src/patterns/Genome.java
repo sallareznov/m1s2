@@ -1,5 +1,7 @@
 package patterns;
 
+import java.util.Arrays;
+
 import bases.Base;
 import bases.BaseFlyweightFactory;
 
@@ -36,6 +38,7 @@ public class Genome {
 	public Genome(Base[] bases, Alphabet alphabet) {
 		this.bases = bases;
 		this.alphabet = alphabet;
+		this.size = bases.length;
 	}
 	
 	/**
@@ -57,6 +60,20 @@ public class Genome {
 	 */
 	public Alphabet getAlphabet() {
 		return alphabet;
+	}
+	
+	@Override
+	public String toString() {
+		return new ConcreteStrand(bases).toString();
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof Genome) {
+			final Genome genome = (Genome) obj;
+			return Arrays.equals(bases, genome.getBases());
+		}
+		return false;
 	}
 
 }

@@ -20,6 +20,11 @@ public class StrandOccurences {
 	}
 	
 	@Override
+	public String toString() {
+		return indexes.toString();
+	}
+	
+	@Override
 	public boolean equals(Object obj) {
 		if (obj instanceof StrandOccurences) {
 			final StrandOccurences occurences = (StrandOccurences) obj;

@@ -131,5 +131,10 @@ public class ShiftOrAlgorithm extends Algorithm {
 		}
 		return retrieveOccurences(strandBases, genomeBases);
 	}
+	
+	@Override
+	public String toString() {
+		return "Algorithme ShiftOr";
+	}
 
 }

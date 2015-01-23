@@ -64,7 +64,6 @@ public class FastaFileReader {
 	 * @throws NotAFastaFileException si le fichier en parametre n'est pas un fichier fasta
 	 */
 	public Genome getGenomeFromFile(String filename) throws IOException, InvalidFastaFileException, NotAFastaFileException {
-		reader.reset();
 		verifyExtension(filename);
 		verifyContent(filename);
 		final List<Base> bases = new LinkedList<Base>();

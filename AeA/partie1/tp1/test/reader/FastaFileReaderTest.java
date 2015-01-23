@@ -1,5 +1,7 @@
 package reader;
 
+import static org.junit.Assert.assertEquals;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -10,6 +12,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import patterns.Alphabet;
+import patterns.Genome;
 import reader.util.InvalidFastaFileException;
 import reader.util.NotAFastaFileException;
 
@@ -23,6 +27,7 @@ public class FastaFileReaderTest {
 	private File validFastaFileContent2;
 	private File validFastaFileContent3;
 	private File validFastaFileContent4;
+	private File validFastaFileContent5;
 	private File invalidFastaFileContent;
 
 	@Before
@@ -36,6 +41,7 @@ public class FastaFileReaderTest {
 		validFastaFileContent2 = new File("donnees/exemple2.fasta");
 		validFastaFileContent3 = new File("donnees/exemple3.fasta");
 		validFastaFileContent4 = new File("donnees/exemple4.fasta");
+		validFastaFileContent5 = new File("donnees/simple.fasta");
 		validFastaFileExtension1.createNewFile();
 		validFastaFileExtension2.createNewFile();
 		invalidFastaFileExtension.createNewFile();
@@ -79,6 +85,14 @@ public class FastaFileReaderTest {
 		writer.close();
 		testedReader.verifyContent(invalidFastaFileContent.getAbsolutePath());
 		return;
+	}
+	
+	@Test
+	public void testGetGenome() throws IOException, InvalidFastaFileException, NotAFastaFileException {
+		final Character[] letters = { 'A', 'C', 'G', 'T' };
+		final Genome expectedGenome = new Genome("CTACTATATATC", new Alphabet(letters));
+		final Genome actualGenome = testedReader.getGenomeFromFile(validFastaFileContent5.getAbsolutePath());
+		assertEquals(expectedGenome, actualGenome);
 	}
 
 }

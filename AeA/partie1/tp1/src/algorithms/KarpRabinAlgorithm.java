@@ -72,5 +72,10 @@ public class KarpRabinAlgorithm extends Algorithm {
 		}
 		return strandOccurences;
 	}
+	
+	@Override
+	public String toString() {
+		return "Algorithme de Karp-Rabin";
+	}
 
 }

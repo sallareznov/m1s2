@@ -76,5 +76,10 @@ public class KMPAlgorithm extends Algorithm {
 		}
 		return strandOccurences;
 	}
+	
+	@Override
+	public String toString() {
+		return "Algorithme de Knuth-Morris-Pratt";
+	}
 
 }
