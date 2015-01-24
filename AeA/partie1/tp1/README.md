@@ -12,7 +12,8 @@
 
 # Fonctionnement du programme
 ```
-USAGE : java -jar strand_searching.jar filename [strand|N] [-comp|-rev|-revComp]* [-bf|-so|-kr|-kmp|-bm]*
+DESCRIPTION : recherche de motifs repetes dans un genome
+USAGE : java -jar strand_searching.jar filename  [strand|N] [-comp|-rev|-revComp]* --USING [-bf|-so|-kr|-kmp|-bm]*
 	filename : le nom du fichier fasta ou se trouve le genome a etudier
 	[strand|N] : permet de rechercher soit :
 		* strand : une sequence dont les occurences seront recherchees dans le genome
@@ -27,5 +28,8 @@ USAGE : java -jar strand_searching.jar filename [strand|N] [-comp|-rev|-revComp]
 		* kr : Karp-Rabin
 		* kmp : Knutt-Morris-Pratt
 		* bm : Boyer-Moore
-EXEMPLE : java -jar strand_searching.jar donnees/simple.fasta TATA -revComp -comp -rev -kr -bf -so -bm -kmp
+EXEMPLE : java -jar strand_searching.jar donnees/simple.fasta TATA --WITH -revComp -comp -rev --USING -kr -bf -so -bm -kmp
+	Cet exemple affichera sur la sortie standard les occurences du mot TATA, de son reverse, de son complementaire et de son
+	reverse-complementaire dans le genome du fichier donnees/simple.fasta, en utilisant les algorithme Karp-Rabin, Brute-Force,
+	ShiftOr, Boyer-Moore et Knuth-Morris-Pratt
 ```

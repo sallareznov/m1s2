@@ -14,7 +14,9 @@ import bases.Base;
  */
 public class ShiftOrAlgorithm extends Algorithm {
 
+	// les vecteurs des lettres de l'alphabet
 	private Map<Character, Integer[]> lettersVectors;
+	// la matrice finale
 	private int[][] matrix;
 
 	/**

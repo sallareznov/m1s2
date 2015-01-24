@@ -14,7 +14,9 @@ import bases.Base;
  */
 public class KarpRabinAlgorithm extends Algorithm {
 
+	// les valeurs des lettres de l'alphabet
 	private Map<Character, Integer> lettersValues;
+	// le resultat de la fonction de hachage hash() pour le brin recherche
 	private int strandHash;
 
 	/**
@@ -72,7 +74,7 @@ public class KarpRabinAlgorithm extends Algorithm {
 		}
 		return strandOccurences;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Algorithme de Karp-Rabin";

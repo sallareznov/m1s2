@@ -8,8 +8,7 @@ import algorithms.util.StrandOccurences;
 import bases.Base;
 
 /**
- * @author leo
- * lgorithme de Knuth, Morris et Pratt
+ * Algorithme de Knuth, Morris et Pratt
  */
 public class KMPAlgorithm extends Algorithm {
 
@@ -26,6 +25,21 @@ public class KMPAlgorithm extends Algorithm {
 	public KMPAlgorithm(Genome genome) {
 		super(genome);
 	}
+
+	/*private void preTreat(Strand m) {
+		next = new int[m.getSize()];
+		next[0] = -1;
+		int a = -1;
+		for (int b = 1; b < next.length; b++) {
+			while (a >= 0 && m.getBaseAt(a + 1).equals(m.getBaseAt(b))) {
+				a = next[a];
+			}
+			if ((m.getBaseAt(a + 1).equals(m.getBaseAt(b)))) {
+				a++;
+			}
+			next[b] = a;
+		}
+	}*/
 
 	private void preTreat(Strand m) {
 		next = new int[m.getSize() + 1];
@@ -76,7 +90,7 @@ public class KMPAlgorithm extends Algorithm {
 		}
 		return strandOccurences;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Algorithme de Knuth-Morris-Pratt";
