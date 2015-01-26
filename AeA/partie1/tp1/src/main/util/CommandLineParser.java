@@ -183,6 +183,10 @@ public class CommandLineParser {
 			}
 			i++;
 		}
+		// Aucun algorithme n'a ete choisi
+		if (algorithmsToUse.isEmpty()) {
+			algorithmsToUse.add(DEFAULT_ALGORITHM);
+		}
 		return i;
 	}
 

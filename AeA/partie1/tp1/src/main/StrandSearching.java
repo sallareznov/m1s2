@@ -30,6 +30,7 @@ public class StrandSearching {
 		System.out.println("\t\tkmp : Knutt-Morris-Pratt");
 		System.out.println("\t\tbm : Boyer-Moore");
 		System.out.println("EXEMPLE : java -jar strand_searching.jar donnees/simple.fasta TATA --WITH -revComp -comp -rev -kr --USING -bf -so -bm -kmp");
+		System.out.println("Si aucun algorithme n'est specifie, l'algorithme de Boyer-Moore sera utilise");
 	}
 	
 	private static void printResult(Algorithm algorithm, List<Strand> strands, List<StrandOccurences> occurencesList, long executionTime) {
