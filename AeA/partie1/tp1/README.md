@@ -28,8 +28,54 @@ USAGE : java -jar strand_searching.jar filename  [strand|N] [-comp|-rev|-revComp
 		* kr : Karp-Rabin
 		* kmp : Knutt-Morris-Pratt
 		* bm : Boyer-Moore
+Si aucun algorithme n'est specifie, l'algorithme de Boyer-Moore sera utilise.
 EXEMPLE : java -jar strand_searching.jar donnees/simple.fasta TATA --WITH -revComp -comp -rev --USING -kr -bf -so -bm -kmp
 	Cet exemple affichera sur la sortie standard les occurences du mot TATA, de son reverse, de son complementaire et de son
 	reverse-complementaire dans le genome du fichier donnees/simple.fasta, en utilisant les algorithme Karp-Rabin, Brute-Force,
 	ShiftOr, Boyer-Moore et Knuth-Morris-Pratt
 ```
+
+# Exemple de résultat du programme
+
+```
+$ java -jar strand_searching.jar donnees/exemple3.fasta GATA --WITH -comp -rev -revComp --USING -bf -so -kr -kmp -bm
+
+Algorithme naif (BruteForce)
+GATA : [143, 173, 710, 796, 1021]
+CTAT : []
+ATAG : [1022]
+TATC : [557, 1518]
+Temps d'execution : 24081831 nanosecondes.
+
+Algorithme ShiftOr
+GATA : [143, 173, 710, 796, 1021]
+CTAT : []
+ATAG : [1022]
+TATC : [557, 1518]
+Temps d'execution : 52803673 nanosecondes.
+
+Algorithme de Karp-Rabin
+GATA : [143, 173, 710, 796, 1021]
+CTAT : []
+ATAG : [1022]
+TATC : [557, 1518]
+Temps d'execution : 56855110 nanosecondes.
+
+Algorithme de Knuth-Morris-Pratt
+GATA : [143, 173, 710, 796, 1021]
+CTAT : []
+ATAG : [1022]
+TATC : [557, 1518]
+Temps d'execution : 10918704 nanosecondes.
+
+Algorithme de Boyer-Moore
+GATA : [143, 173, 710, 796, 1021]
+CTAT : []
+ATAG : [1022]
+TATC : [557, 1518]
+Temps d'execution : 8892501 nanosecondes.
+
+$
+```
+
+
