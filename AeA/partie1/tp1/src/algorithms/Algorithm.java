@@ -13,32 +13,17 @@ import algorithms.util.StrandOccurences;
  */
 public abstract class Algorithm {
 
-	private Genome genome;
-
-	/**
-	 * construit un algorithme de recherche
-	 * 
-	 * @param genome
-	 *            le genome sur lequel la recherche s'effectuera
-	 */
-	public Algorithm(Genome genome) {
-		this.genome = genome;
-	}
-
-	/**
-	 * @return le genome
-	 */
-	public Genome getGenome() {
-		return genome;
-	}
-	
 	/**
 	 * retourne les occurences d'un brin dans le genome
-	 * @param strand le brin
-	 * @param genome le genome
+	 * 
+	 * @param genome
+	 *            le genome
+	 * @param strand
+	 *            le brin
 	 * @return les occurences du brin
 	 */
-	public abstract StrandOccurences findRepetitiveStrand(Strand strand);
+	public abstract StrandOccurences findRepetitiveStrand(Genome genome,
+			Strand strand);
 
 	/**
 	 * recherche les occurences d'une liste de brins dans le genome
@@ -47,12 +32,13 @@ public abstract class Algorithm {
 	 *            la liste des brins
 	 * @return la liste des occurences
 	 */
-	public List<StrandOccurences> findRepetitiveStrands(List<Strand> strands) {
+	public List<StrandOccurences> findRepetitiveStrands(Genome genome,
+			List<Strand> strands) {
 		final List<StrandOccurences> strandsOccurences = new LinkedList<StrandOccurences>();
 		final Iterator<Strand> strandIterator = strands.iterator();
 		while (strandIterator.hasNext()) {
 			final StrandOccurences strandOccurences = findRepetitiveStrand(
-					strandIterator.next());
+					genome, strandIterator.next());
 			strandsOccurences.add(strandOccurences);
 		}
 		return strandsOccurences;

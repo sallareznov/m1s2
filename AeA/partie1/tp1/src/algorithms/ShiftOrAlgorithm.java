@@ -25,8 +25,8 @@ public class ShiftOrAlgorithm extends Algorithm {
 	 * @param genome
 	 *            le genome sur lequel s'effectuera la recherche
 	 */
-	public ShiftOrAlgorithm(Genome genome) {
-		super(genome);
+	public ShiftOrAlgorithm() {
+		super();
 		lettersVectors = new HashMap<Character, Integer[]>();
 	}
 
@@ -39,10 +39,10 @@ public class ShiftOrAlgorithm extends Algorithm {
 	 * @param genome
 	 *            le genome
 	 */
-	private void preTreat(Strand strand) {
+	private void preTreat(Genome genome, Strand strand) {
 		lettersVectors.clear();
 		final String strandString = strand.toString();
-		final Alphabet alphabet = getGenome().getAlphabet();
+		final Alphabet alphabet = genome.getAlphabet();
 		final Character[] letters = alphabet.getLetters();
 		for (int i = 0; i < alphabet.getSize(); i++) {
 			final char letter = letters[i];
@@ -120,9 +120,9 @@ public class ShiftOrAlgorithm extends Algorithm {
 	}
 
 	@Override
-	public StrandOccurences findRepetitiveStrand(Strand strand) {
-		preTreat(strand);
-		final Base[] genomeBases = getGenome().getBases();
+	public StrandOccurences findRepetitiveStrand(Genome genome, Strand strand) {
+		preTreat(genome, strand);
+		final Base[] genomeBases = genome.getBases();
 		final Base[] strandBases = strand.getContent();
 		initMatrix(strandBases, genomeBases);
 		int[] currentColumn = matrix[0];

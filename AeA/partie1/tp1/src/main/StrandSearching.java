@@ -56,7 +56,7 @@ public class StrandSearching {
 		for (final Algorithm algorithm : algorithmsToUse) {
 			final long beginningTime = System.nanoTime();
 			final List<StrandOccurences> occurences = algorithm
-					.findRepetitiveStrands(strandsToLookFor);
+					.findRepetitiveStrands(parser.getGenome(), strandsToLookFor);
 			final long executionTime = System.nanoTime() - beginningTime;
 			printResult(algorithm, strandsToLookFor, occurences, executionTime);
 		}

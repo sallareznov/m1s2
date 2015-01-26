@@ -19,24 +19,8 @@ public class KarpRabinAlgorithm extends Algorithm {
 	// le resultat de la fonction de hachage hash() pour le brin recherche
 	private int strandHash;
 
-	/**
-	 * construit l'algorithme Karp-Rabin
-	 * 
-	 * @param genome
-	 *            le genome sur lequel s'effectuera la recherche
-	 */
-	public KarpRabinAlgorithm(Genome genome) {
-		super(genome);
-		final Alphabet alphabet = genome.getAlphabet();
-		final Character[] alphabetLetters = alphabet.getLetters();
-		lettersValues = new HashMap<Character, Integer>();
-		for (int i = 0; i < alphabetLetters.length; i++) {
-			lettersValues.put(alphabetLetters[i], i + 1);
-		}
-	}
-
-	private int hash(Base[] bases) {
-		final int alphabetLength = getGenome().getAlphabet().getSize();
+	private int hash(Alphabet alphabet, Base[] bases) {
+		final int alphabetLength = alphabet.getSize();
 		int currentCoeff = bases.length - 1;
 		int finalHash = 0;
 		for (final Base base : bases) {
@@ -47,8 +31,14 @@ public class KarpRabinAlgorithm extends Algorithm {
 		return finalHash;
 	}
 
-	private void preTreat(Strand strand) {
-		strandHash = hash(strand.getContent());
+	private void preTreat(Genome genome, Strand strand) {
+		final Alphabet alphabet = genome.getAlphabet();
+		final Character[] alphabetLetters = alphabet.getLetters();
+		lettersValues = new HashMap<Character, Integer>();
+		for (int i = 0; i < alphabetLetters.length; i++) {
+			lettersValues.put(alphabetLetters[i], i + 1);
+		}
+		strandHash = hash(alphabet, strand.getContent());
 	}
 
 	private boolean occurenceFound(Base[] basesToCompare, Base[] strandBases) {
@@ -60,14 +50,14 @@ public class KarpRabinAlgorithm extends Algorithm {
 	}
 
 	@Override
-	public StrandOccurences findRepetitiveStrand(Strand strand) {
-		preTreat(strand);
+	public StrandOccurences findRepetitiveStrand(Genome genome, Strand strand) {
+		preTreat(genome, strand);
 		final StrandOccurences strandOccurences = new StrandOccurences();
 		final Base[] basesToCompare = new Base[strand.getSize()];
-		for (int i = 0; i < getGenome().getSize() - strand.getSize() + 1; i++) {
-			System.arraycopy(getGenome().getBases(), i, basesToCompare, 0,
+		for (int i = 0; i < genome.getSize() - strand.getSize() + 1; i++) {
+			System.arraycopy(genome.getBases(), i, basesToCompare, 0,
 					strand.getSize());
-			final int basesHash = hash(basesToCompare);
+			final int basesHash = hash(genome.getAlphabet(), basesToCompare);
 			if ((basesHash == strandHash)
 					&& (occurenceFound(basesToCompare, strand.getContent())))
 				strandOccurences.addIndex(i);

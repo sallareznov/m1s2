@@ -17,15 +17,6 @@ public class KMPAlgorithm extends Algorithm {
 	// pas un préfixe de M next[i] = -1 si un tel <i>u</i> n'existe pas
 	private int[] next;
 
-	/**
-	 * contruit un algorithme de recherche KMP
-	 * 
-	 * @param genome
-	 */
-	public KMPAlgorithm(Genome genome) {
-		super(genome);
-	}
-
 	/*private void preTreat(Strand m) {
 		next = new int[m.getSize()];
 		next[0] = -1;
@@ -69,10 +60,10 @@ public class KMPAlgorithm extends Algorithm {
 	}
 
 	@Override
-	public StrandOccurences findRepetitiveStrand(Strand strand) {
+	public StrandOccurences findRepetitiveStrand(Genome genome, Strand strand) {
 		preTreat(strand);
 		final StrandOccurences strandOccurences = new StrandOccurences();
-		final Base[] genomeBases = getGenome().getBases();
+		final Base[] genomeBases = genome.getBases();
 		final Base[] strandBases = strand.getContent();
 		int i = 0;
 		while (i < genomeBases.length - strand.getSize() + 1) {

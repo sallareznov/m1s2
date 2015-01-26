@@ -23,24 +23,25 @@ import algorithms.util.StrandOccurences;
 public class AlgorithmsTest {
 
 	private Algorithm testedAlgorithm;
+	private Genome genome;
 	private List<Strand> strandsToLookFor;
 
 	public AlgorithmsTest(Algorithm algorithm) {
-		this.testedAlgorithm = algorithm;
+		testedAlgorithm = algorithm;
+		final Character[] letters = { 'A', 'C', 'G', 'T' };
+		final Alphabet alphabet = new Alphabet(letters);
+		final String motif = "CTACTATATATC";
+		genome = new Genome(motif, alphabet);
 	}
 
 	@Parameters
 	public static Collection<Object[]> data() {
-		final Character[] letters = { 'A', 'C', 'G', 'T' };
-		final Alphabet alphabet = new Alphabet(letters);
-		final String motif = "CTACTATATATC";
-		final Genome genome = new Genome(motif, alphabet);
 		final Object[][] data = {
-				{ new BruteForceAlgorithm(genome) },
-				{ new ShiftOrAlgorithm(genome) },
-				{ new KarpRabinAlgorithm(genome) },
-				{ new KMPAlgorithm(genome) },
-				{ new BoyerMooreAlgorithm(genome) }
+				{ new BruteForceAlgorithm() },
+				{ new ShiftOrAlgorithm() },
+				{ new KarpRabinAlgorithm() },
+				{ new KMPAlgorithm() },
+				{ new BoyerMooreAlgorithm() }
 		};
 		return Arrays.asList(data);
 	}
@@ -70,7 +71,7 @@ public class AlgorithmsTest {
 		expectedOccurences.add(complementaryAndReverseStrandsOccurences);
 		expectedOccurences.add(mainAndReverseComplementaryStrandsOccurences);
 		final List<StrandOccurences> actualOccurences = testedAlgorithm
-				.findRepetitiveStrands(strandsToLookFor);
+				.findRepetitiveStrands(genome, strandsToLookFor);
 		assertEquals(expectedOccurences, actualOccurences);
 	}
 }

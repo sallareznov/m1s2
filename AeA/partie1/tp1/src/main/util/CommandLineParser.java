@@ -146,20 +146,20 @@ public class CommandLineParser {
 		while (i < commandLine.length && isAnOption(commandLine[i])) {
 			final String option = commandLine[i];
 			if (option.equals("-bf")) {
-				algorithmsToUse.add(new BruteForceAlgorithm(genome));
+				algorithmsToUse.add(new BruteForceAlgorithm());
 			} else {
 				if (option.equals("-so")) {
-					algorithmsToUse.add(new ShiftOrAlgorithm(genome));
+					algorithmsToUse.add(new ShiftOrAlgorithm());
 				} else {
 					if (option.equals("-kr")) {
-						algorithmsToUse.add(new KarpRabinAlgorithm(genome));
+						algorithmsToUse.add(new KarpRabinAlgorithm());
 					} else {
 						if (option.equals("-kmp")) {
-							algorithmsToUse.add(new KMPAlgorithm(genome));
+							algorithmsToUse.add(new KMPAlgorithm());
 						} else {
 							if (option.equals("-bm")) {
 								algorithmsToUse.add(new BoyerMooreAlgorithm(
-										genome));
+										));
 							}
 						}
 					}

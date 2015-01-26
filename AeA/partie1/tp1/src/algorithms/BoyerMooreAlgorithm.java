@@ -3,10 +3,10 @@ package algorithms;
 import java.util.HashMap;
 import java.util.Map;
 
-import bases.Base;
 import patterns.Genome;
 import patterns.Strand;
 import algorithms.util.StrandOccurences;
+import bases.Base;
 
 /**
  * Classe representant l'algorithme de recherche Boyer-Moore
@@ -17,35 +17,64 @@ public class BoyerMooreAlgorithm extends Algorithm {
 	// lettre lors d'un no-match
 	private Map<Character, Integer> badMatchTable;
 
+	private int[] goodSuffix;
+
 	/**
 	 * construit un algorithme de Boyer-Moore
 	 * 
 	 * @param genome
 	 *            le genome etudie
 	 */
-	public BoyerMooreAlgorithm(Genome genome) {
-		super(genome);
+	public BoyerMooreAlgorithm() {
+		super();
 		badMatchTable = new HashMap<Character, Integer>();
 	}
-
-	private void preTreat(Strand strand) {
+	
+	// TODO incomplet
+	private void fillGoodSuffixes(Strand strand) {
+		goodSuffix = new int[strand.getSize()];
+		goodSuffix[goodSuffix.length - 1] = 1;
+		final String strandString = strand.toString();
+		for (int i = goodSuffix.length - 2; i >= 0; i--) {
+			int l = 1;
+			final String strand1 = strandString.substring(i + 1 - l,
+					strand.getSize() - l);
+			final String strand2 = strandString.substring(i + 1,
+					strand.getSize());
+			while ((l < i) && (!strand1.equals(strand2))
+					&& strandString.charAt(i - l) != strandString.charAt(l)) {
+				l++;
+			}
+			if (l == i) {
+				goodSuffix[i] = l;
+			}
+		}
+	}
+	
+	private void fillBadMatches(Genome genome, Strand strand) {
 		final String strandString = strand.toString();
 		final int strandSize = strand.getSize();
 		for (int i = 0; i < strandSize - 1; i++) {
 			badMatchTable.put(strandString.charAt(i), strandSize - i - 1);
 		}
 		badMatchTable.put(strandString.charAt(strandSize - 1), strandSize);
-		for (char c : getGenome().getAlphabet().getLetters()) {
+		for (char c : genome.getAlphabet().getLetters()) {
 			if (badMatchTable.get(c) == null)
 				badMatchTable.put(c, strandSize);
 		}
 	}
 
+
+	private void preTreat(Genome genome, Strand strand) {
+		fillGoodSuffixes(strand);
+		fillBadMatches(genome, strand);
+	}
+
 	@Override
-	public StrandOccurences findRepetitiveStrand(Strand strand) {
-		preTreat(strand);
+	public StrandOccurences findRepetitiveStrand(Genome genome, Strand strand) {
+		preTreat(genome, strand);
 		final StrandOccurences strandOccurences = new StrandOccurences();
-		final Base[] genomeBases = getGenome().getBases();
+		final Base[] genomeBases = genome.getBases();
 		final Base[] strandBases = strand.getContent();
 		int i = strandBases.length - 1;
 		while (i < genomeBases.length) {
@@ -59,7 +88,7 @@ public class BoyerMooreAlgorithm extends Algorithm {
 			}
 			if (strandWalker < 0) {
 				strandOccurences.addIndex(i - strandBases.length + 1);
-				i += 1;
+				i++;
 			} else {
 				i += badMatchTable.get(genomeBases[i].getWording());
 			}
