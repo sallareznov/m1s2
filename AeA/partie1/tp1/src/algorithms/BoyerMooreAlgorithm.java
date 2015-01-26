@@ -16,7 +16,7 @@ public class BoyerMooreAlgorithm extends Algorithm {
 	// le tableau de bad-matches (nombre de caracteres a "shifter" pour chaque
 	// lettre lors d'un no-match
 	private Map<Character, Integer> badMatchTable;
-
+	// le tableau des bons suffixes
 	private int[] goodSuffix;
 
 	/**
@@ -29,28 +29,35 @@ public class BoyerMooreAlgorithm extends Algorithm {
 		super();
 		badMatchTable = new HashMap<Character, Integer>();
 	}
-	
-	// TODO incomplet
+
 	private void fillGoodSuffixes(Strand strand) {
 		goodSuffix = new int[strand.getSize()];
 		goodSuffix[goodSuffix.length - 1] = 1;
 		final String strandString = strand.toString();
-		for (int i = goodSuffix.length - 2; i >= 0; i--) {
-			int l = 1;
-			final String strand1 = strandString.substring(i + 1 - l,
-					strand.getSize() - l);
-			final String strand2 = strandString.substring(i + 1,
-					strand.getSize());
-			while ((l < i) && (!strand1.equals(strand2))
-					&& strandString.charAt(i - l) != strandString.charAt(l)) {
-				l++;
+		final int strandLength = strandString.length();
+		final int longestEdgeSize = strand.getLongestEdge().getSize();
+		for (int i = goodSuffix.length - 2 ; i >= 0; i--) {
+			final String strandToCompare = strandString.substring(i + 1, strandLength);
+			int j = i + 1;
+			int k = goodSuffix.length;
+			boolean trouve = false;
+			while ((j >= 1) && (!trouve)) {
+				final String currentStrand = strandString.substring(j, k);
+				if ((currentStrand.equals(strandToCompare)) && (strandString.charAt(j - 1) != strandString.charAt(i))) {
+					trouve = true;
+					goodSuffix[i] = i - j + 1;
+				}
+				else {
+					j--;
+					k--;
+				}
 			}
-			if (l == i) {
-				goodSuffix[i] = l;
+			if (j < 1) {
+				goodSuffix[i] = strandLength - longestEdgeSize;
 			}
 		}
 	}
-	
+
 	private void fillBadMatches(Genome genome, Strand strand) {
 		final String strandString = strand.toString();
 		final int strandSize = strand.getSize();
@@ -63,7 +70,6 @@ public class BoyerMooreAlgorithm extends Algorithm {
 				badMatchTable.put(c, strandSize);
 		}
 	}
-
 
 	private void preTreat(Genome genome, Strand strand) {
 		fillGoodSuffixes(strand);
@@ -90,7 +96,7 @@ public class BoyerMooreAlgorithm extends Algorithm {
 				strandOccurences.addIndex(i - strandBases.length + 1);
 				i++;
 			} else {
-				i += badMatchTable.get(genomeBases[i].getWording());
+				i += Math.max(goodSuffix[strandWalker], badMatchTable.get(genomeBases[i].getWording()) - (strand.getSize() - strandWalker));
 			}
 		}
 		return strandOccurences;

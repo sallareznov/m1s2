@@ -25,10 +25,11 @@ public class CommandLineParser {
 	private static final String HELP_FLAG = "--HELP";
 	private static final String STRANDS_FLAG = "--WITH";
 	private static final String ALGORITHMS_FLAG = "--USING";
-	private static final String[] VALID_STRANDS_OPTIONS = { "-comp", "-rev",
-			"-revComp" };
-	private static final String[] VALID_ALGORITHMS_OPTIONS = { "-bf", "-so",
-			"-kr", "-kmp", "-bm" };
+	private static final Algorithm DEFAULT_ALGORITHM = new BoyerMooreAlgorithm();
+//	private static final String[] VALID_STRANDS_OPTIONS = { "-comp", "-rev",
+//			"-revComp" };
+//	private static final String[] VALID_ALGORITHMS_OPTIONS = { "-bf", "-so",
+//			"-kr", "-kmp", "-bm" };
 	private String[] commandLine;
 	private Genome genome;
 	private Strand mainStrand;
@@ -49,40 +50,55 @@ public class CommandLineParser {
 		algorithmsToUse = new LinkedList<Algorithm>();
 	}
 
+	/**
+	 * initialise le genome a partir du fichier entre par l'utilisateur
+	 * @throws IOException si erreur de lecture
+	 * @throws InvalidFastaFileException si le fichier n'a pas un contenu correspondant a la norme fasta
+	 * @throws NotAFastaFileException si le fichier n'est pas un fichier fasta
+	 */
 	public void initGenome() throws IOException, InvalidFastaFileException,
 			NotAFastaFileException {
 		final FastaFileReader reader = new FastaFileReader();
 		genome = reader.getGenomeFromFile(commandLine[0]);
 	}
 
+	/**
+	 * initialise le brin
+	 */
 	public void initStrand() {
 		mainStrand = new ConcreteStrand(commandLine[1]);
 		strandsToLookFor.add(mainStrand);
 	}
 
+	/**
+	 * @return la liste des brins a rechercher
+	 */
 	public List<Strand> getStrandsToLookFor() {
 		return strandsToLookFor;
 	}
 
+	/**
+	 * la liste des algorithmes a utiliser 
+	 */
 	public List<Algorithm> getAlgorithmsToUse() {
 		return algorithmsToUse;
 	}
 
-	private static boolean isAStrandOption(String option) {
-		for (int i = 0; i < VALID_STRANDS_OPTIONS.length; i++) {
-			if (option.equals(VALID_STRANDS_OPTIONS[i]))
-				return true;
-		}
-		return false;
-	}
-
-	private static boolean isAnAlgorithmOption(String option) {
-		for (int i = 0; i < VALID_ALGORITHMS_OPTIONS.length; i++) {
-			if (option.equals(VALID_ALGORITHMS_OPTIONS[i]))
-				return true;
-		}
-		return false;
-	}
+//	private static boolean isAStrandOption(String option) {
+//		for (int i = 0; i < VALID_STRANDS_OPTIONS.length; i++) {
+//			if (option.equals(VALID_STRANDS_OPTIONS[i]))
+//				return true;
+//		}
+//		return false;
+//	}
+//
+//	private static boolean isAnAlgorithmOption(String option) {
+//		for (int i = 0; i < VALID_ALGORITHMS_OPTIONS.length; i++) {
+//			if (option.equals(VALID_ALGORITHMS_OPTIONS[i]))
+//				return true;
+//		}
+//		return false;
+//	}
 
 	private static boolean isAnOption(String option) {
 		return (option.charAt(0) == '-' && option.charAt(1) != '-');

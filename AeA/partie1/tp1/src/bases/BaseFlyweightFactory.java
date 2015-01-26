@@ -31,7 +31,7 @@ public class BaseFlyweightFactory {
 				case 'C' : existingBases.put('C', new Base('C', 'G')); break;
 				case 'G' : existingBases.put('G', new Base('G', 'C')); break;
 				case 'T' : existingBases.put('T', new Base('T', 'A')); break;
-				default : throw new IllegalArgumentException(letter + " : Base incorrecte !");
+				default : existingBases.put(letter, new Base(letter, letter)); break;
 			}
 		}
 		return existingBases.get(letter);
