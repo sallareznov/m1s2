@@ -44,6 +44,7 @@ public class BoyerMooreAlgorithm extends Algorithm {
 			while ((j >= 1) && (!trouve)) {
 				final String currentStrand = strandString.substring(j, k);
 				if ((currentStrand.equals(strandToCompare)) && (strandString.charAt(j - 1) != strandString.charAt(i))) {
+					// l trouve
 					trouve = true;
 					goodSuffix[i] = i - j + 1;
 				}
@@ -52,6 +53,7 @@ public class BoyerMooreAlgorithm extends Algorithm {
 					k--;
 				}
 			}
+			// Aucun l n'existe
 			if (j < 1) {
 				goodSuffix[i] = strandLength - longestEdgeSize;
 			}

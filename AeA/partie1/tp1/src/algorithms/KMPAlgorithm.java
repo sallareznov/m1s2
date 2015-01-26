@@ -17,21 +17,6 @@ public class KMPAlgorithm extends Algorithm {
 	// pas un préfixe de M next[i] = -1 si un tel <i>u</i> n'existe pas
 	private int[] next;
 
-	/*private void preTreat(Strand m) {
-		next = new int[m.getSize()];
-		next[0] = -1;
-		int a = -1;
-		for (int b = 1; b < next.length; b++) {
-			while (a >= 0 && m.getBaseAt(a + 1).equals(m.getBaseAt(b))) {
-				a = next[a];
-			}
-			if ((m.getBaseAt(a + 1).equals(m.getBaseAt(b)))) {
-				a++;
-			}
-			next[b] = a;
-		}
-	}*/
-
 	private void preTreat(Strand m) {
 		next = new int[m.getSize() + 1];
 		for (int i = 0; i < next.length; i++) {
