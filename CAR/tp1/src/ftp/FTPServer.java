@@ -1,31 +1,31 @@
 package ftp;
 
+import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.SocketException;
 
 public class FTPServer {
+	
+	private static final int DEFAULT_PORT = 1500;
 
 	public static void main(String[] args) throws IOException {
-		try {
-			final ServerSocket serverSocket = new ServerSocket(1500);
-			final Socket connexion = serverSocket.accept();
-			System.out.println("Un client vient de se connecter à l'adresse "
-					+ connexion.getLocalAddress() + ", port " + connexion.getLocalPort());
-			connexion.getOutputStream().write(65);
-			while (true) {
-				final InputStream stream = connexion.getInputStream();
-				int code;
-				while ((code = stream.read()) != -1) {
-					System.out.println(Character.toChars(code)[0]);
-				}
-				connexion.close();
-				serverSocket.close();
-			}
-		} catch (SocketException e) {
-			System.out.println("Le client a fermé la connexion.");
+		
+		final ServerSocket serverSocket = new ServerSocket(DEFAULT_PORT);
+		while (true) {
+				final Socket connexion = serverSocket.accept();
+				System.out
+						.println("Un nouveau client s'est connecté à l'adresse "
+								+ connexion.getLocalAddress()
+								+ ", port "
+								+ connexion.getLocalPort());
+				final DataOutputStream stream = new DataOutputStream(connexion.getOutputStream());
+				stream.writeBytes("220 FTP Server ready.");
+				stream.writeBytes("\r\n");
+				stream.flush();
+				final FTPRequest newRequest = new FTPRequest(connexion);
+				newRequest.start();
+			
 		}
 	}
 
