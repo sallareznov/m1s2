@@ -59,6 +59,11 @@ public class FTPDatabase {
 		_answerCodes.put(331, "Username okay, need password.");
 		_answerCodes.put(332, "Need account for login.");
 		_answerCodes.put(430, "Invalid username or password.");
+		_answerCodes.put(230, "User logged in, proceed.");
+		_answerCodes.put(231, "User logged out, service terminated.");
+		_answerCodes.put(225, "Data connection open, no transfer in progress.");
+		_answerCodes.put(257, "PATHNAME\" created");
+		_answerCodes.put(200, "PORT command successful.");
 	}
 
 }

@@ -1,21 +1,18 @@
 package ftp;
 
-import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.net.ServerSocket;
-import java.net.Socket;
 
-public class FTPServer {
+public class FTPServer extends FTPMessageSender {
 
 	private static final int DEFAULT_PORT = 1500;
 	private ServerSocket _serverSocket;
-	private Socket _connexion;
-	private FTPDatabase _utils;
+	private int _nbClients;
 
 	public FTPServer(int port) throws IOException {
+		super();
 		_serverSocket = new ServerSocket(port);
-		_utils = new FTPDatabase();
+		_nbClients = 0;
 	}
 
 	public int getLocalPort() {
@@ -25,41 +22,30 @@ public class FTPServer {
 	public String getLocalAddress() {
 		return _serverSocket.getInetAddress().getHostAddress();
 	}
+	
+	public int getNbClients() {
+		return _nbClients;
+	}
 
-	public void connect() throws IOException {
-		_connexion = _serverSocket.accept();
+	public void connectToClient() throws IOException {
+		setConnexion(_serverSocket.accept());
+		_nbClients++;
 	}
 
 	public void closeServer() throws IOException {
 		_serverSocket.close();
 	}
 
-	public Socket getConnexion() {
-		return _connexion;
-	}
-
-	public void answer(int answerCode) throws IOException {
-		final OutputStream outputStream = _connexion.getOutputStream();
-		final DataOutputStream dataOutputStream = new DataOutputStream(
-				outputStream);
-		final String answerMessage = _utils.getMessage(answerCode);
-		dataOutputStream.writeBytes(answerCode + " " + answerMessage);
-		dataOutputStream.writeBytes("\r\n");
-		dataOutputStream.flush();
-	}
-
 	public static void main(String[] args) throws IOException {
 		final FTPServer ftpServer = new FTPServer(DEFAULT_PORT);
+		System.out.println("--> FTP server opened on " + ftpServer.getLocalAddress() + ", port " + ftpServer.getLocalPort());
 		while (true) {
-			ftpServer.connect();
-			System.out.println("New client connected on "
-					+ ftpServer.getLocalAddress() + ", port "
-					+ ftpServer.getLocalPort());
+			ftpServer.connectToClient();
+			System.out.println("--> New client connected on this server.");
+			System.out.println("--> total clients : " + ftpServer.getNbClients() + ".");
 			ftpServer.answer(220);
-			/*final FTPRequestHandler newRequest = new FTPRequestHandler(
-					_connexion);
-			newRequest.start();*/
-			ftpServer.closeServer();
+			final FTPRequestHandler requestHandler = new FTPRequestHandler(ftpServer.getConnexion());
+			new Thread(requestHandler).start();
 		}
 	}
 
