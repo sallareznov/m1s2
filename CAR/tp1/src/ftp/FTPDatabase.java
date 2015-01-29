@@ -7,13 +7,13 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class FTPUtils {
+public class FTPDatabase {
 	
 	private static final String ACCOUNTS_FILENAME = "_accounts";
 	private Map<String, String> _accounts;
 	private Map<Integer, String> _answerCodes;
 	
-	public FTPUtils() throws IOException {
+	public FTPDatabase() throws IOException {
 		_accounts = new HashMap<String, String>();
 		_answerCodes = new HashMap<Integer, String>();
 		retrieveAccounts();

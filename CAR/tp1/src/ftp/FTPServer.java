@@ -11,11 +11,11 @@ public class FTPServer {
 	private static final int DEFAULT_PORT = 1500;
 	private ServerSocket _serverSocket;
 	private Socket _connexion;
-	private FTPUtils _utils;
+	private FTPDatabase _utils;
 
 	public FTPServer(int port) throws IOException {
 		_serverSocket = new ServerSocket(port);
-		_utils = new FTPUtils();
+		_utils = new FTPDatabase();
 	}
 
 	public int getLocalPort() {
