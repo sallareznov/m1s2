@@ -48,7 +48,7 @@ public class AlgorithmsTest {
 
 	@Before
 	public void setUp() {
-		final Strand mainStrand = new ConcreteStrand("TATA");
+		final Strand mainStrand = new ConcreteStrand("TATA", genome.getAlphabet());
 		final Strand complementaryStrand = mainStrand.getComplementary();
 		final Strand reverseStrand = mainStrand.getReverse();
 		final Strand reverseComplementaryStrand = mainStrand

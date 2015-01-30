@@ -67,7 +67,7 @@ public class FastaFileReader {
 		verifyExtension(filename);
 		verifyContent(filename);
 		final List<Base> bases = new LinkedList<Base>();
-		final BaseFlyweightFactory baseFactory = new BaseFlyweightFactory();
+		final BaseFlyweightFactory baseFactory = new BaseFlyweightFactory(Alphabet.DEFAULT_ALPHABET);
 		final Set<Character> letters = new HashSet<Character>();
 		// skip la premiere ligne du fichier
 		reader.readLine();

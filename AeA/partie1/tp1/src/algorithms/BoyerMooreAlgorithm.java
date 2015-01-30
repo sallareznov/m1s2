@@ -81,6 +81,7 @@ public class BoyerMooreAlgorithm extends Algorithm {
 	@Override
 	public StrandOccurences findRepetitiveStrand(Genome genome, Strand strand) {
 		preTreat(genome, strand);
+		resetNbComparisons();
 		final StrandOccurences strandOccurences = new StrandOccurences();
 		final Base[] genomeBases = genome.getBases();
 		final Base[] strandBases = strand.getContent();
@@ -93,6 +94,7 @@ public class BoyerMooreAlgorithm extends Algorithm {
 							.equals(strandBases[strandWalker])) {
 				genomeWalker--;
 				strandWalker--;
+				incrNbComparisons();
 			}
 			if (strandWalker < 0) {
 				strandOccurences.addIndex(i - strandBases.length + 1);

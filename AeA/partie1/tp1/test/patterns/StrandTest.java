@@ -19,7 +19,7 @@ public class StrandTest {
 
 	@Before
 	public void setUp() {
-		final BaseFlyweightFactory baseFactory = new BaseFlyweightFactory();
+		final BaseFlyweightFactory baseFactory = new BaseFlyweightFactory(Alphabet.DEFAULT_ALPHABET);
 		final Base[] bases = { baseFactory.createGBase(),
 				baseFactory.createABase(), baseFactory.createTBase(),
 				baseFactory.createABase(), baseFactory.createCBase(),
@@ -47,7 +47,7 @@ public class StrandTest {
 	
 	@Test
 	public void testPrefix() {
-		testedStrand = new ConcreteStrand("TACTAGA");
+		testedStrand = new ConcreteStrand("TACTAGA", Alphabet.DEFAULT_ALPHABET);
 		Strand prefix = testedStrand.getPrefix(6);
 		assertEquals("TACTAG", prefix.toString());
 		assertTrue(testedStrand.isPrefix(prefix));
@@ -73,7 +73,7 @@ public class StrandTest {
 	
 	@Test
 	public void testSuffix() {
-		testedStrand = new ConcreteStrand("TACTAGA");
+		testedStrand = new ConcreteStrand("TACTAGA", Alphabet.DEFAULT_ALPHABET);
 		Strand suffix = testedStrand.getSuffix(6);
 		assertEquals("ACTAGA", suffix.toString());
 		assertTrue(testedStrand.isSuffix(suffix));
@@ -99,15 +99,15 @@ public class StrandTest {
 	
 	@Test
 	public void testEdge() {
-		testedStrand = new ConcreteStrand("TACAGTA");
-		Strand edge = new ConcreteStrand("TA");
+		testedStrand = new ConcreteStrand("TACAGTA", Alphabet.DEFAULT_ALPHABET);
+		Strand edge = new ConcreteStrand("TA",Alphabet.DEFAULT_ALPHABET);
 		assertTrue(testedStrand.isEdge(edge));
-		assertFalse(testedStrand.isEdge(new ConcreteStrand("T")));
-		assertFalse(testedStrand.isEdge(new ConcreteStrand("A")));
-		testedStrand = new ConcreteStrand("TACGAGATAC");
+		assertFalse(testedStrand.isEdge(new ConcreteStrand("T", Alphabet.DEFAULT_ALPHABET)));
+		assertFalse(testedStrand.isEdge(new ConcreteStrand("A", Alphabet.DEFAULT_ALPHABET)));
+		testedStrand = new ConcreteStrand("TACGAGATAC", Alphabet.DEFAULT_ALPHABET);
 		edge = testedStrand.getLongestEdge();
 		assertEquals("TAC", edge.toString());
-		testedStrand = new ConcreteStrand("TACGAGA");
+		testedStrand = new ConcreteStrand("TACGAGA", Alphabet.DEFAULT_ALPHABET);
 		edge = testedStrand.getLongestEdge();
 		assertEquals("", edge.toString());
 	}

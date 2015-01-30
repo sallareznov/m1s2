@@ -8,6 +8,8 @@ public class Alphabet {
 
 	private Character[] letters;
 	private int size;
+	private static final Character[] DEFAULT_LETTERS = { 'A', 'C', 'G', 'T' };
+	public static final Alphabet DEFAULT_ALPHABET = new Alphabet(DEFAULT_LETTERS);
 
 	/**
 	 * construit l'alphabet
@@ -30,6 +32,19 @@ public class Alphabet {
 	 */
 	public int getSize() {
 		return this.size;
+	}
+	
+	/**
+	 * retourne l'indice de la lettre dans le tableau de lettres de l'alphabet
+	 * @param letter la lettre en question
+	 * @return l'indice de la lettre
+	 */
+	public int getIndex(char letter) {
+		for (int i = 0 ; i < letters.length ; i++) {
+			if (letters[i] == letter)
+				return i;
+		}
+		return -1;
 	}
 
 	/**

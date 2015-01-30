@@ -47,6 +47,7 @@ public class KMPAlgorithm extends Algorithm {
 	@Override
 	public StrandOccurences findRepetitiveStrand(Genome genome, Strand strand) {
 		preTreat(strand);
+		resetNbComparisons();
 		final StrandOccurences strandOccurences = new StrandOccurences();
 		final Base[] genomeBases = genome.getBases();
 		final Base[] strandBases = strand.getContent();
@@ -56,6 +57,7 @@ public class KMPAlgorithm extends Algorithm {
 			while (j < strand.getSize()
 					&& genomeBases[j + i].equals(strandBases[j])) {
 				j++;
+				incrNbComparisons();
 			}
 			if (j == strand.getSize()) {
 				strandOccurences.addIndex(i);

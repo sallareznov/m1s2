@@ -28,9 +28,9 @@ public class ConcreteStrand implements Strand {
 	 * @param word
 	 *            la chaine representant le contenu du brin
 	 */
-	public ConcreteStrand(String word) {
+	public ConcreteStrand(String word, Alphabet alphabet) {
 		content = new Base[word.length()];
-		final BaseFlyweightFactory baseFactory = new BaseFlyweightFactory();
+		final BaseFlyweightFactory baseFactory = new BaseFlyweightFactory(alphabet);
 		for (int i = 0; i < word.length(); i++) {
 			content[i] = baseFactory.createBase(word.charAt(i));
 		}

@@ -12,6 +12,24 @@ import algorithms.util.StrandOccurences;
  * Classe abstraite representant un algorithme de recherche
  */
 public abstract class Algorithm {
+	
+	private int _nbComparisons;
+	
+	public Algorithm() {
+		_nbComparisons = 0;
+	}
+	
+	public int getNbComparisons() {
+		return _nbComparisons;
+	}
+	
+	public void incrNbComparisons() {
+		_nbComparisons++;
+	}
+	
+	public void resetNbComparisons() {
+		_nbComparisons = 0;
+	}
 
 	/**
 	 * retourne les occurences d'un brin dans le genome

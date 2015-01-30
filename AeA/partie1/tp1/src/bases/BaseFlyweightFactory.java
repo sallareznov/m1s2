@@ -3,6 +3,8 @@ package bases;
 import java.util.HashMap;
 import java.util.Map;
 
+import patterns.Alphabet;
+
 
 /**
  * Factory servant a creer les bases
@@ -10,12 +12,15 @@ import java.util.Map;
 public class BaseFlyweightFactory {
 	
 	private Map<Character, Base> existingBases;
+	private Alphabet alphabet;
 	
 	/**
 	 * construit une fabrique de bases
+	 * @param alphabet l'alphabet
 	 */
-	public BaseFlyweightFactory() {
+	public BaseFlyweightFactory(Alphabet alphabet) {
 		existingBases = new HashMap<Character, Base>();
+		this.alphabet = alphabet;
 	}
 	
 	/**
@@ -27,10 +32,19 @@ public class BaseFlyweightFactory {
 	public Base createBase(char letter) {
 		if (existingBases.get(letter) == null) {
 			switch (letter) {
-				case 'A' : existingBases.put('A', new Base('A', 'T')); break;
+				case 'A' : {
+					if (alphabet.containsLetter('T')) {
+						existingBases.put('A', new Base('A', 'T')); 
+					}
+					else {
+						existingBases.put('A', new Base('A', 'U'));
+					}
+					break;
+				}
 				case 'C' : existingBases.put('C', new Base('C', 'G')); break;
 				case 'G' : existingBases.put('G', new Base('G', 'C')); break;
 				case 'T' : existingBases.put('T', new Base('T', 'A')); break;
+				case 'U' : existingBases.put('U', new Base('U', 'A')); break;
 				default : existingBases.put(letter, new Base(letter, letter)); break;
 			}
 		}

@@ -22,7 +22,7 @@ public class Genome {
 	public Genome(String sequenceString, Alphabet alphabet) {
 		this.alphabet = alphabet;
 		this.size = sequenceString.length();
-		final BaseFlyweightFactory baseFactory = new BaseFlyweightFactory();
+		final BaseFlyweightFactory baseFactory = new BaseFlyweightFactory(alphabet);
 		if (this.alphabet.acceptWord(sequenceString))
 			this.bases = baseFactory.createBases(sequenceString);
 		else

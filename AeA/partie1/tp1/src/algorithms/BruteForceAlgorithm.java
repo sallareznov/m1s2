@@ -12,11 +12,13 @@ public class BruteForceAlgorithm extends Algorithm {
 	
 	@Override
 	public StrandOccurences findRepetitiveStrand(Genome genome, Strand strand) {
+		resetNbComparisons();
 		final StrandOccurences strandOccurences = new StrandOccurences();
 		final Base[] genomeBases = genome.getBases();
 		final Base[] strandBases = strand.getContent();
 		for (int i = 0; i < genomeBases.length - strand.getSize() + 1; i++) {
 			int j = 0;
+			incrNbComparisons();
 			while (j < strand.getSize()
 					&& genomeBases[j + i].equals(strandBases[j])) {
 				j++;

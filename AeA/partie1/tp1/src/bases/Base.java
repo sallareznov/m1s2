@@ -32,6 +32,14 @@ public class Base {
 		return new Base(complementary, wording);
 	}
 	
+	/**
+	 * 
+	 * @param complementary
+	 */
+	public void setComplementary(char complementary) {
+		this.complementary = complementary;
+	}
+	
 	@Override
 	public String toString() {
 		return wording + "";

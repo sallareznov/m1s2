@@ -52,15 +52,18 @@ public class KarpRabinAlgorithm extends Algorithm {
 	@Override
 	public StrandOccurences findRepetitiveStrand(Genome genome, Strand strand) {
 		preTreat(genome, strand);
+		resetNbComparisons();
 		final StrandOccurences strandOccurences = new StrandOccurences();
 		final Base[] basesToCompare = new Base[strand.getSize()];
 		for (int i = 0; i < genome.getSize() - strand.getSize() + 1; i++) {
 			System.arraycopy(genome.getBases(), i, basesToCompare, 0,
 					strand.getSize());
 			final int basesHash = hash(genome.getAlphabet(), basesToCompare);
+			incrNbComparisons();
 			if ((basesHash == strandHash)
-					&& (occurenceFound(basesToCompare, strand.getContent())))
+					&& (occurenceFound(basesToCompare, strand.getContent()))) {
 				strandOccurences.addIndex(i);
+			}
 		}
 		return strandOccurences;
 	}

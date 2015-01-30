@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import main.util.CommandLineParser;
+import patterns.Genome;
 import patterns.Strand;
 import reader.util.InvalidFastaFileException;
 import reader.util.NotAFastaFileException;
@@ -33,7 +34,7 @@ public class StrandSearching {
 		System.out.println("Si aucun algorithme n'est specifie, l'algorithme de Boyer-Moore sera utilise");
 	}
 	
-	private static void printResult(Algorithm algorithm, List<Strand> strands, List<StrandOccurences> occurencesList, long executionTime) {
+	private static void printResult(Algorithm algorithm, Genome genome, List<Strand> strands, List<StrandOccurences> occurencesList, long executionTime) {
 		System.out.println(algorithm);
 		final Iterator<Strand> strandsIterator = strands.iterator();
 		final Iterator<StrandOccurences> occurencesListIterator = occurencesList.iterator();
@@ -42,6 +43,7 @@ public class StrandSearching {
 			final StrandOccurences occurences = occurencesListIterator.next();
 			System.out.println(strand + " : " + occurences);
 		}
+		System.out.println(algorithm.getNbComparisons() + " comparaisons pour chaque mot.");
 		System.out.println("Temps d'execution : " + executionTime + " nanosecondes.\n");
 	}
 	
@@ -54,12 +56,15 @@ public class StrandSearching {
 		}
 		final List<Strand> strandsToLookFor = parser.getStrandsToLookFor();
 		final List<Algorithm> algorithmsToUse = parser.getAlgorithmsToUse();
+		System.out.println("taille du genome : " + parser.getGenome().getSize());
+		System.out.println("taille des motifs : " + parser.getStrandsToLookFor().get(0).getSize());
+		System.out.println();
 		for (final Algorithm algorithm : algorithmsToUse) {
 			final long beginningTime = System.nanoTime();
 			final List<StrandOccurences> occurences = algorithm
 					.findRepetitiveStrands(parser.getGenome(), strandsToLookFor);
 			final long executionTime = System.nanoTime() - beginningTime;
-			printResult(algorithm, strandsToLookFor, occurences, executionTime);
+			printResult(algorithm, parser.getGenome(), strandsToLookFor, occurences, executionTime);
 		}
 	}
 
