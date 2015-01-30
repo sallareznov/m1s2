@@ -1,7 +1,5 @@
 import unittest
-from banque_common import CreditNegatifError
-from banque_common import DebitNegatifError
-from banque_v2 import CompteV2
+from banque_v2 import *
 
 class TestCompteBancaire(unittest.TestCase) :
 

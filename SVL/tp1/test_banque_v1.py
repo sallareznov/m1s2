@@ -1,8 +1,8 @@
 # demo CTD1 SVL 2014-2015
 
 import unittest
-from banque import Compte
-from banque import CreditNegatifError
+from banque_v1 import Compte
+from banque_v1 import CreditNegatifError
 
 class TestCreationCompte(unittest.TestCase) :
 

@@ -21,6 +21,16 @@ class TestVisualiserSoldeCarte(unittest.TestCase) :
 
 class TestPayerUnRepasAvecTicketRepas(unittest.TestCase) :
 
+    def test_payer_repas_avec_ticket_si_carte_non_presente(self):
+        caisse = Caisse()
+
+        montant_repas = 15.0
+        montant_ticket = 10.0
+
+        self.assertRaises(AucuneCarteInsereeError,
+                          caisse.payer_repas_avec_ticket,
+                          montant_repas, montant_ticket)
+
     def test_payer_un_repas_avec_ticket_debite_la_carte(self) :
         caisse = Caisse()
         carte = mock()
@@ -52,6 +62,16 @@ class TestPayerUnRepasAvecTicketRepas(unittest.TestCase) :
                           montant_repas, montant_ticket) 
 
 class TestPayerUnRepasSansTicketRepas(unittest.TestCase) :
+
+    def test_payer_repas_sans_ticket_si_carte_non_presente(self):
+        caisse = Caisse()
+
+        montant_repas = 15.0
+
+        
+        self.assertRaises(AucuneCarteInsereeError,
+                          caisse.payer_repas_sans_ticket,
+                          montant_repas)
 
     def test_payer_un_repas_sans_ticket_debite_la_carte(self) :
         caisse = Caisse()

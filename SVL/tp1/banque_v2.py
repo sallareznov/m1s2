@@ -1,5 +1,3 @@
-from banque_common import CompteCommon
-
 """
 Representation d'un compte bancaire.
 
@@ -35,7 +33,7 @@ On ne peut pas debiter negativement un compte.
 banque_common.DebitNegatifError
 """
 
-class CompteV2(CompteCommon):
+class CompteV2():
 
 	def __init__(self):
 		self.listeOperations = []
@@ -55,3 +53,9 @@ class CompteV2(CompteCommon):
 		if (montant < 0):
 			raise DebitNegatifError()
 		self.listeOperations.append(-montant)
+
+class CreditNegatifError(Exception):
+	pass
+
+class DebitNegatifError(Exception):
+	pass
