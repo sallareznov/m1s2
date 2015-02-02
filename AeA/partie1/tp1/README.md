@@ -13,7 +13,7 @@
 # Fonctionnement du programme
 ```
 DESCRIPTION : recherche de motifs repetes dans un genome
-USAGE : java -jar strand_searching.jar filename  [strand|N] [-comp|-rev|-revComp]* --USING [-bf|-so|-kr|-kmp|-bm]*
+USAGE : java -jar strand_searching.jar filename [strand|N] [-comp|-rev|-revComp]* --USING [-bf|-so|-kr|-kmp|-bm]*
 	filename : le nom du fichier fasta ou se trouve le genome a etudier
 	[strand|N] : permet de rechercher soit :
 		* strand : une sequence dont les occurences seront recherchees dans le genome

@@ -73,5 +73,10 @@ public class EmptyStrand implements Strand {
 	public boolean equals(Object obj) {
 		return (obj instanceof EmptyStrand);
 	}
+	
+	@Override
+	public Strand clone() {
+	    return new EmptyStrand();
+	}
 
 }
