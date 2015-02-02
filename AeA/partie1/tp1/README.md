@@ -22,6 +22,7 @@ USAGE : java -jar strand_searching.jar filename [strand|N] [-comp|-rev|-revComp]
 		* comp : le complementaire
 		* rev : le reverse
 		* revComp : le reverse-complementaire
+		* dotplot : pour generer un dotplot comparant le genome a lui-meme
 	[-bf|-so|-kr|-kmp|-bm] : permet de spécifier le ou les algos a rechercher parmi :
 		* bf : Brute-force
 		* so : Shift-Or

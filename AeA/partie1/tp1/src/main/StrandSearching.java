@@ -1,5 +1,7 @@
 package main;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
@@ -11,8 +13,40 @@ import reader.util.InvalidFastaFileException;
 import reader.util.NotAFastaFileException;
 import algorithms.Algorithm;
 import algorithms.util.StrandOccurences;
+import bases.Base;
 
 public class StrandSearching {
+    
+    private static final String DATA_FILENAME = "dotplot.txt";
+    private static final String GNUPLOT_FILENAME = "dotplot.plot";
+    private static final String OUTPUT_FILENAME = "dotplot.jpg";
+    
+    private static void buildGnuplotFile(int genomeSize) throws IOException {
+	BufferedWriter gnuplotWriter = new BufferedWriter(new FileWriter(GNUPLOT_FILENAME));
+	gnuplotWriter.write("set term jpeg;\n");
+	gnuplotWriter.write("set nokey;\n");
+	gnuplotWriter.write("set output '" + OUTPUT_FILENAME + "';\n");
+	gnuplotWriter.write("set xrange[0:" + (genomeSize + 10) + "];\n");
+	gnuplotWriter.write("set yrange[0:" + (genomeSize + 10) + "];\n");
+	gnuplotWriter.write("plot '" + DATA_FILENAME + "' with points;\n");
+	gnuplotWriter.close();
+    }
+    
+    private static void buildDataFile(Genome genome, List<StrandOccurences> occurences) throws IOException {
+	final BufferedWriter dataWriter = new BufferedWriter(new FileWriter(DATA_FILENAME));
+	final Base[] bases = genome.getBases();
+	for (final StrandOccurences strandOccurence : occurences) {
+	    final List<Integer> indexes = strandOccurence.getIndexes();
+	    for (final int index : indexes) {
+		for (final int index2 : indexes) {
+		    if (bases[index].equals(bases[index2])) {
+			dataWriter.write(index + " " + index2 + "\n");
+		    }
+		}
+	    }
+	}
+	dataWriter.close();
+    }
 
     private static void usage() {
 	System.out.println("USAGE : java -jar strand_searching.jar filename [strand|N] --WITH [-comp|-rev|-revComp]* --USING [-bf|-so|-kr|-kmp|-bm]*");
@@ -24,6 +58,7 @@ public class StrandSearching {
 	System.out.println("\t\tcomp : le complementaire");
 	System.out.println("\t\trev : le reverse");
 	System.out.println("\t\trevComp : le reverse-complementaire");
+	System.out.println("\t\tdotplot : pour generer un dotplot comparant le genome a lui-meme");
 	System.out.println("\t[-bf|-so|-kr|-kmp|-bm] : permet de spécifier le ou les algos a rechercher parmi :");
 	System.out.println("\t\tbf : Brute-force");
 	System.out.println("\t\tso : Shift-Or");
@@ -59,11 +94,19 @@ public class StrandSearching {
 	System.out.println("taille du genome : " + parser.getGenome().getSize());
 	System.out.println("taille des motifs : " + parser.getStrandsToLookFor().get(0).getSize());
 	System.out.println();
+	boolean dotplotMade = false;
 	for (final Algorithm algorithm : algorithmsToUse) {
 	    final long beginningTime = System.nanoTime();
 	    final List<StrandOccurences> occurences = algorithm.findRepetitiveStrands(parser.getGenome(), strandsToLookFor);
 	    final long executionTime = System.nanoTime() - beginningTime;
 	    printResult(algorithm, parser.getGenome(), strandsToLookFor, occurences, executionTime);
+	    if (parser.dotplotAsked() && !dotplotMade) {
+		buildDataFile(parser.getGenome(), occurences);
+		buildGnuplotFile(parser.getGenome().getSize());
+		final Runtime rt = Runtime.getRuntime();
+		rt.exec("gnuplot " + GNUPLOT_FILENAME);
+		dotplotMade = true;
+	    }
 	}
     }
 

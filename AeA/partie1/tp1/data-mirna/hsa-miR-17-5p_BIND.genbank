@@ -1,0 +1,105 @@
+LOCUS       HD065368                3211 bp    DNA     linear   PAT 13-JUL-2010
+DEFINITION  Sequence 48 from Patent WO2010066384.
+ACCESSION   HD065368
+VERSION     HD065368.1  GI:300589897
+KEYWORDS    .
+SOURCE      Homo sapiens (human)
+  ORGANISM  Homo sapiens
+            Eukaryota; Metazoa; Chordata; Craniata; Vertebrata; Euteleostomi;
+            Mammalia; Eutheria; Euarchontoglires; Primates; Haplorrhini;
+            Catarrhini; Hominidae; Homo.
+REFERENCE   1
+  AUTHORS   Meister,G., Weinmann,L., Beier,D. and Beier,C.
+  TITLE     Compositions and methods for micro-rna expression profiling of
+            cancer stem cells
+  JOURNAL   Patent: WO 2010066384-A1 48 17-JUN-2010;
+            Universitat Regensburg (DE); Max-Planck-Gesellschaft zur Forderung
+            der Wissenschaften e.V. (DE)
+FEATURES             Location/Qualifiers
+     source          1..3211
+                     /organism="Homo sapiens"
+                     /mol_type="unassigned DNA"
+                     /db_xref="taxon:9606"
+     misc_feature    25..31
+                     /note="hsa-miR-23b microRNA binding site, predicted"
+     misc_feature    199..205
+                     /note="hsa-miR-17-5p and hsa-miR-106b microRNA binding
+                     site, predicted"
+     misc_feature    384..389
+                     /note="hsa-miR-9 microRNA binding site, predicted"
+     misc_feature    794..800
+                     /note="hsa-miR-17-5p and hsa-miR-106b microRNA binding
+                     site, predicted"
+     misc_feature    1278..1283
+                     /note="hsa-miR-9* microRNA binding site, seed match"
+     misc_feature    1296..1302
+                     /note="hsa-miR-17-5p and hsa-miR-106b microRNA binding
+                     site, predicted"
+     misc_feature    1299..1304
+                     /note="hsa-miR-9* microRNA binding site, seed match"
+     misc_feature    1501..1507
+                     /note="hsa-miR-23b microRNA binding site, predicted"
+     misc_feature    1805..1811
+                     /note="hsa-miR-9 microRNA binding site, seed match"
+     misc_feature    2770..2775
+                     /note="hsa-miR-9* microRNA binding site, seed match"
+     misc_feature    3014..3020
+                     /note="hsa-miR-151-5p microRNA binding site, predicted"
+     misc_feature    3165..3171
+                     /note="hsa-miR-9* microRNA binding site, seed match"
+ORIGIN      
+        1 agacatacag cagcatccct tagcaatgtg acattgcttt tcagactgtt ttcatttctg
+       61 tttttagcag agacatgcaa caacaacaca cacgcacaca cgcacacaca cacacgtaca
+      121 cacacataca aaatccctct gcagttttgg ggagatcagc tgcaggattt taacaggaat
+      181 gttttggtca ttgcatttgc actttcatgg acaactttta atttgatcag caagacatct
+      241 tggaactcaa tcttctgttg gatcacggga aatcaagaca cccaggagga attgaaagag
+      301 gcttcctctt ctcaggaaga agccatttcc ttctcatata gggctgtatt caaacatcgt
+      361 gtggaactgt acaaatattt ataccaaaaa tatagataag aaaaggtggg gctatactag
+      421 caacaaaaaa agaatgctgt tcctgcacct gccggttatt tccaagaagc tgaatctttg
+      481 ggactgattc tcagtggagg gcttagatca tacaaaaatc tttattgggt ccgtgtgttc
+      541 tcatttcctt cactgtttat ttttgtttgt ttgtttgttt gttttaatct ctacagcaca
+      601 tttaatgcaa cttttgaaat ctgcaggttt ttaatgtctt gtggaaattt gcagaggggc
+      661 aggtgtgtgg taaacgggta atgcatggga aataatgaga agcagctcac agagtttaaa
+      721 ctattttctt gtccccacca ccttccaaga acctgcgagg gtagtaatca tcttgtcccc
+      781 tttttcatgt tcagcacttt aatttttttg ccttactttc atgtgcaatg agaattactt
+      841 aagaattggt aacgcatgta gcctttttta gtaaccttgg aagctgtagt aattctaagg
+      901 aatcatgaac cttgcctgga catttgccac ctaaacgatc agtgtggtgc tgcgttctgg
+      961 ccagtaaatt ccatgttttt ggctatatct catccaaact gagcagtttc tgtgtatata
+     1021 tagaaggtag aaatgaaaag tgagaaaata tttgaaaggg attatattaa ttgctaaata
+     1081 ttttattcac aaaggtcaat aacatggcaa gataaaatta tttgtatagt tttgtctgaa
+     1141 tgagcgagaa aaatgtggat gtactgtttg tatatattgt atatattaaa acagagatat
+     1201 gtgcatgaaa tcaagaaaaa agaaatgaac aaaagcaaag cattagtggc tatggtctgt
+     1261 aaaatgaaac aaaaaaactt tatttcacta taagagtact ttattttaaa tgttctttag
+     1321 gagaacattt tgctaaagca tgactaaact gcaaaaaaaa aaaaagagct actgtattta
+     1381 gacttaggaa aaaaggcaga gtaacattac ttaaaaaaaa aaggatatgt ttacatttaa
+     1441 ttttggctac caggagttta gtttatttta tttaaaattt ttttgccaat ggtgccaagt
+     1501 aatgtgaatg ctaatactgc ttaagaaaat taagttactt ttgcaaaaca gataatcata
+     1561 agatgaatca gtatgtagct taacaccatc cactcactcc aacaaagaac acttagaatg
+     1621 ataaaaaaaa aaaaaaaaaa cctgacaaaa gaaatagtat gaaaagtaga aaaatgtcac
+     1681 gtttccatat ctcctgctgg aaatcagaaa atataataaa attgcacaaa aaaaaaaatg
+     1741 aaaaagatgc agactggtct tttagagacg gcatggtata ttactatttc cacataatga
+     1801 ggagccaaag aaatctgatg tttttaacaa ttaaactgct aatgttaaat tgagagaata
+     1861 aagttcgtat ttgctgatgc cagtttaaaa ttcccaggtt acgtctgagg atcagttggt
+     1921 gtaaagctga gatgtttttt cttggttctg gctgccaact gtgagttaaa actcaaggct
+     1981 tgttgtgaag cctaaaaata ttcacaaata agcttttaaa ctggtgtctt tggaaggaag
+     2041 gtagatacaa aaagattgtg gtaaaaactg gggtcagtgc tcttggtgcc ttttctataa
+     2101 ttgtacttgt tttttaatta cttcctttca ctgccaacct cgaattactg tacagtatat
+     2161 gtctttctgc ttgtgatcag ctttgacaac agtgacagcc ccacaactag tagccacctg
+     2221 tacatttgta aactgacctg actccatttt gtttttaaat gtgtgggtta tgttgcagct
+     2281 gttgcagtcc cccagatacc tattatttta cacaatttga cctataggag gacactgagt
+     2341 aatttacaaa cacaactgca ttcataaatg ggaatagaac gtgaaagcca gctctttcag
+     2401 aatatcctct attaatactg aatttagata tctttattcc atttattatg gtacaaataa
+     2461 ctgatgtttt aaccagagta atgacctcag tggatttgct ttaaccctca catttttttt
+     2521 ttaatgtttc acatgttaca ttattagctg aatacgttag aaaatgacag atggtagaga
+     2581 cttccataga attaagaggg ttctcatgga ggggatagga agtaggttta aagcctacca
+     2641 gtgtaaccta ccagtacaac tgtgaatcct aggcgaggca aaaatgcact tccactgaaa
+     2701 cgaagcattt ctgaccgctt tttcttggtt atgaatctta atttcgaata taagatgata
+     2761 ggtaagcgca gctttcttgg ataatctgaa ttcccaagtg ccaggagtag gatttcatta
+     2821 taaaattaat agctaatctt attctatctc ctgaagattt aattgctatt gttacccatt
+     2881 cgaaatcagc tgtactgtgt gaacgaaata aagacaataa tacgaacccc tctctggctg
+     2941 cacggtcgct tatggcagtt ccacacagta gttggcgccc aatggggggt ccctgagact
+     3001 tgcatgtaaa actagtctag atgtcttctt ttttgtaagt tttatttttg taattgtgca
+     3061 tgtaaagcat cattgaatca atggatctgt tgaagaactc agctgctgga aaccatgcaa
+     3121 aatgttttga attgccctta aaatatggaa aatgttttct gaatgcttta tattctttct
+     3181 gctgtaaatt aaaaatgaag aaaatttccc c
+//

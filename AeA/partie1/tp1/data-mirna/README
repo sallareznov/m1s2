@@ -1,0 +1,99 @@
+
+Le miARN "hsa-miR-17-5p" correspond aux spécifications données pour le projet,
+les résultats attendus pour hsa-miR-17-5p sont détaillés sur la page:
+http://www.mirbase.org/cgi-bin/mirna_entry.pl?acc=MI0000071
+
+ATTENTION, les spécifications données ne permettent pas nécessairement de détecter
+tous les autres pre miARN, miARN, et sites de fixation sur les ARN messager suivants.
+Mais certains le seront peut être grâce à des modifications des paramètres de détection.
+Les séquences données sont décrites dans l'article joint,
+et citées page 3 du fichier Rodriguez_SupTableA.pdf.
+
+REMARQUE, en "condition de recherche" seuls les fichiers chromosome13_NT_009952.14.fasta et ARNmessager*.fasta
+devraient être disponibles et suffisants pour obtenir les résultats espérés.
+les autres fichiers donnent une indication de la solution déjà trouvée ... spoiler ... 
+et doivent vous aider à déterminer si vos méthodes sont au point.
+
+
+
+****************************************
+*       description des fichiers       *
+****************************************
+
+-- Fichiers: --
+- *.pdf, article de recherche
+- pre miARN dans les fichiers: *_preMI_ARN.fasta
+- les pre miARN contiennent des miARN: *_MI_ARN.fasta
+- fragment du chromosome 13 humain de 100000 bases contenant des miARN : chromosome13_NT_009952.14.fasta
+- ARN messager contenant plusieurs sites d'hybridation du miARN hsa-miR-17-5p: hsa-miR-17-5p_BIND.fasta (détails dans le .genbank)
+- autres ARN messagers contenant des sites d'hybridation, fichiers : ARNmessager*.fasta
+
+-- premiARN et miARN --
+4 miARN au moins peuvent être trouvés dans le fragment de chromosome 13:
+hsa-miR-17-5p, hsa-miR-18a, hsa-miR-19a, hsa-miR-20a
+
+-- liste des séquences pre miARN, miARN, et ARN messager
+hsa-miR-17-5p_BIND.fasta
+hsa-miR-17-5p_MI_ARN.fasta
+hsa-miR-17-5p_preMI_ARN.fasta
+hsa-miR-18a_MI_ARN.fasta
+hsa-miR-18a_preMI_ARN.fasta
+hsa-miR-19a_MI_ARN.fasta
+hsa-miR-19a_preMI_ARN.fasta
+hsa-miR-20a_MI_ARN.fasta
+hsa-miR-20a_preMI_ARN.fasta
+
+
+
+****************************************
+* exploitation des fichiers par tâches *
+****************************************
+
+
+-- tâche 1--
+détecter les séquences pre miARN:
+
+hsa-miR-17-5p_preMI_ARN.fasta (c'est normalement possible en suivant exactement les spécifications), 
+hsa-miR-18a_preMI_ARN.fasta, 
+hsa-miR-19a_preMI_ARN.fasta, et 
+hsa-miR-20a_preMI_ARN.fasta
+dans le fragment de génome chromosome13_NT_009952.14.fasta
+
+Y en a t'il d'autre ?
+Que dire de la sensibilité de la méthode si le nombre de paires (24 dans les spécifications)
+d'un pre miARN potentiel varie ? que dire pour les modifications des autres paramètres de détection ?
+
+ATTENTION, les fichiers *_preMI_ARN.fasta contiennent
+les séquences pre miARN déjà identifiés. vos méthodes ne détecterons sans doute
+pas Exactement la même chose (pas de panique si c'est légèrement différent)!
+
+
+-- tâche 2 --
+détecter les miARN capables de s'hybrider à un messager:
+
+une sous-séquence de: hsa-miR-17-5p_preMI_ARN.fasta
+est un miARN: hsa-miR-17-5p_MI_ARN.fasta
+capable de s'hybrider avec l'ARN messager: hsa-miR-17-5p_BIND.fasta.
+
+quels miARN parmi les précédents peuvent s'hybrider avec les séquences des fichiers ARNmessager-*.fasta ?
+améliore t'on la sensibilité de la méthode en paramétrant une hybridation parfaite de 6 paires
+(au lieu de 7 dans les spécifications) pour les 6 premières positions du miARN ?
+
+ATTENTION, les fichiers *_MI_ARN.fasta contiennent les miARN identifiés.
+vos méthodes doivent tester tous les miARN long de 20 à 23 positions,
+commençant 10 à 15 positions après le début du pre miARN (soit 4*6=24 miARN possibles par pre miARN en reçu en entrée).
+la encore pas de panique si vos méthodes ne sélectionnent pas exactement les mêmes positions 
+pour les miARN hybridés avec les messagers cibles ! 
+
+-- tâche 3 --
+mélanger selon l'algorithme de Altschul et Erikson les messagers hsa-miR-17-5p_BIND.fasta et ARNmessager-*.fasta
+en 100 séquences aléatoires, afin de vérifier si les hybridations de hsa-miR-17-5p_MI_ARN.fasta avec ces séquences
+sont significatives (dans le top 95% de la distribution de score sous conditions aléatoires).
+
+
+
+**************************************************************
+*       bonnes chances, et que la science soit avec vous     *
+**************************************************************
+
+... oui je sais, ça deviens terriblement rétro ...

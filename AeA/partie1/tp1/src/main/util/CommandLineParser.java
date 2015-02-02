@@ -35,6 +35,7 @@ public class CommandLineParser {
     private static final String REVERSE_OPTION = "-rev";
     private static final String COMPLEMENTARY_OPTION = "-comp";
     private static final String REVERSE_COMPLEMENTARY_OPTION = "-revComp";
+    private static final String DOTPLOT_OPTION = "-dotplot";
     // ALGORITHMS OPTIONS
     private static final String BRUTE_FORCE_OPTION = "-bf";
     private static final String SHIFT_OR_OPTION = "-so";
@@ -49,6 +50,7 @@ public class CommandLineParser {
     private Strand mainStrand;
     private List<Strand> strandsToLookFor;
     private List<Algorithm> algorithmsToUse;
+    private boolean dotplot;
 
     /**
      * construit le parser
@@ -63,6 +65,7 @@ public class CommandLineParser {
 	commandLine = args;
 	strandsToLookFor = new LinkedList<Strand>();
 	algorithmsToUse = new LinkedList<Algorithm>();
+	dotplot = false;
     }
 
     /**
@@ -84,6 +87,13 @@ public class CommandLineParser {
      */
     public Genome getGenome() {
 	return genome;
+    }
+    
+    /**
+     * 
+     */
+    public boolean dotplotAsked() {
+	return dotplot;
     }
     
     /**
@@ -125,6 +135,11 @@ public class CommandLineParser {
 		if (option.equals(REVERSE_COMPLEMENTARY_OPTION)) {
 		    return strand.getReverseComplementary();
 		}
+		else {
+		    if (option.equals(DOTPLOT_OPTION)) {
+			dotplot = true;
+		    }
+		}
 	    }
 	    return strand;
 	}
@@ -135,8 +150,9 @@ public class CommandLineParser {
 	final Iterator<Strand> strandIterator = strandsToLookFor.iterator();
 	while (strandIterator.hasNext()) {
 	    final Strand currentStrand = strandIterator.next();
-	    if (!strandsToLookFor.contains(currentStrand))
-		addedStrands.add(optionToStrand(currentStrand, option));
+	    final Strand optionnedStrand = optionToStrand(currentStrand, option);
+	    if (!strandsToLookFor.contains(optionnedStrand))
+		addedStrands.add(optionnedStrand);
 	}
 	strandsToLookFor.addAll(addedStrands);
     }
