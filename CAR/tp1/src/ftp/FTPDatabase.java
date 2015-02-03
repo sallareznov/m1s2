@@ -9,15 +9,23 @@ import java.util.Map;
 
 public class FTPDatabase {
 	
+	private static FTPDatabase INSTANCE = null; 
 	private static final String ACCOUNTS_FILENAME = "_accounts";
 	private Map<String, String> _accounts;
 	private Map<Integer, String> _answerCodes;
 	
-	public FTPDatabase() throws IOException {
+	private FTPDatabase() throws IOException {
 		_accounts = new HashMap<String, String>();
 		_answerCodes = new HashMap<Integer, String>();
 		retrieveAccounts();
 		buildReturnCodes();
+	}
+	
+	public static synchronized FTPDatabase getInstance() throws IOException {
+		if (INSTANCE == null) {
+			INSTANCE = new FTPDatabase();
+		}
+		return INSTANCE;
 	}
 	
 	public Map<String, String> getAccounts() {

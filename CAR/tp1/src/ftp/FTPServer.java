@@ -28,7 +28,7 @@ public class FTPServer extends FTPMessageSender {
 	}
 
 	public void connectToClient() throws IOException {
-		setConnexion(_serverSocket.accept());
+		setConnection(_serverSocket.accept());
 		_nbClients++;
 	}
 
@@ -43,8 +43,8 @@ public class FTPServer extends FTPMessageSender {
 			ftpServer.connectToClient();
 			System.out.println("--> New client connected on this server.");
 			System.out.println("--> total clients : " + ftpServer.getNbClients() + ".");
-			ftpServer.answer(220);
-			final FTPRequestHandler requestHandler = new FTPRequestHandler(ftpServer.getConnexion());
+			ftpServer.sendCommand(220);
+			final FTPRequestHandler requestHandler = new FTPRequestHandler(ftpServer.getConnection());
 			new Thread(requestHandler).start();
 		}
 	}

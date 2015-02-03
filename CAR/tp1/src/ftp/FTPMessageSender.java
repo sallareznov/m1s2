@@ -7,33 +7,25 @@ import java.net.Socket;
 
 public class FTPMessageSender {
 	
-	private Socket _connexion;
-	private FTPDatabase _database;
+	private Socket _connection;
 	
-	public FTPMessageSender() throws IOException {
-		_database = new FTPDatabase();
-	}
-	
-	public synchronized void answer(int answerCode) throws IOException {
-		final OutputStream outputStream = _connexion.getOutputStream();
+	public synchronized void sendCommand(int answerCode) throws IOException {
+		final OutputStream outputStream = _connection.getOutputStream();
 		final DataOutputStream dataOutputStream = new DataOutputStream(
 				outputStream);
-		final String answerMessage = _database.getMessage(answerCode);
+		final FTPDatabase database = FTPDatabase.getInstance();
+		final String answerMessage = database.getMessage(answerCode);
 		dataOutputStream.writeBytes(answerCode + " " + answerMessage);
 		dataOutputStream.writeBytes("\r\n");
 		dataOutputStream.flush();
 	}
 	
-	public Socket getConnexion() {
-		return _connexion;
+	public Socket getConnection() {
+		return _connection;
 	}
 	
-	public void setConnexion(Socket connexion) {
-		_connexion = connexion;
-	}
-	
-	public FTPDatabase getDatabase() {
-		return _database;
+	public void setConnection(Socket connection) {
+		_connection = connection;
 	}
 
 }

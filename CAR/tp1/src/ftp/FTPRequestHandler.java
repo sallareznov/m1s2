@@ -11,28 +11,28 @@ public class FTPRequestHandler extends FTPMessageSender implements Runnable {
 
 	public FTPRequestHandler(Socket connexion) throws IOException {
 		super();
-		setConnexion(connexion);
+		setConnection(connexion);
 	}
 
 	private void processUser(String user) throws IOException {
 		_user = user;
-		answer(331);
+		sendCommand(331);
 	}
 
 	private void processPass(String password) throws IOException {
-		final FTPDatabase database = getDatabase();
+		final FTPDatabase database = FTPDatabase.getInstance();
 		if (database.getAccounts().get(_user).equals(password)) {
-			answer(230);
-			answer(225);
+			sendCommand(230);
+			sendCommand(225);
 		}
 		else {
-			answer(430);
-			answer(220);
+			sendCommand(430);
+			sendCommand(220);
 		}
 	}
 	
 	private void processList() throws IOException {
-		answer(213);
+		sendCommand(213);
 	}
 	
 	private void processRetr(String filename) {
@@ -44,20 +44,20 @@ public class FTPRequestHandler extends FTPMessageSender implements Runnable {
 	}
 	
 	private void processQuit() throws IOException {
-		answer(231);
+		sendCommand(231);
 	}
 	
 	private void processCommandNotImplemented() throws IOException {
-		answer(502);
+		sendCommand(502);
 	}
 	
 	private void processCwd(String directory) throws IOException {
-		answer(250);
+		sendCommand(250);
 	}
 	
 	private void processPwd() throws IOException {
-		answer(200);
-		answer(257);
+		sendCommand(200);
+		sendCommand(257);
 	}
 
 	public void processRequest(String request) throws IOException {
@@ -87,11 +87,9 @@ public class FTPRequestHandler extends FTPMessageSender implements Runnable {
 								}
 								else {
 									if (command.equals("PWD")) {
-										System.out.println("PHere");
 										processPwd();
 									}
 									else {
-										System.out.println("CHere");
 										processCommandNotImplemented();
 									}
 								}
@@ -107,9 +105,9 @@ public class FTPRequestHandler extends FTPMessageSender implements Runnable {
 	public void run() {
 		try {
 			while (true) {
-				final Socket connexion = getConnexion();
+				final Socket connection = getConnection();
 				final BufferedReader in = new BufferedReader(
-						new InputStreamReader(connexion.getInputStream()));
+						new InputStreamReader(connection.getInputStream()));
 				final String request = in.readLine();
 				System.out.println(request);
 				processRequest(request);
