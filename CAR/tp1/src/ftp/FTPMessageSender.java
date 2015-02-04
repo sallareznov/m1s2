@@ -9,7 +9,7 @@ public class FTPMessageSender {
 	
 	private Socket _connection;
 	
-	public synchronized void sendCommand(int answerCode) throws IOException {
+	public void sendCommand(int answerCode) throws IOException {
 		final OutputStream outputStream = _connection.getOutputStream();
 		final DataOutputStream dataOutputStream = new DataOutputStream(
 				outputStream);
@@ -18,6 +18,10 @@ public class FTPMessageSender {
 		dataOutputStream.writeBytes(answerCode + " " + answerMessage);
 		dataOutputStream.writeBytes("\r\n");
 		dataOutputStream.flush();
+	}
+	
+	public void sendData() {
+		
 	}
 	
 	public Socket getConnection() {
