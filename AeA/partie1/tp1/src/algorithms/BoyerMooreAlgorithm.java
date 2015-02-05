@@ -29,7 +29,11 @@ public class BoyerMooreAlgorithm extends Algorithm {
 		super();
 		badMatchTable = new HashMap<Character, Integer>();
 	}
-
+	
+	/**
+	 * remplit le tableau des bons suffixes
+	 * @param strand le brin etudie
+	 */
 	private void fillGoodSuffixes(Strand strand) {
 		goodSuffix = new int[strand.getSize()];
 		goodSuffix[goodSuffix.length - 1] = 1;
@@ -60,6 +64,11 @@ public class BoyerMooreAlgorithm extends Algorithm {
 		}
 	}
 
+	/**
+	 * remplit le tableau bad-match
+	 * @param genome le genome etudie
+	 * @param strand le brin etudie
+	 */
 	private void fillBadMatches(Genome genome, Strand strand) {
 		final String strandString = strand.toString();
 		final int strandSize = strand.getSize();
@@ -73,6 +82,11 @@ public class BoyerMooreAlgorithm extends Algorithm {
 		}
 	}
 
+	/**
+	 * pretraitement de l'algorithme
+	 * @param genome
+	 * @param strand
+	 */
 	private void preTreat(Genome genome, Strand strand) {
 		fillGoodSuffixes(strand);
 		fillBadMatches(genome, strand);

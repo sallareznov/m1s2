@@ -17,10 +17,14 @@ public class KMPAlgorithm extends Algorithm {
 	// pas un préfixe de M next[i] = -1 si un tel <i>u</i> n'existe pas
 	private int[] next;
 
-	private void preTreat(Strand m) {
-		next = new int[m.getSize() + 1];
+	/**
+	 * pretraitement de l'algorithme
+	 * @param strand le brin
+	 */
+	private void preTreat(Strand strand) {
+		next = new int[strand.getSize() + 1];
 		for (int i = 0; i < next.length; i++) {
-			final Strand subStrand = m.getPrefix(i);
+			final Strand subStrand = strand.getPrefix(i);
 			int j = i - 1;
 			boolean found = false;
 			Strand u = subStrand;
@@ -29,13 +33,13 @@ public class KMPAlgorithm extends Algorithm {
 				final Base[] uMiBases = new Base[u.getSize() + 1];
 				System.arraycopy(u.getContent(), 0, uMiBases, 0, u.getSize());
 				Strand str = null;
-				if (i < m.getSize()) {
-					uMiBases[u.getSize()] = m.getContent()[i];
+				if (i < strand.getSize()) {
+					uMiBases[u.getSize()] = strand.getContent()[i];
 					str = new ConcreteStrand(uMiBases);
 				} else {
 					str = new EmptyStrand();
 				}
-				if (!m.isPrefix(str)) {
+				if (!strand.isPrefix(str)) {
 					found = true;
 				}
 				j = u.getSize() - 1;

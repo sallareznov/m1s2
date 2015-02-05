@@ -16,11 +16,11 @@ import algorithms.util.StrandOccurences;
 import bases.Base;
 
 public class StrandSearching {
-    
+
     private static final String DATA_FILENAME = "dotplot.txt";
     private static final String GNUPLOT_FILENAME = "dotplot.plot";
     private static final String OUTPUT_FILENAME = "dotplot.jpg";
-    
+
     private static void buildGnuplotFile(int genomeSize) throws IOException {
 	BufferedWriter gnuplotWriter = new BufferedWriter(new FileWriter(GNUPLOT_FILENAME));
 	gnuplotWriter.write("set term jpeg;\n");
@@ -31,12 +31,12 @@ public class StrandSearching {
 	gnuplotWriter.write("plot '" + DATA_FILENAME + "' with points;\n");
 	gnuplotWriter.close();
     }
-    
+
     private static void buildDataFile(Genome genome, List<StrandOccurences> occurences) throws IOException {
 	final BufferedWriter dataWriter = new BufferedWriter(new FileWriter(DATA_FILENAME));
 	final Base[] bases = genome.getBases();
 	for (final StrandOccurences strandOccurence : occurences) {
-	    final List<Integer> indexes = strandOccurence.getIndexes();
+	    final List<Integer> indexes = strandOccurence.getOccurences();
 	    for (final int index : indexes) {
 		for (final int index2 : indexes) {
 		    if (bases[index].equals(bases[index2])) {
@@ -46,6 +46,28 @@ public class StrandSearching {
 	    }
 	}
 	dataWriter.close();
+    }
+
+    private static void printResult(Algorithm algorithm, Genome genome, List<Strand> strands, List<StrandOccurences> occurencesList, long executionTime) {
+	System.out.println(algorithm);
+	final Iterator<Strand> strandsIterator = strands.iterator();
+	final Iterator<StrandOccurences> occurencesListIterator = occurencesList.iterator();
+	while (strandsIterator.hasNext()) {
+	    final Strand strand = strandsIterator.next();
+	    final StrandOccurences occurences = occurencesListIterator.next();
+	    System.out.println(strand + " : " + occurences);
+	}
+	System.out.println(algorithm.getNbComparisons() + " comparaisons pour chaque mot.");
+	System.out.println("Temps d'execution : " + executionTime + " nanosecondes.\n");
+    }
+
+    private static void generateDotplot(Genome genome, List<StrandOccurences> occurences) throws IOException {
+	buildDataFile(genome, occurences);
+	buildGnuplotFile(genome.getSize());
+	final Runtime rt = Runtime.getRuntime();
+	System.out.println("Generation du dotplot...");
+	rt.exec("gnuplot " + GNUPLOT_FILENAME);
+	System.out.println("Dotplot genere avec succes (fichier dotplot.jpg)");
     }
 
     private static void usage() {
@@ -69,19 +91,6 @@ public class StrandSearching {
 	System.out.println("Si aucun algorithme n'est specifie, l'algorithme de Boyer-Moore sera utilise");
     }
 
-    private static void printResult(Algorithm algorithm, Genome genome, List<Strand> strands, List<StrandOccurences> occurencesList, long executionTime) {
-	System.out.println(algorithm);
-	final Iterator<Strand> strandsIterator = strands.iterator();
-	final Iterator<StrandOccurences> occurencesListIterator = occurencesList.iterator();
-	while (strandsIterator.hasNext()) {
-	    final Strand strand = strandsIterator.next();
-	    final StrandOccurences occurences = occurencesListIterator.next();
-	    System.out.println(strand + " : " + occurences);
-	}
-	System.out.println(algorithm.getNbComparisons() + " comparaisons pour chaque mot.");
-	System.out.println("Temps d'execution : " + executionTime + " nanosecondes.\n");
-    }
-
     public static void main(String[] args) throws IOException, InvalidFastaFileException, NotAFastaFileException {
 	final CommandLineParser parser = new CommandLineParser(args);
 	final boolean parsing = parser.parseCommandLine();
@@ -94,20 +103,15 @@ public class StrandSearching {
 	System.out.println("taille du genome : " + parser.getGenome().getSize());
 	System.out.println("taille des motifs : " + parser.getStrandsToLookFor().get(0).getSize());
 	System.out.println();
-	boolean dotplotMade = false;
+	List<StrandOccurences> occurences = null;
 	for (final Algorithm algorithm : algorithmsToUse) {
 	    final long beginningTime = System.nanoTime();
-	    final List<StrandOccurences> occurences = algorithm.findRepetitiveStrands(parser.getGenome(), strandsToLookFor);
+	    occurences = algorithm.findRepetitiveStrands(parser.getGenome(), strandsToLookFor);
 	    final long executionTime = System.nanoTime() - beginningTime;
 	    printResult(algorithm, parser.getGenome(), strandsToLookFor, occurences, executionTime);
-	    if (parser.dotplotAsked() && !dotplotMade) {
-		buildDataFile(parser.getGenome(), occurences);
-		buildGnuplotFile(parser.getGenome().getSize());
-		final Runtime rt = Runtime.getRuntime();
-		rt.exec("gnuplot " + GNUPLOT_FILENAME);
-		dotplotMade = true;
-	    }
 	}
+	if (parser.dotplotAsked())
+	    generateDotplot(parser.getGenome(), occurences);
     }
 
 }

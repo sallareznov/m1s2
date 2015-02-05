@@ -44,7 +44,7 @@ public class CommandLineParser {
     private static final String BOYER_MOORE_OPTION = "-bm";
     // DEFAULT ALGORITHM
     private static final Algorithm DEFAULT_ALGORITHM = new BoyerMooreAlgorithm();
-    
+
     private String[] commandLine;
     private Genome genome;
     private Strand mainStrand;
@@ -76,26 +76,26 @@ public class CommandLineParser {
     }
 
     /**
-     * la liste des algorithmes a utiliser
+     * @return la liste des algorithmes choisis par l'utilisateur
      */
     public List<Algorithm> getAlgorithmsToUse() {
 	return algorithmsToUse;
     }
 
     /**
-     * le genome etudie 
+     * @return le genome etudie
      */
     public Genome getGenome() {
 	return genome;
     }
-    
+
     /**
-     * 
+     * @return <code>true</code> si l'utilisateur desire un dotplot
      */
     public boolean dotplotAsked() {
 	return dotplot;
     }
-    
+
     /**
      * initialise le genome a partir du fichier entre par l'utilisateur
      * 
@@ -118,24 +118,32 @@ public class CommandLineParser {
 	mainStrand = new ConcreteStrand(commandLine[1], genome.getAlphabet());
 	strandsToLookFor.add(mainStrand);
     }
-    
+
+    /**
+     * analyse une option
+     * @param option l'option a analyser
+     * @return <code>true</code> si l'option est valide (commence par un tiret simple)
+     */
     private static boolean isAnOption(String option) {
 	return (option.charAt(0) == '-' && option.charAt(1) != '-');
     }
-    
+
+    /**
+     * renvoie le brin correspondant a l'option choisie par l'utilisateur
+     * @param strand le brin etudie
+     * @param option l'option appliquee sur le brin
+     * @return le brin correspondant a l'option
+     */
     private Strand optionToStrand(Strand strand, String option) {
 	if (option.equals(REVERSE_OPTION)) {
 	    return strand.getReverse();
-	}
-	else {
+	} else {
 	    if (option.equals(COMPLEMENTARY_OPTION)) {
 		return strand.getComplementary();
-	    }
-	    else {
+	    } else {
 		if (option.equals(REVERSE_COMPLEMENTARY_OPTION)) {
 		    return strand.getReverseComplementary();
-		}
-		else {
+		} else {
 		    if (option.equals(DOTPLOT_OPTION)) {
 			dotplot = true;
 		    }
@@ -144,7 +152,11 @@ public class CommandLineParser {
 	    return strand;
 	}
     }
-    
+
+    /**
+     * met a jour la liste des brins en fonction de l'option
+     * @param option
+     */
     private void treatOption(String option) {
 	final List<Strand> addedStrands = new LinkedList<Strand>();
 	final Iterator<Strand> strandIterator = strandsToLookFor.iterator();
@@ -200,7 +212,7 @@ public class CommandLineParser {
 	    strandsToLookFor.add(currentStrand.clone());
 	}
     }
-    
+
     private int verifyAlgorithmsOptions(int currentIndex) {
 	int i = currentIndex;
 	while (i < commandLine.length && isAnOption(commandLine[i])) {
@@ -225,10 +237,6 @@ public class CommandLineParser {
 		}
 	    }
 	    i++;
-	}
-	// Aucun algorithme n'a ete choisi
-	if (algorithmsToUse.isEmpty()) {
-	    algorithmsToUse.add(DEFAULT_ALGORITHM);
 	}
 	return i;
     }
@@ -255,6 +263,10 @@ public class CommandLineParser {
 		    currentIndex++;
 		}
 	    }
+	}
+	// Aucun algorithme n'a ete choisi
+	if (algorithmsToUse.isEmpty()) {
+	    algorithmsToUse.add(DEFAULT_ALGORITHM);
 	}
 	return true;
     }
