@@ -1,11 +1,9 @@
 package bases;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import patterns.Alphabet;
-import bases.util.Pairing;
 
 
 /**
@@ -14,7 +12,6 @@ import bases.util.Pairing;
 public class BaseFlyweightFactory {
 	
 	private Map<Character, Base> existingBases;
-	private List<Pairing> pairings;
 	private Alphabet alphabet;
 	
 	/**
