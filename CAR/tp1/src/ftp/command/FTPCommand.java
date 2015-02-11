@@ -1,11 +1,11 @@
 package ftp.command;
 
-import ftp.FTPClientConfiguration;
+import ftp.configuration.FTPClientConfiguration;
 
 public interface FTPCommand {
     
-    boolean accept(String[] request);
+    boolean accept(String[] requestTokens);
     
-    void execute(FTPClientConfiguration currentSession, String[] request);
+    void execute(String[] requestTokens, FTPClientConfiguration clientConfiguration);
 
 }

@@ -1,28 +1,32 @@
 package ftp.command;
 
-import ftp.FTPClientConfiguration;
+import java.net.Socket;
+
 import ftp.FTPDatabase;
 import ftp.FTPMessageSender;
+import ftp.configuration.FTPClientConfiguration;
 
 public class FTPPassCommand extends FTPMessageSender implements FTPCommand {
 
-    @Override
-    public boolean accept(String[] request) {
-	return (request[0].equals("PASS"));
-    }
-
-    @Override
-    public void execute(FTPClientConfiguration currentSession, String[] request) {
-	final String password = request[1];
-	final String username = currentSession.getUsername();
-	final FTPDatabase database = FTPDatabase.getInstance();
-	if (password.equals(database.getAccounts().get(username))) {
-	    sendDefaultCommand(230);
-	    sendDefaultCommand(225);
-	} else {
-	    sendDefaultCommand(430);
-	    sendDefaultCommand(220);
+	@Override
+	public boolean accept(String[] requestTokens) {
+		return requestTokens[0].equals("PASS");
 	}
-    }
+
+	@Override
+	public void execute(String[] requestTokens, FTPClientConfiguration clientConfiguration) {
+		final String password = requestTokens[1];
+		final String username = clientConfiguration.getUsername();
+		final Socket connection = clientConfiguration.getConnection();
+		final FTPDatabase database = FTPDatabase.getInstance();
+		if (password.equals(database.getAccounts().get(username))) {
+			sendCommandWithDefaultMessage(connection, 230);
+			sendCommandWithDefaultMessage(connection, 225);
+			new FTPSystCommand().execute(requestTokens, clientConfiguration);
+		} else {
+			sendCommandWithDefaultMessage(connection, 430);
+			sendCommandWithDefaultMessage(connection, 220);
+		}
+	}
 
 }
