@@ -3,12 +3,18 @@ package ftp;
 import java.io.IOException;
 import java.net.ServerSocket;
 
+import ftp.command.FTPCdupCommand;
 import ftp.command.FTPCommandManager;
+import ftp.command.FTPCwdCommand;
 import ftp.command.FTPListCommand;
+import ftp.command.FTPNotImplementedCommand;
 import ftp.command.FTPPassCommand;
 import ftp.command.FTPPasvCommand;
 import ftp.command.FTPPortCommand;
+import ftp.command.FTPPwdCommand;
 import ftp.command.FTPQuitCommand;
+import ftp.command.FTPRetrCommand;
+import ftp.command.FTPStorCommand;
 import ftp.command.FTPSystCommand;
 import ftp.command.FTPUserCommand;
 import ftp.configuration.FTPServerConfiguration;
@@ -57,7 +63,13 @@ public class FTPServer extends FTPMessageSender {
 		commandManager.addCommand(new FTPPortCommand());
 		commandManager.addCommand(new FTPPasvCommand());
 		commandManager.addCommand(new FTPListCommand());
+		commandManager.addCommand(new FTPCwdCommand());
+		commandManager.addCommand(new FTPCdupCommand());
+		commandManager.addCommand(new FTPPwdCommand());
+		commandManager.addCommand(new FTPStorCommand());
+		commandManager.addCommand(new FTPRetrCommand());
 		commandManager.addCommand(new FTPQuitCommand());
+		commandManager.addCommand(new FTPNotImplementedCommand());
 		System.out.println("--> FTP server opened on "
 				+ serverConfiguration.getAddress() + ", port "
 				+ serverConfiguration.getPort());

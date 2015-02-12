@@ -123,6 +123,7 @@ public class FTPRequestHandler extends FTPMessageSender implements Runnable {
 		} catch (IOException e) {
 			System.err
 					.println("I/O error occurs when creating the input stream or reading a line. Maybe the socket is closed, or is not connected");
+			e.printStackTrace();
 		}
 	}
 }

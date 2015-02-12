@@ -13,7 +13,7 @@ public class FTPDatabase {
 	private static final String ACCOUNTS_FILENAME = "_accounts";
 	private Map<String, String> _accounts;
 	private Map<Integer, String> _answerCodes;
-	public static final String LOCALHOST_ADDRESS = "127.0.0.1";
+	public static final String LOCALHOST_IP_ADDRESS = "127.0.0.1";
 	public static final String COMMAND_TOKENS_SEPARATOR = " ";
 	public static final char DIRECTORY_SEPARATOR = '/';
 
@@ -66,7 +66,7 @@ public class FTPDatabase {
 		_answerCodes.put(215, "Remote system type is UNIX");
 		_answerCodes.put(220, "FTP server ready.");
 		_answerCodes.put(225, "Data connection open, no transfer in progress.");
-		_answerCodes.put(227, "Entering passive mode ({0}, {0}, {0}, {0}, {0}, {0}");
+		_answerCodes.put(227, "Entering passive mode ({0}, {1}, {2}, {3}, {4}, {5}).");
 		_answerCodes.put(230, "User logged in, proceed.");
 		_answerCodes.put(231, "User logged out, service terminated.");
 		// _answerCodes.put(257, "PATHNAME\" created");
