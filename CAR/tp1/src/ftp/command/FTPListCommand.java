@@ -7,20 +7,19 @@ import ftp.configuration.FTPClientConfiguration;
 
 public class FTPListCommand extends FTPMessageSender implements FTPCommand {
 
-	@Override
-	public boolean accept(String[] requestTokens) {
-		return requestTokens[0].equals("LIST");
-	}
+    @Override
+    public boolean accept(String command) {
+	return command.equals("LIST");
+    }
 
-	@Override
-	public void execute(String[] requestTokens,
-			FTPClientConfiguration clientConfiguration) {
-		final String workingDirectoryPath = clientConfiguration.getWorkingDirectory();
-		final File workingDirectory = new File(workingDirectoryPath);
-		final String[] directoryListing = workingDirectory.list();
-		for (String entry : directoryListing) {
-			System.out.println(entry);
-		}
+    @Override
+    public void execute(String argument, FTPClientConfiguration clientConfiguration) {
+	final String workingDirectoryPath = clientConfiguration.getWorkingDirectory();
+	final File workingDirectory = new File(workingDirectoryPath);
+	final String[] directoryListing = workingDirectory.list();
+	for (final String entry : directoryListing) {
+	    System.out.println(entry);
 	}
+    }
 
 }

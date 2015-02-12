@@ -5,16 +5,14 @@ import ftp.configuration.FTPClientConfiguration;
 
 public class FTPCdupCommand extends FTPMessageSender implements FTPCommand {
 
-	@Override
-	public boolean accept(String[] requestTokens) {
-		return requestTokens[0].equals("CDUP");
-	}
+    @Override
+    public boolean accept(String command) {
+	return command.equals("CDUP");
+    }
 
-	@Override
-	public void execute(String[] requestTokens,
-			FTPClientConfiguration clientConfiguration) {
-		final String[] newTokens = { "CWD", ".." };
-		new FTPCwdCommand().execute(newTokens, clientConfiguration);
-	}
+    @Override
+    public void execute(String argument, FTPClientConfiguration clientConfiguration) {
+	new FTPCwdCommand().execute("..", clientConfiguration);
+    }
 
 }

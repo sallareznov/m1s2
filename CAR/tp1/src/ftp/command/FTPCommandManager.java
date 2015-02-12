@@ -8,25 +8,25 @@ import ftp.configuration.FTPClientConfiguration;
 
 public class FTPCommandManager {
 
-	private List<FTPCommand> _commands;
+    private List<FTPCommand> _commands;
 
-	public FTPCommandManager() {
-		_commands = new LinkedList<FTPCommand>();
-	}
+    public FTPCommandManager() {
+	_commands = new LinkedList<FTPCommand>();
+    }
 
-	public void addCommand(FTPCommand command) {
-		_commands.add(command);
-	}
+    public void addCommand(FTPCommand command) {
+	_commands.add(command);
+    }
 
-	public void execute(String[] requestTokens, FTPClientConfiguration clientConfiguration) {
-		final Iterator<FTPCommand> commandsIterator = _commands.iterator();
-		while (commandsIterator.hasNext()) {
-			final FTPCommand currentCommand = commandsIterator.next();
-			if (currentCommand.accept(requestTokens)) {
-				currentCommand.execute(requestTokens, clientConfiguration);
-				break;
-			}
-		}
+    public void execute(String commandString, String argument, FTPClientConfiguration clientConfiguration) {
+	final Iterator<FTPCommand> commandsIterator = _commands.iterator();
+	while (commandsIterator.hasNext()) {
+	    final FTPCommand currentCommand = commandsIterator.next();
+	    if (currentCommand.accept(commandString)) {
+		currentCommand.execute(argument, clientConfiguration);
+		break;
+	    }
 	}
+    }
 
 }

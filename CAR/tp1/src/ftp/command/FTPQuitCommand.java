@@ -6,12 +6,12 @@ import ftp.configuration.FTPClientConfiguration;
 public class FTPQuitCommand extends FTPMessageSender implements FTPCommand {
 
     @Override
-    public boolean accept(String[] requestTokens) {
-    	return requestTokens[0].equals("QUIT");
+    public boolean accept(String command) {
+	return command.equals("QUIT");
     }
 
     @Override
-    public void execute(String[] requestTokens, FTPClientConfiguration clientConfiguration) {
+    public void execute(String argument, FTPClientConfiguration clientConfiguration) {
 	// TODO Auto-generated method stub
 
     }

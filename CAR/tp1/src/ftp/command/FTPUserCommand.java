@@ -5,15 +5,15 @@ import ftp.configuration.FTPClientConfiguration;
 
 public class FTPUserCommand extends FTPMessageSender implements FTPCommand {
 
-	@Override
-	public boolean accept(String[] requestTokens) {
-		return requestTokens[0].equals("USER");
-	}
+    @Override
+    public boolean accept(String command) {
+	return command.equals("USER");
+    }
 
-	@Override
-	public void execute(String[] requestTokens, FTPClientConfiguration clientConfiguration) {
-		clientConfiguration.setUsername(requestTokens[1]);
-		sendCommandWithDefaultMessage(clientConfiguration.getConnection(), 331);
-	}
+    @Override
+    public void execute(String argument, FTPClientConfiguration clientConfiguration) {
+	clientConfiguration.setUsername(argument);
+	sendCommandWithDefaultMessage(clientConfiguration.getConnection(), 331);
+    }
 
 }

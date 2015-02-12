@@ -6,13 +6,13 @@ import ftp.configuration.FTPClientConfiguration;
 public class FTPSystCommand extends FTPMessageSender implements FTPCommand {
 
     @Override
-    public boolean accept(String[] requestTokens) {
-    	return requestTokens[0].equals("SYST");
+    public boolean accept(String command) {
+	return command.equals("SYST");
     }
 
     @Override
-    public void execute(String[] requestTokens, FTPClientConfiguration clientConfiguration) {
-    	sendCommandWithDefaultMessage(clientConfiguration.getConnection(), 215);
+    public void execute(String argument, FTPClientConfiguration clientConfiguration) {
+	sendCommandWithDefaultMessage(clientConfiguration.getConnection(), 215);
     }
 
 }
