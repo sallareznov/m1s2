@@ -8,39 +8,48 @@ import java.util.List;
  */
 public class StrandOccurences {
 
-    private List<Integer> occurences;
+	private List<Integer> occurences;
 
-    public StrandOccurences() {
-	occurences = new LinkedList<Integer>();
-    }
-
-    /**
-     * @return la liste d'occurences
-     */
-    public List<Integer> getOccurences() {
-	return occurences;
-    }
-
-    /**
-     * ajoute une occurence a la liste
-     * @param occurence l'occurence a ajouter
-     */
-    public boolean addIndex(int occurence) {
-	return occurences.add(occurence);
-    }
-
-    @Override
-    public String toString() {
-	return occurences.toString();
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-	if (obj instanceof StrandOccurences) {
-	    final StrandOccurences occurences = (StrandOccurences) obj;
-	    return occurences.equals(occurences.getOccurences());
+	public StrandOccurences() {
+		occurences = new LinkedList<Integer>();
 	}
-	return false;
-    }
+
+	/**
+	 * @return la liste d'occurences
+	 */
+	public List<Integer> getOccurences() {
+		return occurences;
+	}
+	
+	/**
+	 * @return le nombre d'occurences
+	 */
+	public int getNbOccurences() {
+		return occurences.size();
+	}
+
+	/**
+	 * ajoute une occurence a la liste
+	 * 
+	 * @param occurence
+	 *            l'occurence a ajouter
+	 */
+	public boolean addIndex(int occurence) {
+		return occurences.add(occurence);
+	}
+
+	@Override
+	public String toString() {
+		return occurences.toString();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (obj instanceof StrandOccurences) {
+			final StrandOccurences occurences = (StrandOccurences) obj;
+			return occurences.equals(occurences.getOccurences());
+		}
+		return false;
+	}
 
 }
