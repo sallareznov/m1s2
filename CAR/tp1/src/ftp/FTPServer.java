@@ -16,14 +16,18 @@ import ftp.command.FTPQuitCommand;
 import ftp.command.FTPRetrCommand;
 import ftp.command.FTPStorCommand;
 import ftp.command.FTPSystCommand;
+import ftp.command.FTPTypeCommand;
 import ftp.command.FTPUserCommand;
 import ftp.configuration.FTPServerConfiguration;
 
+/**
+ * @author  diagne
+ */
 public class FTPServer extends FTPMessageSender {
 
 	private FTPServerConfiguration _configuration;
 	private static final int DEFAULT_PORT = 1500;
-	private static final String DEFAULT_DIRECTORY = "~";
+	private static final String DEFAULT_DIRECTORY = "/home/m1/diagne/workspace";
 
 	public FTPServer(int port, String baseDirectory) {
 		_configuration = new FTPServerConfiguration(port, baseDirectory);
@@ -57,18 +61,19 @@ public class FTPServer extends FTPMessageSender {
 		final FTPServerConfiguration serverConfiguration = ftpServer
 				.getConfiguration();
 		final FTPCommandManager commandManager = new FTPCommandManager();
-		commandManager.addCommand(new FTPUserCommand());
-		commandManager.addCommand(new FTPPassCommand());
-		commandManager.addCommand(new FTPSystCommand());
-		commandManager.addCommand(new FTPPortCommand());
-		commandManager.addCommand(new FTPPasvCommand());
-		commandManager.addCommand(new FTPListCommand());
 		commandManager.addCommand(new FTPCwdCommand());
 		commandManager.addCommand(new FTPCdupCommand());
+		commandManager.addCommand(new FTPListCommand());
+		commandManager.addCommand(new FTPPassCommand());
+		commandManager.addCommand(new FTPPasvCommand());
+		commandManager.addCommand(new FTPPortCommand());
 		commandManager.addCommand(new FTPPwdCommand());
-		commandManager.addCommand(new FTPStorCommand());
-		commandManager.addCommand(new FTPRetrCommand());
 		commandManager.addCommand(new FTPQuitCommand());
+		commandManager.addCommand(new FTPRetrCommand());
+		commandManager.addCommand(new FTPStorCommand());
+		commandManager.addCommand(new FTPSystCommand());
+		commandManager.addCommand(new FTPTypeCommand());
+		commandManager.addCommand(new FTPUserCommand());
 		commandManager.addCommand(new FTPNotImplementedCommand());
 		System.out.println("--> FTP server opened on "
 				+ serverConfiguration.getAddress() + ", port "

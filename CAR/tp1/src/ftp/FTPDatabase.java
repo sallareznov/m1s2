@@ -7,6 +7,9 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @author  diagne
+ */
 public class FTPDatabase {
 
 	private static FTPDatabase INSTANCE = null;
@@ -15,7 +18,7 @@ public class FTPDatabase {
 	private Map<Integer, String> _answerCodes;
 	public static final String LOCALHOST_IP_ADDRESS = "127.0.0.1";
 	public static final String COMMAND_TOKENS_SEPARATOR = " ";
-	public static final char DIRECTORY_SEPARATOR = '/';
+	public static final String DIRECTORY_SEPARATOR = System.getProperty("file.separator");
 
 	private FTPDatabase() {
 		_accounts = new HashMap<String, String>();
@@ -60,16 +63,18 @@ public class FTPDatabase {
 	}
 
 	public void buildReturnCodes() {
+		_answerCodes.put(125, "Data connection already opened, transfer starting.");
 		_answerCodes.put(200, "PORT command successful.");
 		_answerCodes.put(212, "Directory status.");
 		_answerCodes.put(213, "File status.");
 		_answerCodes.put(215, "Remote system type is UNIX");
 		_answerCodes.put(220, "FTP server ready.");
 		_answerCodes.put(225, "Data connection open, no transfer in progress.");
+		_answerCodes.put(226, "Closing data connection, requested file action successful");
 		_answerCodes.put(227, "Entering passive mode ({0}, {1}, {2}, {3}, {4}, {5}).");
 		_answerCodes.put(230, "User logged in, proceed.");
 		_answerCodes.put(231, "User logged out, service terminated.");
-		// _answerCodes.put(257, "PATHNAME\" created");
+		_answerCodes.put(257, "{0}");
 		_answerCodes.put(331, "Username okay, need password.");
 		_answerCodes.put(332, "Need account for login.");
 		_answerCodes.put(430, "Invalid username or password.");

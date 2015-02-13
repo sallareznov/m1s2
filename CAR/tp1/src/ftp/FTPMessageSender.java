@@ -36,14 +36,16 @@ public abstract class FTPMessageSender {
 		write(connection, returnCode, message);
 	}
 
-	//
-	// public void sendParameterizedCommand(int returnCode, String message)
-	// throws IOException {
-	// write(returnCode, message);
-	// }
-
-	public void sendData() {
-
+	public void sendData(Socket dataSocket, String message) {
+		try {
+			final OutputStream outputStream = dataSocket.getOutputStream();
+			final DataOutputStream dataOutputStream = new DataOutputStream(
+					outputStream);
+			dataOutputStream.writeBytes(message);
+			dataOutputStream.flush();
+		} catch (IOException e) {
+			System.out.println("ERROR while sending data");
+		}
 	}
 
 }

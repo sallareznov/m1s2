@@ -12,8 +12,8 @@ public class FTPPwdCommand extends FTPMessageSender implements FTPCommand {
 
     @Override
     public void execute(String argument, FTPClientConfiguration clientConfiguration) {
-	// TODO Auto-generated method stub
-
+    	final String workingDirectory = clientConfiguration.getWorkingDirectory();
+    	sendFormattedCommand(clientConfiguration.getConnection(), 257, workingDirectory);
     }
 
 }
