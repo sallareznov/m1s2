@@ -2,6 +2,7 @@ package ftp.command;
 
 import java.io.File;
 
+import ftp.FTPDatabase;
 import ftp.FTPMessageSender;
 import ftp.configuration.FTPClientConfiguration;
 
@@ -19,10 +20,16 @@ public class FTPListCommand extends FTPMessageSender implements FTPCommand {
 		final String workingDirectoryPath = clientConfiguration
 				.getWorkingDirectory();
 		final File workingDirectory = new File(workingDirectoryPath);
-		final String[] directoryListing = workingDirectory.list();
+		final File[] directoryListing = workingDirectory.listFiles();
 		final StringBuilder messageBuilder = new StringBuilder();
-		for (final String entry : directoryListing) {
-			messageBuilder.append(entry + "\r\n");
+		for (final File entry : directoryListing) {
+			if (!entry.isHidden()) {
+				if (entry.isDirectory())
+					messageBuilder.append(entry.getName()
+							+ FTPDatabase.getInstance().getDirectorySeparator() + "\n");
+				else
+					messageBuilder.append(entry.getName() + "\n");
+			}
 		}
 		sendData(clientConfiguration.getDataSocket(), messageBuilder.toString());
 		sendCommandWithDefaultMessage(clientConfiguration.getConnection(), 226);

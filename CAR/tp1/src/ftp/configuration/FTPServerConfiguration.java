@@ -6,12 +6,12 @@ import java.net.Socket;
 
 public class FTPServerConfiguration {
 
-	private int _port;
-	private int _nbClients;
 	private ServerSocket _serverSocket;
-	private String _baseDirectory;
+	private int _port;
 	private Socket _connection;
-
+	private String _baseDirectory;
+	private int _nbClients;
+	
 	public FTPServerConfiguration(int port, String baseDirectory) {
 		try {
 			_port = port;

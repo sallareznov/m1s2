@@ -25,14 +25,13 @@ public class FTPPortCommand extends FTPMessageSender implements FTPCommand {
 		final int portFirstNumber = Integer.parseInt(tokenizer.nextToken());
 		final int portSecondNumber = Integer.parseInt(tokenizer.nextToken());
 		final int port = (portFirstNumber * 256) + portSecondNumber;
-		sendCommandWithDefaultMessage(clientConfiguration.getConnection(), 200);
+		sendCommandWithFormattedMessage(clientConfiguration.getConnection(), 200, "PORT");
 		try {
 			final Socket dataSocket = new Socket(
 					InetAddress.getByName(ipAddress), port);
 			clientConfiguration.setDataSocket(dataSocket);
 		} catch (IOException e) {
-			e.printStackTrace();
-			System.out.println("Error while opening the socket.");
+			sendCommandWithDefaultMessage(clientConfiguration.getConnection(), 500);
 		}
 	}
 

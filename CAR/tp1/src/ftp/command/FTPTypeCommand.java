@@ -13,7 +13,7 @@ public class FTPTypeCommand extends FTPMessageSender implements FTPCommand {
 	@Override
 	public void execute(String argument,
 			FTPClientConfiguration clientConfiguration) {
-		sendCommandWithDefaultMessage(clientConfiguration.getConnection(), 200);
+		sendCommandWithFormattedMessage(clientConfiguration.getConnection(), 200, "TYPE");
 	}
 
 }

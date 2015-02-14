@@ -1,0 +1,208 @@
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"></head><body><h1>Consignes de rendu de TP</h1>
+<a href="#Structuredufichierrendu">Structure du fichier rendu</a><br><a href="#LeREADMEreadmetxt">Le "README" (readme.txt)</a><br><a href="#Sources">Sources</a><br><a href="#Tests">Tests</a><br><a href="#Design">Design</a><br><a href="#Gestionderreur">Gestion d'erreur</a><br><a href="#Javadoc">Javadoc</a><br>
+<br>
+Les rendus de TP se font sur <a href="http://moodle.univ-lille1.fr/">Moodle</a>. <b>Il y a une date limite</b>. Les devoirs sont pénalisés d'un point par heure entamée de retard (l'heure de rendu sur Moodle fait foi).<br>
+<br>
+Vous êtes notés sur:<br>
+* Jar executable (explication comment executer)<br>
+* Structure du ZIP<br>
+* Diagramme UML<br>
+* Qualité des codes samples (dans README)<br>
+* Qualité de la documentation d'architecture (Javadoc paquetages, cf. package-info.java)<br>
+* Qualité de la documentation d'API (Javadoc niveau classe)<br>
+* Qualité de la documentation d'API (Javadoc niveau méthode, cf. <a href="http://goo.gl/jp7aG">http://goo.gl/jp7aG</a>)<br>
+* Qualité des tests<br>
+* Qualité du code: design objet. Lister dans le README les interfaces, classes abstraites&nbsp;et les méthodes polymorphiques.<br>
+* Qualité du code: gestion d'erreur. Lister dans le README les "throw new ..." et les "catch ..."<br>
+* Qualité du code: nommage, commentaires et formatage<br>
+* Programme correct <br>
+<br>
+<br>
+<a name="Structuredufichierrendu"></a><h2>Structure du fichier rendu</h2> 
+Vous devez rendre un fichier ZIP qui a la structure suivante:<br>
+- src/ (cf. ci-dessous)<br>
+- doc/ (cf. ci-dessous)<br>
+- tpXX-nom-prenom.jar (Un jar executable qui doit fonctionner tel quel, 
+sans fichiers de configuration. Compatibilité binaire/API: 1.6 (*). 
+Attention aux chemins en dur!)<br>
+- Un fichier Readme.txt (cf. ci-dessous)<br>
+- diag-uml.png (il est recommandé d'ajouter un export PNG/JPG/GIF des 
+diagrammes UML, l'éditeur UML est au choix, par exemple eUML2 ou 
+plantUML).<br>
+<br>
+Ne pas mettre les .class dans le ZIP (seulement dans le jar executable)<br>
+<br>
+(*) Properties &gt;&gt; Java Compiler &gt;&gt; Enable project specific settings &gt;&gt;
+   'Compiler compliance level - 1.5' or 'Generated .class file compatibility - 1.5'<br>
+   (TP lancé avec <code>$ java -jar tp1-nomdefamille.jar</code>)<br>
+<br>
+<br>
+<a name="LeREADMEreadmetxt"></a><h2>Le "README" (readme.txt)</h2> 
+Le readme commence par titre, auteur et date. Il est encodé en UTF-8.<br>
+<pre>Simulation d'un Opérateur de Téléphonie en Java
+Martin Monperrus
+12/12/12
+</pre>
+<b> Introduction </b><br>
+Puis vient un paragraphe d'introduction du logiciel: but, concepts et algorithmes. <br>
+Par exemple: <br>
+<i>Ce logiciel simule l'évolution de la masse d'un trou noir. L'algorithme utilisé est celui de Jane Doe (&lt;lien&gt;)</i><br>
+<br>
+<b> Architecture </b><br>
+Lister et expliquer ici les interfaces, les classes abstraites et les méthodes polymorphiques<br>
+<br>
+Lister et expliquer la gestion d'erreur:<br>
+1) détection d'erreurs <code>throw new X</code><br>
+2) résolution d'erreurs <code>catch Y</code>).<br>
+<br>
+<b> Code Samples </b><br>
+Ensuite, le readme liste 5 exemples de code (code sample) intéressants, par exemple:<br>
+- une méthode contenant un algorithme intéressant.<br>
+- une liste de classes impliquées dans un design pattern<br>
+- une jolie optimisation <br>
+<br>
+Un code sample doit être introduit en 2 phrases maximales, l'essentiel 
+des explications vient ensuite dans des commentaires en ligne (<code>//</code>). <br>
+<br>
+Un code sample ne doit pas être long (&lt;20 lignes) ne doit pas être 
+trop profond (&lt;3 niveaux d'indentations), peut contenir des "trois 
+petits points" ... pour abstraire les détails.<br>
+Les code samples du readme sont indentés avec 2 espaces.<br>
+<br>
+<b> Style du Readme</b><br>
+Les explications utilisent la troisième personne ("la fonction 
+renvoie"), parfois le passif ("le paramètre est lu par ...."). Les 
+"je"/"vous"/"nous" sont proscrits. Evitez les phrases longues et les 
+fautes d'orthographe et de grammaire.<br>
+<br>
+<b> Format </b><br>
+Le readme est encodé en UTF-8. Il est recommandé d'utiliser la syntaxe Markdown ou RST.<br>
+<br>
+Voici un exemple de Readme: <a href="http://www.fil.univ-lille1.fr/%7Emonperrus/Readme.txt">http://www.fil.univ-lille1.fr/~monperrus/Readme.txt</a><br>
+<br>
+<a name="Sources"></a><h2>Sources</h2> 
+<br>
+Les classes sans paquetage sont interdites (i.e. no "default package"). 
+Utilisez des noms de paquetage sémantiques et discriminants (votre nom 
+de paquetage doit être unique).<br>
+<br>
+Les sources doivent contenir une classe nommée "Main". <br>
+Les sources doivent être bien formatées (utilisez Eclipse pour ce faire).<br>
+Les sources ne doivent contenir aucuns "TODO".<br>
+Les sources doivent être en UTF-8.<br>
+Les sources ne doivent pas mixer espaces et tabulations pour 
+l'indentation (vous pouvez utiliser le "Format" automatique d'Eclipse 
+(Ctrl-Shift-F).<br>
+<br>
+NB: il y aura des recherches automatiques de plagiat<br>
+<br>
+<a name="Tests"></a><h2>Tests</h2> 
+<br>
+Le paquetage de test commence par test.* (par exemple, test.tourdefrance).<br>
+<br>
+Lecture importante: <a href="http://www.monperrus.net/martin/the-game-of-unit-tests">http://www.monperrus.net/martin/the-game-of-unit-tests</a><br>
+<br>
+Il <b>doit</b> y avoir au moins une assertion par méthode de test.<br>
+<br>
+Les assertions ont toujours la valeur attendue en premier: <b>EXCEPTED</b>, actual.<br>
+<br>
+La valeur attendue est codée en dur: 10, "name".<br>
+<br>
+Pour tester une exception attendue, deux solutions:<br>
+<pre>@Test(expected=MyException.class)
+void test1() {
+  doit();
+}
+
+@Test
+void test2() {
+ try {
+   doit();
+   Assert.fail();
+ catch (MyException e) {
+  // expecting an exception
+ }
+}
+</pre>
+<code>assertEquals(3,obj.getData())</code> est bien mieux que <s><code>assertTrue(obj.getData() == 3)</code></s>. <s><code>assertEquals(obj.getData(),3)</code></s> est faux: la première valeur est celle attendue.<br>
+<br>
+Pour en savoir plus sur les mocks, cf <a href="http://www.monperrus.net/martin/introduction-to-mocks-for-unit-tests">http://www.monperrus.net/martin/introduction-to-mocks-for-unit-tests</a>.<br>
+<br>
+<a name="Design"></a><h2>Design</h2> 
+Ne pas utiliser de variables statiques.<br>
+<br>
+Les champs/attributs sont "private" (de préférence), voire "protected".<br>
+<br>
+<a name="Gestionderreur"></a><h2>Gestion d'erreur</h2> 
+<br>
+Le design de gestion d'erreur a pour but qu'un utilisateur buggé ou malicieux ne crashe pas l'application.<br>
+<br>
+Evitez les try imbriqués.<br>
+<br>
+Préférez la gestion des erreurs par catch au code defensif.<br>
+<s> if (obj == null) {</s><br>
+Utilisez largement le "throws Exception" dans les signatures de méthode.<br>
+<br>
+Les catchs vides doivent être documentés (pourquoi est-ce correct d'ignorer l'exception?).<br>
+<br>
+Les "e.printStackTrace()" sont interdits. Utilisez "throw new RuntimeException(e)" à la place.<br>
+<br>
+Il y a plusieurs sortes de déclaration d'exception:<br>
+<pre>// la plus simple
+class MyException extends Exception {}
+class MyException extends RuntimeException {}
+
+// avec message
+// avec message fixe
+class MyException extends Exception { // ou RuntimeException
+  public MyException() {
+    super("une phrase sujet/verbe qui ne contient pas de typos");
+  }
+}
+// avec message variable
+class MyException extends Exception { // ou RuntimeException
+  public MyException(String msg) {
+    super(msg);
+  }
+}
+
+// avec état
+class ColisInvalideException extends RuntimeException {
+  final Colis c;
+  public MyException(Colis c) {
+    super();
+    this.c = c
+  }
+}
+</pre>
+Ce qu'il ne faut pas faire:<br>
+<pre>// des System.out dans du code d'exception
+class MyException extends Exception { 
+  public MyException() {
+    <s>System.out.printlne("problème");</s>
+  }
+}
+
+// dupliquer le message
+class MyException extends Exception { 
+  <s>String msg;</s>
+  public MyException(String msg) {
+    super(msg); 
+    <s>this.msg = msg;</s>
+  }
+}
+</pre>
+<a name="Javadoc"></a><h2>Javadoc</h2> 
+<br>
+La page <a href="http://www.monperrus.net/martin/how-to-write-good-API-documentation">http://www.monperrus.net/martin/how-to-write-good-API-documentation</a> donne des informations sur ce qu'il faut mettre dans la Javadoc.<br>
+<br>
+NB:<br>
+&nbsp;&nbsp;- package-info.java dans chaque répertoire de source<br>
+&nbsp;&nbsp;- Les Javadoc de classe et interface sont les plus importants.<br>
+&nbsp;&nbsp;- Les Javadoc de setter et getter simples peuvent être omis.<br>
+ &nbsp;&nbsp;- Les Javadoc des méthodes privées peuvent être omis.<br>
+<br>
+Configurez votre IDE (e.g. Eclipse) pour avoir des beaux @author:<br>
+<code>@author Julia Damlencour</code><br>
+<form method="get"><input name="edit" type="hidden"><input name="page" value="consigne-tp" type="hidden"><input class="button" value="Edit" type="submit"></form></body></html>
