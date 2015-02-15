@@ -8,28 +8,31 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Properties;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class FTPDatabase {
 
 	private static FTPDatabase INSTANCE = null;
 	private Map<String, String> _validAccounts;
-	private Map<Integer, String> _answerCodes;
+	private Map<Integer, String> _codesAndMessages;
 	private AtomicInteger _idGenerator;
 	private String _accountsFilename;
-	private final String CONFIG_PROPERTIES_FILENAME = "config.properties";
 	private String _localhostIpAddress;
 	private String _directorySeparator;
+	private final String CONFIG_PROPERTIES_FILENAME = "conf/config.properties";
+	private final String MESSAGES_PROPERTIES_FILENAME = "conf/messages.properties";
 
 	private FTPDatabase() {
 		_validAccounts = new HashMap<String, String>();
-		_answerCodes = new HashMap<Integer, String>();
+		_codesAndMessages = new HashMap<Integer, String>();
 		_idGenerator = new AtomicInteger();
 		_directorySeparator = System.getProperty("file.separator");
 		setProperties();
 		retrieveAccounts();
-		buildReturnCodes();
+		buildCodesAndMessages();
 	}
 	
 	public String getDirectorySeparator() {
@@ -58,7 +61,7 @@ public class FTPDatabase {
 	}
 
 	public String getMessage(int answerCode) {
-		return _answerCodes.get(answerCode);
+		return _codesAndMessages.get(answerCode);
 	}
 	
 	private void setProperties() {
@@ -71,7 +74,7 @@ public class FTPDatabase {
 			propertiesInputStream.close();
 		}
 		catch (IOException e) {
-			
+			System.err.println("ERROR while opening or loading the file");
 		}
 	}
 
@@ -93,31 +96,18 @@ public class FTPDatabase {
 		}
 	}
 
-	private void buildReturnCodes() {
-		_answerCodes.put(125, "Data connection already opened, transfer starting.");
-		_answerCodes.put(150, "File status okay, about to open data connection.");
-		_answerCodes.put(200, "{0} command successful.");
-		_answerCodes.put(212, "Directory status.");
-		_answerCodes.put(213, "File status.");
-		_answerCodes.put(215, "Remote system type is UNIX");
-		_answerCodes.put(220, "FTP server ready.");
-		_answerCodes.put(225, "Data connection open, no transfer in progress.");
-		_answerCodes.put(226, "Closing data connection, requested file action successful");
-		_answerCodes.put(227, "={0}, {1}, {2}, {3}, {4}, {5}");
-		_answerCodes.put(230, "User logged in, proceed.");
-		_answerCodes.put(231, "User logged out, service terminated.");
-		_answerCodes.put(257, "{0}");
-		_answerCodes.put(331, "Username okay, need password.");
-		_answerCodes.put(332, "Need account for login.");
-		_answerCodes.put(430, "Invalid username or password.");
-		_answerCodes.put(452, "Requested action not taken. File busy.");
-		_answerCodes.put(500, "Command failed to execute.");
-		_answerCodes.put(502, "Command not implemented.");
-		_answerCodes.put(504, "Command not implemented for that parameter.");
-		_answerCodes.put(530, "Not logged in.");
-		_answerCodes.put(532,
-				"Need account for storing files in directory {0} . ");
-		_answerCodes.put(550, "Requested action not taken. File unavailable");
+	private void buildCodesAndMessages() {
+		try {
+			final Properties messageProperties = new Properties();
+			final InputStream messagesInputStream = new FileInputStream(MESSAGES_PROPERTIES_FILENAME);
+			messageProperties.load(messagesInputStream);
+			final Set<Entry<Object, Object>> messages = messageProperties.entrySet();
+			for (final Entry<Object, Object> messageEntry : messages) {
+				_codesAndMessages.put((Integer) messageEntry.getKey(), (String) messageEntry.getValue());
+			}
+		} catch (IOException e) {
+			System.err.println("ERROR while opening or loading the file");
+		}
 	}
 
 }
