@@ -1,9 +1,6 @@
 package ftp;
 
-import java.io.BufferedReader;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -19,22 +16,23 @@ public class FTPDatabase {
 	private Map<String, String> _validAccounts;
 	private Map<Integer, String> _codesAndMessages;
 	private AtomicInteger _idGenerator;
-	private String _accountsFilename;
 	private String _localhostIpAddress;
 	private String _directorySeparator;
-	private final String CONFIG_PROPERTIES_FILENAME = "conf/config.properties";
+	private Properties _propertiesManager;
+	private final String ACCOUNTS_PROPERTIES_FILENAME = "conf/accounts.properties";
 	private final String MESSAGES_PROPERTIES_FILENAME = "conf/messages.properties";
 
 	private FTPDatabase() {
 		_validAccounts = new HashMap<String, String>();
 		_codesAndMessages = new HashMap<Integer, String>();
 		_idGenerator = new AtomicInteger();
+		_propertiesManager = new Properties();
 		_directorySeparator = System.getProperty("file.separator");
-		setProperties();
+		_localhostIpAddress = "127.0.0.1";
 		retrieveAccounts();
 		buildCodesAndMessages();
 	}
-	
+
 	public String getDirectorySeparator() {
 		return _directorySeparator;
 	}
@@ -55,7 +53,7 @@ public class FTPDatabase {
 	public Map<String, String> getAccounts() {
 		return _validAccounts;
 	}
-	
+
 	public AtomicInteger getIdGenerator() {
 		return _idGenerator;
 	}
@@ -63,50 +61,35 @@ public class FTPDatabase {
 	public String getMessage(int answerCode) {
 		return _codesAndMessages.get(answerCode);
 	}
-	
-	private void setProperties() {
-		try {
-			final Properties configProperties = new Properties();
-			final InputStream propertiesInputStream = new FileInputStream(CONFIG_PROPERTIES_FILENAME);
-			configProperties.load(propertiesInputStream);
-			_accountsFilename = configProperties.getProperty("accountsFilename");
-			_localhostIpAddress = configProperties.getProperty("localhostIpAddress");
-			propertiesInputStream.close();
-		}
-		catch (IOException e) {
-			System.err.println("ERROR while opening or loading the file");
-		}
-	}
 
-	private void retrieveAccounts() {
-		BufferedReader reader = null;
+	private Set<Entry<Object, Object>> setProperties(String filename) {
 		try {
-			reader = new BufferedReader(new FileReader(_accountsFilename));
-			String line = null;
-			while ((line = reader.readLine()) != null) {
-				final String[] result = line.split(" ");
-				_validAccounts.put(result[0], result[1]);
-			}
-			reader.close();
-		} catch (FileNotFoundException e) {
-			System.err.println("Le fichier n'existe pas");
+			final InputStream filenameInputStream = new FileInputStream(
+					filename);
+			_propertiesManager.clear();
+			_propertiesManager.load(filenameInputStream);
 		} catch (IOException e) {
 			System.err
 					.println("I/O error while reading a line or closing the reader");
 		}
+		return _propertiesManager.entrySet();
+	}
+
+	private void retrieveAccounts() {
+		final Set<Entry<Object, Object>> accounts = setProperties(ACCOUNTS_PROPERTIES_FILENAME);
+		for (final Entry<Object, Object> accountEntry : accounts) {
+			final String username = (String) accountEntry.getKey();
+			final String password = (String) accountEntry.getValue();
+			_validAccounts.put(username, password);
+		}
 	}
 
 	private void buildCodesAndMessages() {
-		try {
-			final Properties messageProperties = new Properties();
-			final InputStream messagesInputStream = new FileInputStream(MESSAGES_PROPERTIES_FILENAME);
-			messageProperties.load(messagesInputStream);
-			final Set<Entry<Object, Object>> messages = messageProperties.entrySet();
-			for (final Entry<Object, Object> messageEntry : messages) {
-				_codesAndMessages.put((Integer) messageEntry.getKey(), (String) messageEntry.getValue());
-			}
-		} catch (IOException e) {
-			System.err.println("ERROR while opening or loading the file");
+		final Set<Entry<Object, Object>> messages = setProperties(MESSAGES_PROPERTIES_FILENAME);
+		for (final Entry<Object, Object> messageEntry : messages) {
+			final String returnCodeString = (String) messageEntry.getKey();
+			final String message = (String) messageEntry.getValue();
+			_codesAndMessages.put(Integer.parseInt(returnCodeString), message);
 		}
 	}
 
