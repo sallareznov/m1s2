@@ -19,11 +19,8 @@ import fr.lri.swingstates.debug.StateMachineVisualization;
 import fr.lri.swingstates.sm.State;
 import fr.lri.swingstates.sm.Transition;
 import fr.lri.swingstates.sm.transitions.Release;
+import fr.lri.swingstates.sm.transitions.TimeOut;
 
-/**
- * @author Nicolas Roussel (roussel@lri.fr)
- *
- */
 public class SimpleButton {
 
     private CText label;
@@ -115,6 +112,9 @@ public class SimpleButton {
 	        };
 	    };
 	    sm.attachTo(canvas);
+	    sm.armTimer(500, false);
+	    
+	    final TimeOut test = new TimeOut("pressedShape");
     }
 
     public void action() {
