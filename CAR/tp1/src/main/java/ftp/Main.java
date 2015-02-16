@@ -1,5 +1,13 @@
 package ftp;
 
+import java.io.IOException;
+
+import org.apache.log4j.ConsoleAppender;
+import org.apache.log4j.FileAppender;
+import org.apache.log4j.HTMLLayout;
+import org.apache.log4j.Logger;
+import org.apache.log4j.SimpleLayout;
+
 import ftp.command.FTPCdupCommand;
 import ftp.command.FTPCommandManager;
 import ftp.command.FTPCwdCommand;
@@ -18,7 +26,7 @@ import ftp.command.FTPUserCommand;
 import ftp.configuration.FTPServerConfiguration;
 
 public class Main {
-
+	
 	public static void main(String[] args) {
 		final FTPServer ftpServer = new FTPServer(1500,
 				System.getProperty("user.home"));
@@ -39,9 +47,21 @@ public class Main {
 		commandManager.addCommand(new FTPTypeCommand());
 		commandManager.addCommand(new FTPUserCommand());
 		commandManager.addCommand(new FTPNotImplementedCommand());
-		System.out.println("--> FTP server opened on "
+		final Logger logger = Logger.getLogger(Main.class);
+		final ConsoleAppender console = new ConsoleAppender();
+		console.setLayout(new SimpleLayout());
+		console.activateOptions();
+		logger.addAppender(console);
+		try {
+			logger.addAppender(new FileAppender(new HTMLLayout(), "test.html"));
+		} catch (IOException e) {
+		}
+		logger.info("--> FTP server opened on "
 				+ serverConfiguration.getAddress() + ", port "
 				+ serverConfiguration.getPort());
+//		System.out.println("--> FTP server opened on "
+//				+ serverConfiguration.getAddress() + ", port "
+//				+ serverConfiguration.getPort());
 		while (true) {
 			ftpServer.connectToClient();
 			serverConfiguration.addClient();

@@ -6,7 +6,7 @@ import java.io.OutputStream;
 import java.net.Socket;
 import java.text.MessageFormat;
 
-public abstract class FTPMessageSender {
+public abstract class FTPMessageSender extends FTPLoggable {
 	
 	public void sendCommandWithDefaultMessage(Socket connection, int returnCode) {
 		final FTPDatabase database = FTPDatabase.getInstance();
