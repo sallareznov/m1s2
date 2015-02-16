@@ -1,6 +1,5 @@
 package ftp;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -19,8 +18,8 @@ public class FTPDatabase {
 	private String _localhostIpAddress;
 	private String _directorySeparator;
 	private Properties _propertiesManager;
-	private final String ACCOUNTS_PROPERTIES_FILENAME = "conf/accounts.properties";
-	private final String MESSAGES_PROPERTIES_FILENAME = "conf/messages.properties";
+	private final String ACCOUNTS_PROPERTIES_FILENAME = "/accounts.properties";
+	private final String MESSAGES_PROPERTIES_FILENAME = "/messages.properties";
 
 	private FTPDatabase() {
 		_validAccounts = new HashMap<String, String>();
@@ -32,15 +31,7 @@ public class FTPDatabase {
 		retrieveAccounts();
 		buildCodesAndMessages();
 	}
-
-	public String getDirectorySeparator() {
-		return _directorySeparator;
-	}
-
-	public String getLocalhostIpAddress() {
-		return _localhostIpAddress;
-	}
-
+	
 	public static FTPDatabase getInstance() {
 		synchronized (FTPDatabase.class) {
 			if (INSTANCE == null) {
@@ -48,6 +39,14 @@ public class FTPDatabase {
 			}
 		}
 		return INSTANCE;
+	}
+
+	public String getDirectorySeparator() {
+		return _directorySeparator;
+	}
+
+	public String getLocalhostIpAddress() {
+		return _localhostIpAddress;
 	}
 
 	public Map<String, String> getAccounts() {
@@ -64,8 +63,7 @@ public class FTPDatabase {
 
 	private Set<Entry<Object, Object>> setProperties(String filename) {
 		try {
-			final InputStream filenameInputStream = new FileInputStream(
-					filename);
+			final InputStream filenameInputStream = FTPDatabase.class.getResourceAsStream(filename);
 			_propertiesManager.clear();
 			_propertiesManager.load(filenameInputStream);
 		} catch (IOException e) {

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>ftp</name>
-	<comment>@key 32303037303533312D31303030206674702F646961676E65 </comment>
+	<name>tp1</name>
+	<comment></comment>
 	<projects>
 	</projects>
 	<buildSpec>
@@ -11,13 +11,14 @@
 			</arguments>
 		</buildCommand>
 		<buildCommand>
-			<name>com.soyatec.additional.Builder</name>
+			<name>org.eclipse.m2e.core.maven2Builder</name>
 			<arguments>
 			</arguments>
 		</buildCommand>
 	</buildSpec>
 	<natures>
+		<nature>org.sonar.ide.eclipse.core.sonarNature</nature>
 		<nature>org.eclipse.jdt.core.javanature</nature>
-		<nature>com.soyatec.additional.Nature</nature>
+		<nature>org.eclipse.m2e.core.maven2Nature</nature>
 	</natures>
 </projectDescription>

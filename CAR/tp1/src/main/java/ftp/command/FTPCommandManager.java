@@ -1,6 +1,5 @@
 package ftp.command;
 
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -20,11 +19,9 @@ public class FTPCommandManager {
 
 	public void execute(String commandString, String argument,
 			FTPClientConfiguration clientConfiguration) {
-		final Iterator<FTPCommand> commandsIterator = _commands.iterator();
-		while (commandsIterator.hasNext()) {
-			final FTPCommand currentCommand = commandsIterator.next();
-			if (currentCommand.accept(commandString)) {
-				currentCommand.execute(argument, clientConfiguration);
+		for (final FTPCommand command : _commands) {
+			if (command.accept(commandString)) {
+				command.execute(argument, clientConfiguration);
 				break;
 			}
 		}

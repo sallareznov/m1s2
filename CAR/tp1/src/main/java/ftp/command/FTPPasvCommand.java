@@ -19,20 +19,20 @@ public class FTPPasvCommand extends FTPMessageSender implements FTPCommand {
 	public void execute(String argument,
 			FTPClientConfiguration clientConfiguration) {
 		final Object[] answerTokens = new String[6];
-		final String ipAddress = FTPDatabase.getInstance().getLocalhostIpAddress();
+		final String ipAddress = FTPDatabase.getInstance()
+				.getLocalhostIpAddress();
 		final StringTokenizer tokenizer = new StringTokenizer(ipAddress, ".");
-		for (int i = 0 ; i < 4 ; i++) {
+		for (int i = 0; i < 4; i++) {
 			answerTokens[i] = tokenizer.nextToken();
 		}
 		final int port = clientConfiguration.getConnection().getLocalPort() + 1;
 		answerTokens[4] = (port / 256) + "";
 		answerTokens[5] = Integer.toHexString(port % 256);
-		sendCommandWithFormattedMessage(clientConfiguration.getConnection(), 227,
-				answerTokens);
+		sendCommandWithFormattedMessage(clientConfiguration.getConnection(),
+				227, answerTokens);
 		try {
 			final Socket dataSocket = new Socket(
-					InetAddress.getByName(ipAddress),
-					port);
+					InetAddress.getByName(ipAddress), port);
 			clientConfiguration.setDataSocket(dataSocket);
 		} catch (Exception e) {
 			e.printStackTrace();

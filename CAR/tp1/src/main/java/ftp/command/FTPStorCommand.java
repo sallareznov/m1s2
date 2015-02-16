@@ -30,7 +30,6 @@ public class FTPStorCommand extends FTPMessageSender implements FTPCommand {
 				fileOutputStream.write(data);
 			}
 			fileOutputStream.close();
-			System.out.println("???");
 			sendCommandWithDefaultMessage(connection, 226);
 		} catch (FileNotFoundException e) {
 			sendCommandWithDefaultMessage(clientConfiguration.getConnection(),
