@@ -19,16 +19,32 @@ import ftp.configuration.FTPServerConfiguration;
 
 public class Main {
 
-	public static void usage() {
-
+	private static void usage() {
+		System.err.println("java -jar ftpServer.jar [port] [baseDirectory]");
+		System.err.println("\tport : port number (> 1023)");
+		System.err.println("\tbaseDirectory : base directory");
 	}
 
 	public static void main(String[] args) {
+		if (args.length < 2) {
+			usage();
+			return;
+		}
 		// l'unique base de données qui sera partagée est initialisée
 		final FTPDatabase ftpDatabase = new FTPDatabase();
 		// création d'un serveur FTP
-		final FTPServer ftpServer = new FTPServer(1500,
-				System.getProperty("user.home"), ftpDatabase);
+		int port = 0;
+		try {
+			port = Integer.parseInt(args[0]);	
+		}
+		catch (NumberFormatException e) {
+			throw new IllegalArgumentException("Le port est un entier > 1023"); 
+		}
+		if (port <= 1023) {
+			throw new IllegalArgumentException("Le port est un entier > 1023"); 
+		}
+		final FTPServer ftpServer = new FTPServer(port,
+				args[1], ftpDatabase);
 		final FTPServerConfiguration serverConfiguration = ftpServer
 				.getConfiguration();
 		// création et initialisation du manager de commandes

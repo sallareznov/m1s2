@@ -21,6 +21,7 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import ftp.FTPDatabase;
 import ftp.configuration.FTPClientConfiguration;
 
+@RunWith(PowerMockRunner.class)
 @PrepareForTest(MessageFormat.class)
 public class FTPPwdCommandTest {
 	
@@ -54,7 +55,7 @@ public class FTPPwdCommandTest {
 			fail();
 		}
 		PowerMock.mockStatic(MessageFormat.class);
-		Mockito.when(MessageFormat.format(Mockito.anyString(), Mockito.any())).thenReturn(workingDirectory);
+		Mockito.when(MessageFormat.format(Mockito.anyString(), Mockito.anyString())).thenReturn(workingDirectory);
 		Mockito.when(clientConfiguration.getConnection()).thenReturn(connection);
 		_pwdCommand.execute(uselessArgument, clientConfiguration);
 		Mockito.verify(_database).getMessage(257);
