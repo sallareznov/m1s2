@@ -14,8 +14,8 @@ public class FTPDatabase {
 	private Map<Integer, String> _codesAndMessages;
 	private String _localhostIpAddress;
 	private Properties _propertiesManager;
-	private final String ACCOUNTS_PROPERTIES_FILENAME = "/accounts.properties";
-	private final String MESSAGES_PROPERTIES_FILENAME = "/messages.properties";
+	private final String ACCOUNTS_PROPERTIES_FILENAME = "conf/accounts.properties";
+	private final String MESSAGES_PROPERTIES_FILENAME = "conf/messages.properties";
 
 	public FTPDatabase() {
 		_validAccounts = new HashMap<String, String>();
