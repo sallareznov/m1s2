@@ -6,8 +6,15 @@ import ftp.FTPDatabase;
 import ftp.FTPMessageSender;
 import ftp.configuration.FTPClientConfiguration;
 
+/**
+ * Class representing the LIST command
+ */
 public class FTPListCommand extends FTPMessageSender implements FTPCommand {
 	
+	/**
+	 * constructs a LIST command
+	 * @param database the database
+	 */
 	public FTPListCommand(FTPDatabase database) {
 		super(database);
 	}

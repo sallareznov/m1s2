@@ -29,7 +29,7 @@ public class FTPStorCommand extends FTPMessageSender implements FTPCommand {
 					argument);
 			int data = 0;
 			final Socket connection = clientConfiguration.getConnection();
-			final InputStream connectionInputStream = connection
+			final InputStream connectionInputStream = clientConfiguration.getDataSocket()
 					.getInputStream();
 			while ((data = connectionInputStream.read()) != -1) {
 				fileOutputStream.write(data);
@@ -40,7 +40,7 @@ public class FTPStorCommand extends FTPMessageSender implements FTPCommand {
 			sendCommandWithDefaultMessage(clientConfiguration.getConnection(),
 					550);
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.err.println("Cannot store " + argument);
 		}
 	}
 

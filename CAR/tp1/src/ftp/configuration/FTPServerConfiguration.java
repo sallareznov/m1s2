@@ -11,14 +11,12 @@ public class FTPServerConfiguration {
 	private int _port;
 	private Socket _connection;
 	private String _baseDirectory;
-	private int _nbClients;
 	private AtomicInteger _idGenerator;
 	private String _directorySeparator;
 	
 	public FTPServerConfiguration(int port, String baseDirectory) {
 		try {
 			_port = port;
-			_nbClients = 0;
 			_serverSocket = new ServerSocket(port);
 			_baseDirectory = baseDirectory;
 			_idGenerator = new AtomicInteger();
@@ -42,14 +40,6 @@ public class FTPServerConfiguration {
 
 	public int getPort() {
 		return _port;
-	}
-
-	public int getNbClients() {
-		return _nbClients;
-	}
-	
-	public void addClient() {
-		_nbClients++;
 	}
 
 	public ServerSocket getServerSocket() {

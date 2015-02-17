@@ -5,10 +5,19 @@ import java.net.ServerSocket;
 
 import ftp.configuration.FTPServerConfiguration;
 
+/**
+ * Classe representing a FTP server
+ */
 public class FTPServer extends FTPMessageSender {
 
 	private FTPServerConfiguration _configuration;
 
+	/**
+	 * constructs a new FTP server
+	 * @param port the listening port
+	 * @param baseDirectory the base directory
+	 * @param database the database
+	 */
 	public FTPServer(int port, String baseDirectory, FTPDatabase database) {
 		super(database);
 		_configuration = new FTPServerConfiguration(port, baseDirectory);
@@ -18,6 +27,9 @@ public class FTPServer extends FTPMessageSender {
 		return _configuration;
 	}
 
+	/**
+	 * attempts to connect to a client
+	 */
 	public void connectToClient() {
 		try {
 			final ServerSocket serverSocket = _configuration.getServerSocket();
@@ -27,7 +39,10 @@ public class FTPServer extends FTPMessageSender {
 		}
 	}
 
-	public void closeServer() {
+	/**
+	 * closes the server
+	 */
+	public void close() {
 		try {
 			final ServerSocket serverSocket = _configuration.getServerSocket();
 			serverSocket.close();

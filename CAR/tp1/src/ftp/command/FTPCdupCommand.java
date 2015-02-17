@@ -4,8 +4,15 @@ import ftp.FTPDatabase;
 import ftp.FTPMessageSender;
 import ftp.configuration.FTPClientConfiguration;
 
+/**
+ * Class representing a CDUP command
+ */
 public class FTPCdupCommand extends FTPMessageSender implements FTPCommand {
 	
+	/**
+	 * constructs a CDUP command
+	 * @param database the database
+	 */
 	public FTPCdupCommand(FTPDatabase database) {
 		super(database);
 	}

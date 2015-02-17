@@ -1,5 +1,6 @@
 package ftp;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -8,6 +9,9 @@ import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Set;
 
+/**
+ * Class representing a database
+ */
 public class FTPDatabase {
 
 	private Map<String, String> _validAccounts;
@@ -17,6 +21,9 @@ public class FTPDatabase {
 	private final String ACCOUNTS_PROPERTIES_FILENAME = "conf/accounts.properties";
 	private final String MESSAGES_PROPERTIES_FILENAME = "conf/messages.properties";
 
+	/**
+	 * constructs the database
+	 */
 	public FTPDatabase() {
 		_validAccounts = new HashMap<String, String>();
 		_codesAndMessages = new HashMap<Integer, String>();
@@ -34,13 +41,17 @@ public class FTPDatabase {
 		return _validAccounts;
 	}
 	
+	/**
+	 * @param answerCode
+	 * @return the message associated to the answer code
+	 */
 	public String getMessage(int answerCode) {
 		return _codesAndMessages.get(answerCode);
 	}
 
 	private Set<Entry<Object, Object>> setProperties(String filename) {
 		try {
-			final InputStream filenameInputStream = FTPDatabase.class.getResourceAsStream(filename);
+			final InputStream filenameInputStream = new FileInputStream(filename);
 			_propertiesManager.clear();
 			_propertiesManager.load(filenameInputStream);
 		} catch (IOException e) {

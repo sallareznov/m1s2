@@ -9,8 +9,15 @@ import ftp.FTPDatabase;
 import ftp.FTPMessageSender;
 import ftp.configuration.FTPClientConfiguration;
 
+/**
+ * Class representing the PORT command
+ */
 public class FTPPortCommand extends FTPMessageSender implements FTPCommand {
 	
+	/**
+	 * constructs a PORT command
+	 * @param database the database
+	 */
 	public FTPPortCommand(FTPDatabase database) {
 		super(database);
 	}

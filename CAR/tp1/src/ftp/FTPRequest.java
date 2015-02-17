@@ -1,10 +1,17 @@
 package ftp;
 
+/**
+ * Class representing an FTP request
+ */
 public class FTPRequest {
 
 	private String _command;
 	private String _argument;
 
+	/**
+	 * constructs a FTP request
+	 * @param request the entire request
+	 */
 	public FTPRequest(String request) {
 		final String[] requestTokens = request.split(" ");
 		_command = requestTokens[0];

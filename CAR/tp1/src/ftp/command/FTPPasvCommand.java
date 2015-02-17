@@ -8,8 +8,15 @@ import ftp.FTPDatabase;
 import ftp.FTPMessageSender;
 import ftp.configuration.FTPClientConfiguration;
 
+/**
+ * Class representing the PASV command
+ */
 public class FTPPasvCommand extends FTPMessageSender implements FTPCommand {
 
+	/**
+	 * constructs a PASV command
+	 * @param database the database
+	 */
 	public FTPPasvCommand(FTPDatabase database) {
 		super(database);
 	}

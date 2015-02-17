@@ -6,8 +6,15 @@ import ftp.FTPDatabase;
 import ftp.FTPMessageSender;
 import ftp.configuration.FTPClientConfiguration;
 
+/**
+ * Class representing a PASS command
+ */
 public class FTPPassCommand extends FTPMessageSender implements FTPCommand {
 
+	/**
+	 * constructs a PASS command
+	 * @param database the database
+	 */
 	public FTPPassCommand(FTPDatabase database) {
 		super(database);
 	}

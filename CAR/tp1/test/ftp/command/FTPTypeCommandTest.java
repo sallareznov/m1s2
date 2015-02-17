@@ -9,33 +9,36 @@ import java.io.OutputStream;
 import java.net.Socket;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mockito;
 
 import ftp.FTPDatabase;
 import ftp.configuration.FTPClientConfiguration;
 
-public class FTPUserCommandTest {
-	
-	private FTPCommand _userCommand;
-	private FTPDatabase _database; 
-	
+public class FTPTypeCommandTest {
+
+	private FTPCommand _typeCommand;
+	private FTPDatabase _database;
+
 	@Before
-	public void setUp() {
+	public void setUp() throws Exception {
 		_database = Mockito.mock(FTPDatabase.class);
-		_userCommand = new FTPUserCommand(_database);
+		_typeCommand = new FTPTypeCommand(_database);
 	}
 
 	@Test
 	public void testAccept() {
-		assertTrue(_userCommand.accept("USER"));
-		assertFalse(_userCommand.accept("DUMB"));
+		assertTrue(_typeCommand.accept("TYPE"));
+		assertFalse(_typeCommand.accept("TYPE"));
 	}
 
 	@Test
+	@Ignore
 	public void testExecute() {
-		final String username = "anonymous";
-		final FTPClientConfiguration clientConfiguration = Mockito.mock(FTPClientConfiguration.class); 
+		final String uselessArgument = "useless";
+		final FTPClientConfiguration clientConfiguration = Mockito
+				.mock(FTPClientConfiguration.class);
 		final Socket connection = Mockito.mock(Socket.class);
 		final OutputStream outputStream = Mockito.mock(OutputStream.class);
 		try {
@@ -43,10 +46,10 @@ public class FTPUserCommandTest {
 		} catch (IOException e) {
 			fail();
 		}
-		Mockito.when(clientConfiguration.getConnection()).thenReturn(connection);
-		_userCommand.execute(username, clientConfiguration);
-		Mockito.verify(clientConfiguration).setUsername(username);
-		Mockito.verify(_database).getMessage(331);
+		Mockito.when(clientConfiguration.getConnection())
+				.thenReturn(connection);
+		_typeCommand.execute(uselessArgument, clientConfiguration);
+		Mockito.verify(_database).getMessage(200);
 	}
 
 }

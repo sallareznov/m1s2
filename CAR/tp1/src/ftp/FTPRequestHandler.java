@@ -10,12 +10,21 @@ import ftp.command.FTPCommandManager;
 import ftp.configuration.FTPClientConfiguration;
 import ftp.configuration.FTPServerConfiguration;
 
+/**
+ * Class representing a request handler
+ */
 public class FTPRequestHandler extends FTPMessageSender implements Runnable {
 
 	private FTPClientConfiguration _clientConfiguration;
 	private FTPCommandManager _commandManager;
 
-	public FTPRequestHandler(FTPDatabase database, FTPServerConfiguration serverConfiguration,
+	/**
+	 * @param database the database
+	 * @param serverConfiguration the configuration of the server
+	 * @param commandManager the command manager
+	 */
+	public FTPRequestHandler(FTPDatabase database,
+			FTPServerConfiguration serverConfiguration,
 			FTPCommandManager commandManager) {
 		super(database);
 		_clientConfiguration = new FTPClientConfiguration(serverConfiguration);
@@ -47,30 +56,13 @@ public class FTPRequestHandler extends FTPMessageSender implements Runnable {
 		}
 	}
 
+	/**
+	 * treatment following a request received
+	 * @param request the request
+	 */
 	public synchronized void processRequest(FTPRequest request) {
 		_commandManager.execute(request.getCommand(), request.getArgument(),
 				_clientConfiguration);
 	}
-	
-	// private void processCwd(String directory) throws IOException {
-	// String newDirectoryPath = directory.replace("~", getBaseDirectory());
-	// if (_workingDirectory.endsWith("/")) {
-	// newDirectoryPath = _workingDirectory + directory;
-	// } else {
-	// newDirectoryPath = _workingDirectory
-	// + FTPDatabase.DIRECTORY_SEPARATOR + directory;
-	// }
-	// System.out.println("newDirectory = " + newDirectoryPath);
-	// final File newDirectory = new File(newDirectoryPath);
-	// if (!newDirectory.exists())
-	// sendParameterizedCommand(550,
-	// "Requested action not taken. File or directory doesn't exist");
-	// else
-	// sendParameterizedCommand(250, "CWD command successful");
-	// }
-	//
-	// private void processPwd() throws IOException {
-	// sendDefaultCommand(257);
-	// }
 
 }

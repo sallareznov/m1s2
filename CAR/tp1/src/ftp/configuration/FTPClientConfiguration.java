@@ -3,6 +3,9 @@ package ftp.configuration;
 import java.net.Socket;
 import java.util.Date;
 
+/**
+ * Class representing the configuration of the client
+ */
 public class FTPClientConfiguration {
 
 	private int _id;
@@ -14,6 +17,10 @@ public class FTPClientConfiguration {
 	private String _workingDirectory;
 	private String _directorySeparator;
 
+	/**
+	 * constructs a client configuration
+	 * @param serverConfiguration the server configuration
+	 */
 	public FTPClientConfiguration(FTPServerConfiguration serverConfiguration) {
 		_id = serverConfiguration.getIdGenerator().incrementAndGet();
 		_username = null;

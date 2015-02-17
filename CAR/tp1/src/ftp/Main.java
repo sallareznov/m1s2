@@ -1,13 +1,5 @@
 package ftp;
 
-import java.io.IOException;
-
-import org.apache.log4j.ConsoleAppender;
-import org.apache.log4j.FileAppender;
-import org.apache.log4j.HTMLLayout;
-import org.apache.log4j.Logger;
-import org.apache.log4j.SimpleLayout;
-
 import ftp.command.FTPCdupCommand;
 import ftp.command.FTPCommandManager;
 import ftp.command.FTPCwdCommand;
@@ -27,12 +19,19 @@ import ftp.configuration.FTPServerConfiguration;
 
 public class Main {
 
+	public static void usage() {
+
+	}
+
 	public static void main(String[] args) {
+		// l'unique base de données qui sera partagée est initialisée
 		final FTPDatabase ftpDatabase = new FTPDatabase();
+		// création d'un serveur FTP
 		final FTPServer ftpServer = new FTPServer(1500,
 				System.getProperty("user.home"), ftpDatabase);
 		final FTPServerConfiguration serverConfiguration = ftpServer
 				.getConfiguration();
+		// création et initialisation du manager de commandes
 		final FTPCommandManager commandManager = new FTPCommandManager();
 		commandManager.addCommand(new FTPCwdCommand(ftpDatabase));
 		commandManager.addCommand(new FTPCdupCommand(ftpDatabase));
@@ -48,27 +47,12 @@ public class Main {
 		commandManager.addCommand(new FTPTypeCommand(ftpDatabase));
 		commandManager.addCommand(new FTPUserCommand(ftpDatabase));
 		commandManager.addCommand(new FTPNotImplementedCommand(ftpDatabase));
-		final Logger logger = Logger.getLogger(Main.class);
-		final ConsoleAppender console = new ConsoleAppender();
-		console.setLayout(new SimpleLayout());
-		console.activateOptions();
-		logger.addAppender(console);
-		try {
-			logger.addAppender(new FileAppender(new HTMLLayout(), "test.html"));
-		} catch (IOException e) {
-		}
-		logger.info("--> FTP server opened on "
+		System.out.println("--> FTP server opened on "
 				+ serverConfiguration.getAddress() + ", port "
 				+ serverConfiguration.getPort());
-		// System.out.println("--> FTP server opened on "
-		// + serverConfiguration.getAddress() + ", port "
-		// + serverConfiguration.getPort());
 		while (true) {
 			ftpServer.connectToClient();
-			serverConfiguration.addClient();
 			System.out.println("--> New client connected on this server.");
-			System.out.println("--> total clients : "
-					+ serverConfiguration.getNbClients() + ".");
 			ftpServer.sendCommandWithDefaultMessage(
 					serverConfiguration.getConnection(), 220);
 			final FTPRequestHandler requestHandler = new FTPRequestHandler(
