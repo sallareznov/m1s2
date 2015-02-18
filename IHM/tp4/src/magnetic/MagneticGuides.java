@@ -13,6 +13,7 @@ import fr.lri.swingstates.canvas.CShape;
 import fr.lri.swingstates.canvas.CStateMachine;
 import fr.lri.swingstates.canvas.Canvas;
 import fr.lri.swingstates.canvas.transitions.PressOnTag;
+import fr.lri.swingstates.debug.StateMachineVisualization;
 import fr.lri.swingstates.sm.State;
 import fr.lri.swingstates.sm.Transition;
 import fr.lri.swingstates.sm.transitions.Click;
@@ -21,10 +22,6 @@ import fr.lri.swingstates.sm.transitions.MouseOnPosition;
 import fr.lri.swingstates.sm.transitions.Press;
 import fr.lri.swingstates.sm.transitions.Release;
 
-/**
- * @author Nicolas Roussel (roussel@lri.fr)
- * 
- */
 public class MagneticGuides extends JFrame {
 
 	private static final long serialVersionUID = -1258141027456956587L;
@@ -32,6 +29,7 @@ public class MagneticGuides extends JFrame {
 	private CExtensionalTag oTag;
 	private int width;
 	private int height;
+	private CStateMachine stateMachine;
 
 	public MagneticGuides(String title, int width, int height) {
 		super(title);
@@ -44,12 +42,13 @@ public class MagneticGuides extends JFrame {
 		//};
 		oTag = new MagneticGuide(canvas);
 
-		CStateMachine sm = new CStateMachine() {
+		stateMachine = new CStateMachine() {
 
 			private Point2D p;
 			private CShape draggedShape;
 
 			public State start = new State() {
+				
 				Transition pressOnObject = new PressOnTag(oTag, BUTTON1,
 						">> oDrag") {
 					public void action() {
@@ -100,11 +99,15 @@ public class MagneticGuides extends JFrame {
 			};
 
 		};
-		sm.attachTo(canvas);
+		stateMachine.attachTo(canvas);
 
 		pack();
 		setVisible(true);
 		canvas.requestFocusInWindow();
+	}
+	
+	public CStateMachine getStateMachine() {
+		return stateMachine;
 	}
 
 	public void populate() {
@@ -129,6 +132,12 @@ public class MagneticGuides extends JFrame {
 		for (int i = 0; i < 20; ++i)
 			guides.populate();
 		guides.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		final JFrame frame = new JFrame();
+		final StateMachineVisualization visu = new StateMachineVisualization(guides.getStateMachine());
+		frame.getContentPane().add(visu);
+		frame.pack();
+		frame.setVisible(true);
 	}
 
 }
