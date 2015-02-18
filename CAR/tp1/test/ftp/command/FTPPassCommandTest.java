@@ -19,10 +19,21 @@ import org.mockito.runners.MockitoJUnitRunner;
 import ftp.FTPDatabase;
 import ftp.configuration.FTPClientConfiguration;
 
+/**
+ * @author  diagne
+ */
 @RunWith(MockitoJUnitRunner.class)
 public class FTPPassCommandTest {
 	
+	/**
+	 * @uml.property  name="_passCommand"
+	 * @uml.associationEnd  
+	 */
 	private FTPCommand _passCommand;
+	/**
+	 * @uml.property  name="_database"
+	 * @uml.associationEnd  
+	 */
 	private FTPDatabase _database;
 	@Mock
 	private Map<String, String> _accounts;
@@ -55,7 +66,6 @@ public class FTPPassCommandTest {
 		Mockito.when(_accounts.get(Mockito.anyString())).thenReturn(password);
 		Mockito.when(_database.getAccounts()).thenReturn(_accounts);
 		_passCommand.execute(password, clientConfiguration);
-		Mockito.verify(_database).getMessage(225);
 		Mockito.verify(_database).getMessage(230);
 		Mockito.when(_accounts.get(Mockito.anyString())).thenReturn("DUMB");
 		_passCommand.execute(password, clientConfiguration);

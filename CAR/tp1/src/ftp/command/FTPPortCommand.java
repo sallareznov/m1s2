@@ -30,6 +30,10 @@ public class FTPPortCommand extends FTPMessageSender implements FTPCommand {
 	@Override
 	public void execute(String argument,
 			FTPClientConfiguration clientConfiguration) {
+		if (!clientConfiguration.isConnected()) {
+			sendCommandWithDefaultMessage(clientConfiguration.getConnection(), 530);
+			return;
+		}
 		final StringTokenizer tokenizer = new StringTokenizer(argument, ",");
 		final String ipAddress = tokenizer.nextToken() + "."
 				+ tokenizer.nextToken() + "." + tokenizer.nextToken() + "."

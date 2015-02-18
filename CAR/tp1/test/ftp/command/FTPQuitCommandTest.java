@@ -13,9 +13,20 @@ import org.mockito.Mockito;
 import ftp.FTPDatabase;
 import ftp.configuration.FTPClientConfiguration;
 
+/**
+ * @author  diagne
+ */
 public class FTPQuitCommandTest {
 
+	/**
+	 * @uml.property  name="_quitCommand"
+	 * @uml.associationEnd  
+	 */
 	private FTPCommand _quitCommand;
+	/**
+	 * @uml.property  name="_database"
+	 * @uml.associationEnd  
+	 */
 	private FTPDatabase _database; 
 	
 	@Before

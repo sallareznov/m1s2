@@ -3,6 +3,8 @@ package ftp;
 import ftp.command.FTPCdupCommand;
 import ftp.command.FTPCommandManager;
 import ftp.command.FTPCwdCommand;
+import ftp.command.FTPEprtCommand;
+import ftp.command.FTPEpsvCommand;
 import ftp.command.FTPListCommand;
 import ftp.command.FTPNotImplementedCommand;
 import ftp.command.FTPPassCommand;
@@ -51,6 +53,8 @@ public class Main {
 		final FTPCommandManager commandManager = new FTPCommandManager();
 		commandManager.addCommand(new FTPCwdCommand(ftpDatabase));
 		commandManager.addCommand(new FTPCdupCommand(ftpDatabase));
+		commandManager.addCommand(new FTPEprtCommand(ftpDatabase));
+		commandManager.addCommand(new FTPEpsvCommand(ftpDatabase));
 		commandManager.addCommand(new FTPListCommand(ftpDatabase));
 		commandManager.addCommand(new FTPPassCommand(ftpDatabase));
 		commandManager.addCommand(new FTPPasvCommand(ftpDatabase));

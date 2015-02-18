@@ -1,6 +1,7 @@
 package ftp.command;
 
 import java.io.File;
+import java.io.IOException;
 
 import ftp.FTPDatabase;
 import ftp.FTPMessageSender;
@@ -27,7 +28,11 @@ public class FTPListCommand extends FTPMessageSender implements FTPCommand {
 	@Override
 	public void execute(String argument,
 			FTPClientConfiguration clientConfiguration) {
-		sendCommandWithDefaultMessage(clientConfiguration.getConnection(), 125);
+		if (!clientConfiguration.isConnected()) {
+			sendCommandWithDefaultMessage(clientConfiguration.getConnection(), 530);
+			return;
+		}
+		sendCommandWithDefaultMessage(clientConfiguration.getConnection(), 150);
 		final String workingDirectoryPath = clientConfiguration
 				.getWorkingDirectory();
 		final File workingDirectory = new File(workingDirectoryPath);
@@ -43,6 +48,11 @@ public class FTPListCommand extends FTPMessageSender implements FTPCommand {
 			}
 		}
 		sendData(clientConfiguration.getDataSocket(), messageBuilder.toString());
+		try {
+			clientConfiguration.closeDataSocket();
+		} catch (IOException e) {
+			System.out.println("ERROR while closing data socket");
+		}
 		sendCommandWithDefaultMessage(clientConfiguration.getConnection(), 226);
 	}
 

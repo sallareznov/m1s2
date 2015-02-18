@@ -16,9 +16,20 @@ import org.mockito.Mockito;
 import ftp.FTPDatabase;
 import ftp.configuration.FTPClientConfiguration;
 
+/**
+ * @author  diagne
+ */
 public class FTPTypeCommandTest {
 
+	/**
+	 * @uml.property  name="_typeCommand"
+	 * @uml.associationEnd  
+	 */
 	private FTPCommand _typeCommand;
+	/**
+	 * @uml.property  name="_database"
+	 * @uml.associationEnd  
+	 */
 	private FTPDatabase _database;
 
 	@Before
@@ -30,7 +41,7 @@ public class FTPTypeCommandTest {
 	@Test
 	public void testAccept() {
 		assertTrue(_typeCommand.accept("TYPE"));
-		assertFalse(_typeCommand.accept("TYPE"));
+		assertFalse(_typeCommand.accept("DUMB"));
 	}
 
 	@Test

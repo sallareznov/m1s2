@@ -10,6 +10,10 @@ import ftp.configuration.FTPServerConfiguration;
  */
 public class FTPServer extends FTPMessageSender {
 
+	/**
+	 * @uml.property  name="_configuration"
+	 * @uml.associationEnd  
+	 */
 	private FTPServerConfiguration _configuration;
 
 	/**

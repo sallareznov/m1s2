@@ -24,10 +24,14 @@ public class FTPRetrCommand extends FTPMessageSender implements FTPCommand {
 	@Override
 	public void execute(String argument,
 			FTPClientConfiguration clientConfiguration) {
+		if (!clientConfiguration.isConnected()) {
+			sendCommandWithDefaultMessage(clientConfiguration.getConnection(), 530);
+			return;
+		}
 		final String filename = clientConfiguration.getBaseDirectory()
 				+ clientConfiguration.getDirectorySeparator() + argument;
 		try {
-			sendCommandWithDefaultMessage(clientConfiguration.getConnection(), 125);
+			sendCommandWithDefaultMessage(clientConfiguration.getConnection(), 150);
 			final InputStream inputStream = new FileInputStream(filename);
 			int data = 0;
 			final OutputStream dataOutputStream = clientConfiguration.getDataSocket().getOutputStream();

@@ -1,5 +1,6 @@
 package ftp.configuration;
 
+import java.io.IOException;
 import java.net.Socket;
 import java.util.Date;
 
@@ -16,6 +17,7 @@ public class FTPClientConfiguration {
 	private String _baseDirectory;
 	private String _workingDirectory;
 	private String _directorySeparator;
+	private boolean _connected;
 
 	/**
 	 * constructs a client configuration
@@ -34,6 +36,14 @@ public class FTPClientConfiguration {
 	
 	public int getId() {
 		return _id;
+	}
+	
+	public void setConnected(boolean connected) {
+		_connected = connected;
+	}
+	
+	public boolean isConnected() {
+		return _connected;
 	}
 	
 	public String getDirectorySeparator() {
@@ -74,6 +84,10 @@ public class FTPClientConfiguration {
 	
 	public void setDataSocket(Socket dataSocket) {
 		_dataSocket = dataSocket;
+	}
+	
+	public void closeDataSocket() throws IOException {
+		_dataSocket.close();
 	}
 	
 }

@@ -1,17 +1,17 @@
 package ftp.command;
 
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.Socket;
+import java.io.InputStreamReader;
 
 import ftp.FTPDatabase;
 import ftp.FTPMessageSender;
 import ftp.configuration.FTPClientConfiguration;
 
 public class FTPStorCommand extends FTPMessageSender implements FTPCommand {
-	
+
 	public FTPStorCommand(FTPDatabase database) {
 		super(database);
 	}
@@ -24,18 +24,28 @@ public class FTPStorCommand extends FTPMessageSender implements FTPCommand {
 	@Override
 	public void execute(String argument,
 			FTPClientConfiguration clientConfiguration) {
+		if (!clientConfiguration.isConnected()) {
+			sendCommandWithDefaultMessage(clientConfiguration.getConnection(),
+					530);
+			return;
+		}
 		try {
-			final FileOutputStream fileOutputStream = new FileOutputStream(
-					argument);
+//			sendCommandWithDefaultMessage(clientConfiguration.getConnection(),
+//					150);
+			final FileOutputStream outputStream = new FileOutputStream(argument);
+			BufferedReader in = new BufferedReader(
+			        new InputStreamReader(clientConfiguration.getDataSocket().getInputStream()));
+	//		final InputStreamReader dataInputStream = new InputStreamReader(clientConfiguration.getDataSocket().getInputStream());
 			int data = 0;
-			final Socket connection = clientConfiguration.getConnection();
-			final InputStream connectionInputStream = clientConfiguration.getDataSocket()
-					.getInputStream();
-			while ((data = connectionInputStream.read()) != -1) {
-				fileOutputStream.write(data);
+			while ((data = in.read()) != -1) {
+				System.out.println("...");
+				outputStream.write(data);
 			}
-			fileOutputStream.close();
-			sendCommandWithDefaultMessage(connection, 226);
+			System.out.println("Really nigger ?");
+			outputStream.close();
+			clientConfiguration.closeDataSocket();
+			sendCommandWithDefaultMessage(clientConfiguration.getConnection(),
+					226);
 		} catch (FileNotFoundException e) {
 			sendCommandWithDefaultMessage(clientConfiguration.getConnection(),
 					550);

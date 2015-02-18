@@ -13,9 +13,20 @@ import org.mockito.Mockito;
 import ftp.FTPDatabase;
 import ftp.configuration.FTPClientConfiguration;
 
+/**
+ * @author  diagne
+ */
 public class FTPSystCommandTest {
 
+	/**
+	 * @uml.property  name="_systCommand"
+	 * @uml.associationEnd  
+	 */
 	private FTPCommand _systCommand;
+	/**
+	 * @uml.property  name="_database"
+	 * @uml.associationEnd  
+	 */
 	private FTPDatabase _database; 
 	
 	@Before

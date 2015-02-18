@@ -12,20 +12,28 @@ import java.text.MessageFormat;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.powermock.api.easymock.PowerMock;
 import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 
 import ftp.FTPDatabase;
 import ftp.configuration.FTPClientConfiguration;
 
-@RunWith(PowerMockRunner.class)
+/**
+ * @author  diagne
+ */
 @PrepareForTest(MessageFormat.class)
 public class FTPPwdCommandTest {
 	
+	/**
+	 * @uml.property  name="_pwdCommand"
+	 * @uml.associationEnd  
+	 */
 	private FTPCommand _pwdCommand;
+	/**
+	 * @uml.property  name="_database"
+	 * @uml.associationEnd  
+	 */
 	private FTPDatabase _database; 
 	
 	@Before

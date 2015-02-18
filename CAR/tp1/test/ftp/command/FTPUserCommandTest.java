@@ -15,9 +15,20 @@ import org.mockito.Mockito;
 import ftp.FTPDatabase;
 import ftp.configuration.FTPClientConfiguration;
 
+/**
+ * @author  diagne
+ */
 public class FTPUserCommandTest {
 	
+	/**
+	 * @uml.property  name="_userCommand"
+	 * @uml.associationEnd  
+	 */
 	private FTPCommand _userCommand;
+	/**
+	 * @uml.property  name="_database"
+	 * @uml.associationEnd  
+	 */
 	private FTPDatabase _database; 
 	
 	@Before
@@ -34,7 +45,7 @@ public class FTPUserCommandTest {
 
 	@Test
 	public void testExecute() {
-		final String username = "anonymous";
+		final String username = "test";
 		final FTPClientConfiguration clientConfiguration = Mockito.mock(FTPClientConfiguration.class); 
 		final Socket connection = Mockito.mock(Socket.class);
 		final OutputStream outputStream = Mockito.mock(OutputStream.class);

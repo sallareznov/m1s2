@@ -8,10 +8,12 @@ import ftp.configuration.FTPClientConfiguration;
  * Class representing the USER command
  */
 public class FTPUserCommand extends FTPMessageSender implements FTPCommand {
-	
+
 	/**
 	 * constructs a USER command
-	 * @param database the database
+	 * 
+	 * @param database
+	 *            the database
 	 */
 	public FTPUserCommand(FTPDatabase database) {
 		super(database);
@@ -26,7 +28,14 @@ public class FTPUserCommand extends FTPMessageSender implements FTPCommand {
 	public void execute(String argument,
 			FTPClientConfiguration clientConfiguration) {
 		clientConfiguration.setUsername(argument);
-		sendCommandWithDefaultMessage(clientConfiguration.getConnection(), 331);
+		if (argument.equals("anonymous")) {
+			sendCommandWithDefaultMessage(clientConfiguration.getConnection(),
+					230);
+			clientConfiguration.setConnected(true);
+		} else {
+			sendCommandWithDefaultMessage(clientConfiguration.getConnection(),
+					331);
+		}
 	}
 
 }

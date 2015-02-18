@@ -6,8 +6,15 @@ import java.io.OutputStream;
 import java.net.Socket;
 import java.text.MessageFormat;
 
+/**
+ * @author  diagne
+ */
 public abstract class FTPMessageSender {
 	
+	/**
+	 * @uml.property  name="_database"
+	 * @uml.associationEnd  
+	 */
 	private FTPDatabase _database;
 	
 	public FTPMessageSender(FTPDatabase database) {

@@ -25,10 +25,12 @@ public class FTPCwdCommand extends FTPMessageSender implements FTPCommand {
 	@Override
 	public void execute(String argument,
 			FTPClientConfiguration clientConfiguration) {
-		final String newDirectory = clientConfiguration.getWorkingDirectory() + clientConfiguration.getDirectorySeparator() + argument;
-		clientConfiguration.setWorkingDirectory(newDirectory);
+		if (!clientConfiguration.isConnected()) {
+			sendCommandWithDefaultMessage(clientConfiguration.getConnection(), 530);
+			return;
+		}
+		clientConfiguration.setWorkingDirectory(argument);
 		sendCommandWithDefaultMessage(clientConfiguration.getConnection(), 250);
-
 	}
 
 }

@@ -16,7 +16,8 @@ public class FTPDatabase {
 
 	private Map<String, String> _validAccounts;
 	private Map<Integer, String> _codesAndMessages;
-	private String _localhostIpAddress;
+	private String _hostAddress;
+	private String _hostname;
 	private Properties _propertiesManager;
 	private final String ACCOUNTS_PROPERTIES_FILENAME = "conf/accounts.properties";
 	private final String MESSAGES_PROPERTIES_FILENAME = "conf/messages.properties";
@@ -28,13 +29,18 @@ public class FTPDatabase {
 		_validAccounts = new HashMap<String, String>();
 		_codesAndMessages = new HashMap<Integer, String>();
 		_propertiesManager = new Properties();
-		_localhostIpAddress = "127.0.0.1";
+		_hostname = "localhost";
+		_hostAddress = "127.0.0.1";
 		retrieveAccounts();
 		buildCodesAndMessages();
 	}
+	
+	public String getHostname() {
+		return _hostname;
+	}
 
-	public String getLocalhostIpAddress() {
-		return _localhostIpAddress;
+	public String getHostAddress() {
+		return _hostAddress;
 	}
 
 	public Map<String, String> getAccounts() {

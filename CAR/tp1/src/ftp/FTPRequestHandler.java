@@ -15,7 +15,15 @@ import ftp.configuration.FTPServerConfiguration;
  */
 public class FTPRequestHandler extends FTPMessageSender implements Runnable {
 
+	/**
+	 * @uml.property  name="_clientConfiguration"
+	 * @uml.associationEnd  
+	 */
 	private FTPClientConfiguration _clientConfiguration;
+	/**
+	 * @uml.property  name="_commandManager"
+	 * @uml.associationEnd  
+	 */
 	private FTPCommandManager _commandManager;
 
 	/**
