@@ -1,5 +1,6 @@
 package ftp.configuration;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -18,7 +19,7 @@ public class FTPServerConfiguration {
 		try {
 			_port = port;
 			_serverSocket = new ServerSocket(port);
-			_baseDirectory = baseDirectory;
+			_baseDirectory = new File(baseDirectory).getAbsolutePath();
 			_idGenerator = new AtomicInteger();
 			_directorySeparator = System.getProperty("file.separator");
 		} catch (IOException e) {

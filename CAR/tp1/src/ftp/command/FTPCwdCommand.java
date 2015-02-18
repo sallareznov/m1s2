@@ -1,7 +1,10 @@
 package ftp.command;
 
+import java.net.Socket;
+
 import ftp.FTPDatabase;
 import ftp.FTPMessageSender;
+import ftp.FailedCwdException;
 import ftp.configuration.FTPClientConfiguration;
 
 /**
@@ -25,12 +28,26 @@ public class FTPCwdCommand extends FTPMessageSender implements FTPCommand {
 	@Override
 	public void execute(String argument,
 			FTPClientConfiguration clientConfiguration) {
-		if (!clientConfiguration.isConnected()) {
-			sendCommandWithDefaultMessage(clientConfiguration.getConnection(), 530);
+		final Socket connection = clientConfiguration.getConnection();
+		if (".".equals(argument)) {
+			sendCommandWithDefaultMessage(connection, 250);
 			return;
 		}
-		clientConfiguration.setWorkingDirectory(argument);
-		sendCommandWithDefaultMessage(clientConfiguration.getConnection(), 250);
+		if ("..".equals(argument)) {
+			try {
+				clientConfiguration.goUp();
+			} catch (FailedCwdException e) {
+				sendCommandWithDefaultMessage(connection, 530);
+			}
+			sendCommandWithDefaultMessage(connection, 250);
+			return;
+		}
+		if (!clientConfiguration.isConnected()) {
+			sendCommandWithDefaultMessage(connection, 530);
+			return;
+		}
+		//clientConfiguration.setWorkingDirectory(argument);
+		sendCommandWithDefaultMessage(connection, 250);
 	}
 
 }

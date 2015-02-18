@@ -70,6 +70,7 @@ public class Main {
 		System.out.println("--> FTP server opened on "
 				+ serverConfiguration.getAddress() + ", port "
 				+ serverConfiguration.getPort());
+		System.out.println("--> Base directory is : " + serverConfiguration.getBaseDirectory());
 		while (true) {
 			ftpServer.connectToClient();
 			System.out.println("--> New client connected on this server.");

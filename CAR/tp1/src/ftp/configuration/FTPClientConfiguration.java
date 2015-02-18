@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.Date;
 
+import ftp.FailedCwdException;
+
 /**
  * Class representing the configuration of the client
  */
@@ -74,8 +76,16 @@ public class FTPClientConfiguration {
 		return _workingDirectory;
 	}
 	
-	public void setWorkingDirectory(String newLeaf) {
+	public void goDown(String newLeaf) {
 		_workingDirectory += _directorySeparator + newLeaf;
+	}
+	
+	public void goUp() throws FailedCwdException {
+		final int parentDirectoryEndIndex = _workingDirectory.lastIndexOf(_directorySeparator);
+		_workingDirectory = _workingDirectory.substring(0, parentDirectoryEndIndex + 1);
+		if (!_workingDirectory.contains(_baseDirectory)) {
+			throw new FailedCwdException();
+		}
 	}
 	
 	public Socket getDataSocket() {

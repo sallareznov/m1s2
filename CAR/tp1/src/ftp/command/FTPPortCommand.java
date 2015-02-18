@@ -30,8 +30,9 @@ public class FTPPortCommand extends FTPMessageSender implements FTPCommand {
 	@Override
 	public void execute(String argument,
 			FTPClientConfiguration clientConfiguration) {
+		final Socket connection = clientConfiguration.getConnection();
 		if (!clientConfiguration.isConnected()) {
-			sendCommandWithDefaultMessage(clientConfiguration.getConnection(), 530);
+			sendCommandWithDefaultMessage(connection, 530);
 			return;
 		}
 		final StringTokenizer tokenizer = new StringTokenizer(argument, ",");
@@ -41,13 +42,13 @@ public class FTPPortCommand extends FTPMessageSender implements FTPCommand {
 		final int portFirstNumber = Integer.parseInt(tokenizer.nextToken());
 		final int portSecondNumber = Integer.parseInt(tokenizer.nextToken());
 		final int port = (portFirstNumber * 256) + portSecondNumber;
-		sendCommandWithFormattedMessage(clientConfiguration.getConnection(), 200, "PORT");
+		sendCommandWithFormattedMessage(connection, 200, "PORT");
 		try {
 			final Socket dataSocket = new Socket(
 					InetAddress.getByName(ipAddress), port);
 			clientConfiguration.setDataSocket(dataSocket);
 		} catch (IOException e) {
-			sendCommandWithDefaultMessage(clientConfiguration.getConnection(), 500);
+			sendCommandWithDefaultMessage(connection, 500);
 		}
 	}
 

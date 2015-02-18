@@ -29,6 +29,10 @@ public class FTPStorCommand extends FTPMessageSender implements FTPCommand {
 					530);
 			return;
 		}
+		if ("anonymous".equals(clientConfiguration.getUsername())) {
+			sendCommandWithDefaultMessage(clientConfiguration.getConnection(), 532);
+			return;
+		}
 		try {
 //			sendCommandWithDefaultMessage(clientConfiguration.getConnection(),
 //					150);
