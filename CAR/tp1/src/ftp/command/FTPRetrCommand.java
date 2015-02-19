@@ -25,13 +25,13 @@ public class FTPRetrCommand extends FTPMessageSender implements FTPCommand {
 	public void execute(String argument,
 			FTPClientConfiguration clientConfiguration) {
 		if (!clientConfiguration.isConnected()) {
-			sendCommandWithDefaultMessage(clientConfiguration.getConnection(), 530);
+			sendCommand(clientConfiguration.getConnection(), 530);
 			return;
 		}
 		final String filename = clientConfiguration.getBaseDirectory()
 				+ clientConfiguration.getDirectorySeparator() + argument;
 		try {
-			sendCommandWithDefaultMessage(clientConfiguration.getConnection(), 150);
+			sendCommand(clientConfiguration.getConnection(), 150);
 			final InputStream inputStream = new FileInputStream(filename);
 			int data = 0;
 			final OutputStream dataOutputStream = clientConfiguration.getDataSocket().getOutputStream();
@@ -40,9 +40,9 @@ public class FTPRetrCommand extends FTPMessageSender implements FTPCommand {
 			}
 			inputStream.close();
 			dataOutputStream.close();
-			sendCommandWithDefaultMessage(clientConfiguration.getConnection(), 226);
+			sendCommand(clientConfiguration.getConnection(), 226);
 		} catch (FileNotFoundException e) {
-			sendCommandWithDefaultMessage(clientConfiguration.getConnection(), 550);
+			sendCommand(clientConfiguration.getConnection(), 550);
 		} catch (IOException e) {
 			System.out.println("Cannot send " + filename + " file to client !");
 		}

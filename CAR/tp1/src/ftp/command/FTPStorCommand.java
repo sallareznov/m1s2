@@ -25,12 +25,12 @@ public class FTPStorCommand extends FTPMessageSender implements FTPCommand {
 	public void execute(String argument,
 			FTPClientConfiguration clientConfiguration) {
 		if (!clientConfiguration.isConnected()) {
-			sendCommandWithDefaultMessage(clientConfiguration.getConnection(),
+			sendCommand(clientConfiguration.getConnection(),
 					530);
 			return;
 		}
 		if ("anonymous".equals(clientConfiguration.getUsername())) {
-			sendCommandWithDefaultMessage(clientConfiguration.getConnection(), 532);
+			sendCommand(clientConfiguration.getConnection(), 532);
 			return;
 		}
 		try {
@@ -48,10 +48,10 @@ public class FTPStorCommand extends FTPMessageSender implements FTPCommand {
 			System.out.println("Really nigger ?");
 			outputStream.close();
 			clientConfiguration.closeDataSocket();
-			sendCommandWithDefaultMessage(clientConfiguration.getConnection(),
+			sendCommand(clientConfiguration.getConnection(),
 					226);
 		} catch (FileNotFoundException e) {
-			sendCommandWithDefaultMessage(clientConfiguration.getConnection(),
+			sendCommand(clientConfiguration.getConnection(),
 					550);
 		} catch (IOException e) {
 			System.err.println("Cannot store " + argument);

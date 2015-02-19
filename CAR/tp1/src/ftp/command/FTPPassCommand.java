@@ -31,13 +31,13 @@ public class FTPPassCommand extends FTPMessageSender implements FTPCommand {
 		final Socket connection = clientConfiguration.getConnection();
 		final FTPDatabase database = getDatabase();
 		if (clientConfiguration.getUsername() == null) {
-			sendCommandWithDefaultMessage(connection, 530);
+			sendCommand(connection, 530);
 		}
 		if (argument.equals(database.getAccounts().get(username))) {
-			sendCommandWithDefaultMessage(connection, 230);
+			sendCommand(connection, 230);
 			clientConfiguration.setConnected(true);
 		} else {
-			sendCommandWithDefaultMessage(connection, 332);
+			sendCommand(connection, 332);
 		}
 	}
 

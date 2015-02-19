@@ -25,7 +25,7 @@ public class FTPSystCommand extends FTPMessageSender implements FTPCommand {
 	@Override
 	public void execute(String argument,
 			FTPClientConfiguration clientConfiguration) {
-		sendCommandWithDefaultMessage(clientConfiguration.getConnection(), 215);
+		sendCommand(clientConfiguration.getConnection(), 215);
 	}
 
 }

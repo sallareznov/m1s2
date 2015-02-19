@@ -24,20 +24,20 @@ public class FTPEprtCommand extends FTPMessageSender implements FTPCommand {
 	public void execute(String argument,
 			FTPClientConfiguration clientConfiguration) {
 		if (!clientConfiguration.isConnected()) {
-			sendCommandWithDefaultMessage(clientConfiguration.getConnection(), 530);
+			sendCommand(clientConfiguration.getConnection(), 530);
 			return;
 		}
 		final StringTokenizer tokenizer = new StringTokenizer(argument, "|");
 		tokenizer.nextToken();
 		final String ipAddress = tokenizer.nextToken();
 		final String portString = tokenizer.nextToken();
-		sendCommandWithFormattedMessage(clientConfiguration.getConnection(), 229, portString);
+		sendCommand(clientConfiguration.getConnection(), 229, portString);
 		try {
 			final Socket dataSocket = new Socket(
 					InetAddress.getByName(ipAddress), Integer.parseInt(portString));
 			clientConfiguration.setDataSocket(dataSocket);
 		} catch (IOException e) {
-			sendCommandWithDefaultMessage(clientConfiguration.getConnection(), 500);
+			sendCommand(clientConfiguration.getConnection(), 500);
 		}
 	}
 

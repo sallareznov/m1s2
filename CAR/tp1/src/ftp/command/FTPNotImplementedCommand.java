@@ -26,7 +26,7 @@ public class FTPNotImplementedCommand extends FTPMessageSender implements
 	@Override
 	public void execute(String argument,
 			FTPClientConfiguration clientConfiguration) {
-		sendCommandWithDefaultMessage(clientConfiguration.getConnection(), 502);
+		sendCommand(clientConfiguration.getConnection(), 502);
 	}
 
 }

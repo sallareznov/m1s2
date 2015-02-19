@@ -32,7 +32,7 @@ public class FTPPasvCommand extends FTPMessageSender implements FTPCommand {
 	public void execute(String argument,
 			FTPClientConfiguration clientConfiguration) {
 		if (!clientConfiguration.isConnected()) {
-			sendCommandWithDefaultMessage(clientConfiguration.getConnection(), 530);
+			sendCommand(clientConfiguration.getConnection(), 530);
 			return;
 		}
 		final Object[] answerTokens = new String[6];
@@ -44,7 +44,7 @@ public class FTPPasvCommand extends FTPMessageSender implements FTPCommand {
 		int port = 21;
 		answerTokens[4] = (port / 256) + "";
 		answerTokens[5] = Integer.toHexString(port % 256);
-		sendCommandWithFormattedMessage(clientConfiguration.getConnection(),
+		sendCommand(clientConfiguration.getConnection(),
 				227, answerTokens);
 		try {
 			final Socket dataSocket = new Socket(

@@ -26,7 +26,7 @@ public class FTPCdupCommand extends FTPMessageSender implements FTPCommand {
 	public void execute(String argument,
 			FTPClientConfiguration clientConfiguration) {
 		if (!clientConfiguration.isConnected()) {
-			sendCommandWithDefaultMessage(clientConfiguration.getConnection(), 530);
+			sendCommand(clientConfiguration.getConnection(), 530);
 			return;
 		}
 		new FTPCwdCommand(getDatabase()).execute("..", clientConfiguration);

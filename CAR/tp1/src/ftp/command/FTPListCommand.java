@@ -29,10 +29,10 @@ public class FTPListCommand extends FTPMessageSender implements FTPCommand {
 	public void execute(String argument,
 			FTPClientConfiguration clientConfiguration) {
 		if (!clientConfiguration.isConnected()) {
-			sendCommandWithDefaultMessage(clientConfiguration.getConnection(), 530);
+			sendCommand(clientConfiguration.getConnection(), 530);
 			return;
 		}
-		sendCommandWithDefaultMessage(clientConfiguration.getConnection(), 150);
+		sendCommand(clientConfiguration.getConnection(), 150);
 		final String workingDirectoryPath = clientConfiguration
 				.getWorkingDirectory();
 		final File workingDirectory = new File(workingDirectoryPath);
@@ -53,7 +53,7 @@ public class FTPListCommand extends FTPMessageSender implements FTPCommand {
 		} catch (IOException e) {
 			System.out.println("ERROR while closing data socket");
 		}
-		sendCommandWithDefaultMessage(clientConfiguration.getConnection(), 226);
+		sendCommand(clientConfiguration.getConnection(), 226);
 	}
 
 }
