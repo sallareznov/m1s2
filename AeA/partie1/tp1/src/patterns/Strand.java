@@ -2,9 +2,8 @@ package patterns;
 
 import java.util.Arrays;
 
-import bases.Base;
-import bases.BaseFlyweightFactory;
-import bases.util.PairingManager;
+import bases.util.NonExistentPairingException;
+import bases.util.PairingsManager;
 
 /**
  * Classe représentant un brin d'ADN
@@ -14,7 +13,7 @@ public class Strand
 	/**
 	 * Manager pour gere les paires
 	 */
-	private PairingManager manager;
+	private PairingsManager manager;
 
 	/**
 	 * Contenu du brin
@@ -27,9 +26,10 @@ public class Strand
 	 * @param content
 	 *            le contenu du brin
 	 */
-	public Strand(char[] content)
+	public Strand(char[] content, PairingsManager manager)
 	{
 		this.setContent(content);
+		this.setManager(manager);
 	}
 
 	/**
@@ -38,9 +38,10 @@ public class Strand
 	 * @param word
 	 *            la chaine representant le contenu du brin
 	 */
-	public Strand(String word)
+	public Strand(String word, PairingsManager manager)
 	{
 		this.setContent(word);
+		this.setManager(manager);
 	}
 
 	/**
@@ -68,11 +69,16 @@ public class Strand
 	/**
 	 * @return le manager des paires
 	 */
-	public PairingManager getManager()
+	public PairingsManager getManager()
 	{
 		return this.manager;
 	}
-
+	
+	public void setManager(PairingsManager manager)
+	{
+		this.manager = manager;
+	}
+	
 	/**
 	 * @return la taille du brin
 	 */
@@ -89,10 +95,10 @@ public class Strand
 		{
 			reverseContent[i] = content[i];
 		}
-		return new Strand(reverseContent);
+		return new Strand(reverseContent, this.getManager());
 	}
 
-	public Strand getComplementary()
+	public Strand getComplementary() throws NonExistentPairingException
 	{
 		final int n = this.getSize();
 		final char[] complementaryContent = new char[n];
@@ -101,10 +107,10 @@ public class Strand
 			complementaryContent[i] = this.getManager().getComplementary(
 					this.getBaseAt(i));
 		}
-		return new Strand(complementaryContent);
+		return new Strand(complementaryContent, this.getManager());
 	}
 
-	public Strand getReverseComplementary()
+	public Strand getReverseComplementary() throws NonExistentPairingException
 	{
 		final Strand reverseSubSequence = getReverse();
 		return reverseSubSequence.getComplementary();
@@ -112,29 +118,29 @@ public class Strand
 
 	public Strand getPrefix(int size)
 	{
-		if (size <= 0) { return new Strand(new char[0]); }
+		if (size <= 0) { return new Strand(new char[0], this.getManager()); }
 		char[] prefixBases = new char[size];
 		for (int i = 0; i < prefixBases.length; i++)
 		{
 			prefixBases[i] = this.getBaseAt(i);
 		}
-		return new Strand(prefixBases);
+		return new Strand(prefixBases, this.getManager());
 	}
 
 	public Strand getSuffix(int size)
 	{
-		if (size <= 0) { return new Strand(new char[0]); }
+		if (size <= 0) { return new Strand(new char[0], this.getManager()); }
 		char[] suffixBases = new char[size];
 		for (int i = this.getSize() - size; i < this.getSize(); i++)
 		{
 			suffixBases[i - (this.getSize() - size)] = this.getBaseAt(i);
 		}
-		return new Strand(suffixBases);
+		return new Strand(suffixBases, this.getManager());
 	}
 
 	public Strand getLongestEdge()
 	{
-		Strand edge = new Strand(new char[0]);
+		Strand edge = new Strand(new char[0], this.getManager());
 		for (int i = 0; i <= this.getSize(); i++)
 		{
 			final Strand prefix = this.getPrefix(i);
@@ -201,7 +207,7 @@ public class Strand
 	{
 		final char[] contentCopy = new char[content.length];
 		System.arraycopy(content, 0, contentCopy, 0, content.length);
-		return new Strand(contentCopy);
+		return new Strand(contentCopy, this.getManager());
 	}
 
 }
