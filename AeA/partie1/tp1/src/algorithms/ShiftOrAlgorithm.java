@@ -2,12 +2,11 @@ package algorithms;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
-import patterns.Alphabet;
 import patterns.Genome;
 import patterns.Strand;
 import algorithms.util.StrandOccurences;
-import bases.Base;
 
 /**
  * Classe representant l'algorithme ShiftOr
@@ -42,9 +41,9 @@ public class ShiftOrAlgorithm extends Algorithm {
 	private void preTreat(Genome genome, Strand strand) {
 		lettersVectors.clear();
 		final String strandString = strand.toString();
-		final Alphabet alphabet = genome.getAlphabet();
-		final Character[] letters = alphabet.getLetters();
-		for (int i = 0; i < alphabet.getSize(); i++) {
+		final Set<Character> alphabet = genome.getManager().getAlphabet();
+		final Character[] letters = (Character[]) alphabet.toArray();
+		for (int i = 0; i < alphabet.size(); i++) {
 			final char letter = letters[i];
 			final Boolean[] currentLetterVector = new Boolean[strandString
 					.length()];
@@ -64,10 +63,10 @@ public class ShiftOrAlgorithm extends Algorithm {
 	 * @param genomeBases
 	 *            le tableau de bases du genome
 	 */
-	private void initMatrix(Base[] strandBases, Base[] genomeBases) {
+	private void initMatrix(char[] strandBases, char[] genomeBases) {
 		matrix = new boolean[genomeBases.length][strandBases.length];
 		for (int i = 0; i < strandBases.length; i++) {
-			if (i == 0 && strandBases[i].equals(genomeBases[i]))
+			if (i == 0 && (strandBases[i] == genomeBases[i]))
 				matrix[0][i] = true;
 			else
 				matrix[0][i] = false;
@@ -87,13 +86,12 @@ public class ShiftOrAlgorithm extends Algorithm {
 	 *            la taille du brin
 	 */
 	private void calculateNextStep(int nbColumn, boolean[] currentColumn,
-			Base genomeBase, int strandSize) {
+			char genomeBase, int strandSize) {
 		for (int i = currentColumn.length - 1; i >= 1; i--) {
 			currentColumn[i] = currentColumn[i - 1];
 		}
 		currentColumn[0] = true;
-		final Boolean[] letterVector = lettersVectors.get(genomeBase
-				.getWording());
+		final Boolean[] letterVector = lettersVectors.get(genomeBase);
 		for (int i = 0; i < currentColumn.length; i++) {
 			currentColumn[i] &= letterVector[i];
 		}
@@ -109,8 +107,8 @@ public class ShiftOrAlgorithm extends Algorithm {
 	 * @param genomeBases
 	 * @return les occurences trouvees
 	 */
-	private StrandOccurences retrieveOccurences(Base[] strandBases,
-			Base[] genomeBases) {
+	private StrandOccurences retrieveOccurences(char[] strandBases,
+			char[] genomeBases) {
 		final StrandOccurences strandOccurences = new StrandOccurences();
 		for (int i = strandBases.length - 1; i < genomeBases.length; i++) {
 			if (matrix[i][strandBases.length - 1] == true)
@@ -123,19 +121,19 @@ public class ShiftOrAlgorithm extends Algorithm {
 	public StrandOccurences findRepetitiveStrand(Genome genome, Strand strand) {
 		preTreat(genome, strand);
 		resetNbComparisons();
-		final Base[] genomeBases = genome.getBases();
-		final Base[] strandBases = strand.getContent();
+		final char[] genomeBases = genome.getContent();
+		final char[] strandBases = strand.getContent();
 		initMatrix(strandBases, genomeBases);
 		boolean[] currentColumn = matrix[0];
 		for (int i = 1; i < genomeBases.length; i++) {
-			final Base currentBaseOfTheGenome = genomeBases[i];
+			final char currentBaseOfTheGenome = genomeBases[i];
 			calculateNextStep(i, currentColumn, currentBaseOfTheGenome,
 					strandBases.length);
 			incrNbComparisons();
 		}
 		return retrieveOccurences(strandBases, genomeBases);
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Algorithme ShiftOr";

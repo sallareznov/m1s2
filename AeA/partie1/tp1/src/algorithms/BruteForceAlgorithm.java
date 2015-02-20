@@ -9,9 +9,10 @@ import bases.util.PairingsManager;
  * Classe representant l'algorithme de recherche naive
  */
 public class BruteForceAlgorithm extends Algorithm {
-	
+
 	@Override
-	public StrandOccurences findRepetitiveStrand(Genome genome, Strand strand, PairingsManager pairingsManager) {
+	public StrandOccurences findRepetitiveStrand(Genome genome, Strand strand,
+			PairingsManager pairingsManager) {
 		resetNbComparisons();
 		final StrandOccurences strandOccurences = new StrandOccurences();
 		final char[] genomeBases = genome.getContent();
@@ -28,7 +29,7 @@ public class BruteForceAlgorithm extends Algorithm {
 		}
 		return strandOccurences;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Algorithme naif (BruteForce)";

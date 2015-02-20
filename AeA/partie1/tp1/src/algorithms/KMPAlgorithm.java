@@ -1,11 +1,8 @@
 package algorithms;
 
-import patterns.ConcreteStrand;
-import patterns.EmptyStrand;
 import patterns.Genome;
 import patterns.Strand;
 import algorithms.util.StrandOccurences;
-import bases.Base;
 
 /**
  * Algorithme de Knuth, Morris et Pratt
@@ -19,7 +16,9 @@ public class KMPAlgorithm extends Algorithm {
 
 	/**
 	 * pretraitement de l'algorithme
-	 * @param strand le brin
+	 * 
+	 * @param strand
+	 *            le brin
 	 */
 	private void preTreat(Strand strand) {
 		next = new int[strand.getSize() + 1];
@@ -30,14 +29,14 @@ public class KMPAlgorithm extends Algorithm {
 			Strand u = subStrand;
 			while (j >= 0 && !found) {
 				u = u.getLongestEdge();
-				final Base[] uMiBases = new Base[u.getSize() + 1];
+				final char[] uMiBases = new char[u.getSize() + 1];
 				System.arraycopy(u.getContent(), 0, uMiBases, 0, u.getSize());
 				Strand str = null;
 				if (i < strand.getSize()) {
 					uMiBases[u.getSize()] = strand.getContent()[i];
-					str = new ConcreteStrand(uMiBases);
+					str = new Strand(uMiBases, strand.getManager());
 				} else {
-					str = new EmptyStrand();
+					str = new Strand(new char[0], strand.getManager());
 				}
 				if (!strand.isPrefix(str)) {
 					found = true;
@@ -53,13 +52,13 @@ public class KMPAlgorithm extends Algorithm {
 		preTreat(strand);
 		resetNbComparisons();
 		final StrandOccurences strandOccurences = new StrandOccurences();
-		final Base[] genomeBases = genome.getBases();
-		final Base[] strandBases = strand.getContent();
+		final char[] genomeBases = genome.getContent();
+		final char[] strandBases = strand.getContent();
 		int i = 0;
 		while (i < genomeBases.length - strand.getSize() + 1) {
 			int j = 0;
 			while (j < strand.getSize()
-					&& genomeBases[j + i].equals(strandBases[j])) {
+					&& (genomeBases[j + i] == strandBases[j])) {
 				j++;
 				incrNbComparisons();
 			}

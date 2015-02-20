@@ -2,12 +2,11 @@ package algorithms;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
-import patterns.Alphabet;
 import patterns.Genome;
 import patterns.Strand;
 import algorithms.util.StrandOccurences;
-import bases.Base;
 
 /**
  * Classe representant l'algorithme Karp-Rabin
@@ -64,7 +63,7 @@ public class KarpRabinAlgorithm extends Algorithm {
 	private boolean occurenceFound(Base[] basesToCompare, Base[] strandBases) {
 		for (int i = 0; i < strandBases.length; i++) {
 			if (!basesToCompare[i].equals(strandBases[i]))
-				return false;
+				return false;s
 		}
 		return true;
 	}
