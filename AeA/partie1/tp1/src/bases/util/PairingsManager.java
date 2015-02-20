@@ -40,6 +40,7 @@ public class PairingsManager {
 						.nextToken());
 				addPairing(new Pairing(firstBase, secondBase, isPerfect));
 			}
+			reader.close();
 		} catch (IOException e) {
 			System.out.println("Your file doesn't exists or is not well configured");
 		}
