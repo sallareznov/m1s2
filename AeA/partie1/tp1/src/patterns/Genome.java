@@ -2,14 +2,10 @@ package patterns;
 
 import java.util.Arrays;
 
-import bases.Base;
-import bases.BaseFlyweightFactory;
-
 /**
  * Classe representant un genome
  */
-public class Genome extends Strand
-{
+public class Genome extends Strand {
 	/**
 	 * construit un genome
 	 * 
@@ -18,8 +14,7 @@ public class Genome extends Strand
 	 * @param alphabet
 	 *            l'alphabet
 	 */
-	public Genome(String sequenceString)
-	{
+	public Genome(String sequenceString) {
 		super(sequenceString);
 	}
 
@@ -31,22 +26,18 @@ public class Genome extends Strand
 	 * @param alphabet
 	 *            l'alphabet
 	 */
-	public Genome(char[] bases)
-	{
+	public Genome(char[] bases) {
 		super(bases);
 	}
 
 	@Override
-	public String toString()
-	{
+	public String toString() {
 		return new Strand(this.getContent()).toString();
 	}
 
 	@Override
-	public boolean equals(Object obj)
-	{
-		if (obj instanceof Genome)
-		{
+	public boolean equals(Object obj) {
+		if (obj instanceof Genome) {
 			final Genome genome = (Genome) obj;
 			return Arrays.equals(this.getContent(), genome.getContent());
 		}

@@ -3,10 +3,11 @@ package algorithms;
 import java.util.HashMap;
 import java.util.Map;
 
+import bases.util.PairingsManager;
+
 import patterns.Genome;
 import patterns.Strand;
 import algorithms.util.StrandOccurences;
-import bases.Base;
 
 /**
  * Classe representant l'algorithme de recherche Boyer-Moore
@@ -69,14 +70,14 @@ public class BoyerMooreAlgorithm extends Algorithm {
 	 * @param genome le genome etudie
 	 * @param strand le brin etudie
 	 */
-	private void fillBadMatches(Genome genome, Strand strand) {
+	private void fillBadMatches(Genome genome, Strand strand, PairingsManager pairingsManager) {
 		final String strandString = strand.toString();
 		final int strandSize = strand.getSize();
 		for (int i = 0; i < strandSize - 1; i++) {
 			badMatchTable.put(strandString.charAt(i), strandSize - i - 1);
 		}
 		badMatchTable.put(strandString.charAt(strandSize - 1), strandSize);
-		for (char c : genome.getAlphabet().getLetters()) {
+		for (char c : pairingsManager.getAlphabet()) {
 			if (badMatchTable.get(c) == null)
 				badMatchTable.put(c, strandSize);
 		}
@@ -87,14 +88,14 @@ public class BoyerMooreAlgorithm extends Algorithm {
 	 * @param genome
 	 * @param strand
 	 */
-	private void preTreat(Genome genome, Strand strand) {
+	private void preTreat(Genome genome, Strand strand, PairingsManager pairingsManager) {
 		fillGoodSuffixes(strand);
-		fillBadMatches(genome, strand);
+		fillBadMatches(genome, strand, pairingsManager);
 	}
 
 	@Override
-	public StrandOccurences findRepetitiveStrand(Genome genome, Strand strand) {
-		preTreat(genome, strand);
+	public StrandOccurences findRepetitiveStrand(Genome genome, Strand strand, PairingsManager pairingsManager) {
+		preTreat(genome, strand, pairingsManager);
 		resetNbComparisons();
 		final StrandOccurences strandOccurences = new StrandOccurences();
 		final Base[] genomeBases = genome.getBases();

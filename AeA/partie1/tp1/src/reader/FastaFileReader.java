@@ -14,6 +14,7 @@ import reader.util.InvalidFastaFileException;
 import reader.util.NotAFastaFileException;
 import bases.Base;
 import bases.BaseFlyweightFactory;
+import bases.util.PairingsManager;
 
 /**
  * Classe permettant de lire un fichier fasta 
@@ -53,6 +54,22 @@ public class FastaFileReader {
 			reader.close();
 			throw new InvalidFastaFileException();
 		}
+	}
+	
+	public Genome test(String filename, PairingsManager pairingsManager) {
+		verifyExtension(filename);
+		verifyContent(filename);
+		final List<Character> bases = new LinkedList<Character>();
+		reader.readLine();
+		int characterCode = 0;
+		while ((characterCode = reader.read()) != -1) {
+			final char character = Character.toChars(characterCode)[0];
+			if ((characterCode != NEWLINE_CHARACTER_ASCII_CODE) && pairingsManager.contains(character)) {
+				bases.add(character);
+			}
+		}
+		reader.close();
+		return null;
 	}
 	
 	/**

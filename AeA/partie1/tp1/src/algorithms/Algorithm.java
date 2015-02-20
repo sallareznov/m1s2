@@ -4,6 +4,8 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import bases.util.PairingsManager;
+
 import patterns.Genome;
 import patterns.Strand;
 import algorithms.util.StrandOccurences;
@@ -53,7 +55,7 @@ public abstract class Algorithm {
 	 * @return les occurences du brin
 	 */
 	public abstract StrandOccurences findRepetitiveStrand(Genome genome,
-			Strand strand);
+			Strand strand, PairingsManager pairingsManager);
 
 	/**
 	 * recherche les occurences d'une liste de brins dans le genome
@@ -63,12 +65,12 @@ public abstract class Algorithm {
 	 * @return la liste des occurences
 	 */
 	public List<StrandOccurences> findRepetitiveStrands(Genome genome,
-			List<Strand> strands) {
+			List<Strand> strands, PairingsManager pairingsManager) {
 		final List<StrandOccurences> strandsOccurences = new LinkedList<StrandOccurences>();
 		final Iterator<Strand> strandIterator = strands.iterator();
 		while (strandIterator.hasNext()) {
 			final StrandOccurences strandOccurences = findRepetitiveStrand(
-					genome, strandIterator.next());
+					genome, strandIterator.next(), pairingsManager);
 			strandsOccurences.add(strandOccurences);
 		}
 		return strandsOccurences;

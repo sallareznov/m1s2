@@ -3,7 +3,7 @@ package algorithms;
 import patterns.Genome;
 import patterns.Strand;
 import algorithms.util.StrandOccurences;
-import bases.Base;
+import bases.util.PairingsManager;
 
 /**
  * Classe representant l'algorithme de recherche naive
@@ -11,16 +11,16 @@ import bases.Base;
 public class BruteForceAlgorithm extends Algorithm {
 	
 	@Override
-	public StrandOccurences findRepetitiveStrand(Genome genome, Strand strand) {
+	public StrandOccurences findRepetitiveStrand(Genome genome, Strand strand, PairingsManager pairingsManager) {
 		resetNbComparisons();
 		final StrandOccurences strandOccurences = new StrandOccurences();
-		final Base[] genomeBases = genome.getBases();
-		final Base[] strandBases = strand.getContent();
+		final char[] genomeBases = genome.getContent();
+		final char[] strandBases = strand.getContent();
 		for (int i = 0; i < genomeBases.length - strand.getSize() + 1; i++) {
 			int j = 0;
 			incrNbComparisons();
 			while (j < strand.getSize()
-					&& genomeBases[j + i].equals(strandBases[j])) {
+					&& genomeBases[j + i] == (strandBases[j])) {
 				j++;
 			}
 			if (j == strand.getSize())

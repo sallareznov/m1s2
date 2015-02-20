@@ -2,19 +2,17 @@ package patterns;
 
 import java.util.Arrays;
 
-import bases.Base;
-import bases.BaseFlyweightFactory;
-import bases.util.PairingManager;
+import bases.util.NonExistentPairingException;
+import bases.util.PairingsManager;
 
 /**
  * Classe représentant un brin d'ADN
  */
-public class Strand
-{
+public class Strand {
 	/**
 	 * Manager pour gere les paires
 	 */
-	private PairingManager manager;
+	private PairingsManager manager;
 
 	/**
 	 * Contenu du brin
@@ -27,8 +25,7 @@ public class Strand
 	 * @param content
 	 *            le contenu du brin
 	 */
-	public Strand(char[] content)
-	{
+	public Strand(char[] content) {
 		this.setContent(content);
 	}
 
@@ -38,29 +35,24 @@ public class Strand
 	 * @param word
 	 *            la chaine representant le contenu du brin
 	 */
-	public Strand(String word)
-	{
+	public Strand(String word) {
 		this.setContent(word);
 	}
 
 	/**
 	 * @return le contenu du brin
 	 */
-	public char[] getContent()
-	{
+	public char[] getContent() {
 		return this.content;
 	}
 
-	public void setContent(char[] content)
-	{
+	public void setContent(char[] content) {
 		this.content = content;
 	}
 
-	public void setContent(String word)
-	{
+	public void setContent(String word) {
 		this.content = new char[word.length()];
-		for (int i = 0; i < this.content.length; i++)
-		{
+		for (int i = 0; i < this.content.length; i++) {
 			this.content[i] = word.charAt(i);
 		}
 	}
@@ -68,137 +60,129 @@ public class Strand
 	/**
 	 * @return le manager des paires
 	 */
-	public PairingManager getManager()
-	{
+	public PairingsManager getManager() {
 		return this.manager;
 	}
 
 	/**
 	 * @return la taille du brin
 	 */
-	public int getSize()
-	{
+	public int getSize() {
 		return this.getContent().length;
 	}
 
-	public Strand getReverse()
-	{
+	public Strand getReverse() {
 		final int n = this.getSize();
 		final char[] reverseContent = new char[n];
-		for (int i = n - 1; i >= 0; i--)
-		{
+		for (int i = n - 1; i >= 0; i--) {
 			reverseContent[i] = content[i];
 		}
 		return new Strand(reverseContent);
 	}
 
-	public Strand getComplementary()
-	{
+	public Strand getComplementary() throws NonExistentPairingException {
 		final int n = this.getSize();
 		final char[] complementaryContent = new char[n];
-		for (int i = 0; i < n; i++)
-		{
+		for (int i = 0; i < n; i++) {
 			complementaryContent[i] = this.getManager().getComplementary(
 					this.getBaseAt(i));
 		}
 		return new Strand(complementaryContent);
 	}
 
-	public Strand getReverseComplementary()
-	{
+	public Strand getReverseComplementary() throws NonExistentPairingException {
 		final Strand reverseSubSequence = getReverse();
 		return reverseSubSequence.getComplementary();
 	}
 
-	public Strand getPrefix(int size)
-	{
-		if (size <= 0) { return new Strand(new char[0]); }
+	public Strand getPrefix(int size) {
+		if (size <= 0) {
+			return new Strand(new char[0]);
+		}
 		char[] prefixBases = new char[size];
-		for (int i = 0; i < prefixBases.length; i++)
-		{
+		for (int i = 0; i < prefixBases.length; i++) {
 			prefixBases[i] = this.getBaseAt(i);
 		}
 		return new Strand(prefixBases);
 	}
 
-	public Strand getSuffix(int size)
-	{
-		if (size <= 0) { return new Strand(new char[0]); }
+	public Strand getSuffix(int size) {
+		if (size <= 0) {
+			return new Strand(new char[0]);
+		}
 		char[] suffixBases = new char[size];
-		for (int i = this.getSize() - size; i < this.getSize(); i++)
-		{
+		for (int i = this.getSize() - size; i < this.getSize(); i++) {
 			suffixBases[i - (this.getSize() - size)] = this.getBaseAt(i);
 		}
 		return new Strand(suffixBases);
 	}
 
-	public Strand getLongestEdge()
-	{
+	public Strand getLongestEdge() {
 		Strand edge = new Strand(new char[0]);
-		for (int i = 0; i <= this.getSize(); i++)
-		{
+		for (int i = 0; i <= this.getSize(); i++) {
 			final Strand prefix = this.getPrefix(i);
 			final Strand suffix = this.getSuffix(i);
-			if (prefix.equals(suffix)) edge = prefix;
+			if (prefix.equals(suffix))
+				edge = prefix;
 		}
 		return edge;
 	}
 
-	public boolean isPrefix(Strand prefix)
-	{
-		if (prefix.getSize() == 0) { return false; }
-		for (int i = 0; i < prefix.getSize(); i++)
-		{
-			if (!(prefix.getBaseAt(i) == (this.getBaseAt(i)))) return false;
+	public boolean isPrefix(Strand prefix) {
+		if (prefix.getSize() == 0) {
+			return false;
+		}
+		for (int i = 0; i < prefix.getSize(); i++) {
+			if (!(prefix.getBaseAt(i) == (this.getBaseAt(i))))
+				return false;
 		}
 		return true;
 	}
 
-	public boolean isSuffix(Strand suffix)
-	{
-		if (suffix.getSize() == 0) { return false; }
-		for (int i = suffix.getSize() - 1; i >= 0; i--)
-		{
+	public boolean isSuffix(Strand suffix) {
+		if (suffix.getSize() == 0) {
+			return false;
+		}
+		for (int i = suffix.getSize() - 1; i >= 0; i--) {
 			int index = i + (this.getSize() - suffix.getSize());
-			if (!(getBaseAt(index) == suffix.getBaseAt(i))) return false;
+			if (!(getBaseAt(index) == suffix.getBaseAt(i)))
+				return false;
 		}
 		return true;
 	}
 
-	public boolean isEdge(Strand preAndSuffix)
-	{
+	public boolean isEdge(Strand preAndSuffix) {
 		return this.isPrefix(preAndSuffix) && this.isSuffix(preAndSuffix);
 	}
 
 	@Override
-	public String toString()
-	{
+	public String toString() {
 		final StringBuilder stringBuilder = new StringBuilder();
-		for (char base : content)
-		{
+		for (char base : content) {
 			stringBuilder.append(base);
 		}
 		return stringBuilder.toString();
 	}
 
 	@Override
-	public boolean equals(Object obj)
-	{
-		if (this == obj) return true;
-		if (obj == null) return false;
-		if (getClass() != obj.getClass()) return false;
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
 		Strand other = (Strand) obj;
-		if (!Arrays.equals(content, other.content)) return false;
+		if (!Arrays.equals(content, other.content))
+			return false;
 		return true;
 	}
 
-	public char getBaseAt(int index)
-	{
+	public char getBaseAt(int index) {
 		return this.getContent()[index];
 	}
 
-	public Strand clone()
-	{
+	public Strand clone() {
 		final char[] contentCopy = new char[content.length];
 		System.arraycopy(content, 0, contentCopy, 0, content.length);
 		return new Strand(contentCopy);
