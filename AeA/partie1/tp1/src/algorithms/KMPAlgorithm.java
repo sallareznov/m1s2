@@ -1,16 +1,14 @@
 package algorithms;
 
-import patterns.ConcreteStrand;
-import patterns.EmptyStrand;
 import patterns.Genome;
 import patterns.Strand;
 import algorithms.util.StrandOccurences;
-import bases.Base;
 
 /**
  * Algorithme de Knuth, Morris et Pratt
  */
-public class KMPAlgorithm extends Algorithm {
+public class KMPAlgorithm extends Algorithm
+{
 
 	// Chaque case contient la longueur du plus long mot <i>u</i> possible tel
 	// que <i>u</i> est un bord de M(0..i-1) | M étant le motif et uM(i) n'est
@@ -19,27 +17,36 @@ public class KMPAlgorithm extends Algorithm {
 
 	/**
 	 * pretraitement de l'algorithme
-	 * @param strand le brin
+	 * 
+	 * @param strand
+	 *            le brin
 	 */
-	private void preTreat(Strand strand) {
+	private void preTreat(Strand strand)
+	{
 		next = new int[strand.getSize() + 1];
-		for (int i = 0; i < next.length; i++) {
+		for (int i = 0; i < next.length; i++)
+		{
 			final Strand subStrand = strand.getPrefix(i);
 			int j = i - 1;
 			boolean found = false;
 			Strand u = subStrand;
-			while (j >= 0 && !found) {
+			while (j >= 0 && !found)
+			{
 				u = u.getLongestEdge();
-				final Base[] uMiBases = new Base[u.getSize() + 1];
+				final char[] uMiBases = new char[u.getSize() + 1];
 				System.arraycopy(u.getContent(), 0, uMiBases, 0, u.getSize());
 				Strand str = null;
-				if (i < strand.getSize()) {
+				if (i < strand.getSize())
+				{
 					uMiBases[u.getSize()] = strand.getContent()[i];
-					str = new ConcreteStrand(uMiBases);
-				} else {
-					str = new EmptyStrand();
+					str = new Strand(uMiBases, strand.getManager());
 				}
-				if (!strand.isPrefix(str)) {
+				else
+				{
+					str = new Strand(new char[0], strand.getManager());
+				}
+				if (!strand.isPrefix(str))
+				{
 					found = true;
 				}
 				j = u.getSize() - 1;
@@ -49,24 +56,30 @@ public class KMPAlgorithm extends Algorithm {
 	}
 
 	@Override
-	public StrandOccurences findRepetitiveStrand(Genome genome, Strand strand) {
+	public StrandOccurences findRepetitiveStrand(Genome genome, Strand strand)
+	{
 		preTreat(strand);
 		resetNbComparisons();
 		final StrandOccurences strandOccurences = new StrandOccurences();
-		final Base[] genomeBases = genome.getBases();
-		final Base[] strandBases = strand.getContent();
+		final char[] genomeBases = genome.getContent();
+		final char[] strandBases = strand.getContent();
 		int i = 0;
-		while (i < genomeBases.length - strand.getSize() + 1) {
+		while (i < genomeBases.length - strand.getSize() + 1)
+		{
 			int j = 0;
 			while (j < strand.getSize()
-					&& genomeBases[j + i].equals(strandBases[j])) {
+					&& (genomeBases[j + i] == strandBases[j]))
+			{
 				j++;
 				incrNbComparisons();
 			}
-			if (j == strand.getSize()) {
+			if (j == strand.getSize())
+			{
 				strandOccurences.addIndex(i);
 				i++;
-			} else {
+			}
+			else
+			{
 				i += (j - next[j]);
 			}
 		}
@@ -74,7 +87,8 @@ public class KMPAlgorithm extends Algorithm {
 	}
 
 	@Override
-	public String toString() {
+	public String toString()
+	{
 		return "Algorithme de Knuth-Morris-Pratt";
 	}
 
