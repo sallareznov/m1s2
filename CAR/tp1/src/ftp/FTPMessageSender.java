@@ -4,32 +4,54 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.text.MessageFormat;
 
-public class FTPMessageSender {
-	
-	private Socket _connection;
-	
-	public void sendCommand(int answerCode) throws IOException {
-		final OutputStream outputStream = _connection.getOutputStream();
-		final DataOutputStream dataOutputStream = new DataOutputStream(
-				outputStream);
-		final FTPDatabase database = FTPDatabase.getInstance();
-		final String answerMessage = database.getMessage(answerCode);
-		dataOutputStream.writeBytes(answerCode + " " + answerMessage);
-		dataOutputStream.writeBytes("\r\n");
-		dataOutputStream.flush();
+/**
+ * @author diagne
+ */
+public abstract class FTPMessageSender {
+
+    /**
+     * @uml.property name="_database"
+     * @uml.associationEnd
+     */
+    private FTPDatabase _database;
+
+    public FTPMessageSender(FTPDatabase database) {
+	_database = database;
+    }
+
+    public FTPDatabase getDatabase() {
+	return _database;
+    }
+
+    public void sendCommand(Socket connection, int returnCode, Object... arguments) {
+	final String initialMessage = _database.getMessage(returnCode);
+	final String formattedMessage = MessageFormat.format(initialMessage, arguments);
+	writeCommandWithMessage(connection, returnCode, formattedMessage);
+    }
+
+    public void sendData(Socket dataSocket, String message) {
+	try {
+	    final OutputStream outputStream = dataSocket.getOutputStream();
+	    final DataOutputStream dataOutputStream = new DataOutputStream(outputStream);
+	    dataOutputStream.writeBytes(message);
+	    dataOutputStream.flush();
+	} catch (IOException e) {
+	    System.out.println("ERROR while sending data");
 	}
-	
-	public void sendData() {
-		
+    }
+
+    private void writeCommandWithMessage(Socket connection, int returnCode, String message) {
+	try {
+	    final OutputStream outputStream = connection.getOutputStream();
+	    final DataOutputStream dataOutputStream = new DataOutputStream(outputStream);
+	    dataOutputStream.writeBytes(returnCode + " " + message);
+	    dataOutputStream.writeBytes("\r\n");
+	    dataOutputStream.flush();
+	} catch (IOException e) {
+	    System.out.println("A client has logged out.");
 	}
-	
-	public Socket getConnection() {
-		return _connection;
-	}
-	
-	public void setConnection(Socket connection) {
-		_connection = connection;
-	}
+    }
 
 }

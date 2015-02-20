@@ -3,49 +3,55 @@ package ftp;
 import java.io.IOException;
 import java.net.ServerSocket;
 
+import ftp.configuration.FTPServerConfiguration;
+
+/**
+ * Classe representing a FTP server
+ */
 public class FTPServer extends FTPMessageSender {
 
-	private static final int DEFAULT_PORT = 1500;
-	private ServerSocket _serverSocket;
-	private int _nbClients;
+	/**
+	 * @uml.property  name="_configuration"
+	 * @uml.associationEnd  
+	 */
+	private FTPServerConfiguration _configuration;
 
-	public FTPServer(int port) throws IOException {
-		super();
-		_serverSocket = new ServerSocket(port);
-		_nbClients = 0;
+	/**
+	 * constructs a new FTP server
+	 * @param port the listening port
+	 * @param baseDirectory the base directory
+	 * @param database the database
+	 */
+	public FTPServer(int port, String baseDirectory, FTPDatabase database) {
+		super(database);
+		_configuration = new FTPServerConfiguration(port, baseDirectory);
 	}
 
-	public int getLocalPort() {
-		return _serverSocket.getLocalPort();
+	public FTPServerConfiguration getConfiguration() {
+		return _configuration;
 	}
 
-	public String getLocalAddress() {
-		return _serverSocket.getInetAddress().getHostAddress();
-	}
-	
-	public int getNbClients() {
-		return _nbClients;
-	}
-
-	public void connectToClient() throws IOException {
-		setConnection(_serverSocket.accept());
-		_nbClients++;
-	}
-
-	public void closeServer() throws IOException {
-		_serverSocket.close();
+	/**
+	 * attempts to connect to a client
+	 */
+	public void connectToClient() {
+		try {
+			final ServerSocket serverSocket = _configuration.getServerSocket();
+			_configuration.setConnection(serverSocket.accept());
+		} catch (IOException e) {
+			System.err.println("I/O error while waiting for a connection.");
+		}
 	}
 
-	public static void main(String[] args) throws IOException {
-		final FTPServer ftpServer = new FTPServer(DEFAULT_PORT);
-		System.out.println("--> FTP server opened on " + ftpServer.getLocalAddress() + ", port " + ftpServer.getLocalPort());
-		while (true) {
-			ftpServer.connectToClient();
-			System.out.println("--> New client connected on this server.");
-			System.out.println("--> total clients : " + ftpServer.getNbClients() + ".");
-			ftpServer.sendCommand(220);
-			final FTPRequestHandler requestHandler = new FTPRequestHandler(ftpServer.getConnection());
-			new Thread(requestHandler).start();
+	/**
+	 * closes the server
+	 */
+	public void close() {
+		try {
+			final ServerSocket serverSocket = _configuration.getServerSocket();
+			serverSocket.close();
+		} catch (IOException e) {
+			System.err.println("I/O exception while closing the socket.");
 		}
 	}
 

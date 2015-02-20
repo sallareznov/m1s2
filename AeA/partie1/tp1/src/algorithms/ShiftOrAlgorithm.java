@@ -112,7 +112,7 @@ public class ShiftOrAlgorithm extends Algorithm {
 	private StrandOccurences retrieveOccurences(Base[] strandBases,
 			Base[] genomeBases) {
 		final StrandOccurences strandOccurences = new StrandOccurences();
-		for (int i = 0; i < genomeBases.length; i++) {
+		for (int i = strandBases.length - 1; i < genomeBases.length; i++) {
 			if (matrix[i][strandBases.length - 1] == true)
 				strandOccurences.addIndex(i - strandBases.length + 1);
 		}

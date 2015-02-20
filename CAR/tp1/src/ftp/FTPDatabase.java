@@ -1,78 +1,88 @@
 package ftp;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Properties;
+import java.util.Set;
 
+/**
+ * Class representing a database
+ */
 public class FTPDatabase {
 
-	private static FTPDatabase INSTANCE = null;
-	private static final String ACCOUNTS_FILENAME = "_accounts";
-	private Map<String, String> _accounts;
-	private Map<Integer, String> _answerCodes;
+	private Map<String, String> _validAccounts;
+	private Map<Integer, String> _codesAndMessages;
+	private String _hostAddress;
+	private String _hostname;
+	private Properties _propertiesManager;
+	private final String ACCOUNTS_PROPERTIES_FILENAME = "conf/accounts.properties";
+	private final String MESSAGES_PROPERTIES_FILENAME = "conf/messages.properties";
 
-	private FTPDatabase() throws IOException {
-		_accounts = new HashMap<String, String>();
-		_answerCodes = new HashMap<Integer, String>();
+	/**
+	 * constructs the database
+	 */
+	public FTPDatabase() {
+		_validAccounts = new HashMap<String, String>();
+		_codesAndMessages = new HashMap<Integer, String>();
+		_propertiesManager = new Properties();
+		_hostname = "localhost";
+		_hostAddress = "127.0.0.1";
 		retrieveAccounts();
-		buildReturnCodes();
+		buildCodesAndMessages();
+	}
+	
+	public String getHostname() {
+		return _hostname;
 	}
 
-	public static FTPDatabase getInstance() throws IOException {
-		synchronized (FTPDatabase.class) {
-			if (INSTANCE == null) {
-				INSTANCE = new FTPDatabase();
-			}
-		}
-		return INSTANCE;
+	public String getHostAddress() {
+		return _hostAddress;
 	}
 
 	public Map<String, String> getAccounts() {
-		return _accounts;
+		return _validAccounts;
 	}
-
+	
+	/**
+	 * @param answerCode
+	 * @return the message associated to the answer code
+	 */
 	public String getMessage(int answerCode) {
-		return _answerCodes.get(answerCode);
+		return _codesAndMessages.get(answerCode);
 	}
 
-	public void retrieveAccounts() throws IOException {
-		BufferedReader reader = null;
+	private Set<Entry<Object, Object>> setProperties(String filename) {
 		try {
-			reader = new BufferedReader(new FileReader(ACCOUNTS_FILENAME));
-			String line = null;
-			while ((line = reader.readLine()) != null) {
-				final String[] result = line.split(" ");
-				_accounts.put(result[0], result[1]);
-			}
-		} catch (FileNotFoundException e) {
-			System.err.println("Le fichier n'existe pas");
-		} finally {
-			reader.close();
+			final InputStream filenameInputStream = new FileInputStream(filename);
+			_propertiesManager.clear();
+			_propertiesManager.load(filenameInputStream);
+		} catch (IOException e) {
+			System.err
+					.println("I/O error while reading a line or closing the reader");
+		}
+		return _propertiesManager.entrySet();
+	}
+
+	private void retrieveAccounts() {
+		final Set<Entry<Object, Object>> accounts = setProperties(ACCOUNTS_PROPERTIES_FILENAME);
+		for (final Entry<Object, Object> accountEntry : accounts) {
+			final String username = (String) accountEntry.getKey();
+			final String password = (String) accountEntry.getValue();
+			_validAccounts.put(username, password);
 		}
 	}
 
-	public void buildReturnCodes() {
-		_answerCodes.put(200, "PORT command successful.");
-		_answerCodes.put(212, "Directory status.");
-		_answerCodes.put(213, "File status.");
-		_answerCodes.put(215, "Remote system type is UNIX");
-		_answerCodes.put(220, "FTP server ready.");
-		_answerCodes.put(225, "Data connection open, no transfer in progress.");
-		_answerCodes.put(230, "User logged in, proceed.");
-		_answerCodes.put(231, "User logged out, service terminated.");
-		_answerCodes.put(257, "PATHNAME\" created");
-		_answerCodes.put(331, "Username okay, need password.");
-		_answerCodes.put(332, "Need account for login.");
-		_answerCodes.put(430, "Invalid username or password.");
-		_answerCodes.put(452, "Requested action not taken. File busy.");
-		_answerCodes.put(502, "Command not implemented.");
-		_answerCodes.put(504, "Command not implemented for that parameter.");
-		_answerCodes.put(530, "Not logged in.");
-		_answerCodes.put(532, "Need account for storing files.");
-		_answerCodes.put(550, "Requested action not taken.");
+	private void buildCodesAndMessages() {
+		final Set<Entry<Object, Object>> messages = setProperties(MESSAGES_PROPERTIES_FILENAME);
+		for (final Entry<Object, Object> messageEntry : messages) {
+			final String returnCodeString = (String) messageEntry.getKey();
+			final String message = (String) messageEntry.getValue();
+			_codesAndMessages.put(Integer.parseInt(returnCodeString), message);
+		}
 	}
 
 }

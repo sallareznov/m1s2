@@ -26,6 +26,10 @@ public class BaseFlyweightFactory {
 		this.alphabet = alphabet;
 	}
 	
+	public BaseFlyweightFactory(List<Pairing> pairings) {
+		this.pairings = pairings;
+	}
+	
 	/**
 	 * creates a base 
 	 * @param letter
