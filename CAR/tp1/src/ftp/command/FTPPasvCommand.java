@@ -1,7 +1,7 @@
 package ftp.command;
 
-import java.net.InetAddress;
-import java.net.Socket;
+import java.io.IOException;
+import java.net.ServerSocket;
 import java.util.StringTokenizer;
 
 import ftp.FTPDatabase;
@@ -32,10 +32,28 @@ public class FTPPasvCommand extends FTPMessageSender implements FTPCommand {
 	public void execute(String argument,
 			FTPClientConfiguration clientConfiguration) {
 		if (!clientConfiguration.isConnected()) {
-			sendCommand(clientConfiguration.getConnection(), 530);
+			sendCommand(clientConfiguration.getCommandSocket(), 530);
 			return;
 		}
-		final Object[] answerTokens = new String[6];
+		try {
+			final ServerSocket dataServerSocket = new ServerSocket(0);
+			clientConfiguration.setDataServerSocket(dataServerSocket);
+			final int port = clientConfiguration.getDataServerSocket().getLocalPort();
+			final String ipAddress = clientConfiguration.getCommandSocket().getInetAddress().getHostAddress();
+			final Object[] answerTokens = new String[6];
+			final StringTokenizer tokenizer = new StringTokenizer(ipAddress, ".");
+			for (int i = 0 ; i < 4 ; i++) {
+				answerTokens[i] = tokenizer.nextToken();
+			}
+			answerTokens[4] = (port / 256) + "";
+			answerTokens[5] = Integer.toHexString(port % 256);
+			sendCommand(clientConfiguration.getCommandSocket(),
+					227, answerTokens);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		/*final Object[] answerTokens = new String[6];
 		final String ipAddress = getDatabase().getHostAddress();
 		final StringTokenizer tokenizer = new StringTokenizer(ipAddress, ".");
 		for (int i = 0; i < 4; i++) {
@@ -52,7 +70,7 @@ public class FTPPasvCommand extends FTPMessageSender implements FTPCommand {
 			clientConfiguration.setDataSocket(dataSocket);
 		} catch (Exception e) {
 
-		}
+		}*/
 	}
 
 }

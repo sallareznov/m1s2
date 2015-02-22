@@ -48,7 +48,7 @@ public class FTPRequestHandler extends FTPMessageSender implements Runnable {
 					.println("Connection initiated at "
 							+ dateFormatter.format(_clientConfiguration
 									.getBeginning()));
-			final Socket connection = _clientConfiguration.getConnection();
+			final Socket connection = _clientConfiguration.getCommandSocket();
 			final BufferedReader in = new BufferedReader(new InputStreamReader(
 					connection.getInputStream()));
 			String request = null;

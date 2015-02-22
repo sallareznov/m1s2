@@ -29,11 +29,11 @@ public class FTPUserCommand extends FTPMessageSender implements FTPCommand {
 			FTPClientConfiguration clientConfiguration) {
 		clientConfiguration.setUsername(argument);
 		if (argument.equals("anonymous")) {
-			sendCommand(clientConfiguration.getConnection(),
+			sendCommand(clientConfiguration.getCommandSocket(),
 					230);
 			clientConfiguration.setConnected(true);
 		} else {
-			sendCommand(clientConfiguration.getConnection(),
+			sendCommand(clientConfiguration.getCommandSocket(),
 					331);
 		}
 	}

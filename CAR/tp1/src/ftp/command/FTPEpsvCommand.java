@@ -23,17 +23,17 @@ public class FTPEpsvCommand extends FTPMessageSender implements FTPCommand {
 	public void execute(String argument,
 			FTPClientConfiguration clientConfiguration) {
 		if (!clientConfiguration.isConnected()) {
-			sendCommand(clientConfiguration.getConnection(), 530);
+			sendCommand(clientConfiguration.getCommandSocket(), 530);
 			return;
 		}
-		final int newPort = clientConfiguration.getConnection().getPort() + 1;
-		sendCommand(clientConfiguration.getConnection(), 229, newPort);
+		final int newPort = clientConfiguration.getCommandSocket().getPort() + 1;
+		sendCommand(clientConfiguration.getCommandSocket(), 229, newPort);
 		try {
 			final Socket dataSocket = new Socket(
 					InetAddress.getByName("::1"), newPort);
 			clientConfiguration.setDataSocket(dataSocket);
 		} catch (IOException e) {
-			sendCommand(clientConfiguration.getConnection(), 500);
+			sendCommand(clientConfiguration.getCommandSocket(), 500);
 		}
 	}
 

@@ -28,7 +28,7 @@ public class FTPPassCommand extends FTPMessageSender implements FTPCommand {
 	public void execute(String argument,
 			FTPClientConfiguration clientConfiguration) {
 		final String username = clientConfiguration.getUsername();
-		final Socket connection = clientConfiguration.getConnection();
+		final Socket connection = clientConfiguration.getCommandSocket();
 		final FTPDatabase database = getDatabase();
 		if (clientConfiguration.getUsername() == null) {
 			sendCommand(connection, 530);

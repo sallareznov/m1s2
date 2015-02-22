@@ -25,7 +25,7 @@ public class FTPQuitCommand extends FTPMessageSender implements FTPCommand {
 	@Override
 	public void execute(String argument,
 			FTPClientConfiguration clientConfiguration) {
-		sendCommand(clientConfiguration.getConnection(), 221);
+		sendCommand(clientConfiguration.getCommandSocket(), 221);
 	}
 
 }

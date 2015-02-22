@@ -27,7 +27,7 @@ public class FTPPwdCommand extends FTPMessageSender implements FTPCommand {
 			FTPClientConfiguration clientConfiguration) {
 		final String workingDirectory = clientConfiguration
 				.getWorkingDirectory();
-		sendCommand(clientConfiguration.getConnection(),
+		sendCommand(clientConfiguration.getCommandSocket(),
 				257, workingDirectory);
 	}
 

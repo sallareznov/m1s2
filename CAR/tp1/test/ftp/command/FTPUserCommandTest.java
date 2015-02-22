@@ -54,7 +54,7 @@ public class FTPUserCommandTest {
 		} catch (IOException e) {
 			fail();
 		}
-		Mockito.when(clientConfiguration.getConnection()).thenReturn(connection);
+		Mockito.when(clientConfiguration.getCommandSocket()).thenReturn(connection);
 		_userCommand.execute(username, clientConfiguration);
 		Mockito.verify(clientConfiguration).setUsername(username);
 		Mockito.verify(_database).getMessage(331);

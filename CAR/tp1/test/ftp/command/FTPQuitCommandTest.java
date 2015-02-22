@@ -52,7 +52,7 @@ public class FTPQuitCommandTest {
 		} catch (IOException e) {
 			fail();
 		}
-		Mockito.when(clientConfiguration.getConnection()).thenReturn(connection);
+		Mockito.when(clientConfiguration.getCommandSocket()).thenReturn(connection);
 		_quitCommand.execute(uselessArgument, clientConfiguration);
 		Mockito.verify(_database).getMessage(221);
 	}

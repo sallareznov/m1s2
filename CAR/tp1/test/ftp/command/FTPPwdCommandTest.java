@@ -13,7 +13,7 @@ import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mockito;
-import org.powermock.api.easymock.PowerMock;
+import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 
 import ftp.FTPDatabase;
@@ -62,9 +62,9 @@ public class FTPPwdCommandTest {
 		} catch (IOException e) {
 			fail();
 		}
-		PowerMock.mockStatic(MessageFormat.class);
+		PowerMockito.mockStatic(MessageFormat.class);
 		Mockito.when(MessageFormat.format(Mockito.anyString(), Mockito.anyString())).thenReturn(workingDirectory);
-		Mockito.when(clientConfiguration.getConnection()).thenReturn(connection);
+		Mockito.when(clientConfiguration.getCommandSocket()).thenReturn(connection);
 		_pwdCommand.execute(uselessArgument, clientConfiguration);
 		Mockito.verify(_database).getMessage(257);
 	}

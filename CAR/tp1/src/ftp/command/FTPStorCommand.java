@@ -1,10 +1,10 @@
 package ftp.command;
 
-import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.InputStream;
+import java.net.Socket;
 
 import ftp.FTPDatabase;
 import ftp.FTPMessageSender;
@@ -25,34 +25,28 @@ public class FTPStorCommand extends FTPMessageSender implements FTPCommand {
 	public void execute(String argument,
 			FTPClientConfiguration clientConfiguration) {
 		if (!clientConfiguration.isConnected()) {
-			sendCommand(clientConfiguration.getConnection(),
-					530);
+			sendCommand(clientConfiguration.getCommandSocket(), 530);
 			return;
 		}
 		if ("anonymous".equals(clientConfiguration.getUsername())) {
-			sendCommand(clientConfiguration.getConnection(), 532);
+			sendCommand(clientConfiguration.getCommandSocket(), 532);
 			return;
 		}
 		try {
-//			sendCommandWithDefaultMessage(clientConfiguration.getConnection(),
-//					150);
-			final FileOutputStream outputStream = new FileOutputStream(argument);
-			BufferedReader in = new BufferedReader(
-			        new InputStreamReader(clientConfiguration.getDataSocket().getInputStream()));
-	//		final InputStreamReader dataInputStream = new InputStreamReader(clientConfiguration.getDataSocket().getInputStream());
+			sendCommand(clientConfiguration.getCommandSocket(), 150);
+			final Socket dataSocket = clientConfiguration.getDataSocket();
+			final InputStream dataSocketStream = dataSocket.getInputStream();
+			final String fullFilePath = clientConfiguration.getWorkingDirectory() + clientConfiguration.getDirectorySeparator() + argument;
+			final FileOutputStream fileOutputStream = new FileOutputStream(fullFilePath);
 			int data = 0;
-			while ((data = in.read()) != -1) {
-				System.out.println("...");
-				outputStream.write(data);
+			while ((data = dataSocketStream.read()) != -1) {
+				fileOutputStream.write(data);
 			}
-			System.out.println("Really nigger ?");
-			outputStream.close();
+			fileOutputStream.close();
 			clientConfiguration.closeDataSocket();
-			sendCommand(clientConfiguration.getConnection(),
-					226);
+			sendCommand(clientConfiguration.getCommandSocket(), 226);
 		} catch (FileNotFoundException e) {
-			sendCommand(clientConfiguration.getConnection(),
-					550);
+			sendCommand(clientConfiguration.getCommandSocket(), 550);
 		} catch (IOException e) {
 			System.err.println("Cannot store " + argument);
 		}

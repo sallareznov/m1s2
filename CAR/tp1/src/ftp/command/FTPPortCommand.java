@@ -30,7 +30,7 @@ public class FTPPortCommand extends FTPMessageSender implements FTPCommand {
 	@Override
 	public void execute(String argument,
 			FTPClientConfiguration clientConfiguration) {
-		final Socket connection = clientConfiguration.getConnection();
+		final Socket connection = clientConfiguration.getCommandSocket();
 		if (!clientConfiguration.isConnected()) {
 			sendCommand(connection, 530);
 			return;

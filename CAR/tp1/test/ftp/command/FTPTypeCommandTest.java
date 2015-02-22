@@ -57,7 +57,7 @@ public class FTPTypeCommandTest {
 		} catch (IOException e) {
 			fail();
 		}
-		Mockito.when(clientConfiguration.getConnection())
+		Mockito.when(clientConfiguration.getCommandSocket())
 				.thenReturn(connection);
 		_typeCommand.execute(uselessArgument, clientConfiguration);
 		Mockito.verify(_database).getMessage(200);
