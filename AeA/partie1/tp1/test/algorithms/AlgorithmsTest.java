@@ -13,78 +13,57 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 
-<<<<<<< HEAD
 import patterns.Genome;
-=======
-import bases.util.NonExistentPairingException;
-import bases.util.Pairing;
-import bases.util.PairingsManager;
->>>>>>> 83c7654eb9831a9011ba94acf72b11a0b64cfbbd
 import patterns.Strand;
-import patterns.Genome;
 import algorithms.util.StrandOccurences;
+import bases.util.Alphabet;
 import bases.util.NonExistentPairingException;
 import bases.util.Pairing;
 import bases.util.PairingsManager;
 
 @RunWith(Parameterized.class)
-public class AlgorithmsTest
-{
+public class AlgorithmsTest {
 
 	private Algorithm testedAlgorithm;
 	private Genome genome;
 	private List<Strand> strandsToLookFor;
 	private PairingsManager pairingsManager;
+	private Alphabet alphabet;
 
-	public AlgorithmsTest(Algorithm algorithm)
-	{
+	public AlgorithmsTest(Algorithm algorithm) {
 		testedAlgorithm = algorithm;
-<<<<<<< HEAD
+		alphabet = new Alphabet();
+		alphabet.addBase('A');
+		alphabet.addBase('C');
+		alphabet.addBase('G');
+		alphabet.addBase('T');
 		pairingsManager = new PairingsManager();
 		pairingsManager.addPairing(new Pairing('A', 'T', true));
 		pairingsManager.addPairing(new Pairing('C', 'G', true));
-		final Character[] letters = { 'A', 'C', 'G', 'T' };
-		//final Alphabet alphabet = new Alphabet(letters);
 		final String motif = "CTACTATATATC";
-		genome = new Genome(motif);
+		genome = new Genome(motif, pairingsManager);
 	}
 
 	@Parameters
 	public static Collection<Object[]> data() {
-		final Object[][] data = {
-				{ new BruteForceAlgorithm() }/*,
-				{ new ShiftOrAlgorithm() },
-				{ new KarpRabinAlgorithm() },
-				{ new KMPAlgorithm() },
-				{ new BoyerMooreAlgorithm() }*/
+		final Object[][] data = { { new BruteForceAlgorithm() } /*
+																 * , { new
+																 * ShiftOrAlgorithm
+																 * () }, { new
+																 * KarpRabinAlgorithm
+																 * () }, { new
+																 * KMPAlgorithm
+																 * () }, { new
+																 * BoyerMooreAlgorithm
+																 * () }
+																 */
 		};
-=======
-		final String motif = "CTACTATATATC";
-		final PairingsManager manager = new PairingsManager();
-		manager.addPairing(new Pairing('A', 'T', true));
-		manager.addPairing(new Pairing('C', 'G', true));
-		this.genome = new Genome(motif, manager);
-	}
-
-	@Parameters
-	public static Collection<Object[]> data()
-	{
-		final Object[][] data = { { new BruteForceAlgorithm() },
-				{ new ShiftOrAlgorithm() }, { new KarpRabinAlgorithm() },
-				{ new KMPAlgorithm() }, { new BoyerMooreAlgorithm() } };
->>>>>>> 83c7654eb9831a9011ba94acf72b11a0b64cfbbd
 		return Arrays.asList(data);
 	}
 
 	@Before
-<<<<<<< HEAD
 	public void setUp() throws NonExistentPairingException {
-		final Strand mainStrand = new Strand("TATA");
-=======
-	public void setUp() throws NonExistentPairingException
-	{
-		final Strand mainStrand = new Strand("TATA", this.genome.getManager());
->>>>>>> 83c7654eb9831a9011ba94acf72b11a0b64cfbbd
+		final Strand mainStrand = new Strand("TATA", pairingsManager);
 		final Strand complementaryStrand = mainStrand.getComplementary();
 		final Strand reverseStrand = mainStrand.getReverse();
 		final Strand reverseComplementaryStrand = mainStrand
@@ -94,8 +73,7 @@ public class AlgorithmsTest
 	}
 
 	@Test
-	public void testAlgorithms()
-	{
+	public void testAlgorithms() {
 		final List<StrandOccurences> expectedOccurences = new LinkedList<StrandOccurences>();
 		final StrandOccurences mainAndReverseComplementaryStrandsOccurences = new StrandOccurences();
 		mainAndReverseComplementaryStrandsOccurences.addIndex(4);
@@ -105,10 +83,13 @@ public class AlgorithmsTest
 		complementaryAndReverseStrandsOccurences.addIndex(7);
 		expectedOccurences.add(mainAndReverseComplementaryStrandsOccurences);
 		expectedOccurences.add(complementaryAndReverseStrandsOccurences);
-		expectedOccurences.add(mainAndReverseComplementaryStrandsOccurences);
 		expectedOccurences.add(complementaryAndReverseStrandsOccurences);
+		expectedOccurences.add(mainAndReverseComplementaryStrandsOccurences);
 		final List<StrandOccurences> actualOccurences = testedAlgorithm
-				.findRepetitiveStrands(genome, strandsToLookFor, pairingsManager);
+				.findRepetitiveStrands(genome, strandsToLookFor,
+						alphabet);
+		System.out.println(expectedOccurences);
+		System.out.println(actualOccurences);
 		assertEquals(expectedOccurences, actualOccurences);
 	}
 }

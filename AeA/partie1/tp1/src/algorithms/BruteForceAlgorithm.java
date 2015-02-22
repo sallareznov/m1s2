@@ -3,7 +3,7 @@ package algorithms;
 import patterns.Genome;
 import patterns.Strand;
 import algorithms.util.StrandOccurences;
-import bases.util.PairingsManager;
+import bases.util.Alphabet;
 
 /**
  * Classe representant l'algorithme de recherche naive
@@ -12,7 +12,7 @@ public class BruteForceAlgorithm extends Algorithm {
 
 	@Override
 	public StrandOccurences findRepetitiveStrand(Genome genome, Strand strand,
-			PairingsManager pairingsManager) {
+			Alphabet alphabet) {
 		resetNbComparisons();
 		final StrandOccurences strandOccurences = new StrandOccurences();
 		final char[] genomeBases = genome.getContent();

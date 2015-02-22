@@ -1,7 +1,5 @@
 package patterns;
 
-import java.util.Arrays;
-
 import bases.util.NonExistentPairingException;
 import bases.util.PairingsManager;
 
@@ -9,14 +7,8 @@ import bases.util.PairingsManager;
  * Classe représentant un brin d'ADN
  */
 public class Strand {
-	/**
-	 * Manager pour gere les paires
-	 */
-	private PairingsManager manager;
 
-	/**
-	 * Contenu du brin
-	 */
+	private PairingsManager pairingsManager;
 	private char[] content;
 
 	/**
@@ -25,9 +17,9 @@ public class Strand {
 	 * @param content
 	 *            le contenu du brin
 	 */
-	public Strand(char[] content) {
+	public Strand(char[] content, PairingsManager pairingsManager) {
 		this.setContent(content);
-		this.setManager(manager);
+		this.setManager(pairingsManager);
 	}
 
 	/**
@@ -36,9 +28,9 @@ public class Strand {
 	 * @param word
 	 *            la chaine representant le contenu du brin
 	 */
-	public Strand(String word) {
+	public Strand(String word, PairingsManager pairingsManager) {
 		this.setContent(word);
-		this.setManager(manager);
+		this.setManager(pairingsManager);
 	}
 
 	/**
@@ -63,14 +55,13 @@ public class Strand {
 	 * @return le manager des paires
 	 */
 	public PairingsManager getManager() {
-		return this.manager;
+		return this.pairingsManager;
 	}
-	
-	public void setManager(PairingsManager manager)
-	{
-		this.manager = manager;
+
+	public void setManager(PairingsManager pairingsManager) {
+		this.pairingsManager = pairingsManager;
 	}
-	
+
 	/**
 	 * @return la taille du brin
 	 */
@@ -82,7 +73,7 @@ public class Strand {
 		final int n = this.getSize();
 		final char[] reverseContent = new char[n];
 		for (int i = n - 1; i >= 0; i--) {
-			reverseContent[i] = content[i];
+			reverseContent[n - i - 1] = content[i];
 		}
 		return new Strand(reverseContent, this.getManager());
 	}
@@ -91,7 +82,7 @@ public class Strand {
 		final int n = this.getSize();
 		final char[] complementaryContent = new char[n];
 		for (int i = 0; i < n; i++) {
-			complementaryContent[i] = this.getManager().getComplementary(
+			complementaryContent[i] = this.getManager().getComplementaryOf(
 					this.getBaseAt(i));
 		}
 		return new Strand(complementaryContent, this.getManager());
@@ -104,18 +95,18 @@ public class Strand {
 
 	public Strand getPrefix(int size) {
 		if (size <= 0) {
-			return new Strand(new char[0]);
+			return new Strand(new char[0], pairingsManager);
 		}
 		char[] prefixBases = new char[size];
 		for (int i = 0; i < prefixBases.length; i++) {
 			prefixBases[i] = this.getBaseAt(i);
 		}
-		return new Strand(prefixBases, this.getManager());
+		return new Strand(prefixBases, pairingsManager);
 	}
 
 	public Strand getSuffix(int size) {
 		if (size <= 0) {
-			return new Strand(new char[0]);
+			return new Strand(new char[0], pairingsManager);
 		}
 		char[] suffixBases = new char[size];
 		for (int i = this.getSize() - size; i < this.getSize(); i++) {
@@ -125,12 +116,13 @@ public class Strand {
 	}
 
 	public Strand getLongestEdge() {
-		Strand edge = new Strand(new char[0]);
-		for (int i = 0; i <= this.getSize(); i++) {
+		Strand edge = new Strand(new char[0], pairingsManager);
+		for (int i = 0; i < this.getSize() - 1; i++) {
 			final Strand prefix = this.getPrefix(i);
 			final Strand suffix = this.getSuffix(i);
-			if (prefix.equals(suffix))
+			if (prefix.equals(suffix)) {
 				edge = prefix;
+			}
 		}
 		return edge;
 	}
@@ -173,16 +165,18 @@ public class Strand {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (obj instanceof Strand) {
+			final Strand str = (Strand) obj;
+			if (this.getSize() != str.getSize()) {
+				return false;
+			}
+			for (int i = 0 ; i < content.length ; i++) {
+				if (str.getBaseAt(i) != content[i])
+					return false;
+			}
 			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Strand other = (Strand) obj;
-		if (!Arrays.equals(content, other.content))
-			return false;
-		return true;
+		}
+		return false;
 	}
 
 	public char getBaseAt(int index) {

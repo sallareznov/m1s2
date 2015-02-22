@@ -2,11 +2,11 @@ package algorithms;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 import patterns.Genome;
 import patterns.Strand;
 import algorithms.util.StrandOccurences;
+import bases.util.Alphabet;
 
 /**
  * Classe representant l'algorithme Karp-Rabin
@@ -25,12 +25,12 @@ public class KarpRabinAlgorithm extends Algorithm {
 	 * @param bases
 	 * @return la valeur
 	 */
-	private int hash(Alphabet alphabet, Base[] bases) {
-		final int alphabetLength = alphabet.getSize();
+	private int hash(Alphabet alphabet, char[] bases) {
+		final int alphabetLength = alphabet.size();
 		int currentCoeff = bases.length - 1;
 		int finalHash = 0;
-		for (final Base base : bases) {
-			finalHash += lettersValues.get(base.getWording())
+		for (final char base : bases) {
+			finalHash += lettersValues.get(base)
 					* Math.pow(alphabetLength, currentCoeff);
 			currentCoeff--;
 		}
@@ -43,9 +43,8 @@ public class KarpRabinAlgorithm extends Algorithm {
 	 * @param genome
 	 * @param strand
 	 */
-	private void preTreat(Genome genome, Strand strand) {
-		final Alphabet alphabet = genome.getAlphabet();
-		final Character[] alphabetLetters = alphabet.getLetters();
+	private void preTreat(Genome genome, Strand strand, Alphabet alphabet) {
+		final Character[] alphabetLetters = alphabet.getBases();
 		lettersValues = new HashMap<Character, Integer>();
 		for (int i = 0; i < alphabetLetters.length; i++) {
 			lettersValues.put(alphabetLetters[i], i + 1);
@@ -60,24 +59,25 @@ public class KarpRabinAlgorithm extends Algorithm {
 	 * @param strandBases
 	 * @return
 	 */
-	private boolean occurenceFound(Base[] basesToCompare, Base[] strandBases) {
+	private boolean occurenceFound(char[] basesToCompare, char[] strandBases) {
 		for (int i = 0; i < strandBases.length; i++) {
-			if (!basesToCompare[i].equals(strandBases[i]))
-				return false;s
+			if (basesToCompare[i] != (strandBases[i]))
+				return false;
 		}
 		return true;
 	}
 
 	@Override
-	public StrandOccurences findRepetitiveStrand(Genome genome, Strand strand) {
-		preTreat(genome, strand);
+	public StrandOccurences findRepetitiveStrand(Genome genome, Strand strand,
+			Alphabet alphabet) {
+		preTreat(genome, strand, alphabet);
 		resetNbComparisons();
 		final StrandOccurences strandOccurences = new StrandOccurences();
-		final Base[] basesToCompare = new Base[strand.getSize()];
+		final char[] basesToCompare = strand.getContent();
 		for (int i = 0; i < genome.getSize() - strand.getSize() + 1; i++) {
-			System.arraycopy(genome.getBases(), i, basesToCompare, 0,
+			System.arraycopy(genome.getContent(), i, basesToCompare, 0,
 					strand.getSize());
-			final int basesHash = hash(genome.getAlphabet(), basesToCompare);
+			final int basesHash = hash(alphabet, basesToCompare);
 			incrNbComparisons();
 			if ((basesHash == strandHash)
 					&& (occurenceFound(basesToCompare, strand.getContent()))) {

@@ -8,12 +8,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import patterns.Alphabet;
 import patterns.Genome;
 import reader.util.InvalidFastaFileException;
 import reader.util.NotAFastaFileException;
-import bases.Base;
-import bases.BaseFlyweightFactory;
+import bases.util.Alphabet;
+import bases.util.NonExistentPairingException;
 import bases.util.PairingsManager;
 
 /**
@@ -56,7 +55,7 @@ public class FastaFileReader {
 		}
 	}
 	
-	public Genome test(String filename, PairingsManager pairingsManager) {
+	public Genome test(String filename, Alphabet alphabet) throws InvalidFastaFileException, IOException, NotAFastaFileException, NonExistentPairingException {
 		verifyExtension(filename);
 		verifyContent(filename);
 		final List<Character> bases = new LinkedList<Character>();
@@ -64,7 +63,7 @@ public class FastaFileReader {
 		int characterCode = 0;
 		while ((characterCode = reader.read()) != -1) {
 			final char character = Character.toChars(characterCode)[0];
-			if ((characterCode != NEWLINE_CHARACTER_ASCII_CODE) && pairingsManager.contains(character)) {
+			if ((characterCode != NEWLINE_CHARACTER_ASCII_CODE) && alphabet.contains(character)) {
 				bases.add(character);
 			}
 		}

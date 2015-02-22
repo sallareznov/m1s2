@@ -3,6 +3,7 @@ package algorithms;
 import patterns.Genome;
 import patterns.Strand;
 import algorithms.util.StrandOccurences;
+import bases.util.Alphabet;
 
 /**
  * Algorithme de Knuth, Morris et Pratt
@@ -48,7 +49,7 @@ public class KMPAlgorithm extends Algorithm {
 	}
 
 	@Override
-	public StrandOccurences findRepetitiveStrand(Genome genome, Strand strand) {
+	public StrandOccurences findRepetitiveStrand(Genome genome, Strand strand, Alphabet alphabet) {
 		preTreat(strand);
 		resetNbComparisons();
 		final StrandOccurences strandOccurences = new StrandOccurences();

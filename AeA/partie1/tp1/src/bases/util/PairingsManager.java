@@ -77,7 +77,7 @@ public class PairingsManager {
 		return false;
 	}
 
-	public char getComplementary(char base) throws NonExistentPairingException {
+	public char getComplementaryOf(char base) throws NonExistentPairingException {
 		for (final Pairing pairing : pairings) {
 			if (base == pairing.getFirstBase())
 				return pairing.getSecondBase();
@@ -85,6 +85,10 @@ public class PairingsManager {
 				return pairing.getFirstBase();
 		}
 		throw new NonExistentPairingException(base);
+	}
+
+	public int nbPairings() {
+		return pairings.size();
 	}
 
 }

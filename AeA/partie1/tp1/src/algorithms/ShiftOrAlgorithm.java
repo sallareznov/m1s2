@@ -7,6 +7,7 @@ import java.util.Set;
 import patterns.Genome;
 import patterns.Strand;
 import algorithms.util.StrandOccurences;
+import bases.util.Alphabet;
 
 /**
  * Classe representant l'algorithme ShiftOr
@@ -118,7 +119,7 @@ public class ShiftOrAlgorithm extends Algorithm {
 	}
 
 	@Override
-	public StrandOccurences findRepetitiveStrand(Genome genome, Strand strand) {
+	public StrandOccurences findRepetitiveStrand(Genome genome, Strand strand, Alphabet alphabet) {
 		preTreat(genome, strand);
 		resetNbComparisons();
 		final char[] genomeBases = genome.getContent();

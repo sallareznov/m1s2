@@ -6,44 +6,46 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 
-import bases.Base;
-import bases.BaseFlyweightFactory;
+import bases.util.NonExistentPairingException;
+import bases.util.PairingsManager;
 
 /**
  * Classe de test de la classe Strand
  */
-public class StrandTest
-{
+public class StrandTest {
 
 	private Strand testedStrand;
+	private PairingsManager pairingsManager;
 
 	@Before
-	public void setUp()
-	{
+	public void setUp() throws NonExistentPairingException {
 		final char[] bases = { 'G', 'A', 'T', 'A', 'C', 'A' };
-		testedStrand = new Strand(bases);
+		pairingsManager = Mockito.mock(PairingsManager.class);
+		Mockito.when(pairingsManager.getComplementaryOf('A')).thenReturn('T');
+		Mockito.when(pairingsManager.getComplementaryOf('C')).thenReturn('G');
+		Mockito.when(pairingsManager.getComplementaryOf('G')).thenReturn('C');
+		Mockito.when(pairingsManager.getComplementaryOf('T')).thenReturn('A');
+		testedStrand = new Strand(bases, pairingsManager);
 	}
 
 	@Test
-	public void testComplementary()
-	{
+	public void testComplementary() throws NonExistentPairingException {
 		final Strand complementaryStrand = testedStrand.getComplementary();
 		assertEquals("Le brin complementaire est-il correct ?", "CTATGT",
 				complementaryStrand.toString());
 	}
 
 	@Test
-	public void testReverse()
-	{
+	public void testReverse() {
 		final Strand reverseStrand = testedStrand.getReverse();
 		assertEquals("Le brin reverse est-il correct ?", "ACATAG",
 				reverseStrand.toString());
 	}
 
 	@Test
-	public void testReverseComplementary()
-	{
+	public void testReverseComplementary() throws NonExistentPairingException {
 		final Strand reverseComplementaryStrand = testedStrand
 				.getReverseComplementary();
 		assertEquals("Le brin reverse-complementaire est-il correct ?",
@@ -51,9 +53,8 @@ public class StrandTest
 	}
 
 	@Test
-	public void testPrefix()
-	{
-		testedStrand = new Strand("TACTAGA");
+	public void testPrefix() {
+		testedStrand = new Strand("TACTAGA", pairingsManager);
 		Strand prefix = testedStrand.getPrefix(6);
 		assertEquals("TACTAG", prefix.toString());
 		assertTrue(testedStrand.isPrefix(prefix));
@@ -78,9 +79,8 @@ public class StrandTest
 	}
 
 	@Test
-	public void testSuffix()
-	{
-		testedStrand = new Strand("TACTAGA");
+	public void testSuffix() {
+		testedStrand = new Strand("TACTAGA", pairingsManager);
 		Strand suffix = testedStrand.getSuffix(6);
 		assertEquals("ACTAGA", suffix.toString());
 		assertTrue(testedStrand.isSuffix(suffix));
@@ -105,17 +105,16 @@ public class StrandTest
 	}
 
 	@Test
-	public void testEdge()
-	{
-		testedStrand = new Strand("TACAGTA");
-		Strand edge = new Strand("TA");
+	public void testEdge() {
+		testedStrand = new Strand("TACAGTA", pairingsManager);
+		Strand edge = new Strand("TA", pairingsManager);
 		assertTrue(testedStrand.isEdge(edge));
-		assertFalse(testedStrand.isEdge(new Strand("T")));
-		assertFalse(testedStrand.isEdge(new Strand("A")));
-		testedStrand = new Strand("TACGAGATAC");
+		assertFalse(testedStrand.isEdge(new Strand("T", pairingsManager)));
+		assertFalse(testedStrand.isEdge(new Strand("A", pairingsManager)));
+		testedStrand = new Strand("TACGAGATAC", pairingsManager);
 		edge = testedStrand.getLongestEdge();
 		assertEquals("TAC", edge.toString());
-		testedStrand = new Strand("TACGAGA");
+		testedStrand = new Strand("TACGAGA", pairingsManager);
 		edge = testedStrand.getLongestEdge();
 		assertEquals("", edge.toString());
 	}

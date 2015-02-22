@@ -2,6 +2,8 @@ package patterns;
 
 import java.util.Arrays;
 
+import bases.util.PairingsManager;
+
 /**
  * Classe representant un genome
  */
@@ -14,8 +16,8 @@ public class Genome extends Strand {
 	 * @param alphabet
 	 *            l'alphabet
 	 */
-	public Genome(String sequenceString) {
-		super(sequenceString);
+	public Genome(String sequenceString, PairingsManager pairingsManager) {
+		super(sequenceString, pairingsManager);
 	}
 
 	/**
@@ -26,13 +28,13 @@ public class Genome extends Strand {
 	 * @param alphabet
 	 *            l'alphabet
 	 */
-	public Genome(char[] bases) {
-		super(bases);
+	public Genome(char[] bases, PairingsManager pairingsManager) {
+		super(bases, pairingsManager);
 	}
 
 	@Override
 	public String toString() {
-		return new Strand(this.getContent()).toString();
+		return super.toString();
 	}
 
 	@Override
