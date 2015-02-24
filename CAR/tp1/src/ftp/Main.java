@@ -6,6 +6,7 @@ import ftp.command.FTPCwdCommand;
 import ftp.command.FTPEprtCommand;
 import ftp.command.FTPEpsvCommand;
 import ftp.command.FTPListCommand;
+import ftp.command.FTPNlstCommand;
 import ftp.command.FTPNotImplementedCommand;
 import ftp.command.FTPPassCommand;
 import ftp.command.FTPPasvCommand;
@@ -53,6 +54,7 @@ public class Main {
 	commandManager.addCommand(new FTPEprtCommand(ftpDatabase));
 	commandManager.addCommand(new FTPEpsvCommand(ftpDatabase));
 	commandManager.addCommand(new FTPListCommand(ftpDatabase));
+	commandManager.addCommand(new FTPNlstCommand(ftpDatabase));
 	commandManager.addCommand(new FTPPassCommand(ftpDatabase));
 	commandManager.addCommand(new FTPPasvCommand(ftpDatabase));
 	commandManager.addCommand(new FTPPortCommand(ftpDatabase));

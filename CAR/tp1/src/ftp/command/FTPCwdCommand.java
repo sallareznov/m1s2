@@ -55,15 +55,5 @@ public class FTPCwdCommand extends FTPMessageSender implements FTPCommand {
 			sendCommand(clientConfiguration.getCommandSocket(), 550);
 		}
 		sendCommand(connection, 250);
-
-		/*
-		 * if (".".equals(argument)) { sendCommand(connection, 250); return; }
-		 * if ("..".equals(argument)) { try { clientConfiguration.goUp(); }
-		 * catch (FailedCwdException e) { sendCommand(connection, 530); }
-		 * sendCommand(connection, 250); return; } if
-		 * (!clientConfiguration.isConnected()) { sendCommand(connection, 530);
-		 * return; }
-		 */
-		// clientConfiguration.setWorkingDirectory(argument);
 	}
 }

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="lib/aopalliance-1.0.jar"/>
+	<classpathentry kind="lib" path="lib/cglib-nodep-2.2.jar"/>
+	<classpathentry kind="lib" path="lib/commons-logging-1.1.1.jar"/>
+	<classpathentry kind="lib" path="lib/cxf-api-2.7.2.jar"/>
+	<classpathentry kind="lib" path="lib/cxf-rt-bindings-xml-2.7.2.jar"/>
+	<classpathentry kind="lib" path="lib/cxf-rt-core-2.7.2.jar"/>
+	<classpathentry kind="lib" path="lib/cxf-rt-frontend-jaxrs-2.7.2.jar"/>
+	<classpathentry kind="lib" path="lib/cxf-rt-transports-http-2.7.2.jar"/>
+	<classpathentry kind="lib" path="lib/geronimo-javamail_1.4_spec-1.7.1.jar"/>
+	<classpathentry kind="lib" path="lib/jackson-core-asl-1.9.11.jar"/>
+	<classpathentry kind="lib" path="lib/jackson-jaxrs-1.9.11.jar"/>
+	<classpathentry kind="lib" path="lib/jackson-mapper-asl-1.9.11.jar"/>
+	<classpathentry kind="lib" path="lib/javax.inject-1.jar"/>
+	<classpathentry kind="lib" path="lib/javax.servlet-3.0.0.v201112011016.jar"/>
+	<classpathentry kind="lib" path="lib/javax.ws.rs-api-2.0-m10.jar"/>
+	<classpathentry kind="lib" path="lib/jaxb-impl-2.1.13.jar"/>
+	<classpathentry kind="lib" path="lib/jetty-continuation-8.1.8.v20121106.jar"/>
+	<classpathentry kind="lib" path="lib/jetty-http-8.1.8.v20121106.jar"/>
+	<classpathentry kind="lib" path="lib/jetty-io-8.1.8.v20121106.jar"/>
+	<classpathentry kind="lib" path="lib/jetty-security-8.1.8.v20121106.jar"/>
+	<classpathentry kind="lib" path="lib/jetty-server-8.1.8.v20121106.jar"/>
+	<classpathentry kind="lib" path="lib/jetty-servlet-8.1.8.v20121106.jar"/>
+	<classpathentry kind="lib" path="lib/jetty-util-8.1.8.v20121106.jar"/>
+	<classpathentry kind="lib" path="lib/jetty-webapp-8.1.8.v20121106.jar"/>
+	<classpathentry kind="lib" path="lib/jetty-xml-8.1.8.v20121106.jar"/>
+	<classpathentry kind="lib" path="lib/spring-aop-3.2.0.RELEASE.jar"/>
+	<classpathentry kind="lib" path="lib/spring-beans-3.2.0.RELEASE.jar"/>
+	<classpathentry kind="lib" path="lib/spring-context-3.2.0.RELEASE.jar"/>
+	<classpathentry kind="lib" path="lib/spring-core-3.2.0.RELEASE.jar"/>
+	<classpathentry kind="lib" path="lib/spring-expression-3.2.0.RELEASE.jar"/>
+	<classpathentry kind="lib" path="lib/spring-web-3.2.0.RELEASE.jar"/>
+	<classpathentry kind="lib" path="lib/stax2-api-3.1.1.jar"/>
+	<classpathentry kind="lib" path="lib/woodstox-core-asl-4.1.4.jar"/>
+	<classpathentry kind="lib" path="lib/wsdl4j-1.6.2.jar"/>
+	<classpathentry kind="lib" path="lib/xmlschema-core-2.0.3.jar"/>
+	<classpathentry kind="lib" path="lib/commons-net-3.3.jar" sourcepath="/home/m1/diagne/workspace/m1s2/CAR/tp2/lib/commons-net-3.3-sources.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
