@@ -55,7 +55,7 @@ public class FastaFileReader {
 		}
 	}
 	
-	public Genome test(String filename, Alphabet alphabet) throws InvalidFastaFileException, IOException, NotAFastaFileException, NonExistentPairingException {
+	public Genome test(String filename, PairingsManager pairingsManager, Alphabet alphabet) throws InvalidFastaFileException, IOException, NotAFastaFileException, NonExistentPairingException {
 		verifyExtension(filename);
 		verifyContent(filename);
 		final List<Character> bases = new LinkedList<Character>();
@@ -68,7 +68,7 @@ public class FastaFileReader {
 			}
 		}
 		reader.close();
-		return null;
+		return new Genome(bases.toArray(new Character[bases.size()]), pairingsManager);
 	}
 	
 	/**

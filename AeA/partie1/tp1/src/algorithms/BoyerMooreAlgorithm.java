@@ -108,8 +108,8 @@ public class BoyerMooreAlgorithm extends Algorithm {
 		preTreat(genome, strand, alphabet);
 		resetNbComparisons();
 		final StrandOccurences strandOccurences = new StrandOccurences();
-		final char[] genomeBases = genome.getContent();
-		final char[] strandBases = strand.getContent();
+		final Character[] genomeBases = genome.getContent();
+		final Character[] strandBases = strand.getContent();
 		int i = strandBases.length - 1;
 		while (i < genomeBases.length) {
 			int genomeWalker = i;

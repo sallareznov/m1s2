@@ -28,7 +28,7 @@ public class Genome extends Strand {
 	 * @param alphabet
 	 *            l'alphabet
 	 */
-	public Genome(char[] bases, PairingsManager pairingsManager) {
+	public Genome(Character[] bases, PairingsManager pairingsManager) {
 		super(bases, pairingsManager);
 	}
 

@@ -15,9 +15,9 @@ public class ConfReader {
 	private Alphabet alphabet;
 	private PairingsManager pairingsManager;
 
-	public ConfReader(Alphabet alphabet, PairingsManager pairingsManager) {
-		this.alphabet = alphabet;
-		this.pairingsManager = pairingsManager;
+	public ConfReader() {
+		alphabet = new Alphabet();
+		pairingsManager = new PairingsManager();
 	}
 
 	public Alphabet getAlphabet() {

@@ -9,7 +9,7 @@ import bases.util.PairingsManager;
 public class Strand {
 
 	private PairingsManager pairingsManager;
-	private char[] content;
+	private Character[] content;
 
 	/**
 	 * construit le brin d'ADN
@@ -17,7 +17,7 @@ public class Strand {
 	 * @param content
 	 *            le contenu du brin
 	 */
-	public Strand(char[] content, PairingsManager pairingsManager) {
+	public Strand(Character[] content, PairingsManager pairingsManager) {
 		this.setContent(content);
 		this.setManager(pairingsManager);
 	}
@@ -36,16 +36,16 @@ public class Strand {
 	/**
 	 * @return le contenu du brin
 	 */
-	public char[] getContent() {
+	public Character[] getContent() {
 		return this.content;
 	}
 
-	public void setContent(char[] content) {
+	public void setContent(Character[] content) {
 		this.content = content;
 	}
 
 	public void setContent(String word) {
-		this.content = new char[word.length()];
+		this.content = new Character[word.length()];
 		for (int i = 0; i < this.content.length; i++) {
 			this.content[i] = word.charAt(i);
 		}
@@ -71,7 +71,7 @@ public class Strand {
 
 	public Strand getReverse() {
 		final int n = this.getSize();
-		final char[] reverseContent = new char[n];
+		final Character[] reverseContent = new Character[n];
 		for (int i = n - 1; i >= 0; i--) {
 			reverseContent[n - i - 1] = content[i];
 		}
@@ -80,7 +80,7 @@ public class Strand {
 
 	public Strand getComplementary() throws NonExistentPairingException {
 		final int n = this.getSize();
-		final char[] complementaryContent = new char[n];
+		final Character[] complementaryContent = new Character[n];
 		for (int i = 0; i < n; i++) {
 			complementaryContent[i] = this.getManager().getComplementaryOf(
 					this.getBaseAt(i));
@@ -95,9 +95,9 @@ public class Strand {
 
 	public Strand getPrefix(int size) {
 		if (size <= 0) {
-			return new Strand(new char[0], pairingsManager);
+			return new Strand(new Character[0], pairingsManager);
 		}
-		char[] prefixBases = new char[size];
+		final Character[] prefixBases = new Character[size];
 		for (int i = 0; i < prefixBases.length; i++) {
 			prefixBases[i] = this.getBaseAt(i);
 		}
@@ -106,9 +106,9 @@ public class Strand {
 
 	public Strand getSuffix(int size) {
 		if (size <= 0) {
-			return new Strand(new char[0], pairingsManager);
+			return new Strand(new Character[0], pairingsManager);
 		}
-		char[] suffixBases = new char[size];
+		final Character[] suffixBases = new Character[size];
 		for (int i = this.getSize() - size; i < this.getSize(); i++) {
 			suffixBases[i - (this.getSize() - size)] = this.getBaseAt(i);
 		}
@@ -116,7 +116,7 @@ public class Strand {
 	}
 
 	public Strand getLongestEdge() {
-		Strand edge = new Strand(new char[0], pairingsManager);
+		Strand edge = new Strand(new Character[0], pairingsManager);
 		for (int i = 0; i < this.getSize() - 1; i++) {
 			final Strand prefix = this.getPrefix(i);
 			final Strand suffix = this.getSuffix(i);
@@ -184,7 +184,7 @@ public class Strand {
 	}
 
 	public Strand clone() {
-		final char[] contentCopy = new char[content.length];
+		final Character[] contentCopy = new Character[content.length];
 		System.arraycopy(content, 0, contentCopy, 0, content.length);
 		return new Strand(contentCopy, this.getManager());
 	}

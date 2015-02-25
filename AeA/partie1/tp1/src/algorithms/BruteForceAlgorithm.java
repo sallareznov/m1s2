@@ -15,8 +15,8 @@ public class BruteForceAlgorithm extends Algorithm {
 			Alphabet alphabet) {
 		resetNbComparisons();
 		final StrandOccurences strandOccurences = new StrandOccurences();
-		final char[] genomeBases = genome.getContent();
-		final char[] strandBases = strand.getContent();
+		final Character[] genomeBases = genome.getContent();
+		final Character[] strandBases = strand.getContent();
 		for (int i = 0; i < genomeBases.length - strand.getSize() + 1; i++) {
 			int j = 0;
 			incrNbComparisons();

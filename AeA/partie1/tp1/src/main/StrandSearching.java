@@ -6,14 +6,17 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 
+import bases.util.Alphabet;
+import bases.util.PairingsManager;
+
 import main.util.CommandLineParser;
 import patterns.Genome;
 import patterns.Strand;
+import reader.ConfReader;
 import reader.util.InvalidFastaFileException;
 import reader.util.NotAFastaFileException;
 import algorithms.Algorithm;
 import algorithms.util.StrandOccurences;
-import bases.Base;
 
 public class StrandSearching {
 
@@ -38,12 +41,12 @@ public class StrandSearching {
 			List<StrandOccurences> occurences) throws IOException {
 		final BufferedWriter dataWriter = new BufferedWriter(new FileWriter(
 				DATA_FILENAME));
-		final Base[] bases = genome.getBases();
+		final Character[] bases = genome.getContent();
 		for (final StrandOccurences strandOccurence : occurences) {
 			final List<Integer> indexes = strandOccurence.getOccurences();
 			for (final int index : indexes) {
 				for (final int index2 : indexes) {
-					if (bases[index].equals(bases[index2])) {
+					if (bases[index] == bases[index2]) {
 						dataWriter.write(index + " " + index2 + "\n");
 					}
 				}
@@ -121,6 +124,10 @@ public class StrandSearching {
 			usage();
 			return;
 		}
+		final ConfReader confReader = new ConfReader();
+		confReader.read("init.conf");
+		final PairingsManager pairingsManager = confReader.getPairingsManager();
+		final Alphabet alphabet = confReader.getAlphabet();
 		final List<Strand> strandsToLookFor = parser.getStrandsToLookFor();
 		final List<Algorithm> algorithmsToUse = parser.getAlgorithmsToUse();
 		System.out
@@ -132,7 +139,7 @@ public class StrandSearching {
 		for (final Algorithm algorithm : algorithmsToUse) {
 			final long beginningTime = System.nanoTime();
 			occurences = algorithm.findRepetitiveStrands(parser.getGenome(),
-					strandsToLookFor);
+					strandsToLookFor, alphabet);
 			final long executionTime = System.nanoTime() - beginningTime;
 			printResult(algorithm, parser.getGenome(), strandsToLookFor,
 					occurences, executionTime);

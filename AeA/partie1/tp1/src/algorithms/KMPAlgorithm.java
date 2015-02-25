@@ -30,14 +30,14 @@ public class KMPAlgorithm extends Algorithm {
 			Strand u = subStrand;
 			while (j >= 0 && !found) {
 				u = u.getLongestEdge();
-				final char[] uMiBases = new char[u.getSize() + 1];
+				final Character[] uMiBases = new Character[u.getSize() + 1];
 				System.arraycopy(u.getContent(), 0, uMiBases, 0, u.getSize());
 				Strand str = null;
 				if (i < strand.getSize()) {
 					uMiBases[u.getSize()] = strand.getContent()[i];
 					str = new Strand(uMiBases, strand.getManager());
 				} else {
-					str = new Strand(new char[0], strand.getManager());
+					str = new Strand(new Character[0], strand.getManager());
 				}
 				if (!strand.isPrefix(str)) {
 					found = true;
@@ -53,8 +53,8 @@ public class KMPAlgorithm extends Algorithm {
 		preTreat(strand);
 		resetNbComparisons();
 		final StrandOccurences strandOccurences = new StrandOccurences();
-		final char[] genomeBases = genome.getContent();
-		final char[] strandBases = strand.getContent();
+		final Character[] genomeBases = genome.getContent();
+		final Character[] strandBases = strand.getContent();
 		int i = 0;
 		while (i < genomeBases.length - strand.getSize() + 1) {
 			int j = 0;

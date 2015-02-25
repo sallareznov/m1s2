@@ -43,7 +43,7 @@ public class ShiftOrAlgorithm extends Algorithm {
 		lettersVectors.clear();
 		final String strandString = strand.toString();
 		final Set<Character> alphabet = genome.getManager().getAlphabet();
-		final Character[] letters = (Character[]) alphabet.toArray();
+		final Character[] letters = alphabet.toArray(new Character[alphabet.size()]);
 		for (int i = 0; i < alphabet.size(); i++) {
 			final char letter = letters[i];
 			final Boolean[] currentLetterVector = new Boolean[strandString
@@ -64,7 +64,7 @@ public class ShiftOrAlgorithm extends Algorithm {
 	 * @param genomeBases
 	 *            le tableau de bases du genome
 	 */
-	private void initMatrix(char[] strandBases, char[] genomeBases) {
+	private void initMatrix(Character[] strandBases, Character[] genomeBases) {
 		matrix = new boolean[genomeBases.length][strandBases.length];
 		for (int i = 0; i < strandBases.length; i++) {
 			if (i == 0 && (strandBases[i] == genomeBases[i]))
@@ -108,8 +108,8 @@ public class ShiftOrAlgorithm extends Algorithm {
 	 * @param genomeBases
 	 * @return les occurences trouvees
 	 */
-	private StrandOccurences retrieveOccurences(char[] strandBases,
-			char[] genomeBases) {
+	private StrandOccurences retrieveOccurences(Character[] strandBases,
+			Character[] genomeBases) {
 		final StrandOccurences strandOccurences = new StrandOccurences();
 		for (int i = strandBases.length - 1; i < genomeBases.length; i++) {
 			if (matrix[i][strandBases.length - 1] == true)
@@ -122,8 +122,8 @@ public class ShiftOrAlgorithm extends Algorithm {
 	public StrandOccurences findRepetitiveStrand(Genome genome, Strand strand, Alphabet alphabet) {
 		preTreat(genome, strand);
 		resetNbComparisons();
-		final char[] genomeBases = genome.getContent();
-		final char[] strandBases = strand.getContent();
+		final Character[] genomeBases = genome.getContent();
+		final Character[] strandBases = strand.getContent();
 		initMatrix(strandBases, genomeBases);
 		boolean[] currentColumn = matrix[0];
 		for (int i = 1; i < genomeBases.length; i++) {

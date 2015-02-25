@@ -1,13 +1,9 @@
 package bases.util;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
-import java.util.StringTokenizer;
 
 public class PairingsManager {
 
@@ -20,31 +16,25 @@ public class PairingsManager {
 		alphabet = new HashSet<Character>();
 	}
 
-	public PairingsManager(String filename) {
-		pairings = new LinkedList<Pairing>();
-		alphabet = new HashSet<Character>();
-		addPairings(filename);
-	}
-
-	public void addPairings(String filename) {
-		try {
-			final BufferedReader reader = new BufferedReader(new FileReader(
-					filename));
-			String line = null;
-			while ((line = reader.readLine()) != null) {
-				final StringTokenizer tokenizer = new StringTokenizer(line,
-						DELIMITER);
-				final char firstBase = tokenizer.nextToken().charAt(0);
-				final char secondBase = tokenizer.nextToken().charAt(0);
-				final boolean isPerfect = Boolean.parseBoolean(tokenizer
-						.nextToken());
-				addPairing(new Pairing(firstBase, secondBase, isPerfect));
-			}
-			reader.close();
-		} catch (IOException e) {
-			System.out.println("Your file doesn't exists or is not well configured");
-		}
-	}
+//	public void addPairings(String filename) {
+//		try {
+//			final BufferedReader reader = new BufferedReader(new FileReader(
+//					filename));
+//			String line = null;
+//			while ((line = reader.readLine()) != null) {
+//				final StringTokenizer tokenizer = new StringTokenizer(line,
+//						DELIMITER);
+//				final char firstBase = tokenizer.nextToken().charAt(0);
+//				final char secondBase = tokenizer.nextToken().charAt(0);
+//				final boolean isPerfect = Boolean.parseBoolean(tokenizer
+//						.nextToken());
+//				addPairing(new Pairing(firstBase, secondBase, isPerfect));
+//			}
+//			reader.close();
+//		} catch (IOException e) {
+//			System.out.println("Your file doesn't exists or is not well configured");
+//		}
+//	}
 
 	public void addPairing(Pairing pairing) {
 		pairings.add(pairing);

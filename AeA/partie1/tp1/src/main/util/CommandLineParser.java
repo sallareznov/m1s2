@@ -6,8 +6,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import patterns.Alphabet;
-import patterns.ConcreteStrand;
 import patterns.Genome;
 import patterns.Strand;
 import reader.FastaFileReader;
@@ -19,8 +17,7 @@ import algorithms.BruteForceAlgorithm;
 import algorithms.KMPAlgorithm;
 import algorithms.KarpRabinAlgorithm;
 import algorithms.ShiftOrAlgorithm;
-import bases.Base;
-import bases.BaseFlyweightFactory;
+import bases.util.Alphabet;
 
 /**
  * Classe se chargeant de parser la ligne de commande de l'utilisateur

@@ -46,18 +46,9 @@ public class AlgorithmsTest {
 
 	@Parameters
 	public static Collection<Object[]> data() {
-		final Object[][] data = { { new BruteForceAlgorithm() } /*
-																 * , { new
-																 * ShiftOrAlgorithm
-																 * () }, { new
-																 * KarpRabinAlgorithm
-																 * () }, { new
-																 * KMPAlgorithm
-																 * () }, { new
-																 * BoyerMooreAlgorithm
-																 * () }
-																 */
-		};
+		final Object[][] data = { { new BruteForceAlgorithm() },
+				{ new ShiftOrAlgorithm() }, { new KarpRabinAlgorithm() },
+				{ new KMPAlgorithm() }, { new BoyerMooreAlgorithm() } };
 		return Arrays.asList(data);
 	}
 
@@ -86,8 +77,9 @@ public class AlgorithmsTest {
 		expectedOccurences.add(complementaryAndReverseStrandsOccurences);
 		expectedOccurences.add(mainAndReverseComplementaryStrandsOccurences);
 		final List<StrandOccurences> actualOccurences = testedAlgorithm
-				.findRepetitiveStrands(genome, strandsToLookFor,
-						alphabet);
+				.findRepetitiveStrands(genome, strandsToLookFor, alphabet);
+		System.out.println(expectedOccurences.get(0).equals(
+				actualOccurences.get(0)));
 		System.out.println(expectedOccurences);
 		System.out.println(actualOccurences);
 		assertEquals(expectedOccurences, actualOccurences);

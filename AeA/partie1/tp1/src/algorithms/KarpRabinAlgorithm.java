@@ -25,7 +25,7 @@ public class KarpRabinAlgorithm extends Algorithm {
 	 * @param bases
 	 * @return la valeur
 	 */
-	private int hash(Alphabet alphabet, char[] bases) {
+	private int hash(Alphabet alphabet, Character[] bases) {
 		final int alphabetLength = alphabet.size();
 		int currentCoeff = bases.length - 1;
 		int finalHash = 0;
@@ -59,7 +59,7 @@ public class KarpRabinAlgorithm extends Algorithm {
 	 * @param strandBases
 	 * @return
 	 */
-	private boolean occurenceFound(char[] basesToCompare, char[] strandBases) {
+	private boolean occurenceFound(Character[] basesToCompare, Character[] strandBases) {
 		for (int i = 0; i < strandBases.length; i++) {
 			if (basesToCompare[i] != (strandBases[i]))
 				return false;
@@ -73,7 +73,7 @@ public class KarpRabinAlgorithm extends Algorithm {
 		preTreat(genome, strand, alphabet);
 		resetNbComparisons();
 		final StrandOccurences strandOccurences = new StrandOccurences();
-		final char[] basesToCompare = strand.getContent();
+		final Character[] basesToCompare = strand.getContent();
 		for (int i = 0; i < genome.getSize() - strand.getSize() + 1; i++) {
 			System.arraycopy(genome.getContent(), i, basesToCompare, 0,
 					strand.getSize());
