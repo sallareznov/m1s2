@@ -1,7 +1,16 @@
-####*Auteur* : **Salla DIAGNE**####
+# JEU DE LA LETTRE QUI SAUTE
+
+####*Auteurs* : ####
+* Leo PERARD
+* Salla DIAGNE
+
+# Listing des fichiers et répertoires du projet
+* *bin/* : contient les fichiers compilés (.class)
+* *src/* : contient les fichiers source (.java)
+* *test/* : contient les tests unitaires
 
 # Fonctionnement du programme
-* Se placer à la racine du projet (dossier tp1_diagne/)
+* Se placer à la racine du projet (dossier tp1_perard-diagne/)
 * exécuter la commande : java -jar lettre.jar mot1 mot2
     * Ce programme recherche et affiche le chemin le plus court entre mot1 et mot2 dans le graphe Dicos.dico4
 
