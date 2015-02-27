@@ -11,11 +11,13 @@ import java.io.IOException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 import patterns.Genome;
 import reader.util.InvalidFastaFileException;
 import reader.util.NotAFastaFileException;
-import bases.util.Alphabet;
+import bases.Alphabet;
+import bases.util.NonExistentPairingException;
 
 public class FastaFileReaderTest {
 
@@ -101,12 +103,15 @@ public class FastaFileReaderTest {
 
 	@Test
 	public void testGetGenome() throws IOException, InvalidFastaFileException,
-			NotAFastaFileException {
-		final Character[] letters = { 'A', 'C', 'G', 'T' };
-		final Genome expectedGenome = new Genome("CTACTATATATC", new Alphabet(
-				letters));
+			NotAFastaFileException, NonExistentPairingException {
+		final Alphabet alphabet = Mockito.mock(Alphabet.class);
+		Mockito.when(alphabet.contains('A')).thenReturn(true);
+		Mockito.when(alphabet.contains('C')).thenReturn(true);
+		Mockito.when(alphabet.contains('G')).thenReturn(true);
+		Mockito.when(alphabet.contains('T')).thenReturn(true);
+		final Genome expectedGenome = new Genome("CTACTATATATC", null);
 		final Genome actualGenome = testedReader
-				.getGenomeFromFile(validFastaFileContent5.getAbsolutePath());
+				.getGenomeFromFile(validFastaFileContent5.getAbsolutePath(), alphabet, null);
 		assertEquals(expectedGenome, actualGenome);
 	}
 

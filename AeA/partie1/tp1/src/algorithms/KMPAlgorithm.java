@@ -3,7 +3,7 @@ package algorithms;
 import patterns.Genome;
 import patterns.Strand;
 import algorithms.util.StrandOccurences;
-import bases.util.Alphabet;
+import bases.Alphabet;
 
 /**
  * Algorithme de Knuth, Morris et Pratt

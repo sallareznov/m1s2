@@ -2,7 +2,7 @@ package patterns;
 
 import java.util.Arrays;
 
-import bases.util.PairingsManager;
+import bases.PairingsManager;
 
 /**
  * Classe representant un genome

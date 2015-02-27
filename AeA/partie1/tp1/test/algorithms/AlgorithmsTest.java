@@ -12,14 +12,14 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
+import org.mockito.Mockito;
 
 import patterns.Genome;
 import patterns.Strand;
 import algorithms.util.StrandOccurences;
-import bases.util.Alphabet;
+import bases.Alphabet;
+import bases.PairingsManager;
 import bases.util.NonExistentPairingException;
-import bases.util.Pairing;
-import bases.util.PairingsManager;
 
 @RunWith(Parameterized.class)
 public class AlgorithmsTest {
@@ -30,16 +30,17 @@ public class AlgorithmsTest {
 	private PairingsManager pairingsManager;
 	private Alphabet alphabet;
 
-	public AlgorithmsTest(Algorithm algorithm) {
+	public AlgorithmsTest(Algorithm algorithm) throws NonExistentPairingException {
 		testedAlgorithm = algorithm;
-		alphabet = new Alphabet();
-		alphabet.addBase('A');
-		alphabet.addBase('C');
-		alphabet.addBase('G');
-		alphabet.addBase('T');
-		pairingsManager = new PairingsManager();
-		pairingsManager.addPairing(new Pairing('A', 'T', true));
-		pairingsManager.addPairing(new Pairing('C', 'G', true));
+		alphabet = Mockito.mock(Alphabet.class);
+		Mockito.when(alphabet.size()).thenReturn(4);
+		final Character[] bases = {'A', 'C', 'G', 'T'};
+		Mockito.when(alphabet.getBases()).thenReturn(bases);
+		pairingsManager = Mockito.mock(PairingsManager.class);
+		Mockito.when(pairingsManager.getComplementaryOf('A')).thenReturn('T');
+		Mockito.when(pairingsManager.getComplementaryOf('C')).thenReturn('G');
+		Mockito.when(pairingsManager.getComplementaryOf('G')).thenReturn('C');
+		Mockito.when(pairingsManager.getComplementaryOf('T')).thenReturn('A');
 		final String motif = "CTACTATATATC";
 		genome = new Genome(motif, pairingsManager);
 	}
@@ -78,10 +79,6 @@ public class AlgorithmsTest {
 		expectedOccurences.add(mainAndReverseComplementaryStrandsOccurences);
 		final List<StrandOccurences> actualOccurences = testedAlgorithm
 				.findRepetitiveStrands(genome, strandsToLookFor, alphabet);
-		System.out.println(expectedOccurences.get(0).equals(
-				actualOccurences.get(0)));
-		System.out.println(expectedOccurences);
-		System.out.println(actualOccurences);
 		assertEquals(expectedOccurences, actualOccurences);
 	}
 }

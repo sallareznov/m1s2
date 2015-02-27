@@ -7,7 +7,7 @@ import java.util.List;
 import patterns.Genome;
 import patterns.Strand;
 import algorithms.util.StrandOccurences;
-import bases.util.Alphabet;
+import bases.Alphabet;
 
 /**
  * Classe abstraite representant un algorithme de recherche

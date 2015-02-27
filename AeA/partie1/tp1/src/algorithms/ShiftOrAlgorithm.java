@@ -2,12 +2,11 @@ package algorithms;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 import patterns.Genome;
 import patterns.Strand;
 import algorithms.util.StrandOccurences;
-import bases.util.Alphabet;
+import bases.Alphabet;
 
 /**
  * Classe representant l'algorithme ShiftOr
@@ -39,11 +38,10 @@ public class ShiftOrAlgorithm extends Algorithm {
 	 * @param genome
 	 *            le genome
 	 */
-	private void preTreat(Genome genome, Strand strand) {
+	private void preTreat(Genome genome, Strand strand, Alphabet alphabet) {
 		lettersVectors.clear();
 		final String strandString = strand.toString();
-		final Set<Character> alphabet = genome.getManager().getAlphabet();
-		final Character[] letters = alphabet.toArray(new Character[alphabet.size()]);
+		final Character[] letters = alphabet.getBases();
 		for (int i = 0; i < alphabet.size(); i++) {
 			final char letter = letters[i];
 			final Boolean[] currentLetterVector = new Boolean[strandString
@@ -120,7 +118,7 @@ public class ShiftOrAlgorithm extends Algorithm {
 
 	@Override
 	public StrandOccurences findRepetitiveStrand(Genome genome, Strand strand, Alphabet alphabet) {
-		preTreat(genome, strand);
+		preTreat(genome, strand, alphabet);
 		resetNbComparisons();
 		final Character[] genomeBases = genome.getContent();
 		final Character[] strandBases = strand.getContent();

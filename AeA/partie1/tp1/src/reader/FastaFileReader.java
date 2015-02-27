@@ -3,17 +3,15 @@ package reader;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
 import patterns.Genome;
 import reader.util.InvalidFastaFileException;
 import reader.util.NotAFastaFileException;
-import bases.util.Alphabet;
+import bases.Alphabet;
+import bases.PairingsManager;
 import bases.util.NonExistentPairingException;
-import bases.util.PairingsManager;
 
 /**
  * Classe permettant de lire un fichier fasta 
@@ -55,7 +53,7 @@ public class FastaFileReader {
 		}
 	}
 	
-	public Genome test(String filename, PairingsManager pairingsManager, Alphabet alphabet) throws InvalidFastaFileException, IOException, NotAFastaFileException, NonExistentPairingException {
+	public Genome getGenomeFromFile(String filename, Alphabet alphabet, PairingsManager pairingsManager) throws InvalidFastaFileException, IOException, NotAFastaFileException, NonExistentPairingException {
 		verifyExtension(filename);
 		verifyContent(filename);
 		final List<Character> bases = new LinkedList<Character>();
@@ -69,39 +67,6 @@ public class FastaFileReader {
 		}
 		reader.close();
 		return new Genome(bases.toArray(new Character[bases.size()]), pairingsManager);
-	}
-	
-	/**
-	 * lit un fichier fasta et renvoie son objet Genome, si ce fichier est correct
-	 * @param filename le nom du fichier
-	 * @return le genome du fichier
-	 * @throws IOException si erreur au niveau du BufferedReader
-	 * @throws InvalidFastaFileException si le fichier fasta n'est pas conforme
-	 * @throws NotAFastaFileException si le fichier en parametre n'est pas un fichier fasta
-	 */
-	public Genome getGenomeFromFile(String filename) throws IOException, InvalidFastaFileException, NotAFastaFileException {
-		verifyExtension(filename);
-		verifyContent(filename);
-		final List<Base> bases = new LinkedList<Base>();
-		final BaseFlyweightFactory baseFactory = new BaseFlyweightFactory(Alphabet.DEFAULT_ALPHABET);
-		final Set<Character> letters = new HashSet<Character>();
-		// skip la premiere ligne du fichier
-		reader.readLine();
-		int characterCode;
-		while ((characterCode = reader.read()) != -1) {
-			if ((characterCode != NEWLINE_CHARACTER_ASCII_CODE)) {
-				// ne fait rien si le caractere est deja dans l'alphabet
-				final char character = Character.toChars(characterCode)[0];
-				letters.add(character);
-				final Base createdBase = baseFactory.createBase(character);
-				bases.add(createdBase);
-			}
-		}
-		reader.close();
-		final Base[] baseArray = bases.toArray(new Base[bases.size()]);
-		final Character[] lettersArray = letters.toArray(new Character[letters.size()]);
-		final Alphabet alphabet = new Alphabet(lettersArray);
-		return new Genome(baseArray, alphabet);
 	}
 
 }

@@ -1,4 +1,4 @@
-package bases.util;
+package bases;
 
 public class Pairing {
 	

@@ -6,13 +6,14 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 
-import bases.util.Alphabet;
-import bases.util.PairingsManager;
-
+import bases.Alphabet;
+import bases.PairingsManager;
+import bases.util.NonExistentPairingException;
 import main.util.CommandLineParser;
 import patterns.Genome;
 import patterns.Strand;
 import reader.ConfReader;
+import reader.FastaFileReader;
 import reader.util.InvalidFastaFileException;
 import reader.util.NotAFastaFileException;
 import algorithms.Algorithm;
@@ -117,35 +118,37 @@ public class StrandSearching {
 	}
 
 	public static void main(String[] args) throws IOException,
-			InvalidFastaFileException, NotAFastaFileException {
-		final CommandLineParser parser = new CommandLineParser(args);
-		final boolean parsing = parser.parseCommandLine();
+			InvalidFastaFileException, NotAFastaFileException, NonExistentPairingException {
+		final ConfReader confReader = new ConfReader();
+		confReader.read("init.conf");
+		final Alphabet alphabet = confReader.getAlphabet();
+		final PairingsManager pairingsManager = confReader.getPairingsManager();
+		final FastaFileReader fastaFileReader = new FastaFileReader();
+		final Genome genome = fastaFileReader.getGenomeFromFile(args[0], alphabet, pairingsManager);
+		final CommandLineParser parser = new CommandLineParser(args, pairingsManager);
+		final boolean parsing = parser.parseCommandLine(alphabet);
 		if (!parsing) {
 			usage();
 			return;
 		}
-		final ConfReader confReader = new ConfReader();
-		confReader.read("init.conf");
-		final PairingsManager pairingsManager = confReader.getPairingsManager();
-		final Alphabet alphabet = confReader.getAlphabet();
 		final List<Strand> strandsToLookFor = parser.getStrandsToLookFor();
 		final List<Algorithm> algorithmsToUse = parser.getAlgorithmsToUse();
 		System.out
-				.println("taille du genome : " + parser.getGenome().getSize());
+				.println("taille du genome : " + genome.getSize());
 		System.out.println("taille des motifs : "
 				+ parser.getStrandsToLookFor().get(0).getSize());
 		System.out.println();
 		List<StrandOccurences> occurences = null;
 		for (final Algorithm algorithm : algorithmsToUse) {
 			final long beginningTime = System.nanoTime();
-			occurences = algorithm.findRepetitiveStrands(parser.getGenome(),
+			occurences = algorithm.findRepetitiveStrands(genome,
 					strandsToLookFor, alphabet);
 			final long executionTime = System.nanoTime() - beginningTime;
-			printResult(algorithm, parser.getGenome(), strandsToLookFor,
+			printResult(algorithm, genome, strandsToLookFor,
 					occurences, executionTime);
 		}
 		if (parser.dotplotAsked())
-			generateDotplot(parser.getGenome(), occurences);
+			generateDotplot(genome, occurences);
 	}
 
 }

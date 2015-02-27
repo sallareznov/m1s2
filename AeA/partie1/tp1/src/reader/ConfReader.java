@@ -6,9 +6,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.StringTokenizer;
 
-import bases.util.Alphabet;
-import bases.util.Pairing;
-import bases.util.PairingsManager;
+import bases.Alphabet;
+import bases.Pairing;
+import bases.PairingsManager;
 
 public class ConfReader {
 

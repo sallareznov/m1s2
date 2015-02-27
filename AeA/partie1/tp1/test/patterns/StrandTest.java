@@ -8,8 +8,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import bases.PairingsManager;
 import bases.util.NonExistentPairingException;
-import bases.util.PairingsManager;
 
 /**
  * Classe de test de la classe Strand
@@ -21,7 +21,7 @@ public class StrandTest {
 
 	@Before
 	public void setUp() throws NonExistentPairingException {
-		final char[] bases = { 'G', 'A', 'T', 'A', 'C', 'A' };
+		final Character[] bases = { 'G', 'A', 'T', 'A', 'C', 'A' };
 		pairingsManager = Mockito.mock(PairingsManager.class);
 		Mockito.when(pairingsManager.getComplementaryOf('A')).thenReturn('T');
 		Mockito.when(pairingsManager.getComplementaryOf('C')).thenReturn('G');

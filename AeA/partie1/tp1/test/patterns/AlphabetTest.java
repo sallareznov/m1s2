@@ -6,7 +6,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
-import patterns.Alphabet;
+import bases.Alphabet;
 
 public class AlphabetTest {
 
@@ -14,8 +14,11 @@ public class AlphabetTest {
 
 	@Before
 	public void setUp() {
-		final Character[] letters = { 'A', 'C', 'G', 'T' };
-		testedAlphabet = new Alphabet(letters);
+		testedAlphabet = new Alphabet();
+		testedAlphabet.addBase('A');
+		testedAlphabet.addBase('C');
+		testedAlphabet.addBase('G');
+		testedAlphabet.addBase('T');
 	}
 
 	@Test
@@ -24,11 +27,11 @@ public class AlphabetTest {
 		final char letter2 = 'P';
 		final char letter3 = 'A';
 		assertTrue("La lettre C est-elle contenue dans l'alphabet ?",
-				testedAlphabet.containsLetter(letter1));
+				testedAlphabet.contains(letter1));
 		assertFalse("La lettre P est-elle contenue dans l'alphabet ?",
-				testedAlphabet.containsLetter(letter2));
+				testedAlphabet.contains(letter2));
 		assertTrue("La lettre A est-elle contenue dans l'alphabet ?",
-				testedAlphabet.containsLetter(letter3));
+				testedAlphabet.contains(letter3));
 	}
 
 }

@@ -1,6 +1,7 @@
-package bases.util;
+package bases;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 public class Alphabet {
@@ -13,6 +14,18 @@ public class Alphabet {
 	
 	public void addBase(char base) {
 		bases.add(base);
+	}
+	
+	public int getIndex(char base) {
+		final Iterator<Character> iter = bases.iterator();
+		int index = 0;
+		while (iter.hasNext()) {
+			if (iter.next() == base) {
+				return index;
+			}
+			index++;
+		}
+		return -1;
 	}
 	
 	public boolean contains(char base) {

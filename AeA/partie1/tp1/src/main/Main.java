@@ -1,7 +1,7 @@
 package main;
 
-import bases.util.Pairing;
-import bases.util.PairingsManager;
+import bases.Pairing;
+import bases.PairingsManager;
 
 public class Main {
 	

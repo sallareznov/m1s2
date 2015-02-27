@@ -1,7 +1,7 @@
 package patterns;
 
+import bases.PairingsManager;
 import bases.util.NonExistentPairingException;
-import bases.util.PairingsManager;
 
 /**
  * Classe représentant un brin d'ADN

@@ -5,7 +5,6 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 import patterns.AlphabetTest;
-import patterns.GenomeTest;
 import patterns.StrandTest;
 import reader.FastaFileReaderTest;
 import algorithms.AlgorithmsTest;
@@ -17,7 +16,6 @@ import algorithms.AlgorithmsTest;
 @SuiteClasses(value={
 AlphabetTest.class,
 StrandTest.class,
-GenomeTest.class,
 AlgorithmsTest.class,
 FastaFileReaderTest.class
 })

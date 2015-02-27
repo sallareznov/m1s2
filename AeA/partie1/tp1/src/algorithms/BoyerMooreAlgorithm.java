@@ -6,7 +6,7 @@ import java.util.Map;
 import patterns.Genome;
 import patterns.Strand;
 import algorithms.util.StrandOccurences;
-import bases.util.Alphabet;
+import bases.Alphabet;
 
 /**
  * Classe representant l'algorithme de recherche Boyer-Moore
