@@ -2,6 +2,7 @@ package ftp.command;
 
 import ftp.FTPDatabase;
 import ftp.FTPMessageSender;
+import ftp.FTPRequest;
 import ftp.configuration.FTPClientConfiguration;
 
 /**
@@ -19,12 +20,17 @@ public class FTPNotImplementedCommand extends FTPMessageSender implements
 	}
 
 	@Override
-	public boolean accept(String command) {
+	public boolean accept(FTPRequest request) {
+		return true;
+	}
+	
+	@Override
+	public boolean isValid(FTPRequest request) {
 		return true;
 	}
 
 	@Override
-	public void execute(String argument,
+	public void execute(FTPRequest request,
 			FTPClientConfiguration clientConfiguration) {
 		sendCommand(clientConfiguration.getCommandSocket(), 502);
 	}

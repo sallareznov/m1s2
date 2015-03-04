@@ -3,6 +3,7 @@ package ftp.command;
 import java.util.LinkedList;
 import java.util.List;
 
+import ftp.FTPRequest;
 import ftp.configuration.FTPClientConfiguration;
 
 /**
@@ -21,7 +22,9 @@ public class FTPCommandManager {
 
 	/**
 	 * adds a command to the manager
-	 * @param command the command to add
+	 * 
+	 * @param command
+	 *            the command to add
 	 */
 	public void addCommand(FTPCommand command) {
 		_commands.add(command);
@@ -29,15 +32,17 @@ public class FTPCommandManager {
 
 	/**
 	 * executes a command
-	 * @param commandString the command name
-	 * @param argument the argument
-	 * @param clientConfiguration the configuration of the client
+	 * 
+	 * @param request
+	 *            the request (command + argument)
+	 * @param clientConfiguration
+	 *            the configuration of the client
 	 */
-	public void execute(String commandString, String argument,
+	public void handle(FTPRequest request,
 			FTPClientConfiguration clientConfiguration) {
 		for (final FTPCommand command : _commands) {
-			if (command.accept(commandString)) {
-				command.execute(argument, clientConfiguration);
+			if (command.accept(request)) {
+				command.execute(request, clientConfiguration);
 				break;
 			}
 		}

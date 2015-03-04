@@ -8,6 +8,7 @@ import java.net.Socket;
 
 import ftp.FTPDatabase;
 import ftp.FTPMessageSender;
+import ftp.FTPRequest;
 import ftp.configuration.FTPClientConfiguration;
 
 public class FTPStorCommand extends FTPMessageSender implements FTPCommand {
@@ -17,13 +18,23 @@ public class FTPStorCommand extends FTPMessageSender implements FTPCommand {
 	}
 
 	@Override
-	public boolean accept(String command) {
+	public boolean accept(FTPRequest request) {
+		final String command = request.getCommand();
 		return command.equals("STOR");
+	}
+	
+	@Override
+	public boolean isValid(FTPRequest request) {
+		return (request.getLength() == 2);
 	}
 
 	@Override
-	public void execute(String argument,
+	public void execute(FTPRequest request,
 			FTPClientConfiguration clientConfiguration) {
+		if (!isValid(request)) {
+			sendCommand(clientConfiguration.getCommandSocket(), 501);
+			return;
+		}
 		if (!clientConfiguration.isConnected()) {
 			sendCommand(clientConfiguration.getCommandSocket(), 530);
 			return;
@@ -36,8 +47,12 @@ public class FTPStorCommand extends FTPMessageSender implements FTPCommand {
 			sendCommand(clientConfiguration.getCommandSocket(), 150);
 			final Socket dataSocket = clientConfiguration.getDataSocket();
 			final InputStream dataSocketStream = dataSocket.getInputStream();
-			final String fullFilePath = clientConfiguration.getWorkingDirectory() + clientConfiguration.getDirectorySeparator() + argument;
-			final FileOutputStream fileOutputStream = new FileOutputStream(fullFilePath);
+			final String fullFilePath = clientConfiguration
+					.getWorkingDirectory()
+					+ clientConfiguration.getDirectorySeparator()
+					+ request.getArgument();
+			final FileOutputStream fileOutputStream = new FileOutputStream(
+					fullFilePath);
 			int data = 0;
 			while ((data = dataSocketStream.read()) != -1) {
 				fileOutputStream.write(data);
@@ -48,7 +63,7 @@ public class FTPStorCommand extends FTPMessageSender implements FTPCommand {
 		} catch (FileNotFoundException e) {
 			sendCommand(clientConfiguration.getCommandSocket(), 550);
 		} catch (IOException e) {
-			System.err.println("Cannot store " + argument);
+			sendCommand(clientConfiguration.getCommandSocket(), 500);
 		}
 	}
 

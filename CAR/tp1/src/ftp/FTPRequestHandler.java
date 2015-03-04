@@ -15,21 +15,16 @@ import ftp.configuration.FTPServerConfiguration;
  */
 public class FTPRequestHandler extends FTPMessageSender implements Runnable {
 
-	/**
-	 * @uml.property  name="_clientConfiguration"
-	 * @uml.associationEnd  
-	 */
 	private FTPClientConfiguration _clientConfiguration;
-	/**
-	 * @uml.property  name="_commandManager"
-	 * @uml.associationEnd  
-	 */
 	private FTPCommandManager _commandManager;
 
 	/**
-	 * @param database the database
-	 * @param serverConfiguration the configuration of the server
-	 * @param commandManager the command manager
+	 * @param database
+	 *            the database
+	 * @param serverConfiguration
+	 *            the configuration of the server
+	 * @param commandManager
+	 *            the command manager
 	 */
 	public FTPRequestHandler(FTPDatabase database,
 			FTPServerConfiguration serverConfiguration,
@@ -66,11 +61,12 @@ public class FTPRequestHandler extends FTPMessageSender implements Runnable {
 
 	/**
 	 * treatment following a request received
-	 * @param request the request
+	 * 
+	 * @param request
+	 *            the request
 	 */
 	public synchronized void processRequest(FTPRequest request) {
-		_commandManager.execute(request.getCommand(), request.getArgument(),
-				_clientConfiguration);
+		_commandManager.handle(request, _clientConfiguration);
 	}
 
 }

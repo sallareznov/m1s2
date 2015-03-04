@@ -11,20 +11,29 @@ import java.text.MessageFormat;
  */
 public abstract class FTPMessageSender {
 
-	/**
-	 * @uml.property name="_database"
-	 * @uml.associationEnd
-	 */
 	private FTPDatabase _database;
 
+	/**
+	 * Default constructor
+	 * @param database the database
+	 */
 	public FTPMessageSender(FTPDatabase database) {
 		_database = database;
 	}
 
+	/**
+	 * @return the database
+	 */
 	public FTPDatabase getDatabase() {
 		return _database;
 	}
 
+	/**
+	 * sends the command via the command socket
+	 * @param connection the connection (command socket)
+	 * @param returnCode the return code
+	 * @param arguments the arguments to pass to the formatter
+	 */
 	public void sendCommand(Socket connection, int returnCode,
 			Object... arguments) {
 		final String initialMessage = _database.getMessage(returnCode);
@@ -33,6 +42,11 @@ public abstract class FTPMessageSender {
 		writeCommandWithMessage(connection, returnCode, formattedMessage);
 	}
 
+	/**
+	 * sends data via the data socket
+	 * @param dataSocket the data socket
+	 * @param message the data
+	 */
 	public void sendData(Socket dataSocket, String message) {
 		try {
 			final OutputStream outputStream = dataSocket.getOutputStream();

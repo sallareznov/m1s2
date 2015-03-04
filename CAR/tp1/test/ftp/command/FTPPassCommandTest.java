@@ -11,6 +11,7 @@ import java.text.MessageFormat;
 import java.util.Map;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -20,6 +21,7 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import ftp.FTPDatabase;
+import ftp.FTPRequest;
 import ftp.configuration.FTPClientConfiguration;
 
 /**
@@ -29,15 +31,7 @@ import ftp.configuration.FTPClientConfiguration;
 @PrepareForTest(MessageFormat.class)
 public class FTPPassCommandTest {
 	
-	/**
-	 * @uml.property  name="_passCommand"
-	 * @uml.associationEnd  
-	 */
 	private FTPCommand _passCommand;
-	/**
-	 * @uml.property  name="_database"
-	 * @uml.associationEnd  
-	 */
 	private FTPDatabase _database;
 	@Mock
 	private Map<String, String> _accounts;
@@ -50,16 +44,35 @@ public class FTPPassCommandTest {
 
 	@Test
 	public void testAccept() {
-		assertTrue(_passCommand.accept("PASS"));
-		assertFalse(_passCommand.accept("DUMB"));
+		final FTPRequest acceptedRequest = Mockito.mock(FTPRequest.class);
+		final FTPRequest declinedRequest = Mockito.mock(FTPRequest.class);
+		Mockito.when(acceptedRequest.getCommand()).thenReturn("PASS");
+		Mockito.when(declinedRequest.getCommand()).thenReturn("DUMB");
+		assertTrue(_passCommand.accept(acceptedRequest));
+		assertFalse(_passCommand.accept(declinedRequest));
 	}
 
 	@Test
+	public void testIsValid() {
+		final FTPRequest validRequest = Mockito.mock(FTPRequest.class);
+		final FTPRequest invalidRequest = Mockito.mock(FTPRequest.class);
+		Mockito.when(invalidRequest.getLength()).thenReturn(1);
+		Mockito.when(validRequest.getLength()).thenReturn(2);
+		assertFalse(_passCommand.isValid(invalidRequest));
+		assertTrue(_passCommand.isValid(validRequest));
+	}
+
+	@Ignore
+	@Test
 	public void testExecute() {
-		final String correctPassword = "test";
-		final String incorrectPassword = "incorrect";
+		final FTPRequest correctRequest = Mockito.mock(FTPRequest.class);
+		Mockito.when(correctRequest.getArgument()).thenReturn("test");
+		final FTPRequest incorrectRequest = Mockito.mock(FTPRequest.class);
+		Mockito.when(incorrectRequest.getArgument()).thenReturn("incorrect");
+		final String correctPassword = correctRequest.getArgument();
+		final String incorrectPassword = incorrectRequest.getArgument();
 		final FTPClientConfiguration clientConfiguration = Mockito.mock(FTPClientConfiguration.class);
-		Mockito.when(clientConfiguration.getUsername()).thenReturn(correctPassword);
+		Mockito.when(clientConfiguration.getUsername()).thenReturn("test");
 		final Socket connection = Mockito.mock(Socket.class);
 		final OutputStream outputStream = Mockito.mock(OutputStream.class);
 		try {
@@ -74,10 +87,10 @@ public class FTPPassCommandTest {
 		Mockito.when(_database.getAccounts()).thenReturn(_accounts);
 		Mockito.when(_database.getMessage(230)).thenReturn("");
 		Mockito.when(_database.getMessage(332)).thenReturn("");
-		_passCommand.execute(correctPassword, clientConfiguration);
+		_passCommand.execute(correctRequest, clientConfiguration);
 		Mockito.verify(_database).getMessage(230);
 		Mockito.when(_accounts.get(Mockito.anyString())).thenReturn(incorrectPassword);
-		_passCommand.execute(correctPassword, clientConfiguration);
+		_passCommand.execute(correctRequest, clientConfiguration);
 		Mockito.verify(_database).getMessage(332);
 	}
 

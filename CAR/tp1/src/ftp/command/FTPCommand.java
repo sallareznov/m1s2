@@ -1,5 +1,6 @@
 package ftp.command;
 
+import ftp.FTPRequest;
 import ftp.configuration.FTPClientConfiguration;
 
 /**
@@ -7,17 +8,28 @@ import ftp.configuration.FTPClientConfiguration;
  */
 public interface FTPCommand {
 
-	/**
-	 * @param command the command
-	 * @return <code>true</code> if the command accepts this command string
-	 */
-    boolean accept(String command);
+    /**
+     * @param request
+     *            the request
+     * @return <code>true</code> if the command accepts this request
+     */
+    boolean accept(FTPRequest request);
+    
+    /**
+     * @param request
+     *            the request
+     * @return <code>true</code> if the request is valid by checking the validity of its argument
+     */
+    boolean isValid(FTPRequest request);
 
     /**
      * executes the command
-     * @param argument the argument of the command
-     * @param clientConfiguration the configuration of the client
+     * 
+     * @param request
+     *            the request
+     * @param clientConfiguration
+     *            the configuration of the client
      */
-    void execute(String argument, FTPClientConfiguration clientConfiguration);
+    void execute(FTPRequest request, FTPClientConfiguration clientConfiguration);
 
 }

@@ -7,6 +7,7 @@ import java.util.StringTokenizer;
 
 import ftp.FTPDatabase;
 import ftp.FTPMessageSender;
+import ftp.FTPRequest;
 import ftp.configuration.FTPClientConfiguration;
 
 /**
@@ -23,19 +24,29 @@ public class FTPPortCommand extends FTPMessageSender implements FTPCommand {
 	}
 
 	@Override
-	public boolean accept(String command) {
+	public boolean accept(FTPRequest request) {
+		final String command = request.getCommand();
 		return command.equals("PORT");
+	}
+	
+	@Override
+	public boolean isValid(FTPRequest request) {
+		return (request.getLength() == 2);
 	}
 
 	@Override
-	public void execute(String argument,
+	public void execute(FTPRequest request,
 			FTPClientConfiguration clientConfiguration) {
 		final Socket connection = clientConfiguration.getCommandSocket();
+		if (!isValid(request)) {
+			sendCommand(connection, 501);
+			return;
+		}
 		if (!clientConfiguration.isConnected()) {
 			sendCommand(connection, 530);
 			return;
 		}
-		final StringTokenizer tokenizer = new StringTokenizer(argument, ",");
+		final StringTokenizer tokenizer = new StringTokenizer(request.getArgument(), ",");
 		final String ipAddress = tokenizer.nextToken() + "."
 				+ tokenizer.nextToken() + "." + tokenizer.nextToken() + "."
 				+ tokenizer.nextToken();

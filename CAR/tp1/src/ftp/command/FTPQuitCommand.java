@@ -2,6 +2,7 @@ package ftp.command;
 
 import ftp.FTPDatabase;
 import ftp.FTPMessageSender;
+import ftp.FTPRequest;
 import ftp.configuration.FTPClientConfiguration;
 
 /**
@@ -18,14 +19,25 @@ public class FTPQuitCommand extends FTPMessageSender implements FTPCommand {
 	}
 
 	@Override
-	public boolean accept(String command) {
+	public boolean accept(FTPRequest request) {
+		final String command = request.getCommand();
 		return command.equals("QUIT");
+	}
+	
+	@Override
+	public boolean isValid(FTPRequest request) {
+		return (request.getLength() == 1);
 	}
 
 	@Override
-	public void execute(String argument,
+	public void execute(FTPRequest request,
 			FTPClientConfiguration clientConfiguration) {
+		if (!isValid(request)) {
+			sendCommand(clientConfiguration.getCommandSocket(), 501);
+			return;
+		}
 		sendCommand(clientConfiguration.getCommandSocket(), 221);
+		clientConfiguration.setConnected(false);
 	}
 
 }

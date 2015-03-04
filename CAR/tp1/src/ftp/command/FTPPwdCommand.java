@@ -2,6 +2,7 @@ package ftp.command;
 
 import ftp.FTPDatabase;
 import ftp.FTPMessageSender;
+import ftp.FTPRequest;
 import ftp.configuration.FTPClientConfiguration;
 
 /**
@@ -18,13 +19,23 @@ public class FTPPwdCommand extends FTPMessageSender implements FTPCommand {
 	}
 
 	@Override
-	public boolean accept(String command) {
+	public boolean accept(FTPRequest request) {
+		final String command = request.getCommand();
 		return command.equals("PWD");
+	}
+	
+	@Override
+	public boolean isValid(FTPRequest request) {
+		return (request.getLength() == 1);
 	}
 
 	@Override
-	public void execute(String argument,
+	public void execute(FTPRequest request,
 			FTPClientConfiguration clientConfiguration) {
+		if (!isValid(request)) {
+			sendCommand(clientConfiguration.getCommandSocket(), 501);
+			return;
+		}
 		final String workingDirectory = clientConfiguration
 				.getWorkingDirectory();
 		sendCommand(clientConfiguration.getCommandSocket(),

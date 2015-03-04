@@ -14,6 +14,7 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 import ftp.FTPDatabase;
+import ftp.FTPRequest;
 import ftp.configuration.FTPClientConfiguration;
 
 /**
@@ -21,15 +22,7 @@ import ftp.configuration.FTPClientConfiguration;
  */
 public class FTPTypeCommandTest {
 
-	/**
-	 * @uml.property  name="_typeCommand"
-	 * @uml.associationEnd  
-	 */
 	private FTPCommand _typeCommand;
-	/**
-	 * @uml.property  name="_database"
-	 * @uml.associationEnd  
-	 */
 	private FTPDatabase _database;
 
 	@Before
@@ -40,14 +33,28 @@ public class FTPTypeCommandTest {
 
 	@Test
 	public void testAccept() {
-		assertTrue(_typeCommand.accept("TYPE"));
-		assertFalse(_typeCommand.accept("DUMB"));
+		final FTPRequest acceptedRequest = Mockito.mock(FTPRequest.class);
+		final FTPRequest declinedRequest = Mockito.mock(FTPRequest.class);
+		Mockito.when(acceptedRequest.getCommand()).thenReturn("TYPE");
+		Mockito.when(declinedRequest.getCommand()).thenReturn("DUMB");
+		assertTrue(_typeCommand.accept(acceptedRequest));
+		assertFalse(_typeCommand.accept(declinedRequest));
+	}
+	
+	@Test
+	public void testIsValid() {
+		final FTPRequest validRequest = Mockito.mock(FTPRequest.class);
+		final FTPRequest invalidRequest = Mockito.mock(FTPRequest.class);
+		Mockito.when(invalidRequest.getLength()).thenReturn(2);
+		Mockito.when(validRequest.getLength()).thenReturn(1);
+		assertFalse(_typeCommand.isValid(invalidRequest));
+		assertTrue(_typeCommand.isValid(validRequest));
 	}
 
 	@Test
 	@Ignore
 	public void testExecute() {
-		final String uselessArgument = "useless";
+		final FTPRequest request = Mockito.mock(FTPRequest.class);
 		final FTPClientConfiguration clientConfiguration = Mockito
 				.mock(FTPClientConfiguration.class);
 		final Socket connection = Mockito.mock(Socket.class);
@@ -59,7 +66,7 @@ public class FTPTypeCommandTest {
 		}
 		Mockito.when(clientConfiguration.getCommandSocket())
 				.thenReturn(connection);
-		_typeCommand.execute(uselessArgument, clientConfiguration);
+		_typeCommand.execute(request, clientConfiguration);
 		Mockito.verify(_database).getMessage(200);
 	}
 

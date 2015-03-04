@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import ftp.FTPDatabase;
 import ftp.FTPMessageSender;
+import ftp.FTPRequest;
 import ftp.configuration.FTPClientConfiguration;
 
 /**
@@ -21,20 +22,30 @@ public class FTPNlstCommand extends FTPMessageSender implements FTPCommand {
 	}
 
 	@Override
-	public boolean accept(String command) {
+	public boolean accept(FTPRequest request) {
+		final String command = request.getCommand();
 		return command.equals("NLST");
+	}
+	
+	@Override
+	public boolean isValid(FTPRequest request) {
+		return (request.getLength() <= 2);
 	}
 
 	@Override
-	public void execute(String argument,
+	public void execute(FTPRequest request,
 			FTPClientConfiguration clientConfiguration) {
+		if (!isValid(request)) {
+			sendCommand(clientConfiguration.getCommandSocket(), 501);
+			return;
+		}
 		if (!clientConfiguration.isConnected()) {
 			sendCommand(clientConfiguration.getCommandSocket(), 530);
 			return;
 		}
 		sendCommand(clientConfiguration.getCommandSocket(), 150);
-		final String workingDirectoryPath = clientConfiguration
-				.getWorkingDirectory();
+		final String workingDirectoryPath = (request.getArgument() == null) ? clientConfiguration
+				.getWorkingDirectory() : request.getArgument();
 		final File workingDirectory = new File(workingDirectoryPath);
 		final File[] directoryListing = workingDirectory.listFiles();
 		final StringBuilder messageBuilder = new StringBuilder();

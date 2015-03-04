@@ -33,10 +33,16 @@ public class FTPDatabase {
 		buildCodesAndMessages();
 	}
 	
+	/**
+	 * @return the hostname
+	 */
 	public String getHostname() {
 		return _hostname;
 	}
 
+	/**
+	 * @return the accounts
+	 */
 	public Map<String, String> getAccounts() {
 		return _validAccounts;
 	}

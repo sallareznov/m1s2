@@ -17,25 +17,18 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 
 import ftp.FTPDatabase;
+import ftp.FTPRequest;
 import ftp.configuration.FTPClientConfiguration;
 
 /**
- * @author  diagne
+ * @author diagne
  */
 @PrepareForTest(MessageFormat.class)
 public class FTPPwdCommandTest {
-	
-	/**
-	 * @uml.property  name="_pwdCommand"
-	 * @uml.associationEnd  
-	 */
+
 	private FTPCommand _pwdCommand;
-	/**
-	 * @uml.property  name="_database"
-	 * @uml.associationEnd  
-	 */
-	private FTPDatabase _database; 
-	
+	private FTPDatabase _database;
+
 	@Before
 	public void setUp() {
 		_database = Mockito.mock(FTPDatabase.class);
@@ -44,17 +37,33 @@ public class FTPPwdCommandTest {
 
 	@Test
 	public void testAccept() {
-		assertTrue(_pwdCommand.accept("PWD"));
-		assertFalse(_pwdCommand.accept("DUMB"));
+		final FTPRequest acceptedRequest = Mockito.mock(FTPRequest.class);
+		final FTPRequest declinedRequest = Mockito.mock(FTPRequest.class);
+		Mockito.when(acceptedRequest.getCommand()).thenReturn("PWD");
+		Mockito.when(declinedRequest.getCommand()).thenReturn("DUMB");
+		assertTrue(_pwdCommand.accept(acceptedRequest));
+		assertFalse(_pwdCommand.accept(declinedRequest));
+	}
+	
+	@Test
+	public void testIsValid() {
+		final FTPRequest validRequest = Mockito.mock(FTPRequest.class);
+		final FTPRequest invalidRequest = Mockito.mock(FTPRequest.class);
+		Mockito.when(invalidRequest.getLength()).thenReturn(2);
+		Mockito.when(validRequest.getLength()).thenReturn(1);
+		assertFalse(_pwdCommand.isValid(invalidRequest));
+		assertTrue(_pwdCommand.isValid(validRequest));
 	}
 
 	@Test
 	@Ignore
 	public void testExecute() {
-		final String uselessArgument = "useless";
+		final FTPRequest request = Mockito.mock(FTPRequest.class);
 		final String workingDirectory = "home/m1/someGuy";
-		final FTPClientConfiguration clientConfiguration = Mockito.mock(FTPClientConfiguration.class);
-		Mockito.when(clientConfiguration.getWorkingDirectory()).thenReturn(workingDirectory);
+		final FTPClientConfiguration clientConfiguration = Mockito
+				.mock(FTPClientConfiguration.class);
+		Mockito.when(clientConfiguration.getWorkingDirectory()).thenReturn(
+				workingDirectory);
 		final Socket connection = Mockito.mock(Socket.class);
 		final OutputStream outputStream = Mockito.mock(OutputStream.class);
 		try {
@@ -63,11 +72,13 @@ public class FTPPwdCommandTest {
 			fail();
 		}
 		PowerMockito.mockStatic(MessageFormat.class);
-		Mockito.when(MessageFormat.format(Mockito.anyString(), Mockito.anyString())).thenReturn(workingDirectory);
-		Mockito.when(clientConfiguration.getCommandSocket()).thenReturn(connection);
-		_pwdCommand.execute(uselessArgument, clientConfiguration);
+		Mockito.when(
+				MessageFormat.format(Mockito.anyString(), Mockito.anyString()))
+				.thenReturn(workingDirectory);
+		Mockito.when(clientConfiguration.getCommandSocket()).thenReturn(
+				connection);
+		_pwdCommand.execute(request, clientConfiguration);
 		Mockito.verify(_database).getMessage(257);
 	}
-
 
 }

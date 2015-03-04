@@ -11,6 +11,7 @@ import java.util.Date;
 
 import ftp.FTPDatabase;
 import ftp.FTPMessageSender;
+import ftp.FTPRequest;
 import ftp.configuration.FTPClientConfiguration;
 
 /**
@@ -29,8 +30,14 @@ public class FTPListCommand extends FTPMessageSender implements FTPCommand {
 	}
 
 	@Override
-	public boolean accept(String command) {
+	public boolean accept(FTPRequest request) {
+		final String command = request.getCommand();
 		return command.equals("LIST");
+	}
+
+	@Override
+	public boolean isValid(FTPRequest request) {
+		return (request.getLength() <= 2);
 	}
 
 	private String buildListItem(File entry) {
@@ -52,8 +59,8 @@ public class FTPListCommand extends FTPMessageSender implements FTPCommand {
 					.format(new Date(entry.lastModified()));
 			String filename = entry.getName();
 
-			return String.format("%c%s %s %s %6d %s %s", dir, chmod,
-					owner, group, size, lastModif, filename);
+			return String.format("%c%s %s %s %6d %s %s", dir, chmod, owner,
+					group, size, lastModif, filename);
 		} catch (IOException e) {
 			System.err.println("ERROR while getting POSIX attributes");
 			return null;
@@ -61,29 +68,40 @@ public class FTPListCommand extends FTPMessageSender implements FTPCommand {
 	}
 
 	@Override
-	public void execute(String argument,
+	public void execute(FTPRequest request,
 			FTPClientConfiguration clientConfiguration) {
+		if (!isValid(request)) {
+			sendCommand(clientConfiguration.getCommandSocket(), 501);
+			return;
+		}
 		if (!clientConfiguration.isConnected()) {
 			sendCommand(clientConfiguration.getCommandSocket(), 530);
 			return;
 		}
 		sendCommand(clientConfiguration.getCommandSocket(), 150);
-		final String workingDirectoryPath = clientConfiguration
-				.getWorkingDirectory();
+		final String workingDirectoryPath = (request.getArgument() == null) ? clientConfiguration
+				.getWorkingDirectory() : clientConfiguration
+				.getWorkingDirectory()
+				+ clientConfiguration.getDirectorySeparator()
+				+ request.getArgument();
 		final File workingDirectory = new File(workingDirectoryPath);
 		final File[] directoryListing = workingDirectory.listFiles();
 		final StringBuilder messageBuilder = new StringBuilder();
-		for (final File entry : directoryListing) {
-			if (!entry.isHidden())
-				messageBuilder.append(buildListItem(entry) + "\n");
-		}
-		sendData(clientConfiguration.getDataSocket(), messageBuilder.toString());
 		try {
+			for (final File entry : directoryListing) {
+				if (!entry.isHidden())
+					messageBuilder.append(buildListItem(entry) + "\n");
+			}
+			sendData(clientConfiguration.getDataSocket(),
+					messageBuilder.toString());
+
 			clientConfiguration.closeDataSocket();
+			sendCommand(clientConfiguration.getCommandSocket(), 226);
 		} catch (IOException e) {
-			System.out.println("ERROR while closing data socket");
+			sendCommand(clientConfiguration.getCommandSocket(), 500);
+		} catch (NullPointerException e) {
+			sendCommand(clientConfiguration.getCommandSocket(), 550);
 		}
-		sendCommand(clientConfiguration.getCommandSocket(), 226);
 	}
 
 }

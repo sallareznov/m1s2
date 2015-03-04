@@ -1,16 +1,20 @@
 package ftp.command;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.Socket;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mockito;
 
 import ftp.FTPDatabase;
+import ftp.FTPRequest;
 import ftp.configuration.FTPClientConfiguration;
 
 /**
@@ -18,15 +22,7 @@ import ftp.configuration.FTPClientConfiguration;
  */
 public class FTPQuitCommandTest {
 
-	/**
-	 * @uml.property  name="_quitCommand"
-	 * @uml.associationEnd  
-	 */
 	private FTPCommand _quitCommand;
-	/**
-	 * @uml.property  name="_database"
-	 * @uml.associationEnd  
-	 */
 	private FTPDatabase _database; 
 	
 	@Before
@@ -37,13 +33,28 @@ public class FTPQuitCommandTest {
 
 	@Test
 	public void testAccept() {
-		assertTrue(_quitCommand.accept("QUIT"));
-		assertFalse(_quitCommand.accept("DUMB"));
+		final FTPRequest acceptedRequest = Mockito.mock(FTPRequest.class);
+		final FTPRequest declinedRequest = Mockito.mock(FTPRequest.class);
+		Mockito.when(acceptedRequest.getCommand()).thenReturn("QUIT");
+		Mockito.when(declinedRequest.getCommand()).thenReturn("DUMB");
+		assertTrue(_quitCommand.accept(acceptedRequest));
+		assertFalse(_quitCommand.accept(declinedRequest));
+	}
+	
+	@Test
+	public void testIsValid() {
+		final FTPRequest validRequest = Mockito.mock(FTPRequest.class);
+		final FTPRequest invalidRequest = Mockito.mock(FTPRequest.class);
+		Mockito.when(invalidRequest.getLength()).thenReturn(2);
+		Mockito.when(validRequest.getLength()).thenReturn(1);
+		assertFalse(_quitCommand.isValid(invalidRequest));
+		assertTrue(_quitCommand.isValid(validRequest));
 	}
 
+	@Ignore
 	@Test
 	public void testExecute() {
-		final String uselessArgument = "useless";
+		final FTPRequest request = Mockito.mock(FTPRequest.class);
 		final FTPClientConfiguration clientConfiguration = Mockito.mock(FTPClientConfiguration.class); 
 		final Socket connection = Mockito.mock(Socket.class);
 		final OutputStream outputStream = Mockito.mock(OutputStream.class);
@@ -53,7 +64,7 @@ public class FTPQuitCommandTest {
 			fail();
 		}
 		Mockito.when(clientConfiguration.getCommandSocket()).thenReturn(connection);
-		_quitCommand.execute(uselessArgument, clientConfiguration);
+		_quitCommand.execute(request, clientConfiguration);
 		Mockito.verify(_database).getMessage(221);
 	}
 
