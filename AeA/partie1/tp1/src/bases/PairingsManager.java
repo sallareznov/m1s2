@@ -38,5 +38,10 @@ public class PairingsManager {
 	public int nbPairings() {
 		return pairings.size();
 	}
+	
+	@Override
+	public String toString() {
+		return pairings.toString();
+	}
 
 }

@@ -1,10 +1,11 @@
-package main.util;
+package parsing;
 
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import patterns.Strand;
 import reader.util.InvalidFastaFileException;
@@ -23,11 +24,20 @@ import bases.util.NonExistentPairingException;
  * Classe se chargeant de parser la ligne de commande de l'utilisateur
  */
 public class CommandLineParser {
+	
+	private Map<String, Strand> optionsToStrands;
+	private Map<String, Algorithm> optionsToAlgorithms;
+	
+	public CommandLineParser(Map<String, Strand> optionsToStrand, Map<String, Algorithm> optionsToAlgorithms) {
+		this.optionsToStrands = optionsToStrand;
+		this.optionsToAlgorithms = optionsToAlgorithms;
+	}
 
 	// FLAGS
 	private static final String HELP_FLAG = "--HELP";
 	private static final String STRANDS_FLAG = "--WITH";
 	private static final String ALGORITHMS_FLAG = "--USING";
+	private static final String DOTPLOT_FLAG = "--DOTPLOT";
 	// STRANDS OPTIONS
 	private static final String REVERSE_OPTION = "-rev";
 	private static final String COMPLEMENTARY_OPTION = "-comp";

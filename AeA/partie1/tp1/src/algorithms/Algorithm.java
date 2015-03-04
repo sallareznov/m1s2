@@ -74,5 +74,5 @@ public abstract class Algorithm {
 		}
 		return strandsOccurences;
 	}
-
+	
 }

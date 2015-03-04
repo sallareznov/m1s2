@@ -6,10 +6,8 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 
-import bases.Alphabet;
-import bases.PairingsManager;
-import bases.util.NonExistentPairingException;
-import main.util.CommandLineParser;
+import main.util.StrandSearchingResultsManager;
+import parsing.CommandLineParser;
 import patterns.Genome;
 import patterns.Strand;
 import reader.ConfReader;
@@ -18,13 +16,16 @@ import reader.util.InvalidFastaFileException;
 import reader.util.NotAFastaFileException;
 import algorithms.Algorithm;
 import algorithms.util.StrandOccurences;
+import bases.Alphabet;
+import bases.PairingsManager;
+import bases.util.NonExistentPairingException;
 
 public class StrandSearching {
 
 	private static final String DATA_FILENAME = "dotplot.txt";
 	private static final String GNUPLOT_FILENAME = "dotplot.plot";
 	private static final String OUTPUT_FILENAME = "dotplot.jpg";
-
+	
 	private static void buildGnuplotFile(int genomeSize) throws IOException {
 		BufferedWriter gnuplotWriter = new BufferedWriter(new FileWriter(
 				GNUPLOT_FILENAME));
@@ -119,6 +120,7 @@ public class StrandSearching {
 
 	public static void main(String[] args) throws IOException,
 			InvalidFastaFileException, NotAFastaFileException, NonExistentPairingException {
+		try {
 		final ConfReader confReader = new ConfReader();
 		confReader.read("init.conf");
 		final Alphabet alphabet = confReader.getAlphabet();
@@ -149,6 +151,10 @@ public class StrandSearching {
 		}
 		if (parser.dotplotAsked())
 			generateDotplot(genome, occurences);
+		} catch (ArrayIndexOutOfBoundsException e) {
+			usage();
+			return;
+		}
 	}
 
 }

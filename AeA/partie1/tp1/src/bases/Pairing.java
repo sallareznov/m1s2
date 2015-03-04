@@ -27,5 +27,10 @@ public class Pairing {
 	public boolean contains(char base) {
 		return ((base == firstBase) || (base == secondBase));
 	}
+	
+	@Override
+	public String toString() {
+		return "{" + firstBase + ", " + secondBase + "}";
+	}
 
 }
