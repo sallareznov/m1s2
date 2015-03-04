@@ -1,4 +1,4 @@
-package parsing.util;
+package parsing.options.strand;
 
 import patterns.Strand;
 import bases.util.NonExistentPairingException;

@@ -6,8 +6,17 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 
-import main.util.StrandSearchingResultsManager;
 import parsing.CommandLineParser;
+import parsing.options.algorithm.BoyerMooreOptionToAlgorithm;
+import parsing.options.algorithm.BruteForceOptionToAlgorithm;
+import parsing.options.algorithm.KMPOptionToAlgorithm;
+import parsing.options.algorithm.KarpRabinOptionToAlgorithm;
+import parsing.options.algorithm.OptionsToAlgorithmsManager;
+import parsing.options.algorithm.ShiftOrOptionToAlgorithm;
+import parsing.options.strand.ComplementaryOptionToStrand;
+import parsing.options.strand.OptionsToStrandsManager;
+import parsing.options.strand.ReverseComplementaryOptionToStrand;
+import parsing.options.strand.ReverseOptionToStrand;
 import patterns.Genome;
 import patterns.Strand;
 import reader.ConfReader;
@@ -127,7 +136,17 @@ public class StrandSearching {
 		final PairingsManager pairingsManager = confReader.getPairingsManager();
 		final FastaFileReader fastaFileReader = new FastaFileReader();
 		final Genome genome = fastaFileReader.getGenomeFromFile(args[0], alphabet, pairingsManager);
-		final CommandLineParser parser = new CommandLineParser(args, pairingsManager);
+		final OptionsToStrandsManager optionsToStrandsManager = new OptionsToStrandsManager();
+		final OptionsToAlgorithmsManager optionsToAlgorithmsManager = new OptionsToAlgorithmsManager();
+		optionsToStrandsManager.addOptionToStrand(new ReverseOptionToStrand());
+		optionsToStrandsManager.addOptionToStrand(new ComplementaryOptionToStrand());
+		optionsToStrandsManager.addOptionToStrand(new ReverseComplementaryOptionToStrand());
+		optionsToAlgorithmsManager.addOptionToAlgorithm(new BruteForceOptionToAlgorithm());
+		optionsToAlgorithmsManager.addOptionToAlgorithm(new ShiftOrOptionToAlgorithm());
+		optionsToAlgorithmsManager.addOptionToAlgorithm(new KarpRabinOptionToAlgorithm());
+		optionsToAlgorithmsManager.addOptionToAlgorithm(new KMPOptionToAlgorithm());
+		optionsToAlgorithmsManager.addOptionToAlgorithm(new BoyerMooreOptionToAlgorithm());
+		final CommandLineParser parser = new CommandLineParser(args, pairingsManager, optionsToStrandsManager, optionsToAlgorithmsManager);
 		final boolean parsing = parser.parseCommandLine(alphabet);
 		if (!parsing) {
 			usage();

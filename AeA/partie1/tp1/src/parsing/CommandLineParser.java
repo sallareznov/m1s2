@@ -5,17 +5,14 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
+import parsing.options.algorithm.OptionsToAlgorithmsManager;
+import parsing.options.strand.OptionsToStrandsManager;
 import patterns.Strand;
 import reader.util.InvalidFastaFileException;
 import reader.util.NotAFastaFileException;
 import algorithms.Algorithm;
-import algorithms.BoyerMooreAlgorithm;
-import algorithms.BruteForceAlgorithm;
 import algorithms.KMPAlgorithm;
-import algorithms.KarpRabinAlgorithm;
-import algorithms.ShiftOrAlgorithm;
 import bases.Alphabet;
 import bases.PairingsManager;
 import bases.util.NonExistentPairingException;
@@ -24,33 +21,15 @@ import bases.util.NonExistentPairingException;
  * Classe se chargeant de parser la ligne de commande de l'utilisateur
  */
 public class CommandLineParser {
-	
-	private Map<String, Strand> optionsToStrands;
-	private Map<String, Algorithm> optionsToAlgorithms;
-	
-	public CommandLineParser(Map<String, Strand> optionsToStrand, Map<String, Algorithm> optionsToAlgorithms) {
-		this.optionsToStrands = optionsToStrand;
-		this.optionsToAlgorithms = optionsToAlgorithms;
-	}
+
+	private OptionsToStrandsManager optionsToStrandsManager;
+	private OptionsToAlgorithmsManager optionsToAlgorithmsManager;
 
 	// FLAGS
 	private static final String HELP_FLAG = "--HELP";
 	private static final String STRANDS_FLAG = "--WITH";
 	private static final String ALGORITHMS_FLAG = "--USING";
 	private static final String DOTPLOT_FLAG = "--DOTPLOT";
-	// STRANDS OPTIONS
-	private static final String REVERSE_OPTION = "-rev";
-	private static final String COMPLEMENTARY_OPTION = "-comp";
-	private static final String REVERSE_COMPLEMENTARY_OPTION = "-revComp";
-	private static final String DOTPLOT_OPTION = "-dotplot";
-	// ALGORITHMS OPTIONS
-	private static final String BRUTE_FORCE_OPTION = "-bf";
-	private static final String SHIFT_OR_OPTION = "-so";
-	private static final String KARP_RABIN_OPTION = "-kr";
-	private static final String KMP_OPTION = "-kmp";
-	private static final String BOYER_MOORE_OPTION = "-bm";
-	// DEFAULT ALGORITHM
-	private static final Algorithm DEFAULT_ALGORITHM = new KMPAlgorithm();
 
 	private String[] commandLine;
 	private Strand mainStrand;
@@ -68,13 +47,18 @@ public class CommandLineParser {
 	 * @throws InvalidFastaFileException
 	 * @throws NotAFastaFileException
 	 */
-	public CommandLineParser(String[] args, PairingsManager pairingsManager) throws IOException,
-			InvalidFastaFileException, NotAFastaFileException {
+	public CommandLineParser(String[] args, PairingsManager pairingsManager,
+			OptionsToStrandsManager optionsToStrandsManager,
+			OptionsToAlgorithmsManager optionsToAlgorithmsManager)
+			throws IOException, InvalidFastaFileException,
+			NotAFastaFileException {
 		commandLine = args;
 		strandsToLookFor = new LinkedList<Strand>();
 		algorithmsToUse = new LinkedList<Algorithm>();
 		dotplot = false;
 		this.pairingsManager = pairingsManager;
+		this.optionsToStrandsManager = optionsToStrandsManager;
+		this.optionsToAlgorithmsManager = optionsToAlgorithmsManager;
 	}
 
 	/**
@@ -126,32 +110,18 @@ public class CommandLineParser {
 	 * @param option
 	 *            l'option appliquee sur le brin
 	 * @return le brin correspondant a l'option
-	 * @throws NonExistentPairingException 
+	 * @throws NonExistentPairingException
 	 */
-	private Strand optionToStrand(Strand strand, String option) throws NonExistentPairingException {
-		if (option.equals(REVERSE_OPTION)) {
-			return strand.getReverse();
-		} else {
-			if (option.equals(COMPLEMENTARY_OPTION)) {
-				return strand.getComplementary();
-			} else {
-				if (option.equals(REVERSE_COMPLEMENTARY_OPTION)) {
-					return strand.getReverseComplementary();
-				} else {
-					if (option.equals(DOTPLOT_OPTION)) {
-						dotplot = true;
-					}
-				}
-			}
-			return strand;
-		}
+	private Strand optionToStrand(Strand strand, String option)
+			throws NonExistentPairingException {
+		return optionsToStrandsManager.getAdequateStrand(option, strand);
 	}
 
 	/**
 	 * met a jour la liste des brins en fonction de l'option
 	 * 
 	 * @param option
-	 * @throws NonExistentPairingException 
+	 * @throws NonExistentPairingException
 	 */
 	private void treatOption(String option) throws NonExistentPairingException {
 		final List<Strand> addedStrands = new LinkedList<Strand>();
@@ -165,7 +135,8 @@ public class CommandLineParser {
 		strandsToLookFor.addAll(addedStrands);
 	}
 
-	private int verifyStrandsOptions(int currentIndex) throws NonExistentPairingException {
+	private int verifyStrandsOptions(int currentIndex)
+			throws NonExistentPairingException {
 		int i = currentIndex;
 		while (i < commandLine.length && isAnOption(commandLine[i])) {
 			treatOption(commandLine[i]);
@@ -212,32 +183,16 @@ public class CommandLineParser {
 		int i = currentIndex;
 		while (i < commandLine.length && isAnOption(commandLine[i])) {
 			final String option = commandLine[i];
-			if (option.equals(BRUTE_FORCE_OPTION)) {
-				algorithmsToUse.add(new BruteForceAlgorithm());
-			} else {
-				if (option.equals(SHIFT_OR_OPTION)) {
-					algorithmsToUse.add(new ShiftOrAlgorithm());
-				} else {
-					if (option.equals(KARP_RABIN_OPTION)) {
-						algorithmsToUse.add(new KarpRabinAlgorithm());
-					} else {
-						if (option.equals(KMP_OPTION)) {
-							algorithmsToUse.add(new KMPAlgorithm());
-						} else {
-							if (option.equals(BOYER_MOORE_OPTION)) {
-								algorithmsToUse.add(new BoyerMooreAlgorithm());
-							}
-						}
-					}
-				}
-			}
+			algorithmsToUse.add(optionsToAlgorithmsManager
+					.getAdequateAlgorithm(option));
 			i++;
 		}
 		return i;
 	}
 
 	public boolean parseCommandLine(Alphabet alphabet) throws IOException,
-			InvalidFastaFileException, NotAFastaFileException, NonExistentPairingException {
+			InvalidFastaFileException, NotAFastaFileException,
+			NonExistentPairingException {
 		if ((commandLine.length < 2)
 				|| ((commandLine.length > 0) && (commandLine[0]
 						.equals(HELP_FLAG)))) {
@@ -253,17 +208,17 @@ public class CommandLineParser {
 		while (currentIndex < commandLine.length) {
 			if (commandLine[currentIndex].equals(STRANDS_FLAG)) {
 				currentIndex = verifyStrandsOptions(currentIndex + 1);
+			} else if (commandLine[currentIndex].equals(ALGORITHMS_FLAG)) {
+				currentIndex = verifyAlgorithmsOptions(currentIndex + 1);
+			} else if (commandLine[currentIndex].equals(DOTPLOT_FLAG)) {
+				dotplot = true;
+				currentIndex++;
 			} else {
-				if (commandLine[currentIndex].equals(ALGORITHMS_FLAG)) {
-					currentIndex = verifyAlgorithmsOptions(currentIndex + 1);
-				} else {
-					currentIndex++;
-				}
+				currentIndex++;
 			}
 		}
-		// Aucun algorithme n'a ete choisi
 		if (algorithmsToUse.isEmpty()) {
-			algorithmsToUse.add(DEFAULT_ALGORITHM);
+			algorithmsToUse.add(new KMPAlgorithm());
 		}
 		return true;
 	}

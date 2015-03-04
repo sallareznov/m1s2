@@ -3,7 +3,7 @@ package parsing.options.algorithm;
 import algorithms.Algorithm;
 import algorithms.ShiftOrAlgorithm;
 
-public class ShiftOrOptionToAlrgorithm implements OptionToAlgorithm {
+public class ShiftOrOptionToAlgorithm implements OptionToAlgorithm {
 
 	@Override
 	public boolean accept(String option) {

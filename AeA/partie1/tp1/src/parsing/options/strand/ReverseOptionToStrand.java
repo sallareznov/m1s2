@@ -1,18 +1,18 @@
-package parsing.util;
+package parsing.options.strand;
 
 import bases.util.NonExistentPairingException;
 import patterns.Strand;
 
-public class ComplementaryOptionToStrand implements OptionToStrand {
+public class ReverseOptionToStrand implements OptionToStrand {
 
 	@Override
 	public boolean accept(String option) {
-		return "-comp".equals(option);
+		return "-rev".equals(option);
 	}
 
 	@Override
 	public Strand getStrand(Strand mainStrand) throws NonExistentPairingException {
-		return mainStrand.getComplementary();
+		return mainStrand.getReverse();
 	}
 
 }

@@ -1,4 +1,4 @@
-package parsing.util;
+package parsing.options.strand;
 
 import java.util.LinkedList;
 import java.util.List;
