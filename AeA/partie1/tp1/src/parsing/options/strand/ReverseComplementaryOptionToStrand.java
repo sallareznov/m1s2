@@ -1,6 +1,6 @@
 package parsing.options.strand;
 
-import patterns.Strand;
+import pattern.Strand;
 import bases.util.NonExistentPairingException;
 
 public class ReverseComplementaryOptionToStrand implements OptionToStrand {

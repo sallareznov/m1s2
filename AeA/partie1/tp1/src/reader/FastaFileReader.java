@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
-import patterns.Genome;
+import pattern.Genome;
 import reader.util.InvalidFastaFileException;
 import reader.util.NotAFastaFileException;
 import bases.Alphabet;

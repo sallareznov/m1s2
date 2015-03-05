@@ -8,7 +8,7 @@ import java.util.List;
 
 import parsing.options.algorithm.OptionsToAlgorithmsManager;
 import parsing.options.strand.OptionsToStrandsManager;
-import patterns.Strand;
+import pattern.Strand;
 import reader.util.InvalidFastaFileException;
 import reader.util.NotAFastaFileException;
 import algorithms.Algorithm;

@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import pattern.Strand;
 import bases.PairingsManager;
 import bases.util.NonExistentPairingException;
 

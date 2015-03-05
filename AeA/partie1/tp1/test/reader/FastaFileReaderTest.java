@@ -13,7 +13,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import patterns.Genome;
+import pattern.Genome;
 import reader.util.InvalidFastaFileException;
 import reader.util.NotAFastaFileException;
 import bases.Alphabet;

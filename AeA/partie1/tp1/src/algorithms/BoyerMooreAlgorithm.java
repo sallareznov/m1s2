@@ -3,8 +3,8 @@ package algorithms;
 import java.util.HashMap;
 import java.util.Map;
 
-import patterns.Genome;
-import patterns.Strand;
+import pattern.Genome;
+import pattern.Strand;
 import algorithms.util.StrandOccurences;
 import bases.Alphabet;
 

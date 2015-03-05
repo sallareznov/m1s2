@@ -1,11 +1,10 @@
 package algorithms;
 
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import patterns.Genome;
-import patterns.Strand;
+import pattern.Genome;
+import pattern.Strand;
 import algorithms.util.StrandOccurences;
 import bases.Alphabet;
 
@@ -66,10 +65,9 @@ public abstract class Algorithm {
 	public List<StrandOccurences> findRepetitiveStrands(Genome genome,
 			List<Strand> strands, Alphabet alphabet) {
 		final List<StrandOccurences> strandsOccurences = new LinkedList<StrandOccurences>();
-		final Iterator<Strand> strandIterator = strands.iterator();
-		while (strandIterator.hasNext()) {
+		for (final Strand strand : strands) {
 			final StrandOccurences strandOccurences = findRepetitiveStrand(
-					genome, strandIterator.next(), alphabet);
+					genome, strand, alphabet);
 			strandsOccurences.add(strandOccurences);
 		}
 		return strandsOccurences;

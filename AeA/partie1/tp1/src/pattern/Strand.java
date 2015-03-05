@@ -1,4 +1,4 @@
-package patterns;
+package pattern;
 
 import bases.PairingsManager;
 import bases.util.NonExistentPairingException;

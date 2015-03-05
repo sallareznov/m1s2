@@ -14,8 +14,8 @@ import org.junit.runners.Parameterized;
 import org.junit.runners.Parameterized.Parameters;
 import org.mockito.Mockito;
 
-import patterns.Genome;
-import patterns.Strand;
+import pattern.Genome;
+import pattern.Strand;
 import algorithms.util.StrandOccurences;
 import bases.Alphabet;
 import bases.PairingsManager;

@@ -1,7 +1,7 @@
 package parsing.options.strand;
 
 import bases.util.NonExistentPairingException;
-import patterns.Strand;
+import pattern.Strand;
 
 public interface OptionToStrand {
 	

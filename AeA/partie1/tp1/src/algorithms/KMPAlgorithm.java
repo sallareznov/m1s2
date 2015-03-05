@@ -1,7 +1,7 @@
 package algorithms;
 
-import patterns.Genome;
-import patterns.Strand;
+import pattern.Genome;
+import pattern.Strand;
 import algorithms.util.StrandOccurences;
 import bases.Alphabet;
 

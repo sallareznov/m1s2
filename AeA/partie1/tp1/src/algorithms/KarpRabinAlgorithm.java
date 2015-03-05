@@ -3,8 +3,8 @@ package algorithms;
 import java.util.HashMap;
 import java.util.Map;
 
-import patterns.Genome;
-import patterns.Strand;
+import pattern.Genome;
+import pattern.Strand;
 import algorithms.util.StrandOccurences;
 import bases.Alphabet;
 
@@ -73,7 +73,7 @@ public class KarpRabinAlgorithm extends Algorithm {
 		preTreat(genome, strand, alphabet);
 		resetNbComparisons();
 		final StrandOccurences strandOccurences = new StrandOccurences();
-		final Character[] basesToCompare = strand.getContent();
+		final Character[] basesToCompare = new Character[strand.getSize()];
 		for (int i = 0; i < genome.getSize() - strand.getSize() + 1; i++) {
 			System.arraycopy(genome.getContent(), i, basesToCompare, 0,
 					strand.getSize());
