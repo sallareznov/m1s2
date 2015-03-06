@@ -1,18 +1,20 @@
 package parsing.options.algorithm;
 
-import algorithms.Algorithm;
+import manager.Behavior;
 import algorithms.ShiftOrAlgorithm;
 
-public class ShiftOrOptionToAlgorithm implements OptionToAlgorithm {
+public class ShiftOrOptionToAlgorithm implements Behavior<OptionToAlgorithmParameters, OptionToAlgorithmResult> {
 
 	@Override
-	public boolean accept(String option) {
+	public boolean accept(OptionToAlgorithmParameters parameters) {
+		final String option = parameters.getOption();
 		return "-so".equals(option);
 	}
 
 	@Override
-	public Algorithm getAlgorithm() {
-		return new ShiftOrAlgorithm();
+	public OptionToAlgorithmResult execute(
+			OptionToAlgorithmParameters parameters) {
+		return new OptionToAlgorithmResult(new ShiftOrAlgorithm());
 	}
 
 }

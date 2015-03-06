@@ -1,18 +1,19 @@
 package parsing.options.algorithm;
 
-import algorithms.Algorithm;
+import manager.Behavior;
 import algorithms.BruteForceAlgorithm;
 
-public class BruteForceOptionToAlgorithm implements OptionToAlgorithm {
+public class BruteForceOptionToAlgorithm implements Behavior<OptionToAlgorithmParameters, OptionToAlgorithmResult> {
 
 	@Override
-	public boolean accept(String option) {
+	public boolean accept(OptionToAlgorithmParameters parameters) {
+		final String option = parameters.getOption();
 		return "-bf".equals(option);
 	}
 
 	@Override
-	public Algorithm getAlgorithm() {
-		return new BruteForceAlgorithm();
+	public OptionToAlgorithmResult execute(OptionToAlgorithmParameters parameters) {
+		return new OptionToAlgorithmResult(new BruteForceAlgorithm());
 	}
 
 }

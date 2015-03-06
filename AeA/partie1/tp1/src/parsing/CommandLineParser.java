@@ -1,14 +1,17 @@
 package parsing;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import parsing.options.algorithm.OptionsToAlgorithmsManager;
-import parsing.options.strand.OptionsToStrandsManager;
+import manager.Manager;
+import parsing.options.algorithm.OptionToAlgorithmParameters;
+import parsing.options.algorithm.OptionToAlgorithmResult;
+import parsing.options.strand.OptionToStrandParameters;
+import parsing.options.strand.OptionToStrandResult;
 import pattern.Strand;
+import pattern.StrandGenerator;
 import reader.util.InvalidFastaFileException;
 import reader.util.NotAFastaFileException;
 import algorithms.Algorithm;
@@ -22,11 +25,9 @@ import bases.util.NonExistentPairingException;
  */
 public class CommandLineParser {
 
-	private OptionsToStrandsManager optionsToStrandsManager;
-	private OptionsToAlgorithmsManager optionsToAlgorithmsManager;
+	private Manager<OptionToStrandParameters, OptionToStrandResult> optionsToStrandsManager;
+	private Manager<OptionToAlgorithmParameters, OptionToAlgorithmResult> optionsToAlgorithmsManager;
 
-	// FLAGS
-	private static final String HELP_FLAG = "--HELP";
 	private static final String STRANDS_FLAG = "--WITH";
 	private static final String ALGORITHMS_FLAG = "--USING";
 	private static final String DOTPLOT_FLAG = "--DOTPLOT";
@@ -47,15 +48,18 @@ public class CommandLineParser {
 	 * @throws InvalidFastaFileException
 	 * @throws NotAFastaFileException
 	 */
-	public CommandLineParser(String[] args, PairingsManager pairingsManager,
-			OptionsToStrandsManager optionsToStrandsManager,
-			OptionsToAlgorithmsManager optionsToAlgorithmsManager)
+	public CommandLineParser(
+			String[] args,
+			PairingsManager pairingsManager,
+			Manager<OptionToStrandParameters, OptionToStrandResult> optionsToStrandsManager,
+			Manager<OptionToAlgorithmParameters, OptionToAlgorithmResult> optionsToAlgorithmsManager)
 			throws IOException, InvalidFastaFileException,
 			NotAFastaFileException {
 		commandLine = args;
 		strandsToLookFor = new LinkedList<Strand>();
 		algorithmsToUse = new LinkedList<Algorithm>();
 		dotplot = false;
+		mainStrand = null;
 		this.pairingsManager = pairingsManager;
 		this.optionsToStrandsManager = optionsToStrandsManager;
 		this.optionsToAlgorithmsManager = optionsToAlgorithmsManager;
@@ -86,7 +90,7 @@ public class CommandLineParser {
 	 * initialise le brin
 	 */
 	private void initStrand() {
-		mainStrand = new Strand(commandLine[1], pairingsManager);
+		mainStrand = new Strand(commandLine[2], pairingsManager);
 		strandsToLookFor.add(mainStrand);
 	}
 
@@ -114,7 +118,9 @@ public class CommandLineParser {
 	 */
 	private Strand optionToStrand(Strand strand, String option)
 			throws NonExistentPairingException {
-		return optionsToStrandsManager.getAdequateStrand(option, strand);
+		final OptionToStrandParameters parameters = new OptionToStrandParameters(option, strand);
+		final OptionToStrandResult result = optionsToStrandsManager.execute(parameters);
+		return result.getStrand();
 	}
 
 	/**
@@ -145,66 +151,33 @@ public class CommandLineParser {
 		return i;
 	}
 
-	private Strand nextStrand(Strand currentStrand, Alphabet alphabet) {
-		Character[] nextStrandContent = currentStrand.getContent();
-		int currentIndex = nextStrandContent.length - 1;
-		boolean done = false;
-		while ((currentIndex >= 0) && (!done)) {
-			final char currentLetter = nextStrandContent[currentIndex];
-			final int currentValue = alphabet.getIndex(currentLetter);
-			if (currentValue < (alphabet.size() - 1)) {
-				final char nextLetter = alphabet.getBases()[currentValue + 1];
-				nextStrandContent[currentIndex] = nextLetter;
-				done = true;
-			} else {
-				nextStrandContent[currentIndex] = alphabet.getBases()[0];
-				currentIndex--;
-			}
-		}
-		if (currentIndex >= 0) {
-			return new Strand(nextStrandContent, pairingsManager);
-		} else {
-			return null;
-		}
-	}
-
-	private void buildAllStrands(int n, Alphabet alphabet) {
-		char[] firstStrandArray = new char[n];
-		Arrays.fill(firstStrandArray, alphabet.getBases()[0]);
-		String firstStrandString = new String(firstStrandArray);
-		strandsToLookFor.add(new Strand(firstStrandString, pairingsManager));
-		Strand currentStrand = strandsToLookFor.get(0);
-		while ((currentStrand = nextStrand(currentStrand, alphabet)) != null) {
-			strandsToLookFor.add(currentStrand.clone());
-		}
-	}
-
 	private int verifyAlgorithmsOptions(int currentIndex) {
 		int i = currentIndex;
 		while (i < commandLine.length && isAnOption(commandLine[i])) {
 			final String option = commandLine[i];
-			algorithmsToUse.add(optionsToAlgorithmsManager
-					.getAdequateAlgorithm(option));
+			final OptionToAlgorithmParameters parameters = new OptionToAlgorithmParameters(
+					option);
+			final OptionToAlgorithmResult result = optionsToAlgorithmsManager
+					.execute(parameters);
+			final Algorithm algorithm = result.getAlgorithm();
+			algorithmsToUse.add(algorithm);
 			i++;
 		}
 		return i;
 	}
 
-	public boolean parseCommandLine(Alphabet alphabet) throws IOException,
-			InvalidFastaFileException, NotAFastaFileException,
-			NonExistentPairingException {
-		if ((commandLine.length < 2)
-				|| ((commandLine.length > 0) && (commandLine[0]
-						.equals(HELP_FLAG)))) {
-			return false;
-		}
+	public boolean parseCommandLine(Alphabet alphabet, int index)
+			throws IOException, InvalidFastaFileException,
+			NotAFastaFileException, NonExistentPairingException {
 		try {
-			final int strandsLength = Integer.parseInt(commandLine[1]);
-			buildAllStrands(strandsLength, alphabet);
+			final int strandsLength = Integer.parseInt(commandLine[index - 1]);
+			final StrandGenerator strandGenerator = new StrandGenerator();
+			strandsToLookFor = strandGenerator.buildAllStrands(strandsLength,
+					alphabet, pairingsManager);
 		} catch (NumberFormatException e) {
 			initStrand();
 		}
-		int currentIndex = 2;
+		int currentIndex = index;
 		while (currentIndex < commandLine.length) {
 			if (commandLine[currentIndex].equals(STRANDS_FLAG)) {
 				currentIndex = verifyStrandsOptions(currentIndex + 1);

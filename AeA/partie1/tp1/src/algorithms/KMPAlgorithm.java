@@ -23,28 +23,27 @@ public class KMPAlgorithm extends Algorithm {
 	 */
 	private void preTreat(Strand strand) {
 		next = new int[strand.getSize() + 1];
-		for (int i = 0; i < next.length; i++) {
-			final Strand subStrand = strand.getPrefix(i);
-			int j = i - 1;
-			boolean found = false;
-			Strand u = subStrand;
-			while (j >= 0 && !found) {
-				u = u.getLongestEdge();
-				final Character[] uMiBases = new Character[u.getSize() + 1];
-				System.arraycopy(u.getContent(), 0, uMiBases, 0, u.getSize());
-				Strand str = null;
-				if (i < strand.getSize()) {
-					uMiBases[u.getSize()] = strand.getContent()[i];
-					str = new Strand(uMiBases, strand.getManager());
-				} else {
-					str = new Strand(new Character[0], strand.getManager());
-				}
-				if (!strand.isPrefix(str)) {
-					found = true;
-				}
-				j = u.getSize() - 1;
+		int i = 0;
+		int j = -1;
+		next[0] = -1;
+		char c = 0;
+		while (i < strand.getSize()) {
+			if (c == strand.getBaseAt(i)) {
+				next[i + 1] = j + 1;
+				i++;
+				j++;
 			}
-			next[i] = (found) ? u.getSize() : -1;
+			else {
+				if (j > 0) {
+					j = next[j];
+				}
+				else {
+					next[i + 1] = 0;
+					i++;
+					j = 0;
+				}
+			}
+			c = strand.getBaseAt(j);
 		}
 	}
 

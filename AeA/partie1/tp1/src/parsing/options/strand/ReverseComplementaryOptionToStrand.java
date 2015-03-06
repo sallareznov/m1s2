@@ -1,18 +1,25 @@
 package parsing.options.strand;
 
+import manager.Behavior;
 import pattern.Strand;
 import bases.util.NonExistentPairingException;
 
-public class ReverseComplementaryOptionToStrand implements OptionToStrand {
+public class ReverseComplementaryOptionToStrand implements Behavior<OptionToStrandParameters, OptionToStrandResult> {
 
 	@Override
-	public boolean accept(String option) {
+	public boolean accept(OptionToStrandParameters parameters) {
+		final String option = parameters.getOption();
 		return "-revComp".equals(option);
 	}
 
 	@Override
-	public Strand getStrand(Strand mainStrand) throws NonExistentPairingException {
-		return mainStrand.getReverseComplementary();
+	public OptionToStrandResult execute(OptionToStrandParameters parameters) {
+		try {
+			final Strand strand = parameters.getStrand();
+			return new OptionToStrandResult(strand.getReverseComplementary());
+		} catch (NonExistentPairingException e) {
+			return null;
+		}
 	}
 
 }

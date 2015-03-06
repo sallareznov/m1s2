@@ -4,15 +4,18 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 
+import manager.Manager;
 import parsing.CommandLineParser;
 import parsing.options.algorithm.BoyerMooreOptionToAlgorithm;
 import parsing.options.algorithm.BruteForceOptionToAlgorithm;
 import parsing.options.algorithm.KMPOptionToAlgorithm;
 import parsing.options.algorithm.KarpRabinOptionToAlgorithm;
-import parsing.options.algorithm.OptionsToAlgorithmsManager;
+import parsing.options.algorithm.OptionToAlgorithmParameters;
+import parsing.options.algorithm.OptionToAlgorithmResult;
 import parsing.options.algorithm.ShiftOrOptionToAlgorithm;
 import parsing.options.strand.ComplementaryOptionToStrand;
-import parsing.options.strand.OptionsToStrandsManager;
+import parsing.options.strand.OptionToStrandParameters;
+import parsing.options.strand.OptionToStrandResult;
 import parsing.options.strand.ReverseComplementaryOptionToStrand;
 import parsing.options.strand.ReverseOptionToStrand;
 import pattern.Genome;
@@ -86,35 +89,27 @@ public class Main {
 			NonExistentPairingException {
 		try {
 			final ConfReader confReader = new ConfReader();
-			confReader.read("init.conf");
+			confReader.read(args[0]);
 			final Alphabet alphabet = confReader.getAlphabet();
 			final PairingsManager pairingsManager = confReader
 					.getPairingsManager();
 			final FastaFileReader fastaFileReader = new FastaFileReader();
-			final Genome genome = fastaFileReader.getGenomeFromFile(args[0],
+			final Genome genome = fastaFileReader.getGenomeFromFile(args[1],
 					alphabet, pairingsManager);
-			final OptionsToStrandsManager optionsToStrandsManager = new OptionsToStrandsManager();
-			final OptionsToAlgorithmsManager optionsToAlgorithmsManager = new OptionsToAlgorithmsManager();
-			optionsToStrandsManager
-					.addOptionToStrand(new ReverseOptionToStrand());
-			optionsToStrandsManager
-					.addOptionToStrand(new ComplementaryOptionToStrand());
-			optionsToStrandsManager
-					.addOptionToStrand(new ReverseComplementaryOptionToStrand());
-			optionsToAlgorithmsManager
-					.addOptionToAlgorithm(new BruteForceOptionToAlgorithm());
-			optionsToAlgorithmsManager
-					.addOptionToAlgorithm(new ShiftOrOptionToAlgorithm());
-			optionsToAlgorithmsManager
-					.addOptionToAlgorithm(new KarpRabinOptionToAlgorithm());
-			optionsToAlgorithmsManager
-					.addOptionToAlgorithm(new KMPOptionToAlgorithm());
-			optionsToAlgorithmsManager
-					.addOptionToAlgorithm(new BoyerMooreOptionToAlgorithm());
+			final Manager<OptionToStrandParameters, OptionToStrandResult> optionsToStrandsManager = new Manager<OptionToStrandParameters, OptionToStrandResult>();
+			final Manager<OptionToAlgorithmParameters, OptionToAlgorithmResult> optionsToAlgorithmsManager = new Manager<OptionToAlgorithmParameters, OptionToAlgorithmResult>();
+			optionsToStrandsManager.add(new ReverseOptionToStrand());
+			optionsToStrandsManager.add(new ComplementaryOptionToStrand());
+			optionsToStrandsManager.add(new ReverseComplementaryOptionToStrand());
+			optionsToAlgorithmsManager.add(new BruteForceOptionToAlgorithm());
+			optionsToAlgorithmsManager.add(new ShiftOrOptionToAlgorithm());
+			optionsToAlgorithmsManager.add(new KarpRabinOptionToAlgorithm());
+			optionsToAlgorithmsManager.add(new KMPOptionToAlgorithm());
+			optionsToAlgorithmsManager.add(new BoyerMooreOptionToAlgorithm());
 			final CommandLineParser parser = new CommandLineParser(args,
 					pairingsManager, optionsToStrandsManager,
 					optionsToAlgorithmsManager);
-			final boolean parsing = parser.parseCommandLine(alphabet);
+			final boolean parsing = parser.parseCommandLine(alphabet, 3);
 			if (!parsing) {
 				usage();
 				return;
@@ -136,9 +131,8 @@ public class Main {
 			}
 			if (parser.dotplotAsked()) {
 				final GnuplotWriter gnuplotWriter = new GnuplotWriter();
-				gnuplotWriter.generateDotplot(
-						"dotplot.plot", "dotplot.txt", "dotplot.jpg", genome,
-						occurences);
+				gnuplotWriter.generateDotplot("dotplot.plot", "dotplot.txt",
+						"dotplot.jpg", genome, occurences);
 			}
 		} catch (ArrayIndexOutOfBoundsException e) {
 			usage();

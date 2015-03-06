@@ -32,7 +32,7 @@ public class BoyerMooreAlgorithm extends Algorithm {
 
 	/**
 	 * remplit le tableau des bons suffixes
-	 * 
+	 * algorithm pseudocode
 	 * @param strand
 	 *            le brin etudie
 	 */
@@ -126,7 +126,8 @@ public class BoyerMooreAlgorithm extends Algorithm {
 			} else {
 				i += Math.max(goodSuffix[strandWalker],
 						badMatchTable.get(genomeBases[i])
-								- (strand.getSize() - strandWalker));
+								- strand.getSize() + strandWalker);
+				/*i += badMatchTable.get(genome.getBaseAt(i)) - strand.getSize() + strandWalker;*/
 			}
 		}
 		return strandOccurences;

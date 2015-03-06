@@ -1,18 +1,21 @@
 package parsing.options.algorithm;
 
-import algorithms.Algorithm;
+import manager.Behavior;
 import algorithms.KarpRabinAlgorithm;
 
-public class KarpRabinOptionToAlgorithm implements OptionToAlgorithm {
+public class KarpRabinOptionToAlgorithm implements
+		Behavior<OptionToAlgorithmParameters, OptionToAlgorithmResult> {
 
 	@Override
-	public boolean accept(String option) {
+	public boolean accept(OptionToAlgorithmParameters parameters) {
+		final String option = parameters.getOption();
 		return "-kr".equals(option);
 	}
 
 	@Override
-	public Algorithm getAlgorithm() {
-		return new KarpRabinAlgorithm();
+	public OptionToAlgorithmResult execute(
+			OptionToAlgorithmParameters parameters) {
+		return new OptionToAlgorithmResult(new KarpRabinAlgorithm());
 	}
 
 }

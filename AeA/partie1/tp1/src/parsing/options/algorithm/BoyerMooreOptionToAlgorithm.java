@@ -1,18 +1,19 @@
 package parsing.options.algorithm;
 
-import algorithms.Algorithm;
+import manager.Behavior;
 import algorithms.BoyerMooreAlgorithm;
 
-public class BoyerMooreOptionToAlgorithm implements OptionToAlgorithm {
+public class BoyerMooreOptionToAlgorithm implements Behavior<OptionToAlgorithmParameters, OptionToAlgorithmResult> {
 
 	@Override
-	public boolean accept(String option) {
+	public boolean accept(OptionToAlgorithmParameters parameters) {
+		final String option = parameters.getOption();
 		return "-bm".equals(option);
 	}
 
 	@Override
-	public Algorithm getAlgorithm() {
-		return new BoyerMooreAlgorithm();
+	public OptionToAlgorithmResult execute(OptionToAlgorithmParameters parameters) {
+		return new OptionToAlgorithmResult(new BoyerMooreAlgorithm());
 	}
 
 }
