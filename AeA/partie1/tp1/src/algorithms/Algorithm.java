@@ -13,34 +13,34 @@ import bases.Alphabet;
  */
 public abstract class Algorithm {
 
-	private int _nbComparisons;
+	private int nbComparisons;
 
 	/**
 	 * Construit un algorithme (constructeur par defaut)
 	 */
 	public Algorithm() {
-		_nbComparisons = 0;
+		nbComparisons = 0;
 	}
 
 	/**
 	 * @return le nombre de comparaisons effectuees par l'algorithme
 	 */
 	public int getNbComparisons() {
-		return _nbComparisons;
+		return nbComparisons;
 	}
 
 	/**
 	 * incremente le nombre de comparaisons
 	 */
 	public void incrNbComparisons() {
-		_nbComparisons++;
+		nbComparisons++;
 	}
 
 	/**
 	 * remet a zero le nombre de comparaisons
 	 */
 	public void resetNbComparisons() {
-		_nbComparisons = 0;
+		nbComparisons = 0;
 	}
 
 	/**

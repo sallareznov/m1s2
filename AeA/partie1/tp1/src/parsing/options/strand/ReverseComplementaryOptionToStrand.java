@@ -2,9 +2,9 @@ package parsing.options.strand;
 
 import manager.Behavior;
 import pattern.Strand;
-import bases.util.NonExistentPairingException;
 
-public class ReverseComplementaryOptionToStrand implements Behavior<OptionToStrandParameters, OptionToStrandResult> {
+public class ReverseComplementaryOptionToStrand implements
+		Behavior<OptionToStrandParameters, OptionToStrandResult> {
 
 	@Override
 	public boolean accept(OptionToStrandParameters parameters) {
@@ -14,12 +14,8 @@ public class ReverseComplementaryOptionToStrand implements Behavior<OptionToStra
 
 	@Override
 	public OptionToStrandResult execute(OptionToStrandParameters parameters) {
-		try {
-			final Strand strand = parameters.getStrand();
-			return new OptionToStrandResult(strand.getReverseComplementary());
-		} catch (NonExistentPairingException e) {
-			return null;
-		}
+		final Strand strand = parameters.getStrand();
+		return new OptionToStrandResult(strand.getReverseComplementary());
 	}
 
 }

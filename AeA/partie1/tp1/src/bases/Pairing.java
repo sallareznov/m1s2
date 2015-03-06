@@ -25,7 +25,7 @@ public class Pairing {
 	}
 	
 	public boolean contains(char base) {
-		return ((base == firstBase) || (base == secondBase));
+		return base == firstBase || base == secondBase;
 	}
 	
 	@Override

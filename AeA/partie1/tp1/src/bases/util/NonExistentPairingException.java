@@ -8,4 +8,8 @@ public class NonExistentPairingException extends Exception {
 		super("No pairing found for : " + base);
 	}
 
+	public NonExistentPairingException(NonExistentPairingException e) {
+		super(e);
+	}
+
 }

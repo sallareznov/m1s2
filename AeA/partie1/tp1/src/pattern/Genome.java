@@ -1,7 +1,5 @@
 package pattern;
 
-import java.util.Arrays;
-
 import bases.PairingsManager;
 
 /**
@@ -32,17 +30,4 @@ public class Genome extends Strand {
 		super(bases, pairingsManager);
 	}
 
-	@Override
-	public String toString() {
-		return super.toString();
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (obj instanceof Genome) {
-			final Genome genome = (Genome) obj;
-			return Arrays.equals(this.getContent(), genome.getContent());
-		}
-		return false;
-	}
 }

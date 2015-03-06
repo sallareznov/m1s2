@@ -2,12 +2,16 @@ package writer;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import logger.LoggerFactory;
 import pattern.Genome;
 import algorithms.util.StrandOccurences;
 
 public class GnuplotWriter {
-
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(GnuplotWriter.class);
 	private GnuplotFileBuilder gnuplotFileBuilder;
 
 	public GnuplotWriter() {
@@ -21,9 +25,9 @@ public class GnuplotWriter {
 		gnuplotFileBuilder.buildGnuplotFile(gnuplotFilename, dataFilename,
 				outputFilename, genome.getSize());
 		final Runtime rt = Runtime.getRuntime();
-		System.out.println("Generation du dotplot...");
+		LOGGER.log(Level.INFO, "Generation du dotplot...");
 		rt.exec("gnuplot " + gnuplotFilename);
-		System.out.println("Dotplot genere avec succes (fichier dotplot.jpg)");
+		LOGGER.log(Level.INFO, "Dotplot genere avec succes (fichier dotplot.jpg)");
 	}
 
 }

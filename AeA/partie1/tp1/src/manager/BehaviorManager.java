@@ -3,11 +3,11 @@ package manager;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Manager<P, R> {
+public class BehaviorManager<P, R> {
 
 	private List<Behavior<P, R>> behaviors;
 
-	public Manager() {
+	public BehaviorManager() {
 		behaviors = new LinkedList<Behavior<P, R>>();
 	}
 

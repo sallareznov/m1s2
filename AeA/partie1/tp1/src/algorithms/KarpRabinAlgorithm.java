@@ -43,7 +43,7 @@ public class KarpRabinAlgorithm extends Algorithm {
 	 * @param genome
 	 * @param strand
 	 */
-	private void preTreat(Genome genome, Strand strand, Alphabet alphabet) {
+	private void preTreat(Strand strand, Alphabet alphabet) {
 		final Character[] alphabetLetters = alphabet.getBases();
 		lettersValues = new HashMap<Character, Integer>();
 		for (int i = 0; i < alphabetLetters.length; i++) {
@@ -70,7 +70,7 @@ public class KarpRabinAlgorithm extends Algorithm {
 	@Override
 	public StrandOccurences findRepetitiveStrand(Genome genome, Strand strand,
 			Alphabet alphabet) {
-		preTreat(genome, strand, alphabet);
+		preTreat(strand, alphabet);
 		resetNbComparisons();
 		final StrandOccurences strandOccurences = new StrandOccurences();
 		final Character[] basesToCompare = new Character[strand.getSize()];

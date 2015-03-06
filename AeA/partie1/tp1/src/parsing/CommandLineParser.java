@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import manager.Manager;
+import manager.BehaviorManager;
 import parsing.options.algorithm.OptionToAlgorithmParameters;
 import parsing.options.algorithm.OptionToAlgorithmResult;
 import parsing.options.strand.OptionToStrandParameters;
@@ -25,8 +25,8 @@ import bases.util.NonExistentPairingException;
  */
 public class CommandLineParser {
 
-	private Manager<OptionToStrandParameters, OptionToStrandResult> optionsToStrandsManager;
-	private Manager<OptionToAlgorithmParameters, OptionToAlgorithmResult> optionsToAlgorithmsManager;
+	private BehaviorManager<OptionToStrandParameters, OptionToStrandResult> optionsToStrandsManager;
+	private BehaviorManager<OptionToAlgorithmParameters, OptionToAlgorithmResult> optionsToAlgorithmsManager;
 
 	private static final String STRANDS_FLAG = "--WITH";
 	private static final String ALGORITHMS_FLAG = "--USING";
@@ -51,8 +51,8 @@ public class CommandLineParser {
 	public CommandLineParser(
 			String[] args,
 			PairingsManager pairingsManager,
-			Manager<OptionToStrandParameters, OptionToStrandResult> optionsToStrandsManager,
-			Manager<OptionToAlgorithmParameters, OptionToAlgorithmResult> optionsToAlgorithmsManager)
+			BehaviorManager<OptionToStrandParameters, OptionToStrandResult> optionsToStrandsManager,
+			BehaviorManager<OptionToAlgorithmParameters, OptionToAlgorithmResult> optionsToAlgorithmsManager)
 			throws IOException, InvalidFastaFileException,
 			NotAFastaFileException {
 		commandLine = args;
@@ -103,7 +103,7 @@ public class CommandLineParser {
 	 *         simple)
 	 */
 	private static boolean isAnOption(String option) {
-		return (option.charAt(0) == '-' && option.charAt(1) != '-');
+		return option.charAt(0) == '-' && option.charAt(1) != '-';
 	}
 
 	/**

@@ -76,7 +76,7 @@ public class BoyerMooreAlgorithm extends Algorithm {
 	 * @param strand
 	 *            le brin etudie
 	 */
-	private void fillBadMatches(Genome genome, Strand strand,
+	private void fillBadMatches(Strand strand,
 			Alphabet alphabet) {
 		final String strandString = strand.toString();
 		final int strandSize = strand.getSize();
@@ -96,16 +96,16 @@ public class BoyerMooreAlgorithm extends Algorithm {
 	 * @param genome
 	 * @param strand
 	 */
-	private void preTreat(Genome genome, Strand strand,
+	private void preTreat(Strand strand,
 			Alphabet alphabet) {
 		fillGoodSuffixes(strand);
-		fillBadMatches(genome, strand, alphabet);
+		fillBadMatches(strand, alphabet);
 	}
 
 	@Override
 	public StrandOccurences findRepetitiveStrand(Genome genome, Strand strand,
 			Alphabet alphabet) {
-		preTreat(genome, strand, alphabet);
+		preTreat(strand, alphabet);
 		resetNbComparisons();
 		final StrandOccurences strandOccurences = new StrandOccurences();
 		final Character[] genomeBases = genome.getContent();
@@ -127,7 +127,7 @@ public class BoyerMooreAlgorithm extends Algorithm {
 				i += Math.max(goodSuffix[strandWalker],
 						badMatchTable.get(genomeBases[i])
 								- strand.getSize() + strandWalker);
-				/*i += badMatchTable.get(genome.getBaseAt(i)) - strand.getSize() + strandWalker;*/
+				//****testi += badMatchTable.get(genome.getBaseAt(i)) - strand.getSize() + strandWalker;****
 			}
 		}
 		return strandOccurences;

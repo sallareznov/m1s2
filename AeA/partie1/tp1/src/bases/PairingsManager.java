@@ -3,8 +3,6 @@ package bases;
 import java.util.LinkedList;
 import java.util.List;
 
-import bases.util.NonExistentPairingException;
-
 public class PairingsManager {
 
 	private List<Pairing> pairings;
@@ -25,14 +23,14 @@ public class PairingsManager {
 		return false;
 	}
 
-	public char getComplementaryOf(char base) throws NonExistentPairingException {
+	public char getComplementaryOf(char base) {
 		for (final Pairing pairing : pairings) {
 			if (base == pairing.getFirstBase())
 				return pairing.getSecondBase();
 			if (base == pairing.getSecondBase())
 				return pairing.getFirstBase();
 		}
-		throw new NonExistentPairingException(base);
+		return (char) -1;
 	}
 
 	public int nbPairings() {

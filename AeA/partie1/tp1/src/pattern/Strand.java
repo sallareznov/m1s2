@@ -1,12 +1,13 @@
 package pattern;
 
+import java.util.Arrays;
+
 import bases.PairingsManager;
-import bases.util.NonExistentPairingException;
 
 /**
  * Classe représentant un brin d'ADN
  */
-public class Strand {
+public class Strand implements Cloneable {
 
 	private PairingsManager pairingsManager;
 	private Character[] content;
@@ -78,7 +79,7 @@ public class Strand {
 		return new Strand(reverseContent, this.getManager());
 	}
 
-	public Strand getComplementary() throws NonExistentPairingException {
+	public Strand getComplementary() {
 		final int n = this.getSize();
 		final Character[] complementaryContent = new Character[n];
 		for (int i = 0; i < n; i++) {
@@ -88,7 +89,7 @@ public class Strand {
 		return new Strand(complementaryContent, this.getManager());
 	}
 
-	public Strand getReverseComplementary() throws NonExistentPairingException {
+	public Strand getReverseComplementary() {
 		final Strand reverseSubSequence = getReverse();
 		return reverseSubSequence.getComplementary();
 	}
@@ -170,7 +171,7 @@ public class Strand {
 			if (this.getSize() != str.getSize()) {
 				return false;
 			}
-			for (int i = 0 ; i < content.length ; i++) {
+			for (int i = 0; i < content.length; i++) {
 				if (str.getBaseAt(i) != content[i])
 					return false;
 			}
@@ -179,14 +180,29 @@ public class Strand {
 		return false;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + Arrays.hashCode(content);
+		result = prime * result
+				+ ((pairingsManager == null) ? 0 : pairingsManager.hashCode());
+		return result;
+	}
+
 	public char getBaseAt(int index) {
 		return this.getContent()[index];
 	}
 
+	@Override
 	public Strand clone() {
-		final Character[] contentCopy = new Character[content.length];
-		System.arraycopy(content, 0, contentCopy, 0, content.length);
-		return new Strand(contentCopy, this.getManager());
+		try {
+			super.clone();
+			final Character[] contentCopy = new Character[content.length];
+			System.arraycopy(content, 0, contentCopy, 0, content.length);
+			return new Strand(contentCopy, this.getManager());
+		} catch (CloneNotSupportedException e) {
+			throw new IllegalStateException(e);
+		}
 	}
-
 }

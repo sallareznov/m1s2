@@ -1,6 +1,5 @@
 package parsing.options.strand;
 
-import bases.util.NonExistentPairingException;
 import manager.Behavior;
 import pattern.Strand;
 
@@ -15,12 +14,8 @@ public class ComplementaryOptionToStrand implements
 
 	@Override
 	public OptionToStrandResult execute(OptionToStrandParameters parameters) {
-		try {
-			final Strand strand = parameters.getStrand();
-			return new OptionToStrandResult(strand.getComplementary());
-		} catch (NonExistentPairingException e) {
-			return null;
-		}
+		final Strand strand = parameters.getStrand();
+		return new OptionToStrandResult(strand.getComplementary());
 	}
 
 }
