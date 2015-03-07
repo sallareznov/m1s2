@@ -28,11 +28,6 @@ public class PairingsManagerTest {
 		assertEquals('A', testedPairingsManager.getComplementaryOf('T'));
 	}
 	
-	@Test(expected=NonExistentPairingException.class)
-	public void testGetComplementaryOfWithException() throws NonExistentPairingException {
-		assertEquals('X', testedPairingsManager.getComplementaryOf('Y'));
-	}
-	
 	@Test
 	public void testContains() {
 		assertTrue(testedPairingsManager.contains('C'));

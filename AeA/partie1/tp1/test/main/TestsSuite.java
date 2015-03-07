@@ -4,6 +4,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
+import bases.PairingsManagerTest;
 import patterns.AlphabetTest;
 import patterns.StrandTest;
 import reader.FastaFileReaderTest;
@@ -17,7 +18,8 @@ import algorithms.AlgorithmsTest;
 AlphabetTest.class,
 StrandTest.class,
 AlgorithmsTest.class,
-FastaFileReaderTest.class
+FastaFileReaderTest.class,
+PairingsManagerTest.class
 })
 public class TestsSuite{
 }
