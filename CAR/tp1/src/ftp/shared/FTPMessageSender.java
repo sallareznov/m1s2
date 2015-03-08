@@ -7,7 +7,7 @@ import java.net.Socket;
 import java.text.MessageFormat;
 
 /**
- * @author diagne
+ * Type of a class capable of sending commands and data
  */
 public abstract class FTPMessageSender {
 
@@ -39,7 +39,7 @@ public abstract class FTPMessageSender {
 	 *            the return code
 	 * @param arguments
 	 *            the arguments to pass to the formatter
-	 * @throws IOException
+	 * @throws IOException if an I/O error occurs
 	 */
 	public void sendCommand(Socket connection, int returnCode,
 			Object... arguments) throws IOException {

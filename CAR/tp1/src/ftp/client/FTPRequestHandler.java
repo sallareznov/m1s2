@@ -17,7 +17,7 @@ import ftp.shared.FTPRequest;
 import ftp.shared.FTPServerConfiguration;
 
 /**
- * Class representing a request handler
+ * A request handler handles requests coming from a defined client
  */
 public class FTPRequestHandler extends FTPMessageSender implements Runnable {
 
@@ -68,7 +68,7 @@ public class FTPRequestHandler extends FTPMessageSender implements Runnable {
 	 * 
 	 * @param request
 	 *            the request
-	 * @throws IOException 
+	 * @throws IOException if an I/O error occurs
 	 */
 	public synchronized void processRequest(FTPRequest request) throws IOException {
 		commandManager.handle(request, clientConfiguration);

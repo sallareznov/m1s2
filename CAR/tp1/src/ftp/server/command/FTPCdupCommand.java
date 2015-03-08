@@ -12,6 +12,10 @@ import ftp.shared.FTPRequest;
  */
 public class FTPCdupCommand extends FTPConnectionNeededCommand {
 
+	/**
+	 * Constructs a CDUP command
+	 * @param database the database
+	 */
 	public FTPCdupCommand(FTPDatabase database) {
 		super(database, "CDUP");
 	}

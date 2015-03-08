@@ -31,7 +31,7 @@ public interface FTPCommand {
      *            the request
      * @param clientConfiguration
      *            the configuration of the client
-     * @throws IOException
+     * @throws IOException if an I/O error occurs
      */
     void execute(FTPRequest request, FTPClientConfiguration clientConfiguration) throws IOException;
 

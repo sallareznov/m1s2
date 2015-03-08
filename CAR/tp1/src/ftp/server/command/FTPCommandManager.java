@@ -8,7 +8,8 @@ import ftp.shared.FTPClientConfiguration;
 import ftp.shared.FTPRequest;
 
 /**
- * Class representing a command manager
+ * Class representing a command manager. When a command arrives to the request handler,
+ * the manager checks if a command in its list accepts that request, and executes it
  */
 public class FTPCommandManager {
 

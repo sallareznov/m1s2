@@ -6,7 +6,6 @@ import org.apache.log4j.PatternLayout;
 
 /**
  * Class representing a LoggerFactory 
- * @author salla
  */
 public class FTPLoggerFactory {
 	

@@ -42,46 +42,83 @@ public class FTPClientConfiguration {
 		directorySeparator = serverConfiguration.getDirectorySeparator();
 	}
 
+	/**
+	 * @return the id
+	 */
 	public int getId() {
 		return id;
 	}
 
+	/**
+	 * sets the connection state
+	 * @param connected
+	 */
 	public void setConnected(boolean connected) {
 		this.connected = connected;
 	}
 
+	/**
+	 * @return <code>true</code> if the client is connected
+	 */
 	public boolean isConnected() {
 		return connected;
 	}
 
+	/**
+	 * @return the directory separator
+	 */
 	public String getDirectorySeparator() {
 		return directorySeparator;
 	}
 
+	/**
+	 * @return the username
+	 */
 	public String getUsername() {
 		return username;
 	}
 
+	/**
+	 * sets the username
+	 * @param username the new username
+	 */
 	public void setUsername(String username) {
 		this.username = username;
 	}
 
+	/**
+	 * @return the beginning of the connection (date)
+	 */
 	public Date getBeginning() {
 		return beginning;
 	}
 
+	/**
+	 * @return the command socket
+	 */
 	public Socket getCommandSocket() {
 		return commandSocket;
 	}
 
+	/**
+	 * @return the base directory
+	 */
 	public String getBaseDirectory() {
 		return baseDirectory;
 	}
 
+	/**
+	 * @return the working directory
+	 */
 	public String getWorkingDirectory() {
 		return workingDirectory;
 	}
 
+	/**
+	 * change the working directory with one of its subdirectories
+	 * @param newLeaf the chosen directory
+	 * @throws FileNotFoundException if the directory doesn't exist
+	 */
 	public void goDown(String newLeaf) throws FileNotFoundException {
 		final String newDirectory = workingDirectory + directorySeparator
 				+ newLeaf;
@@ -91,6 +128,10 @@ public class FTPClientConfiguration {
 		workingDirectory += directorySeparator + newLeaf;
 	}
 
+	/**
+	 * change the directory with the parent directory
+	 * @throws FailedCwdException if we are above the base directory of the server
+	 */
 	public void goUp() throws FailedCwdException {
 		final int parentDirectoryEndIndex = workingDirectory
 				.lastIndexOf(directorySeparator);
@@ -101,22 +142,40 @@ public class FTPClientConfiguration {
 		}
 	}
 
+	/**
+	 * @return the data socket
+	 */
 	public Socket getDataSocket() {
 		return dataSocket;
 	}
-
-	public ServerSocket getDataServerSocket() {
-		return serverSocket;
-	}
-
-	public void setDataServerSocket(ServerSocket serverSocket) {
-		this.serverSocket = serverSocket;
-	}
-
+	
+	/**
+	 * sets the data socket
+	 * @param dataSocket the new data socket
+	 */
 	public void setDataSocket(Socket dataSocket) {
 		this.dataSocket = dataSocket;
 	}
 
+	/**
+	 * @return the data server socket
+	 */
+	public ServerSocket getDataServerSocket() {
+		return serverSocket;
+	}
+
+	/**
+	 * sets the data server socket
+	 * @param serverSocket the new data server socket
+	 */
+	public void setDataServerSocket(ServerSocket serverSocket) {
+		this.serverSocket = serverSocket;
+	}
+
+	/**
+	 * closes the data socket
+	 * @throws IOException if an I/O error occurs
+	 */
 	public void closeDataSocket() throws IOException {
 		dataSocket.close();
 	}

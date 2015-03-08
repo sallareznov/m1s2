@@ -39,7 +39,10 @@ public class Main {
 		// Utility class = private constructor to hide the implicit public one.
 	}
 
-	private static void usage() {
+	/**
+	 * Prints the usage of the program
+	 */
+	public static void usage() {
 		LOGGER.info("java -jar ftpServer.jar [port] [baseDirectory]");
 		LOGGER.info("\tport : port number (> 1023)");
 		LOGGER.info("\tbaseDirectory : base directory");
@@ -48,7 +51,7 @@ public class Main {
 	/**
 	 * Main method
 	 * @param args
-	 * @throws IOException
+	 * @throws IOException if an I/O error occurs
 	 */
 	public static void main(String[] args) throws IOException {
 		if (args.length < 2) {

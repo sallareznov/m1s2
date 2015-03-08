@@ -10,8 +10,15 @@ import ftp.shared.FTPClientConfiguration;
 import ftp.shared.FTPDatabase;
 import ftp.shared.FTPRequest;
 
+/**
+ * Class representing a RETR command
+ */
 public class FTPRetrCommand extends FTPConnectionNeededCommand {
 
+	/**
+	 * Constructs a RETR command
+	 * @param database the database
+	 */
 	public FTPRetrCommand(FTPDatabase database) {
 		super(database, "RETR");
 	}

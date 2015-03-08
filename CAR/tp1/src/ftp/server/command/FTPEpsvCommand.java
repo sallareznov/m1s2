@@ -7,9 +7,16 @@ import java.net.Socket;
 import ftp.shared.FTPClientConfiguration;
 import ftp.shared.FTPDatabase;
 import ftp.shared.FTPRequest;
-
+ 
+/**
+ * Class representing a EPSV command
+ */
 public class FTPEpsvCommand extends FTPConnectionNeededCommand {
 
+	/**
+	 * Constructs a EPSV command
+	 * @param database the database
+	 */
 	public FTPEpsvCommand(FTPDatabase database) {
 		super(database, "EPSV");
 	}

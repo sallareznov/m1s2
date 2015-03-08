@@ -8,7 +8,8 @@ import ftp.shared.FTPMessageSender;
 import ftp.shared.FTPRequest;
 
 /**
- * Class representing a non-implemented command
+ * Class representing a non-implemented command. This command
+ * will be executed if the server doesn't accept the client's request
  */
 public class FTPNotImplementedCommand extends FTPMessageSender implements
 		FTPCommand {

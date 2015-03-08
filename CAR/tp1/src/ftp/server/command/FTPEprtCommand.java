@@ -9,8 +9,15 @@ import ftp.shared.FTPClientConfiguration;
 import ftp.shared.FTPDatabase;
 import ftp.shared.FTPRequest;
 
+/**
+ * Class representing a EPRT command
+ */
 public class FTPEprtCommand extends FTPConnectionNeededCommand {
 
+	/**
+	 * Constructs a EPRT command
+	 * @param database the database
+	 */
 	public FTPEprtCommand(FTPDatabase database) {
 		super(database, "EPRT");
 	}

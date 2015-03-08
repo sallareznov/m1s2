@@ -8,12 +8,12 @@ import ftp.shared.FTPDatabase;
 import ftp.shared.FTPRequest;
 
 /**
- * Class representing the LIST command
+ * Class representing the NLST command
  */
 public class FTPNlstCommand extends FTPConnectionNeededCommand {
 
 	/**
-	 * constructs a LIST command
+	 * constructs a NLST command
 	 * 
 	 * @param database
 	 *            the database

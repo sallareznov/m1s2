@@ -30,7 +30,7 @@ public class FTPCwdCommand extends FTPConnectionNeededCommand {
 		return request.getLength() == 2;
 	}
 
-	public void handleDirectory(String directory,
+	private void handleDirectory(String directory,
 			FTPClientConfiguration clientConfiguration)
 			throws FailedCwdException, IOException {
 		try {

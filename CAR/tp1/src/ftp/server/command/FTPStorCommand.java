@@ -10,8 +10,15 @@ import ftp.shared.FTPClientConfiguration;
 import ftp.shared.FTPDatabase;
 import ftp.shared.FTPRequest;
 
+/**
+ * Class representing the STOR command
+ */
 public class FTPStorCommand extends FTPConnectionNeededCommand {
 
+	/**
+	 * Constructs a STOR command
+	 * @param database the database
+	 */
 	public FTPStorCommand(FTPDatabase database) {
 		super(database, "STOR");
 	}

@@ -1,6 +1,7 @@
 package ftp.server.command;
 
 import java.io.IOException;
+import java.net.ServerSocket;
 import java.util.StringTokenizer;
 
 import ftp.shared.FTPClientConfiguration;
@@ -30,7 +31,8 @@ public class FTPPasvCommand extends FTPConnectionNeededCommand {
 	@Override
 	public void executeConnectionNeededCommand(FTPRequest request,
 			FTPClientConfiguration clientConfiguration) throws IOException {
-			//clientConfiguration.setDataServerSocket(dataServerSocket);
+			final ServerSocket dataServerSocket = new ServerSocket();
+			clientConfiguration.setDataServerSocket(dataServerSocket);
 			final int port = clientConfiguration.getDataServerSocket().getLocalPort();
 			final String ipAddress = clientConfiguration.getCommandSocket().getInetAddress().getHostAddress();
 			final Object[] answerTokens = new String[6];
