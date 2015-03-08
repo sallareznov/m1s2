@@ -16,9 +16,11 @@ import org.mockito.Mockito;
 import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 
-import ftp.FTPDatabase;
-import ftp.FTPRequest;
-import ftp.configuration.FTPClientConfiguration;
+import ftp.server.command.FTPCommand;
+import ftp.server.command.FTPPwdCommand;
+import ftp.shared.FTPClientConfiguration;
+import ftp.shared.FTPDatabase;
+import ftp.shared.FTPRequest;
 
 /**
  * @author diagne
@@ -57,7 +59,7 @@ public class FTPPwdCommandTest {
 
 	@Test
 	@Ignore
-	public void testExecute() {
+	public void testExecute() throws IOException {
 		final FTPRequest request = Mockito.mock(FTPRequest.class);
 		final String workingDirectory = "home/m1/someGuy";
 		final FTPClientConfiguration clientConfiguration = Mockito

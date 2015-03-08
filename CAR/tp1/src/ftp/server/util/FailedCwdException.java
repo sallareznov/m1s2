@@ -1,4 +1,4 @@
-package ftp;
+package ftp.server.util;
 
 /**
  * Exception raised when the CWD command fails to execute 

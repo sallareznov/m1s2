@@ -1,4 +1,4 @@
-package ftp.configuration;
+package ftp.shared;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -7,23 +7,23 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Date;
 
-import ftp.FailedCwdException;
+import ftp.server.util.FailedCwdException;
 
 /**
  * Class representing the configuration of the client
  */
 public class FTPClientConfiguration {
 
-	private int _id;
-	private String _username;
-	private Date _beginning;
-	private ServerSocket _serverSocket;
-	private Socket _commandSocket;
-	private Socket _dataSocket;
-	private String _baseDirectory;
-	private String _workingDirectory;
-	private String _directorySeparator;
-	private boolean _connected;
+	private int id;
+	private String username;
+	private Date beginning;
+	private ServerSocket serverSocket;
+	private Socket commandSocket;
+	private Socket dataSocket;
+	private String baseDirectory;
+	private String workingDirectory;
+	private String directorySeparator;
+	private boolean connected;
 
 	/**
 	 * constructs a client configuration
@@ -32,93 +32,93 @@ public class FTPClientConfiguration {
 	 *            the server configuration
 	 */
 	public FTPClientConfiguration(FTPServerConfiguration serverConfiguration) {
-		_id = serverConfiguration.getIdGenerator().incrementAndGet();
-		_username = null;
-		_beginning = new Date();
-		_commandSocket = serverConfiguration.getConnection();
-		_dataSocket = null;
-		_baseDirectory = serverConfiguration.getBaseDirectory();
-		_workingDirectory = serverConfiguration.getBaseDirectory();
-		_directorySeparator = serverConfiguration.getDirectorySeparator();
+		id = serverConfiguration.getIdGenerator().incrementAndGet();
+		username = null;
+		beginning = new Date();
+		commandSocket = serverConfiguration.getConnection();
+		dataSocket = null;
+		baseDirectory = serverConfiguration.getBaseDirectory();
+		workingDirectory = serverConfiguration.getBaseDirectory();
+		directorySeparator = serverConfiguration.getDirectorySeparator();
 	}
 
 	public int getId() {
-		return _id;
+		return id;
 	}
 
 	public void setConnected(boolean connected) {
-		_connected = connected;
+		this.connected = connected;
 	}
 
 	public boolean isConnected() {
-		return _connected;
+		return connected;
 	}
 
 	public String getDirectorySeparator() {
-		return _directorySeparator;
+		return directorySeparator;
 	}
 
 	public String getUsername() {
-		return _username;
+		return username;
 	}
 
 	public void setUsername(String username) {
-		_username = username;
+		this.username = username;
 	}
 
 	public Date getBeginning() {
-		return _beginning;
+		return beginning;
 	}
 
 	public Socket getCommandSocket() {
-		return _commandSocket;
+		return commandSocket;
 	}
 
 	public String getBaseDirectory() {
-		return _baseDirectory;
+		return baseDirectory;
 	}
 
 	public String getWorkingDirectory() {
-		return _workingDirectory;
+		return workingDirectory;
 	}
 
 	public void goDown(String newLeaf) throws FileNotFoundException {
-		final String newDirectory = _workingDirectory + _directorySeparator
+		final String newDirectory = workingDirectory + directorySeparator
 				+ newLeaf;
 		if (!new File(newDirectory).exists()) {
 			throw new FileNotFoundException();
 		}
-		_workingDirectory += _directorySeparator + newLeaf;
+		workingDirectory += directorySeparator + newLeaf;
 	}
 
 	public void goUp() throws FailedCwdException {
-		final int parentDirectoryEndIndex = _workingDirectory
-				.lastIndexOf(_directorySeparator);
-		_workingDirectory = _workingDirectory.substring(0,
+		final int parentDirectoryEndIndex = workingDirectory
+				.lastIndexOf(directorySeparator);
+		workingDirectory = workingDirectory.substring(0,
 				parentDirectoryEndIndex + 1);
-		if (!_workingDirectory.contains(_baseDirectory)) {
+		if (!workingDirectory.contains(baseDirectory)) {
 			throw new FailedCwdException();
 		}
 	}
 
 	public Socket getDataSocket() {
-		return _dataSocket;
+		return dataSocket;
 	}
 
 	public ServerSocket getDataServerSocket() {
-		return _serverSocket;
+		return serverSocket;
 	}
 
 	public void setDataServerSocket(ServerSocket serverSocket) {
-		_serverSocket = serverSocket;
+		this.serverSocket = serverSocket;
 	}
 
 	public void setDataSocket(Socket dataSocket) {
-		_dataSocket = dataSocket;
+		this.dataSocket = dataSocket;
 	}
 
 	public void closeDataSocket() throws IOException {
-		_dataSocket.close();
+		dataSocket.close();
 	}
 
 }

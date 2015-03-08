@@ -1,4 +1,4 @@
-package ftp.configuration;
+package ftp.shared;
 
 import java.io.File;
 import java.io.IOException;
@@ -8,55 +8,52 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class FTPServerConfiguration {
 
-	private ServerSocket _serverSocket;
-	private int _port;
-	private Socket _connection;
-	private String _baseDirectory;
-	private AtomicInteger _idGenerator;
-	private String _directorySeparator;
-	
-	public FTPServerConfiguration(int port, String baseDirectory) {
-		try {
-			_port = port;
-			_serverSocket = new ServerSocket(port);
-			_baseDirectory = new File(baseDirectory).getAbsolutePath();
-			_idGenerator = new AtomicInteger();
-			_directorySeparator = System.getProperty("file.separator");
-		} catch (IOException e) {
-			System.err.println("I/O error while opening the socket.");
-		}
+	private ServerSocket serverSocket;
+	private int port;
+	private Socket connection;
+	private String baseDirectory;
+	private AtomicInteger idGenerator;
+	private String directorySeparator;
+
+	public FTPServerConfiguration(int port, String baseDirectory) throws IOException {
+		this.port = port;
+		serverSocket = new ServerSocket(port);
+		this.baseDirectory = new File(baseDirectory).getAbsolutePath();
+		idGenerator = new AtomicInteger();
+		directorySeparator = System.getProperty("file.separator");
+		connection = null;
 	}
-	
+
 	public String getAddress() {
-		return _serverSocket.getInetAddress().getHostAddress();
+		return serverSocket.getInetAddress().getHostAddress();
 	}
-	
+
 	public String getDirectorySeparator() {
-		return _directorySeparator;
+		return directorySeparator;
 	}
-	
+
 	public AtomicInteger getIdGenerator() {
-		return _idGenerator;
+		return idGenerator;
 	}
 
 	public int getPort() {
-		return _port;
+		return port;
 	}
 
 	public ServerSocket getServerSocket() {
-		return _serverSocket;
+		return serverSocket;
 	}
 
 	public String getBaseDirectory() {
-		return _baseDirectory;
+		return baseDirectory;
 	}
-	
+
 	public Socket getConnection() {
-		return _connection;
+		return connection;
 	}
-	
+
 	public void setConnection(Socket connection) {
-		_connection = connection;
+		this.connection = connection;
 	}
 
 }

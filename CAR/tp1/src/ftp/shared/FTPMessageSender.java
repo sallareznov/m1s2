@@ -1,4 +1,4 @@
-package ftp;
+package ftp.shared;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -11,32 +11,39 @@ import java.text.MessageFormat;
  */
 public abstract class FTPMessageSender {
 
-	private FTPDatabase _database;
+	private FTPDatabase database;
 
 	/**
 	 * Default constructor
-	 * @param database the database
+	 * 
+	 * @param database
+	 *            the database
 	 */
 	public FTPMessageSender(FTPDatabase database) {
-		_database = database;
+		this.database = database;
 	}
 
 	/**
 	 * @return the database
 	 */
 	public FTPDatabase getDatabase() {
-		return _database;
+		return database;
 	}
 
 	/**
 	 * sends the command via the command socket
-	 * @param connection the connection (command socket)
-	 * @param returnCode the return code
-	 * @param arguments the arguments to pass to the formatter
+	 * 
+	 * @param connection
+	 *            the connection (command socket)
+	 * @param returnCode
+	 *            the return code
+	 * @param arguments
+	 *            the arguments to pass to the formatter
+	 * @throws IOException
 	 */
 	public void sendCommand(Socket connection, int returnCode,
-			Object... arguments) {
-		final String initialMessage = _database.getMessage(returnCode);
+			Object... arguments) throws IOException {
+		final String initialMessage = database.getMessage(returnCode);
 		final String formattedMessage = MessageFormat.format(initialMessage,
 				arguments);
 		writeCommandWithMessage(connection, returnCode, formattedMessage);
@@ -44,33 +51,29 @@ public abstract class FTPMessageSender {
 
 	/**
 	 * sends data via the data socket
-	 * @param dataSocket the data socket
-	 * @param message the data
+	 * 
+	 * @param dataSocket
+	 *            the data socket
+	 * @param message
+	 *            the data
+	 * @throws IOException
 	 */
-	public void sendData(Socket dataSocket, String message) {
-		try {
-			final OutputStream outputStream = dataSocket.getOutputStream();
-			final DataOutputStream dataOutputStream = new DataOutputStream(
-					outputStream);
-			dataOutputStream.writeBytes(message);
-			dataOutputStream.flush();
-		} catch (IOException e) {
-			System.out.println("ERROR while sending data");
-		}
+	public void sendData(Socket dataSocket, String message) throws IOException {
+		final OutputStream outputStream = dataSocket.getOutputStream();
+		final DataOutputStream dataOutputStream = new DataOutputStream(
+				outputStream);
+		dataOutputStream.writeBytes(message);
+		dataOutputStream.flush();
 	}
 
 	private void writeCommandWithMessage(Socket connection, int returnCode,
-			String message) {
-		try {
-			final OutputStream outputStream = connection.getOutputStream();
-			final DataOutputStream dataOutputStream = new DataOutputStream(
-					outputStream);
-			dataOutputStream.writeBytes(returnCode + " " + message);
-			dataOutputStream.writeBytes("\r\n");
-			dataOutputStream.flush();
-		} catch (IOException e) {
-			System.out.println("A client has logged out.");
-		}
+			String message) throws IOException {
+		final OutputStream outputStream = connection.getOutputStream();
+		final DataOutputStream dataOutputStream = new DataOutputStream(
+				outputStream);
+		dataOutputStream.writeBytes(returnCode + " " + message);
+		dataOutputStream.writeBytes("\r\n");
+		dataOutputStream.flush();
 	}
 
 }

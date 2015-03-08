@@ -1,13 +1,13 @@
-package ftp;
+package ftp.shared;
 
 /**
  * Class representing an FTP request
  */
 public class FTPRequest {
 
-	private String _command;
-	private String _argument;
-	private int _length;
+	private String command;
+	private String argument;
+	private int length;
 
 	/**
 	 * constructs a FTP request
@@ -15,30 +15,30 @@ public class FTPRequest {
 	 */
 	public FTPRequest(String request) {
 		final String[] requestTokens = request.split(" ");
-		_command = requestTokens[0];
-		_argument = (requestTokens.length > 1) ? requestTokens[1] : null;
-		_length = requestTokens.length;
+		command = requestTokens[0];
+		argument = (requestTokens.length > 1) ? requestTokens[1] : null;
+		length = requestTokens.length;
 	}
 
 	/**
 	 * @return the command
 	 */
 	public String getCommand() {
-		return _command;
+		return command;
 	}
 
 	/**
 	 * @return the argument
 	 */
 	public String getArgument() {
-		return _argument;
+		return argument;
 	}
 	
 	/**
 	 * @return the number of tokens of the request
 	 */
 	public int getLength() {
-		return _length;
+		return length;
 	}
 
 }

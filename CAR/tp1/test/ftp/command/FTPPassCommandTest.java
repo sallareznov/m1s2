@@ -20,9 +20,11 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import ftp.FTPDatabase;
-import ftp.FTPRequest;
-import ftp.configuration.FTPClientConfiguration;
+import ftp.server.command.FTPCommand;
+import ftp.server.command.FTPPassCommand;
+import ftp.shared.FTPClientConfiguration;
+import ftp.shared.FTPDatabase;
+import ftp.shared.FTPRequest;
 
 /**
  * @author  diagne
@@ -64,7 +66,7 @@ public class FTPPassCommandTest {
 
 	@Ignore
 	@Test
-	public void testExecute() {
+	public void testExecute() throws IOException {
 		final FTPRequest correctRequest = Mockito.mock(FTPRequest.class);
 		Mockito.when(correctRequest.getArgument()).thenReturn("test");
 		final FTPRequest incorrectRequest = Mockito.mock(FTPRequest.class);

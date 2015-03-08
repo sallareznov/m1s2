@@ -1,4 +1,4 @@
-package ftp;
+package ftp.client;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -6,17 +6,25 @@ import java.io.InputStreamReader;
 import java.net.Socket;
 import java.text.SimpleDateFormat;
 
-import ftp.command.FTPCommandManager;
-import ftp.configuration.FTPClientConfiguration;
-import ftp.configuration.FTPServerConfiguration;
+import org.apache.log4j.Logger;
+
+import ftp.server.command.FTPCommandManager;
+import ftp.shared.FTPClientConfiguration;
+import ftp.shared.FTPDatabase;
+import ftp.shared.FTPLoggerFactory;
+import ftp.shared.FTPMessageSender;
+import ftp.shared.FTPRequest;
+import ftp.shared.FTPServerConfiguration;
 
 /**
  * Class representing a request handler
  */
 public class FTPRequestHandler extends FTPMessageSender implements Runnable {
 
-	private FTPClientConfiguration _clientConfiguration;
-	private FTPCommandManager _commandManager;
+	private FTPClientConfiguration clientConfiguration;
+	private FTPCommandManager commandManager;
+	private static final Logger LOGGER = FTPLoggerFactory
+			.create(FTPRequestHandler.class);
 
 	/**
 	 * @param database
@@ -30,8 +38,8 @@ public class FTPRequestHandler extends FTPMessageSender implements Runnable {
 			FTPServerConfiguration serverConfiguration,
 			FTPCommandManager commandManager) {
 		super(database);
-		_clientConfiguration = new FTPClientConfiguration(serverConfiguration);
-		_commandManager = commandManager;
+		clientConfiguration = new FTPClientConfiguration(serverConfiguration);
+		this.commandManager = commandManager;
 	}
 
 	@Override
@@ -39,23 +47,19 @@ public class FTPRequestHandler extends FTPMessageSender implements Runnable {
 		try {
 			final SimpleDateFormat dateFormatter = new SimpleDateFormat(
 					"dd MMM yyy, HH:mm:ss");
-			System.out
-					.println("Connection initiated at "
-							+ dateFormatter.format(_clientConfiguration
-									.getBeginning()));
-			final Socket connection = _clientConfiguration.getCommandSocket();
+			LOGGER.info("Connection initiated at "
+					+ dateFormatter.format(clientConfiguration.getBeginning()));
+			final Socket connection = clientConfiguration.getCommandSocket();
 			final BufferedReader in = new BufferedReader(new InputStreamReader(
 					connection.getInputStream()));
 			String request = null;
 			while ((request = in.readLine()) != null) {
-				System.out.println("#" + _clientConfiguration.getId()
-						+ " ---> " + request);
+				LOGGER.info("#" + clientConfiguration.getId() + " ---> "
+						+ request);
 				processRequest(new FTPRequest(request));
 			}
 		} catch (IOException e) {
-			System.err
-					.println("I/O error occurs when creating the input stream or reading a line. Maybe the socket is closed, or is not connected");
-			e.printStackTrace();
+			throw new RuntimeException(e);
 		}
 	}
 
@@ -64,9 +68,10 @@ public class FTPRequestHandler extends FTPMessageSender implements Runnable {
 	 * 
 	 * @param request
 	 *            the request
+	 * @throws IOException 
 	 */
-	public synchronized void processRequest(FTPRequest request) {
-		_commandManager.handle(request, _clientConfiguration);
+	public synchronized void processRequest(FTPRequest request) throws IOException {
+		commandManager.handle(request, clientConfiguration);
 	}
 
 }

@@ -13,9 +13,11 @@ import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import ftp.FTPDatabase;
-import ftp.FTPRequest;
-import ftp.configuration.FTPClientConfiguration;
+import ftp.server.command.FTPCommand;
+import ftp.server.command.FTPSystCommand;
+import ftp.shared.FTPClientConfiguration;
+import ftp.shared.FTPDatabase;
+import ftp.shared.FTPRequest;
 
 /**
  * @author  diagne
@@ -53,7 +55,7 @@ public class FTPSystCommandTest {
 
 	@Ignore
 	@Test
-	public void testExecute() {
+	public void testExecute() throws IOException {
 		final FTPRequest request = Mockito.mock(FTPRequest.class);
 		final FTPClientConfiguration clientConfiguration = Mockito.mock(FTPClientConfiguration.class); 
 		final Socket connection = Mockito.mock(Socket.class);

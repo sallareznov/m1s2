@@ -1,16 +1,18 @@
-package ftp;
+package ftp.server;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 
-import ftp.configuration.FTPServerConfiguration;
+import ftp.shared.FTPDatabase;
+import ftp.shared.FTPMessageSender;
+import ftp.shared.FTPServerConfiguration;
 
 /**
  * Classe representing a FTP server
  */
 public class FTPServer extends FTPMessageSender {
 
-	private FTPServerConfiguration _configuration;
+	private FTPServerConfiguration configuration;
 
 	/**
 	 * constructs a new FTP server
@@ -21,41 +23,37 @@ public class FTPServer extends FTPMessageSender {
 	 *            the base directory
 	 * @param database
 	 *            the database
+	 * @throws IOException 
 	 */
-	public FTPServer(int port, String baseDirectory, FTPDatabase database) {
+	public FTPServer(int port, String baseDirectory, FTPDatabase database) throws IOException {
 		super(database);
-		_configuration = new FTPServerConfiguration(port, baseDirectory);
+		configuration = new FTPServerConfiguration(port, baseDirectory);
 	}
 
 	/**
 	 * @return the configuration of the server
 	 */
 	public FTPServerConfiguration getConfiguration() {
-		return _configuration;
+		return configuration;
 	}
 
 	/**
 	 * attempts to connect to a client (blocks until a client is connected)
+	 * @throws IOException 
 	 */
-	public void connectToClient() {
-		try {
-			final ServerSocket serverSocket = _configuration.getServerSocket();
-			_configuration.setConnection(serverSocket.accept());
-		} catch (IOException e) {
-			System.err.println("I/O error while waiting for a connection.");
-		}
+	public void connectToClient() throws IOException {
+		final ServerSocket serverSocket = configuration.getServerSocket();
+		configuration.setConnection(serverSocket.accept());
 	}
 
 	/**
 	 * closes the server
+	 * 
+	 * @throws IOException
 	 */
-	public void close() {
-		try {
-			final ServerSocket serverSocket = _configuration.getServerSocket();
-			serverSocket.close();
-		} catch (IOException e) {
-			System.err.println("I/O exception while closing the socket.");
-		}
+	public void close() throws IOException {
+		final ServerSocket serverSocket = configuration.getServerSocket();
+		serverSocket.close();
 	}
 
 }
