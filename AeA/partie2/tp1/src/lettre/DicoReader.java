@@ -15,6 +15,7 @@ public class DicoReader {
 		while ((motCourant = reader.readLine()) != null) {
 			mots.add(motCourant);
 		}
+		reader.close();
 		return mots;
 	}
 

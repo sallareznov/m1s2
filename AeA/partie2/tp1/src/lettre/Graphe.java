@@ -456,13 +456,10 @@ public class Graphe {
 	 * affiche sur la sortie d'erreur comment utiliser le programme
 	 */
 	private static void usage() {
-		System.err.println("java lettre.Graphe <mot1> <mot2>");
-		System.err
-				.println("\tCe programme affiche les composantes connexes du graphe Dicos.dico4,");
-		System.err
-				.println("\taffiche un plus court chemin entre <mot1> et <mot2> s'il en existe");
-		System.err
-				.println("\tet affiche le chemin d'excentricité maximale du graphe.");
+		System.err.println("java -jar lqs.jar dico mot1 mot2 sup dif");
+		System.err.println("\tCe programme affiche le chemin le plus court entre mot1 et mot2");
+		System.err.println("\tdans le graphe du fichier dico avec au plus sup suppressions");
+	    System.err.println("\tet dif substitutions et le chemin d'excentricité maximale du graphe");
 	}
 
 	/**

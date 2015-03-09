@@ -11,8 +11,10 @@
 
 # Fonctionnement du programme
 * Se placer à la racine du projet (dossier tp1_perard-diagne/)
-* exécuter la commande : java -jar lettre.jar mot1 mot2
-    * Ce programme recherche et affiche le chemin le plus court entre mot1 et mot2 dans le graphe Dicos.dico4
+* exécuter la commande : java -jar lqs.jar dico mot1 mot2 sup dif
+    * Ce programme recherche et affiche le chemin le plus court entre mot1 et mot2 dans le graphe du fichier dico avec au plus sup suppressions
+    et dif substitutions
+	* Exemple : java -jar lqs.jar dico4.txt lion peur 0 1
 
 # Réponses aux questions
 
@@ -51,7 +53,7 @@ public static void main(String[] args) {
 ```
 
 ```sh
-$ gag gai gaz gui guy gue gre are ace acm aie ait ail air apr avr art arc 
+$ gag gai gaz gui guy gue gre are ace acm aie ait ail air apr avr art arc
 ```
 
 #####Parcours en profondeur : visiter tous les nœuds#####
@@ -92,3 +94,5 @@ Voir classes `MotGraphe` et `Graphe` :
 * constructeur `Graphe(...)`
 
 #####Excentricité#####
+
+Void classes `MotGraphe` et `Graphe`
