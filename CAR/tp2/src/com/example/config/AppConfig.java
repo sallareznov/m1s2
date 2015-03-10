@@ -16,6 +16,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
 
 import car.FTPClientResource;
+import car.FTPFileResource;
 import car.HelloWorldResource;
 
 import com.example.rs.JaxRsApiApplication;
@@ -37,6 +38,7 @@ public class AppConfig {
 //		serviceBeans.add(peopleRestService());
 		serviceBeans.add(new HelloWorldResource());
 		serviceBeans.add(new FTPClientResource());
+		serviceBeans.add(new FTPFileResource());
 		
 		factory.setServiceBeans(serviceBeans);
 		factory.setAddress( "/" + factory.getAddress() );

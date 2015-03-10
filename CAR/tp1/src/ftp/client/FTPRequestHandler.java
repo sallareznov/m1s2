@@ -5,8 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
 import java.text.SimpleDateFormat;
-
-import org.apache.log4j.Logger;
+import java.util.logging.Logger;
 
 import ftp.server.command.FTPCommandManager;
 import ftp.shared.FTPClientConfiguration;
