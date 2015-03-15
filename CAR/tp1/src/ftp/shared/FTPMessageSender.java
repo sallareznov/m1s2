@@ -45,7 +45,7 @@ public abstract class FTPMessageSender {
 			Object... arguments) throws IOException {
 		final String initialMessage = database.getMessage(returnCode);
 		final String formattedMessage = MessageFormat.format(initialMessage,
-				arguments);
+				(Object[]) arguments);
 		writeCommandWithMessage(connection, returnCode, formattedMessage);
 	}
 

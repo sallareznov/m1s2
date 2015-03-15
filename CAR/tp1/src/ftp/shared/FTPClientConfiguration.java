@@ -133,8 +133,11 @@ public class FTPClientConfiguration {
 	 * @throws FailedCwdException if we are above the base directory of the server
 	 */
 	public void goUp() throws FailedCwdException {
-		final int parentDirectoryEndIndex = workingDirectory
+		int parentDirectoryEndIndex = workingDirectory
 				.lastIndexOf(directorySeparator);
+		if (parentDirectoryEndIndex == -1) {
+			parentDirectoryEndIndex = 0;
+		}
 		workingDirectory = workingDirectory.substring(0,
 				parentDirectoryEndIndex + 1);
 		if (!workingDirectory.contains(baseDirectory)) {

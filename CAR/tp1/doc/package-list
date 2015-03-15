@@ -1,3 +1,6 @@
 ftp
-ftp.command
-ftp.configuration
+ftp.client
+ftp.server
+ftp.server.command
+ftp.server.util
+ftp.shared

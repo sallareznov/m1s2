@@ -1,4 +1,4 @@
-package ftp.command;
+package ftp.server.command;
 
 import static org.junit.Assert.fail;
 
@@ -16,33 +16,29 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
 import ftp.server.command.FTPCommand;
-import ftp.server.command.FTPPwdCommand;
+import ftp.server.command.FTPSystCommand;
 import ftp.shared.FTPClientConfiguration;
 import ftp.shared.FTPDatabase;
 import ftp.shared.FTPRequest;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(MessageFormat.class)
-public class FTPPwdCommandTest {
+public class FTPSystCommandTest {
 
-	private FTPCommand pwdCommand;
-	private FTPDatabase database;
-
+	private FTPCommand systCommand;
+	private FTPDatabase database; 
+	
 	@Before
 	public void setUp() {
 		database = Mockito.mock(FTPDatabase.class);
-		pwdCommand = new FTPPwdCommand(database);
+		systCommand = new FTPSystCommand(database);
 	}
 
 	@Test
 	public void testExecute() throws IOException {
 		final FTPRequest request = Mockito.mock(FTPRequest.class);
 		Mockito.when(request.getLength()).thenReturn(1);
-		final String workingDirectory = "anyDirectory";
-		final FTPClientConfiguration clientConfiguration = Mockito
-				.mock(FTPClientConfiguration.class);
-		Mockito.when(clientConfiguration.getWorkingDirectory()).thenReturn(
-				workingDirectory);
+		final FTPClientConfiguration clientConfiguration = Mockito.mock(FTPClientConfiguration.class); 
 		final Socket connection = Mockito.mock(Socket.class);
 		final OutputStream outputStream = Mockito.mock(OutputStream.class);
 		try {
@@ -52,12 +48,10 @@ public class FTPPwdCommandTest {
 		}
 		PowerMockito.mockStatic(MessageFormat.class);
 		Mockito.when(MessageFormat.format(Mockito.anyString(), Mockito.anyObject())).thenReturn("");
-		Mockito.when(clientConfiguration.getCommandSocket()).thenReturn(
-				connection);
-		Mockito.when(clientConfiguration.isConnected()).thenReturn(true);
-		Mockito.when(database.getMessage(257)).thenReturn("");
-		pwdCommand.execute(request, clientConfiguration);
-		Mockito.verify(database).getMessage(257);
+		Mockito.when(database.getMessage(215)).thenReturn("");
+		Mockito.when(clientConfiguration.getCommandSocket()).thenReturn(connection);
+		systCommand.execute(request, clientConfiguration);
+		Mockito.verify(database).getMessage(215);
 	}
 
 }

@@ -1,0 +1,318 @@
+\documentclass[a4paper,12pt,oneside]{report}
+
+\usepackage[T1]{fontenc} % caractères accentués
+\usepackage[utf8]{inputenc} % codage
+\usepackage{graphicx} % images
+\usepackage[hidelinks]{hyperref} % faire disparaître le carré bleu autour les liens
+\usepackage{geometry} % setter le margin du document
+\usepackage{fancyhdr} % header et footer du document
+\usepackage[toc]{glossaries} % glossaire
+\usepackage{setspace} % espace entre les lignes
+\usepackage[framemethod=tikz]{mdframed} % boxes
+\usetikzlibrary{shadows} % boxes
+\usepackage{multicol} % pages à 2 colonnes
+\usepackage{tocloft} % style de la table des matières
+
+\renewcommand{\contentsname}{Table des matières}
+\renewcommand{\listtablename}{Table des annexes}
+\renewcommand{\chaptername}{Chapitre}
+\renewcommand{\appendixname}{Annexe}
+\renewcommand*\glossarypreamble{\thispagestyle{glossary}}
+\newmdenv[shadow=true,shadowcolor=black,font=\sffamily,rightmargin=8pt]{shadedbox}
+
+\newcommand{\companyprefix}{mainmatter/internship_scope/sections/company/subsections/}
+\newcommand{\organizationprefix}{mainmatter/internship_scope/sections/company/subsections/organization/subsubsections/}
+\newcommand{\serviceprefix}{mainmatter/internship_scope/sections/service/subsections/}
+\newcommand{\detailedpresentationprefix}{mainmatter/mission_scope/sections/detail/subsections/}
+\newcommand{\initialcontextprefix}{mainmatter/mission_scope/sections/initial_context/subsections/}
+\newcommand{\workprefix}{mainmatter/mission_scope/sections/work/subsections/}
+\newcommand{\technicalenvironmentprefix}{mainmatter/mission_scope/sections/initial_context/subsections/technical_environment/subsubsections/}
+\newcommand{\ihmprefix}{mainmatter/mission_scope/sections/work/subsections/ihm/subsubsections/}
+
+\geometry{hmargin=3.5cm,vmargin=3.5cm,lmargin=2cm,rmargin=2cm}
+
+\tocloftpagestyle{summary}
+
+\fancypagestyle{cover} {
+
+	% head
+	\fancyhead[L]{Univ. Lille 1, Licence 3 Informatique}
+	\fancyhead[R]{2013 -- 2014}
+
+	% foot
+	\renewcommand{\footrulewidth}{0.8pt}
+	\fancyfoot[R]{\includegraphics[width=\textwidth, height=2.9cm]{images/footer.jpg}}
+
+}
+
+\fancypagestyle{summary} { 
+
+	% head
+	\fancyhead[L]{\leftmark}
+	\fancyhead[R]{~}
+	
+	% foot
+	\renewcommand{\footrulewidth}{0.8pt}
+	\fancyfoot[L]{\textsc{Salla DIAGNE}}
+	\fancyfoot[C]{\textsc{Rapport de stage}}
+	\fancyfoot[R]{\textsc{Page \thepage}}
+
+}
+
+\fancypagestyle{document} {
+
+	% head
+	\fancyhead[L]{\leftmark}
+	\fancyhead[R]{~}
+
+	% foot
+	\renewcommand{\footrulewidth}{0.8pt}
+	\fancyfoot[L]{\textsc{Salla DIAGNE}}
+	\fancyfoot[C]{\textsc{Rapport de stage}}
+	\fancyfoot[R]{\textsc{Page \thepage}}
+
+}
+
+\fancypagestyle{dedications} {
+
+	% head
+	\fancyhead[L]{REMERCIEMENTS}
+	\fancyhead[R]{~}
+
+	% foot
+	\renewcommand{\footrulewidth}{0.8pt}
+	\fancyfoot[L]{\textsc{Salla DIAGNE}}
+	\fancyfoot[C]{\textsc{Rapport de stage}}
+	\fancyfoot[R]{\textsc{Page \thepage}}
+
+}
+
+\fancypagestyle{introduction} {
+
+	% head
+	\fancyhead[L]{INTRODUCTION}
+	\fancyhead[R]{~}
+
+	% foot
+	\renewcommand{\footrulewidth}{0.8pt}
+	\fancyfoot[L]{\textsc{Salla DIAGNE}}
+	\fancyfoot[C]{\textsc{Rapport de stage}}
+	\fancyfoot[R]{\textsc{Page \thepage}}
+
+}
+
+\fancypagestyle{conclusions} {
+
+	% head
+	\fancyhead[L]{CONCLUSIONS}
+	\fancyhead[R]{~}
+	
+	% foot
+	\renewcommand{\footrulewidth}{0.8pt}
+	\fancyfoot[L]{\textsc{Salla DIAGNE}}
+	\fancyfoot[C]{\textsc{Rapport de stage}}
+	\fancyfoot[R]{\textsc{Page \thepage}}
+	
+}
+
+\fancypagestyle{glossary} {
+
+	% head
+	\fancyhead[L]{GLOSSAIRE}
+	\fancyhead[R]{~}
+
+	% foot
+	\renewcommand{\footrulewidth}{0.8pt}
+	\fancyfoot[L]{\textsc{Salla DIAGNE}}
+	\fancyfoot[C]{~}
+	\fancyfoot[R]{\textsc{Rapport de stage}}
+
+}
+
+\fancypagestyle{appendix} {
+
+	% head
+	\fancyhead[L]{\leftmark}
+	\fancyhead[R]{~}
+
+	% foot
+	\renewcommand{\footrulewidth}{0.8pt}
+	\fancyfoot[L]{\textsc{Salla DIAGNE}}
+	\fancyfoot[C]{~}
+	\fancyfoot[R]{\textsc{Rapport de stage}}
+
+}
+
+\fancypagestyle{pencil} {
+
+	% head
+	\fancyhead[L]{ANNEXE A. OUTILS DE TRAVAIL}
+	\fancyhead[R]{A.1. PENCIL}
+
+	% foot
+	\renewcommand{\footrulewidth}{0.8pt}
+	\fancyfoot[L]{\textsc{Salla DIAGNE}}
+	\fancyfoot[C]{~}
+	\fancyfoot[R]{\textsc{Rapport de stage}}
+
+}
+
+\fancypagestyle{sonar} {
+
+	% head
+	\fancyhead[L]{ANNEXE A. OUTILS DE TRAVAIL}
+	\fancyhead[R]{A.2. SONAR}
+
+	% foot
+	\renewcommand{\footrulewidth}{0.8pt}
+	\fancyfoot[L]{\textsc{Salla DIAGNE}}
+	\fancyfoot[C]{~}
+	\fancyfoot[R]{\textsc{Rapport de stage}}
+
+}
+
+\fancypagestyle{redmine} {
+
+	% head
+	\fancyhead[L]{ANNEXE A. OUTILS DE TRAVAIL}
+	\fancyhead[R]{A.3. REDMINE}
+
+	% foot
+	\renewcommand{\footrulewidth}{0.8pt}
+	\fancyfoot[L]{\textsc{Salla DIAGNE}}
+	\fancyfoot[C]{~}
+	\fancyfoot[R]{\textsc{Rapport de stage}}
+
+}
+
+\fancypagestyle{java} {
+
+	% head
+	\fancyhead[L]{ANNEXE B. EXEMPLES DE CODE}
+	\fancyhead[R]{B.1. JAVA}
+
+	% foot
+	\renewcommand{\footrulewidth}{0.8pt}
+	\fancyfoot[L]{\textsc{Salla DIAGNE}}
+	\fancyfoot[C]{~}
+	\fancyfoot[R]{\textsc{Rapport de stage}}
+
+}
+
+\fancypagestyle{xml} {
+
+	% head
+	\fancyhead[L]{ANNEXE B. EXEMPLES DE CODE}
+	\fancyhead[R]{B.2. XML}
+
+	% foot
+	\renewcommand{\footrulewidth}{0.8pt}
+	\fancyfoot[L]{\textsc{Salla DIAGNE}}
+	\fancyfoot[C]{~}
+	\fancyfoot[R]{\textsc{Rapport de stage}}
+
+}
+
+\fancypagestyle{properties} {
+
+	% head
+	\fancyhead[L]{ANNEXE B. EXEMPLES DE CODE}
+	\fancyhead[R]{B.3. PROPERTIES}
+
+	% foot
+	\renewcommand{\footrulewidth}{0.8pt}
+	\fancyfoot[L]{\textsc{Salla DIAGNE}}
+	\fancyfoot[C]{~}
+	\fancyfoot[R]{\textsc{Rapport de stage}}
+
+}
+
+\fancypagestyle{selenium} {
+
+	% head
+	\fancyhead[L]{ANNEXE B. EXEMPLES DE CODE}
+	\fancyhead[R]{B.4. SELENIUM}
+
+	% foot
+	\renewcommand{\footrulewidth}{0.8pt}
+	\fancyfoot[L]{\textsc{Salla DIAGNE}}
+	\fancyfoot[C]{~}
+	\fancyfoot[R]{\textsc{Rapport de stage}}
+
+}
+
+\fancypagestyle{pilot_tables} {
+
+	% head
+	\fancyhead[L]{ANNEXE C. TABLES UTILISÉES}
+	\fancyhead[R]{C.1. PILOTAGE DES PRÉVISIONS}
+
+	% foot
+	\renewcommand{\footrulewidth}{0.8pt}
+	\fancyfoot[L]{\textsc{Salla DIAGNE}}
+	\fancyfoot[C]{~}
+	\fancyfoot[R]{\textsc{Rapport de stage}}
+
+}
+
+\fancypagestyle{push_tables} {
+
+	% head
+	\fancyhead[L]{ANNEXE C. TABLES UTILISÉES}
+	\fancyhead[R]{C.2. MODULE DE PUSH}
+
+	% foot
+	\renewcommand{\footrulewidth}{0.8pt}
+	\fancyfoot[L]{\textsc{Salla DIAGNE}}
+	\fancyfoot[C]{~}
+	\fancyfoot[R]{\textsc{Rapport de stage}}
+
+}
+
+\fancypagestyle{supplier_tables} {
+
+	% head
+	\fancyhead[L]{ANNEXE C. TABLES UTILISÉES}
+	\fancyhead[R]{C.3. FOURNISSEURS}
+
+	% foot
+	\renewcommand{\footrulewidth}{0.8pt}
+	\fancyfoot[L]{\textsc{Salla DIAGNE}}
+	\fancyfoot[C]{~}
+	\fancyfoot[R]{\textsc{Rapport de stage}}
+
+}
+
+\fancypagestyle{store_tables} {
+
+	% head
+	\fancyhead[L]{ANNEXE C. TABLES UTILISÉES}
+	\fancyhead[R]{C.4. MAGASINS}
+
+	% foot
+	\renewcommand{\footrulewidth}{0.8pt}
+	\fancyfoot[L]{\textsc{Salla DIAGNE}}
+	\fancyfoot[C]{~}
+	\fancyfoot[R]{\textsc{Rapport de stage}}
+
+}
+
+\fancypagestyle{item_tables} {
+
+	% head
+	\fancyhead[L]{ANNEXE C. TABLES UTILISÉES}
+	\fancyhead[R]{C.5. ARTICLES}
+
+	% foot
+	\renewcommand{\footrulewidth}{0.8pt}
+	\fancyfoot[L]{\textsc{Salla DIAGNE}}
+	\fancyfoot[C]{~}
+	\fancyfoot[R]{\textsc{Rapport de stage}}
+
+}
+
+\pagestyle{document}
+
+\begin{document}
+
+\end{document}

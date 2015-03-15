@@ -27,10 +27,6 @@ public class FTPPwdCommand extends FTPConnectionNeededCommand {
 	@Override
 	public void executeConnectionNeededCommand(FTPRequest request,
 			FTPClientConfiguration clientConfiguration) throws IOException {
-		if (!isValid(request)) {
-			sendCommand(clientConfiguration.getCommandSocket(), 501);
-			return;
-		}
 		final String workingDirectory = clientConfiguration
 				.getWorkingDirectory();
 		sendCommand(clientConfiguration.getCommandSocket(),

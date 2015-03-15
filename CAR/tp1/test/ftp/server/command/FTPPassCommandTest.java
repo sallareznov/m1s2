@@ -1,4 +1,4 @@
-package ftp.command;
+package ftp.server.command;
 
 import static org.junit.Assert.fail;
 

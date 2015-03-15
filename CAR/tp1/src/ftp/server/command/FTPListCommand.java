@@ -8,6 +8,7 @@ import java.nio.file.attribute.PosixFileAttributes;
 import java.nio.file.attribute.PosixFilePermissions;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 import ftp.shared.FTPClientConfiguration;
 import ftp.shared.FTPDatabase;
@@ -34,25 +35,23 @@ public class FTPListCommand extends FTPConnectionNeededCommand {
 	}
 
 	private String buildListItem(File entry) throws IOException {
-			PosixFileAttributes attr = Files.readAttributes(
-					Paths.get(entry.getAbsolutePath()),
-					PosixFileAttributes.class);
-			char dir = '-';
-			if (entry.isDirectory())
-				dir = 'd';
-			if (Files.isSymbolicLink(entry.toPath()))
-				dir = 'l';
-			String chmod = PosixFilePermissions.toString(Files
-					.getPosixFilePermissions(entry.toPath()));
-			String owner = attr.owner().getName();
-			String group = attr.group().getName();
-			long size = entry.length();
-			String lastModif = new SimpleDateFormat("MMM dd HH:mm")
-					.format(new Date(entry.lastModified()));
-			String filename = entry.getName();
+		PosixFileAttributes attr = Files.readAttributes(
+				Paths.get(entry.getAbsolutePath()),
+				PosixFileAttributes.class);
+		char dir = '-';
+		if (entry.isDirectory())
+			dir = 'd';
+		if (Files.isSymbolicLink(entry.toPath()))
+			dir = 'l';
+		String chmod = PosixFilePermissions.toString(Files.getPosixFilePermissions(entry.toPath()));
+		String owner = attr.owner().getName();
+		String group = attr.group().getName();
+		long size = entry.length();
+		String lastModif = new SimpleDateFormat("MMM dd HH:mm", Locale.ENGLISH)
+				.format(new Date(entry.lastModified()));
+		String filename = entry.getName();
 
-			return String.format("%c%s %s %s %6d %s %s", dir, chmod, owner,
-					group, size, lastModif, filename);
+		return String.format("%c%s 1 %s %s %13d %s %s\015\012",dir,chmod,owner,group,size,lastModif,filename);
 	}
 
 	@Override

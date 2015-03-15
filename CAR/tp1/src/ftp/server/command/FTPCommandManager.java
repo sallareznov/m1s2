@@ -39,7 +39,7 @@ public class FTPCommandManager {
 	 *            the request (command + argument)
 	 * @param clientConfiguration
 	 *            the configuration of the client
-	 * @throws IOException 
+	 * @throws IOException if an I/O error occurs
 	 */
 	public void handle(FTPRequest request,
 			FTPClientConfiguration clientConfiguration) throws IOException {

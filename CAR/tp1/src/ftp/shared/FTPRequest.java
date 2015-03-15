@@ -11,7 +11,9 @@ public class FTPRequest {
 
 	/**
 	 * constructs a FTP request
-	 * @param request the entire request
+	 * 
+	 * @param request
+	 *            the entire request
 	 */
 	public FTPRequest(String request) {
 		final String[] requestTokens = request.split(" ");
@@ -33,12 +35,20 @@ public class FTPRequest {
 	public String getArgument() {
 		return argument;
 	}
-	
+
 	/**
 	 * @return the number of tokens of the request
 	 */
 	public int getLength() {
 		return length;
+	}
+
+	@Override
+	public String toString() {
+		if (argument == null) {
+			return command;
+		}
+		return command + " " + argument;
 	}
 
 }

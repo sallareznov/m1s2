@@ -30,11 +30,11 @@ import ftp.shared.FTPServerConfiguration;
 /**
  * Main class
  */
-public class Main {
+public class FTPMain {
 	
-	private static final Logger LOGGER = FTPLoggerFactory.create(Main.class);
+	private static final Logger LOGGER = FTPLoggerFactory.create(FTPMain.class);
 	
-	private Main() {
+	private FTPMain() {
 		// Utility class = private constructor to hide the implicit public one.
 	}
 

@@ -1,4 +1,4 @@
-package ftp.command;
+package ftp.server.command;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -33,13 +33,13 @@ import ftp.shared.FTPDatabase;
 import ftp.shared.FTPRequest;
 
 @RunWith(Parameterized.class)
-public class AcceptAndValidCommandTest {
+public class FTPAcceptAndValidCommandTest {
 
 	private FTPCommand ftpCommand;
 	private String acceptedCommand;
 	private int validLength;
 
-	public AcceptAndValidCommandTest(FTPCommand command,
+	public FTPAcceptAndValidCommandTest(FTPCommand command,
 			String acceptedCommand, int validLength) {
 		ftpCommand = command;
 		this.acceptedCommand = acceptedCommand;
