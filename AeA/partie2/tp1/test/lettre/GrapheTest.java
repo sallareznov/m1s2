@@ -4,8 +4,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.io.IOException;
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -15,9 +17,11 @@ public class GrapheTest {
 	private Graphe graphe;
 
 	@Before
-	public void setUp() throws LongueursMotsDifferentesException {
-		final String[] lesMots = Dicos.dico4;
-		graphe = new Graphe(lesMots, 0, 1);
+	public void setUp() throws LongueursMotsDifferentesException, IOException {
+		final DicoReader reader = new DicoReader();
+		final List<String> lesMots = reader.read("dico4.txt");
+		final String[] lesMotsArray = lesMots.toArray(new String[lesMots.size()]);
+		graphe = new Graphe(lesMotsArray, 0, 1);
 	}
 
 	@Test
