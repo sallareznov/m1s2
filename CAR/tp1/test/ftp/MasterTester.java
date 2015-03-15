@@ -12,12 +12,8 @@ import ftp.command.FTPTypeCommandTest;
 import ftp.command.FTPUserCommandTest;
 
 @RunWith(Suite.class)
-@SuiteClasses(value={
-FTPUserCommandTest.class,
-FTPPassCommandTest.class,
-FTPPwdCommandTest.class,
-FTPQuitCommandTest.class,
-FTPSystCommandTest.class,
-FTPTypeCommandTest.class
-})
-public class FTPCommandsTest {}
+@SuiteClasses({ FTPUserCommandTest.class, FTPPassCommandTest.class,
+		FTPSystCommandTest.class, FTPPwdCommandTest.class,
+		FTPTypeCommandTest.class, FTPQuitCommandTest.class })
+public class MasterTester {
+}

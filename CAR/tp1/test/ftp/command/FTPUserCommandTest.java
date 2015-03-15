@@ -1,7 +1,5 @@
 package ftp.command;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.IOException;
@@ -10,7 +8,6 @@ import java.net.Socket;
 import java.text.MessageFormat;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
@@ -28,40 +25,20 @@ import ftp.shared.FTPRequest;
 @PrepareForTest(MessageFormat.class)
 public class FTPUserCommandTest {
 
-	private FTPCommand _userCommand;
-	private FTPDatabase _database;
+	private FTPCommand userCommand;
+	private FTPDatabase database;
 
 	@Before
 	public void setUp() {
-		_database = Mockito.mock(FTPDatabase.class);
-		_userCommand = new FTPUserCommand(_database);
+		database = Mockito.mock(FTPDatabase.class);
+		userCommand = new FTPUserCommand(database);
 	}
 
-	@Test
-	public void testAccept() {
-		final FTPRequest acceptedRequest = Mockito.mock(FTPRequest.class);
-		final FTPRequest declinedRequest = Mockito.mock(FTPRequest.class);
-		Mockito.when(acceptedRequest.getCommand()).thenReturn("USER");
-		Mockito.when(declinedRequest.getCommand()).thenReturn("DUMB");
-		assertTrue(_userCommand.accept(acceptedRequest));
-		assertFalse(_userCommand.accept(declinedRequest));
-	}
-
-	@Test
-	public void testIsValid() {
-		final FTPRequest validRequest = Mockito.mock(FTPRequest.class);
-		final FTPRequest invalidRequest = Mockito.mock(FTPRequest.class);
-		Mockito.when(invalidRequest.getLength()).thenReturn(1);
-		Mockito.when(validRequest.getLength()).thenReturn(2);
-		assertFalse(_userCommand.isValid(invalidRequest));
-		assertTrue(_userCommand.isValid(validRequest));
-	}
-
-	@Ignore
 	@Test
 	public void testExecute() throws IOException {
 		final FTPRequest request = Mockito.mock(FTPRequest.class);
 		Mockito.when(request.getArgument()).thenReturn("test");
+		Mockito.when(request.getLength()).thenReturn(2);
 		final FTPClientConfiguration clientConfiguration = Mockito
 				.mock(FTPClientConfiguration.class);
 		final Socket connection = Mockito.mock(Socket.class);
@@ -75,10 +52,10 @@ public class FTPUserCommandTest {
 		PowerMockito.when(MessageFormat.format(Mockito.anyString(), Mockito.anyObject())).thenReturn("");
 		Mockito.when(clientConfiguration.getCommandSocket()).thenReturn(
 				connection);
-		_userCommand.execute(request, clientConfiguration);
-		PowerMockito.verifyStatic();
+		Mockito.when(database.getMessage(331)).thenReturn("");
+		userCommand.execute(request, clientConfiguration);
+		Mockito.verify(database).getMessage(331);
 		Mockito.verify(clientConfiguration).setUsername(request.getArgument());
-		Mockito.verify(_database).getMessage(331);
 	}
 
 }

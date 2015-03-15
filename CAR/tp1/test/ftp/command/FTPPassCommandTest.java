@@ -1,7 +1,5 @@
 package ftp.command;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.io.IOException;
@@ -11,7 +9,6 @@ import java.text.MessageFormat;
 import java.util.Map;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -26,55 +23,33 @@ import ftp.shared.FTPClientConfiguration;
 import ftp.shared.FTPDatabase;
 import ftp.shared.FTPRequest;
 
-/**
- * @author  diagne
- */
 @RunWith(PowerMockRunner.class)
 @PrepareForTest(MessageFormat.class)
 public class FTPPassCommandTest {
 	
-	private FTPCommand _passCommand;
-	private FTPDatabase _database;
+	private FTPCommand passCommand;
+	private FTPDatabase database;
 	@Mock
-	private Map<String, String> _accounts;
+	private Map<String, String> accounts;
 	
 	@Before
 	public void setUp() {
-		_database = Mockito.mock(FTPDatabase.class);
-		_passCommand = new FTPPassCommand(_database);
+		database = Mockito.mock(FTPDatabase.class);
+		passCommand = new FTPPassCommand(database);
 	}
 
-	@Test
-	public void testAccept() {
-		final FTPRequest acceptedRequest = Mockito.mock(FTPRequest.class);
-		final FTPRequest declinedRequest = Mockito.mock(FTPRequest.class);
-		Mockito.when(acceptedRequest.getCommand()).thenReturn("PASS");
-		Mockito.when(declinedRequest.getCommand()).thenReturn("DUMB");
-		assertTrue(_passCommand.accept(acceptedRequest));
-		assertFalse(_passCommand.accept(declinedRequest));
-	}
-
-	@Test
-	public void testIsValid() {
-		final FTPRequest validRequest = Mockito.mock(FTPRequest.class);
-		final FTPRequest invalidRequest = Mockito.mock(FTPRequest.class);
-		Mockito.when(invalidRequest.getLength()).thenReturn(1);
-		Mockito.when(validRequest.getLength()).thenReturn(2);
-		assertFalse(_passCommand.isValid(invalidRequest));
-		assertTrue(_passCommand.isValid(validRequest));
-	}
-
-	@Ignore
 	@Test
 	public void testExecute() throws IOException {
 		final FTPRequest correctRequest = Mockito.mock(FTPRequest.class);
 		Mockito.when(correctRequest.getArgument()).thenReturn("test");
+		Mockito.when(correctRequest.getLength()).thenReturn(2);
 		final FTPRequest incorrectRequest = Mockito.mock(FTPRequest.class);
 		Mockito.when(incorrectRequest.getArgument()).thenReturn("incorrect");
+		Mockito.when(incorrectRequest.getLength()).thenReturn(2);
 		final String correctPassword = correctRequest.getArgument();
-		final String incorrectPassword = incorrectRequest.getArgument();
+		final String username = "test";
 		final FTPClientConfiguration clientConfiguration = Mockito.mock(FTPClientConfiguration.class);
-		Mockito.when(clientConfiguration.getUsername()).thenReturn("test");
+		Mockito.when(clientConfiguration.getUsername()).thenReturn(username);
 		final Socket connection = Mockito.mock(Socket.class);
 		final OutputStream outputStream = Mockito.mock(OutputStream.class);
 		try {
@@ -83,17 +58,19 @@ public class FTPPassCommandTest {
 			fail();
 		}
 		PowerMockito.mockStatic(MessageFormat.class);
-		Mockito.when(MessageFormat.format(Mockito.anyString(), Mockito.anyString())).thenReturn("");
+		Mockito.when(
+				MessageFormat.format(Mockito.anyString(), Mockito.anyObject()))
+				.thenReturn("");
 		Mockito.when(clientConfiguration.getCommandSocket()).thenReturn(connection);
-		Mockito.when(_accounts.get(Mockito.anyString())).thenReturn(correctPassword);
-		Mockito.when(_database.getAccounts()).thenReturn(_accounts);
-		Mockito.when(_database.getMessage(230)).thenReturn("");
-		Mockito.when(_database.getMessage(332)).thenReturn("");
-		_passCommand.execute(correctRequest, clientConfiguration);
-		Mockito.verify(_database).getMessage(230);
-		Mockito.when(_accounts.get(Mockito.anyString())).thenReturn(incorrectPassword);
-		_passCommand.execute(correctRequest, clientConfiguration);
-		Mockito.verify(_database).getMessage(332);
+		Mockito.when(accounts.get(username)).thenReturn(correctPassword);
+		Mockito.when(database.getAccounts()).thenReturn(accounts);
+		Mockito.when(database.getMessage(230)).thenReturn("");
+		Mockito.when(database.getMessage(332)).thenReturn("");
+		passCommand.execute(correctRequest, clientConfiguration);
+		Mockito.verify(database).getMessage(230);
+		Mockito.verify(clientConfiguration).setConnected(true);
+		passCommand.execute(incorrectRequest, clientConfiguration);
+		Mockito.verify(database).getMessage(332);
 	}
 
 }
