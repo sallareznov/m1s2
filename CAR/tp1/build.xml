@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="ftp" default="main" basedir=".">
+
+	<property name="src.dir" value="src" />
+	<property name="bin.dir" value="bin" />
+	<property name="doc.dir" value="doc" />
+	<property name="test.dir" value="test" />
+	<property name="main-class" value="ftp.Main" />
+	<property name="test.report.dir" location="testreport" />
+
+	<target name="main" depends="compile, package, javadoc">
+		<description>Main target</description>
+	</target>
+
+	<target name="compile">
+		<javac includeantruntime="false" srcdir="${src.dir}" destdir="${bin.dir}" />
+	</target>
+
+	<target name="run" depends="compile">
+		<java classname="${main-class}">
+			<classpath path="bin" />
+		</java>
+	</target>
+
+	<target name="clean">
+		<delete dir="${bin.dir}" />
+		<delete dir="${doc.dir}" />
+	</target>
+
+	<target name="package" depends="compile">
+		<jar destfile="ftpServer.jar" basedir="${bin.dir}">
+			<manifest>
+				<attribute name="Main-Class" value="${main-class}" />
+			</manifest>
+		</jar>
+	</target>
+
+	<target name="javadoc" depends="compile">
+		<javadoc packagenames="*" sourcepath="${src.dir}" destdir="${doc.dir}">
+			<fileset dir="${src.dir}">
+				<include name="*" />
+			</fileset>
+		</javadoc>
+	</target>
+
+	<target name="junit" depends="compile">
+		<junit printsummary="on" fork="true" haltonfailure="yes">
+			<formatter type="plain" usefile="false" />
+			<test name="ftp.FTPCommandsTest" />
+			<classpath>
+				<pathelement location="${bin.dir}" />
+				<pathelement location="${bin.dir}/test" />
+				<pathelement location="lib/junit-4.12.jar" />
+				<pathelement location="lib/hamcrest-core-1.3.jar" />
+				<pathelement location="lib/mockito-all-1.10.8.jar" />
+				<pathelement location="lib/powermock-mockito-1.6.1-full.jar" />
+				<pathelement location="lib/javassist-3.18.2-GA.jar" />
+			</classpath>
+			<!-- <formatter type="xml" /> <batchtest todir="${test.report.dir}"> <fileset 
+				dir="${test.dir}"> <include name="**/*Test*.java" /> </fileset> </batchtest> -->
+		</junit>
+	</target>
+
+	<target name="test" depends="compile">
+		<junit>
+
+		</junit>
+	</target>
+</project>
