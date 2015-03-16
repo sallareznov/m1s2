@@ -1,4 +1,4 @@
-package com.example.model;
+package rest.model;
 
 public class Person {
 	private String email;

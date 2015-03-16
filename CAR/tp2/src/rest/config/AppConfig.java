@@ -1,4 +1,4 @@
-package com.example.config;
+package rest.config;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -15,52 +15,64 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
 
-import car.FTPClientResource;
-import car.FTPFileResource;
+import rest.rs.FTPRestService;
+import rest.rs.JaxRsApiApplication;
+import rest.rs.PeopleRestService;
+import rest.services.FTPService;
+import rest.services.PeopleService;
 import car.HelloWorldResource;
 
-import com.example.rs.JaxRsApiApplication;
-import com.example.rs.PeopleRestService;
-import com.example.services.PeopleService;
-
 @Configuration
-public class AppConfig {	
-	@Bean( destroyMethod = "shutdown" )
+public class AppConfig {
+	@Bean(destroyMethod = "shutdown")
 	public SpringBus cxf() {
 		return new SpringBus();
 	}
-	
-	@Bean @DependsOn( "cxf" )
+
+	@Bean
+	@DependsOn("cxf")
 	public Server jaxRsServer() throws IOException {
-		JAXRSServerFactoryBean factory = RuntimeDelegate.getInstance().createEndpoint( jaxRsApiApplication(), JAXRSServerFactoryBean.class );
-		
+		JAXRSServerFactoryBean factory = RuntimeDelegate.getInstance()
+				.createEndpoint(jaxRsApiApplication(),
+						JAXRSServerFactoryBean.class);
+
 		List<Object> serviceBeans = new ArrayList<Object>();
-//		serviceBeans.add(peopleRestService());
+		//serviceBeans.add(peopleRestService());
 		serviceBeans.add(new HelloWorldResource());
-		serviceBeans.add(new FTPClientResource());
-		serviceBeans.add(new FTPFileResource());
-		
+		//serviceBeans.add(new FTPClientResource());
+		serviceBeans.add(ftpRestService());
+
 		factory.setServiceBeans(serviceBeans);
-		factory.setAddress( "/" + factory.getAddress() );
-		factory.setProviders( Arrays.< Object >asList( jsonProvider() ) );
+		factory.setAddress("/" + factory.getAddress());
+		factory.setProviders(Arrays.<Object> asList(jsonProvider()));
 		return factory.create();
 	}
-	
-	@Bean 
+
+	@Bean
 	public JaxRsApiApplication jaxRsApiApplication() {
 		return new JaxRsApiApplication();
 	}
-	
-	@Bean 
+
+	@Bean
 	public PeopleRestService peopleRestService() {
 		return new PeopleRestService();
 	}
 	
-	@Bean 
+	@Bean
+	public FTPService ftpService() {
+		return new FTPService();
+	}
+	
+	@Bean
+	public FTPRestService ftpRestService() {
+		return new FTPRestService(ftpService());
+	}
+
+	@Bean
 	public PeopleService peopleService() {
 		return new PeopleService();
 	}
-		
+
 	@Bean
 	public JacksonJsonProvider jsonProvider() {
 		return new JacksonJsonProvider();

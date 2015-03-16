@@ -24,7 +24,7 @@ public class FTPClientResource extends FTPTest {
 		final ItemBuilder itemBuilder = new ItemBuilder();
 		final String[] names = client.listNames();
 		disconnectFromFTP(client);
-		return itemBuilder.buildList(names, canonicalPath);
+		return "";
 	}
 
 	@GET
