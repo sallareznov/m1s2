@@ -1,10 +1,16 @@
 package rest.model;
 
 import java.text.SimpleDateFormat;
+import java.util.logging.Logger;
 
 import org.apache.commons.net.ftp.FTPFile;
 
+import rest.logger.LoggerFactory;
+
 public class ItemBuilder {
+
+	private static final Logger LOGGER = LoggerFactory
+			.create(ItemBuilder.class);
 
 	public String buildList(String canonicalPath, FTPFile[] files,
 			FTPRestServiceConfiguration configuration) {
@@ -16,16 +22,7 @@ public class ItemBuilder {
 		menu.append("            <a href=\"?C=S;O=A\">Size</a>");
 		menu.append("      <a href=\"?C=D;O=A\">Description</a>");
 		menu.append("<hr>");
-		String separator = null;
-		if (canonicalPath.charAt(canonicalPath.length() - 1) == '/')
-			separator = "";
-		else
-			separator = "/";
-		menu.append("<img src=\"/static/back.gif\" alt=\"[DIR]\"> <a href=\""
-				+ canonicalPath + separator + "..\">Parent Directory</a><br/>");
-		System.out.println("application path = "
-				+ configuration.getApplicationPath());
-		System.out.println("SERVICE path = " + configuration.getServicePath());
+		menu.append("<img src=\"/static/back.gif\" alt=\"[DIR]\"> <a href=\"..\">Parent Directory</a><br/>");
 		for (final FTPFile file : files) {
 			menu.append(buildItem(canonicalPath, file, configuration));
 			menu.append("<br>");
@@ -46,10 +43,10 @@ public class ItemBuilder {
 
 	private String buildItem(String canonicalPath, FTPFile file,
 			FTPRestServiceConfiguration configuration) {
-		final String itemHref = canonicalPath
-				+ configuration.getDirectorySeparator() + file.getName();
-		final String itemPath = configuration.getServicePath()
-				+ configuration.getDirectorySeparator() + itemHref;
+		String itemPath = file.getName();
+		if (file.isDirectory()) {
+			itemPath += configuration.getDirectorySeparator();
+		}
 		final StringBuilder builder = new StringBuilder();
 		final String icon = (file.isDirectory()) ? "folder.gif" : "text.gif";
 		builder.append("<img src=\"/static/" + icon + "\" alt=\"[TXT]\">");

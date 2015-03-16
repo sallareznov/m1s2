@@ -42,10 +42,10 @@ public class FTPService {
 		LOGGER.info("<--- LIST");
 		final FTPFile[] files = client.listFiles();
 		final ItemBuilder listBuilder = new ItemBuilder();
-		final String test = listBuilder.buildList(directory, files,
+		final String list = listBuilder.buildList(directory, files,
 				configuration);
 		client.disconnect();
-		return Response.ok(test, MediaType.TEXT_HTML).build();
+		return Response.ok(list, MediaType.TEXT_HTML).build();
 	}
 
 	public Response getFile(String filename,

@@ -41,7 +41,7 @@ public class FTPRetrCommand extends FTPConnectionNeededCommand {
 			sendCommand(clientConfiguration.getCommandSocket(), 550);
 			return;
 		}
-		if (!file.isDirectory()) {
+		if (file.isDirectory()) {
 			sendCommand(clientConfiguration.getCommandSocket(), 450);
 			return;
 		}

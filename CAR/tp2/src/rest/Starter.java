@@ -12,7 +12,7 @@ import rest.model.FileServlet;
 
 public class Starter {
 	public static void main(final String[] args) throws Exception {
-		Server server = new Server(8081);
+		Server server = new Server(8080);
 
 		// Register and map the dispatcher servlet
 		final ServletHolder servletHolder = new ServletHolder(new CXFServlet());
