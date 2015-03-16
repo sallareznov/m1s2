@@ -1,6 +1,6 @@
 package ftp.server.command;
 
-import java.io.FileNotFoundException;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,12 +17,14 @@ public class FTPStorCommand extends FTPConnectionNeededCommand {
 
 	/**
 	 * Constructs a STOR command
-	 * @param database the database
+	 * 
+	 * @param database
+	 *            the database
 	 */
 	public FTPStorCommand(FTPDatabase database) {
 		super(database, "STOR");
 	}
-	
+
 	@Override
 	public boolean isValid(FTPRequest request) {
 		return request.getLength() == 2;
@@ -35,28 +37,30 @@ public class FTPStorCommand extends FTPConnectionNeededCommand {
 			sendCommand(clientConfiguration.getCommandSocket(), 532);
 			return;
 		}
-		try {
-			sendCommand(clientConfiguration.getCommandSocket(), 150);
-			final Socket dataSocket = clientConfiguration.getDataSocket();
-			final InputStream dataSocketStream = dataSocket.getInputStream();
-			final String fullFilePath = clientConfiguration
-					.getWorkingDirectory()
-					+ clientConfiguration.getDirectorySeparator()
-					+ request.getArgument();
-			final FileOutputStream fileOutputStream = new FileOutputStream(
-					fullFilePath);
-			int data = 0;
-			while ((data = dataSocketStream.read()) != -1) {
-				fileOutputStream.write(data);
-			}
-			fileOutputStream.close();
-			clientConfiguration.closeDataSocket();
-			sendCommand(clientConfiguration.getCommandSocket(), 226);
-		} catch (FileNotFoundException e) {
+		final File file = new File(request.getArgument());
+		if (!file.exists()) {
 			sendCommand(clientConfiguration.getCommandSocket(), 550);
-		} catch (IOException e) {
-			sendCommand(clientConfiguration.getCommandSocket(), 500);
+			return;
 		}
+		if (!file.isDirectory()) {
+			sendCommand(clientConfiguration.getCommandSocket(), 450);
+			return;
+		}
+		sendCommand(clientConfiguration.getCommandSocket(), 150);
+		final Socket dataSocket = clientConfiguration.getDataSocket();
+		final InputStream dataSocketStream = dataSocket.getInputStream();
+		final String fullFilePath = clientConfiguration.getWorkingDirectory()
+				+ clientConfiguration.getDirectorySeparator()
+				+ request.getArgument();
+		final FileOutputStream fileOutputStream = new FileOutputStream(
+				fullFilePath);
+		int data = 0;
+		while ((data = dataSocketStream.read()) != -1) {
+			fileOutputStream.write(data);
+		}
+		fileOutputStream.close();
+		clientConfiguration.closeDataSocket();
+		sendCommand(clientConfiguration.getCommandSocket(), 226);
 	}
 
 }

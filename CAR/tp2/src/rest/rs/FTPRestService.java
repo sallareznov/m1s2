@@ -3,6 +3,7 @@ package rest.rs;
 import java.io.IOException;
 import java.net.SocketException;
 
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -10,82 +11,70 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import rest.model.FTPRestServiceConfiguration;
 import rest.services.FTPService;
 
-@Path("/ftp")
+@Path("/repo")
 public class FTPRestService {
-	
+
 	private FTPService service;
-	
-	public FTPRestService(FTPService service) {
+	private FTPRestServiceConfiguration configuration;
+
+	public FTPRestService(FTPService service, String applicationPath) {
 		this.service = service;
+		final String servicePath = getClass().getAnnotation(Path.class).value();
+		this.configuration = new FTPRestServiceConfiguration(applicationPath,
+				servicePath);
 	}
 
 	@Produces({ MediaType.TEXT_HTML })
 	@GET
-	public Response getPeople() throws IOException {
-		return service.list(".");
+	public Response listRoot() throws IOException {
+		return service.list(".", configuration);
 	}
-	
+
 	@GET
-	@Produces({MediaType.APPLICATION_OCTET_STREAM})
-	@Path("/{filename: .*}") //il y a un regex là :D
-	public Response getFile( @PathParam("dirname") String dirname ,@PathParam("filename") String filename){
+	@Produces({ MediaType.TEXT_HTML })
+	@Path("/{dirname: .+/}")
+	public Response listDirectory(@PathParam("dirname") String dirname) {
 		try {
-			if(dirname == null)dirname = "";
-			if(filename == null)filename = "";
-			return service.getFile(filename);
+			return service.list(dirname, configuration);
 		} catch (SocketException e) {
 		} catch (IOException e) {
 		}
-		return Response.status(Response.Status.NOT_FOUND).entity("fichier "+filename+" non trouvé").build();
+		return Response.status(Response.Status.NOT_FOUND).build();
 	}
 
-//
-//	@Produces({ MediaType.APPLICATION_JSON })
-//	@Path("/{email}")
-//	@GET
-//	public Person getPeople(@PathParam("email") final String email) {
-//		return peopleService.getByEmail(email);
-//	}
-//
-//	@Produces({ MediaType.APPLICATION_JSON })
-//	@POST
-//	public Response addPerson(@Context final UriInfo uriInfo,
-//			@FormParam("email") final String email,
-//			@FormParam("firstName") final String firstName,
-//			@FormParam("lastName") final String lastName) {
-//
-//		peopleService.addPerson(email, firstName, lastName);
-//		return Response.created(
-//				uriInfo.getRequestUriBuilder().path(email).build()).build();
-//	}
-//
-//	@Produces({ MediaType.APPLICATION_JSON })
-//	@Path("/{email}")
-//	@PUT
-//	public Person updatePerson(@PathParam("email") final String email,
-//			@FormParam("firstName") final String firstName,
-//			@FormParam("lastName") final String lastName) {
-//
-//		final Person person = peopleService.getByEmail(email);
-//
-//		if (firstName != null) {
-//			person.setFirstName(firstName);
-//		}
-//
-//		if (lastName != null) {
-//			person.setLastName(lastName);
-//		}
-//
-//		return person;
-//	}
-//
-//	@Path("/{email}")
-//	@DELETE
-//	public Response deletePerson(@PathParam("email") final String email) {
-//		peopleService.removePerson(email);
-//		return Response.ok().build();
-//	}
+	@GET
+	@Path("/{filename: .+}")
+	@Produces({ MediaType.APPLICATION_OCTET_STREAM })
+	public Response getFile(@PathParam("dirname") String dirname,
+			@PathParam("filename") String filename) {
+		try {
+			if (dirname == null)
+				dirname = "";
+			if (filename == null)
+				filename = "";
+			return service.getFile(filename, configuration);
+		} catch (SocketException e) {
+		} catch (IOException e) {
+		}
+		return Response.status(Response.Status.NOT_FOUND).build();
+	}
+
+	@DELETE
+	@Path("/{dirname: .*}/{filename: .*}")
+	public Response deleteFile(@PathParam("dirname") String dirname,
+			@PathParam("filename") String filename) {
+		try {
+			if (dirname == null)
+				dirname = "";
+			if (filename == null)
+				filename = "";
+			return service.deleteFile(dirname + filename);
+		} catch (IOException e) {
+		}
+		return Response.status(Response.Status.BAD_GATEWAY).build();
+	}
 
 }

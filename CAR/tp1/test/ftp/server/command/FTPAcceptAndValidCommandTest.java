@@ -52,6 +52,7 @@ public class FTPAcceptAndValidCommandTest {
 		final Object[][] data = {
 			{ new FTPCdupCommand(database), "CDUP", 1 },
 			{ new FTPCwdCommand(database), "CWD", 2 },
+			{ new FTPDeleCommand(database), "DELE", 2 },
 			{ new FTPEprtCommand(database), "EPRT", 2 },
 			{ new FTPEpsvCommand(database), "EPSV", 1 },
 			{ new FTPListCommand(database), "LIST", 1 },

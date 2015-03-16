@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.ext.RuntimeDelegate;
 
 import org.apache.cxf.bus.spring.SpringBus;
@@ -28,6 +29,8 @@ public class AppConfig {
 	public SpringBus cxf() {
 		return new SpringBus();
 	}
+	
+	private String applicationPath;
 
 	@Bean
 	@DependsOn("cxf")
@@ -50,7 +53,9 @@ public class AppConfig {
 
 	@Bean
 	public JaxRsApiApplication jaxRsApiApplication() {
-		return new JaxRsApiApplication();
+		final JaxRsApiApplication application = new JaxRsApiApplication();
+		applicationPath = application.getClass().getAnnotation(ApplicationPath.class).value();
+		return application;
 	}
 
 	@Bean
@@ -65,7 +70,7 @@ public class AppConfig {
 	
 	@Bean
 	public FTPRestService ftpRestService() {
-		return new FTPRestService(ftpService());
+		return new FTPRestService(ftpService(), applicationPath);
 	}
 
 	@Bean

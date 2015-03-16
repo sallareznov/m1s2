@@ -36,7 +36,7 @@
 	<classpathentry kind="lib" path="lib/woodstox-core-asl-4.1.4.jar"/>
 	<classpathentry kind="lib" path="lib/wsdl4j-1.6.2.jar"/>
 	<classpathentry kind="lib" path="lib/xmlschema-core-2.0.3.jar"/>
-	<classpathentry kind="lib" path="lib/commons-net-3.3.jar" sourcepath="/home/m1/diagne/workspace/m1s2/CAR/tp2/lib/commons-net-3.3-sources.jar"/>
+	<classpathentry kind="lib" path="lib/commons-net-3.3.jar" sourcepath="/home/salla/workspace/m1s2/CAR/tp2/lib/commons-net-3.3-sources.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

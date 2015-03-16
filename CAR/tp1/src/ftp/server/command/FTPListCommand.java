@@ -36,14 +36,14 @@ public class FTPListCommand extends FTPConnectionNeededCommand {
 
 	private String buildListItem(File entry) throws IOException {
 		PosixFileAttributes attr = Files.readAttributes(
-				Paths.get(entry.getAbsolutePath()),
-				PosixFileAttributes.class);
+				Paths.get(entry.getAbsolutePath()), PosixFileAttributes.class);
 		char dir = '-';
 		if (entry.isDirectory())
 			dir = 'd';
 		if (Files.isSymbolicLink(entry.toPath()))
 			dir = 'l';
-		String chmod = PosixFilePermissions.toString(Files.getPosixFilePermissions(entry.toPath()));
+		String chmod = PosixFilePermissions.toString(Files
+				.getPosixFilePermissions(entry.toPath()));
 		String owner = attr.owner().getName();
 		String group = attr.group().getName();
 		long size = entry.length();
@@ -51,7 +51,8 @@ public class FTPListCommand extends FTPConnectionNeededCommand {
 				.format(new Date(entry.lastModified()));
 		String filename = entry.getName();
 
-		return String.format("%c%s 1 %s %s %13d %s %s\015\012",dir,chmod,owner,group,size,lastModif,filename);
+		return String.format("%c%s 1 %s %s %13d %s %s\015\012", dir, chmod,
+				owner, group, size, lastModif, filename);
 	}
 
 	@Override
@@ -66,21 +67,14 @@ public class FTPListCommand extends FTPConnectionNeededCommand {
 		final File workingDirectory = new File(workingDirectoryPath);
 		final File[] directoryListing = workingDirectory.listFiles();
 		final StringBuilder messageBuilder = new StringBuilder();
-		try {
-			for (final File entry : directoryListing) {
-				if (!entry.isHidden())
-					messageBuilder.append(buildListItem(entry) + "\n");
-			}
-			sendData(clientConfiguration.getDataSocket(),
-					messageBuilder.toString());
-
-			clientConfiguration.closeDataSocket();
-			sendCommand(clientConfiguration.getCommandSocket(), 226);
-		} catch (IOException e) {
-			sendCommand(clientConfiguration.getCommandSocket(), 500);
-		} catch (NullPointerException e) {
-			sendCommand(clientConfiguration.getCommandSocket(), 550);
+		for (final File entry : directoryListing) {
+			if (!entry.isHidden())
+				messageBuilder.append(buildListItem(entry) + "\n");
 		}
+		sendData(clientConfiguration.getDataSocket(), messageBuilder.toString());
+
+		clientConfiguration.closeDataSocket();
+		sendCommand(clientConfiguration.getCommandSocket(), 226);
 	}
 
 }

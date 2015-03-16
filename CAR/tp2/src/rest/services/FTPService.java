@@ -1,5 +1,6 @@
 package rest.services;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.logging.Logger;
@@ -13,51 +14,93 @@ import org.springframework.stereotype.Service;
 
 import rest.logger.LoggerFactory;
 import rest.model.FTPClientFactory;
-import car.ItemBuilder;
+import rest.model.FTPRestServiceConfiguration;
+import rest.model.ItemBuilder;
 
 @Service
 public class FTPService {
 
 	private FTPClientFactory clientFactory;
-	private static final String DIRECTORY_SEPARATOR = System
-			.getProperty("file.separator");
 	private static final Logger LOGGER = LoggerFactory.create(FTPService.class);
 
 	public FTPService() {
 		clientFactory = new FTPClientFactory();
 	}
 
-	public Response list(String directory) throws IOException {
-		LOGGER.info("<--- LIST");
+	public boolean isADirectory(String entry) {
+		return new File(entry).isDirectory();
+	}
+
+	public Response list(String directory,
+			FTPRestServiceConfiguration configuration) throws IOException {
 		final FTPClient client = clientFactory.create();
 		if (!client.changeWorkingDirectory(directory)) {
 			client.disconnect();
-			return Response.status(Response.Status.NOT_FOUND)
-					.entity("ERROR 404 : Not found : " + directory).build();
+			return Response.status(Response.Status.NOT_FOUND).build();
 		}
+		LOGGER.info("<--- CWD " + directory);
+		LOGGER.info("<--- LIST");
 		final FTPFile[] files = client.listFiles();
 		final ItemBuilder listBuilder = new ItemBuilder();
-		final String test = listBuilder.buildList(directory, files, DIRECTORY_SEPARATOR);
+		final String test = listBuilder.buildList(directory, files,
+				configuration);
 		client.disconnect();
 		return Response.ok(test, MediaType.TEXT_HTML).build();
 	}
 
-	public Response getFile(String filename) throws IOException {
-		LOGGER.info("<--- GET " + filename);
+	public Response getFile(String filename,
+			FTPRestServiceConfiguration configuration) throws IOException {
 		final FTPClient client = clientFactory.create();
 		Response response;
+		if (isADirectory(filename)) {
+			return list(filename, configuration);
+		}
+		LOGGER.info("<--- GET " + filename);
 		final InputStream is = client.retrieveFileStream(filename);
-		// il faut traiter si c'est un dossier
 		if (is == null) {
-			System.out.println("ERROR 404 : Not found : " + filename);
-			response = Response.status(Response.Status.NOT_FOUND)
-					.entity("ERROR 404 : Not found : " + filename + "<br>")
-					.build();
+			LOGGER.info("ERROR 404 : Not found : " + filename);
+			response = Response.status(Response.Status.NOT_FOUND).build();
 		} else {
+			LOGGER.info("File " + filename + " downloaded successfully");
 			response = Response.ok(is, MediaType.APPLICATION_OCTET_STREAM)
 					.build();
 		}
 		client.disconnect();
+		return response;
+	}
+
+	public Response deleteFile(String filename) throws IOException {
+		final FTPClient client = clientFactory.create();
+		Response response;
+		if (client.deleteFile(filename)) {
+			response = Response.ok().build();
+		} else {
+			LOGGER.info("Cannot delete file " + filename);
+			response = Response.status(Response.Status.SERVICE_UNAVAILABLE)
+					.build();
+		}
+		client.disconnect();
+		return response;
+	}
+
+	public Response upload(String dirname, InputStream fileInputStream)
+			throws IOException {
+		final FTPClient client = clientFactory.create();
+		boolean directoryFound = true;
+		if (dirname != null) {
+			directoryFound = client.changeWorkingDirectory(dirname);
+		}
+		if (!directoryFound) {
+			client.disconnect();
+			return Response.status(Response.Status.NOT_FOUND).build();
+		}
+		Response response;
+		String filename = "fileUploaded";
+		if (client.storeFile(filename, fileInputStream)) {
+			response = Response.status(Response.Status.CREATED).build();
+		} else {
+			response = Response.status(Response.Status.FORBIDDEN).build();
+		}
 		return response;
 	}
 

@@ -9,6 +9,8 @@ import javax.ws.rs.Produces;
 
 import org.apache.commons.net.ftp.FTPClient;
 
+import rest.model.ItemBuilder;
+
 @Path("/ftp")
 public class FTPClientResource extends FTPTest {
 

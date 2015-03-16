@@ -8,6 +8,7 @@ import ftp.server.FTPServer;
 import ftp.server.command.FTPCdupCommand;
 import ftp.server.command.FTPCommandManager;
 import ftp.server.command.FTPCwdCommand;
+import ftp.server.command.FTPDeleCommand;
 import ftp.server.command.FTPEprtCommand;
 import ftp.server.command.FTPEpsvCommand;
 import ftp.server.command.FTPListCommand;
@@ -76,6 +77,7 @@ public class FTPMain {
 		final FTPCommandManager commandManager = new FTPCommandManager();
 		commandManager.addCommand(new FTPCwdCommand(ftpDatabase));
 		commandManager.addCommand(new FTPCdupCommand(ftpDatabase));
+		commandManager.addCommand(new FTPDeleCommand(ftpDatabase));
 		commandManager.addCommand(new FTPEprtCommand(ftpDatabase));
 		commandManager.addCommand(new FTPEpsvCommand(ftpDatabase));
 		commandManager.addCommand(new FTPListCommand(ftpDatabase));
