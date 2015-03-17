@@ -17,9 +17,14 @@ import rest.model.FTPClientFactory;
 import rest.model.FTPRestServiceConfiguration;
 import rest.model.ItemBuilder;
 
+/**
+ * @author  diagne
+ */
 @Service
 public class FTPService {
 
+	/**
+	 */
 	private FTPClientFactory clientFactory;
 	private static final Logger LOGGER = LoggerFactory.create(FTPService.class);
 

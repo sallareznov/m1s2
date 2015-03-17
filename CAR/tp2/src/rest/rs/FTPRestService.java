@@ -19,10 +19,17 @@ import org.apache.cxf.jaxrs.ext.multipart.Multipart;
 import rest.model.FTPRestServiceConfiguration;
 import rest.services.FTPService;
 
+/**
+ * @author  diagne
+ */
 @Path("/repo/")
 public class FTPRestService {
 
+	/**
+	 */
 	private FTPService service;
+	/**
+	 */
 	private FTPRestServiceConfiguration configuration;
 
 	public FTPRestService(FTPService service, String applicationPath) {

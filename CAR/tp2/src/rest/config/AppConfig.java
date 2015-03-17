@@ -16,6 +16,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.DependsOn;
 
+import rest.rs.FTPLoginService;
 import rest.rs.FTPRestService;
 import rest.rs.JaxRsApiApplication;
 import rest.services.FTPService;
@@ -38,6 +39,7 @@ public class AppConfig {
 
 		List<Object> serviceBeans = new ArrayList<Object>();
 		serviceBeans.add(ftpRestService());
+		serviceBeans.add(new FTPLoginService());
 
 		factory.setServiceBeans(serviceBeans);
 		factory.setAddress("/" + factory.getAddress());
@@ -53,12 +55,12 @@ public class AppConfig {
 	}
 	
 	@Bean
-	public FTPService ftpService() {
+	public FTPService ftpService() throws IOException {
 		return new FTPService();
 	}
 	
 	@Bean
-	public FTPRestService ftpRestService() {
+	public FTPRestService ftpRestService() throws IOException {
 		return new FTPRestService(ftpService(), applicationPath);
 	}
 

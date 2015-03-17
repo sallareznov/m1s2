@@ -16,7 +16,8 @@ public class Starter {
 
 		// Register and map the dispatcher servlet
 		final ServletHolder servletHolder = new ServletHolder(new CXFServlet());
-		final ServletHolder staticFileServletHolder = new ServletHolder(new FileServlet());
+		final ServletHolder staticFileServletHolder = new ServletHolder(
+				new FileServlet());
 		final ServletContextHandler context = new ServletContextHandler();
 		context.setContextPath("/");
 		context.addServlet(servletHolder, "/ftp/*");
