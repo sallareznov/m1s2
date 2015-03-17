@@ -1,16 +1,10 @@
 package rest.model;
 
 import java.text.SimpleDateFormat;
-import java.util.logging.Logger;
 
 import org.apache.commons.net.ftp.FTPFile;
 
-import rest.logger.LoggerFactory;
-
 public class ItemBuilder {
-
-	private static final Logger LOGGER = LoggerFactory
-			.create(ItemBuilder.class);
 
 	public String buildList(String canonicalPath, FTPFile[] files,
 			FTPRestServiceConfiguration configuration) {

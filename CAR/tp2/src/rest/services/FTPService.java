@@ -83,12 +83,12 @@ public class FTPService {
 		return response;
 	}
 
-	public Response upload(String dirname, InputStream fileInputStream)
+	public Response upload(InputStream fileInputStream)
 			throws IOException {
 		final FTPClient client = clientFactory.create();
 		boolean directoryFound = true;
-		if (dirname != null) {
-			directoryFound = client.changeWorkingDirectory(dirname);
+		if ("." != null) {
+			directoryFound = client.changeWorkingDirectory(".");
 		}
 		if (!directoryFound) {
 			client.disconnect();

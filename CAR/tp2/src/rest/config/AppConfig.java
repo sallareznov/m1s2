@@ -18,10 +18,7 @@ import org.springframework.context.annotation.DependsOn;
 
 import rest.rs.FTPRestService;
 import rest.rs.JaxRsApiApplication;
-import rest.rs.PeopleRestService;
 import rest.services.FTPService;
-import rest.services.PeopleService;
-import car.HelloWorldResource;
 
 @Configuration
 public class AppConfig {
@@ -40,9 +37,6 @@ public class AppConfig {
 						JAXRSServerFactoryBean.class);
 
 		List<Object> serviceBeans = new ArrayList<Object>();
-		//serviceBeans.add(peopleRestService());
-		serviceBeans.add(new HelloWorldResource());
-		//serviceBeans.add(new FTPClientResource());
 		serviceBeans.add(ftpRestService());
 
 		factory.setServiceBeans(serviceBeans);
@@ -57,11 +51,6 @@ public class AppConfig {
 		applicationPath = application.getClass().getAnnotation(ApplicationPath.class).value();
 		return application;
 	}
-
-	@Bean
-	public PeopleRestService peopleRestService() {
-		return new PeopleRestService();
-	}
 	
 	@Bean
 	public FTPService ftpService() {
@@ -71,11 +60,6 @@ public class AppConfig {
 	@Bean
 	public FTPRestService ftpRestService() {
 		return new FTPRestService(ftpService(), applicationPath);
-	}
-
-	@Bean
-	public PeopleService peopleService() {
-		return new PeopleService();
 	}
 
 	@Bean

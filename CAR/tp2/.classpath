@@ -15,7 +15,7 @@
 	<classpathentry kind="lib" path="lib/jackson-mapper-asl-1.9.11.jar"/>
 	<classpathentry kind="lib" path="lib/javax.inject-1.jar"/>
 	<classpathentry kind="lib" path="lib/javax.servlet-3.0.0.v201112011016.jar"/>
-	<classpathentry kind="lib" path="lib/javax.ws.rs-api-2.0-m10.jar"/>
+	<classpathentry kind="lib" path="lib/javax.ws.rs-api-2.0-m10.jar" sourcepath="/home/salla/workspace/M1S2/CAR/tp2/lib/commons-net-3.3-sources.jar"/>
 	<classpathentry kind="lib" path="lib/jaxb-impl-2.1.13.jar"/>
 	<classpathentry kind="lib" path="lib/jetty-continuation-8.1.8.v20121106.jar"/>
 	<classpathentry kind="lib" path="lib/jetty-http-8.1.8.v20121106.jar"/>

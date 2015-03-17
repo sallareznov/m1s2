@@ -10,12 +10,14 @@ Ce TP est une implémentation en JAVA d'un serveur FTP basique.
 	\item[src/ :] contient les fichiers sources (\verb+.java+) du projet
 	\item[test/ :] contient les fichiers de tests
 	\item[uml/ :] contient les diagrammes de classes du projet
+	\item[build.xml :] fichier de gestion du projet (Ant)
 	\item[ftpServer.jar :] archive exécutable du projet
 \end{description}
 
 \section*{Utilisation}
-Pour lancer le serveur, il suffit d'ouvrir un terminal et taper la commande :
+Pour lancer le serveur, il suffit d'ouvrir un terminal et taper les commandes :
 \begin{itemize}
+	\item \verb+ant package+
 	\item \verb+java -jar ftpServer.jar [port] [baseDirectory]+ avec :
 		\begin{description}
 			\item[port] : le numéro du port TCP sur lequel écoutera le serveur
@@ -24,39 +26,50 @@ Pour lancer le serveur, il suffit d'ouvrir un terminal et taper la commande :
 \end{itemize}
 
 \section*{Architecture}
+Ce projet est composé de 33 classes répartis en 3 paquetages :
 \begin{tabbing}
-	\hspace{1cm}\=\hspace{1cm}\=\kill
+	\hspace{1cm}\=\hspace{1cm}\=\hspace{1cm}\=\kill
 	\textit{- package ftp}\\
-		\>\verb+FTPDatabase+ : classe représentant la base de données du projet. Elle contient les \\\>informations relatives aux comptes authentifiés, l'adresse IP du serveur ou encore la \\\>liste des codes de retour et des messages.\\
-	\>\verb+FTPMessageSender+ : classe abstraite représentant un "envoyeur de messages". Toute \\\>classe héritant de cette classe est capable d'envoyer des commandes ou des données \\\>à travers les sockets.\\
-	\>\verb+FTPRequest+ : classe représentant une requête FTP. Une requête FTP est définie par une \\\>commande (obligatoire) et un argument (optionnel).\\
-	\>\verb+FTPRequestHandler+ : classe représentant un handler de requête FTP. Une instance de \\\>cette classe sera lancée dans un nouveau Thread à chaque fois qu'un client est connecté.\\
-	\>\verb+FTPServer+ : classe représentant le serveur du projet. Il se chargera de lancer un processus en parallèle quand un client sera connecté.\\
-	\>\verb+Main+ : classe principale.\\
-		\>\textit{- package command}\\
-			\>\>\verb+FTPCdupCommand+ : classe représentant la commande CDUP.\\
-			\>\>\verb+FTPCommand+ : interface représentant une commande (polymorphisme).\\
-			\>\>\verb+FTPCommandManager+ : classe représentant le manager des commandes. \\\>\>C'est cette classe qui se chargera d'exécuter la commande adéquate \\\>\>quand le serveur en reçoit une.\\
-			\>\>\verb+FTPCwdCommand+ : classe représentant la commande CWD.\\
-			\>\>\verb+FTPEprtCommand+ : classe représentant la commande EPRT.\\
-			\>\>\verb+FTPEpsvCommand+ : classe représentant la commande EPSV.\\
-			\>\>\verb+FTPListCommand+ : classe représentant la commande LIST.\\
-			\>\>\verb+FTPNlstCommand+ : classe représentant la commande NLST.\\
-			\>\>\verb+FTPNotImplementedCommand+ : classe représentant une commande inconnue.\\
-			\>\>\verb+FTPPassCommand+ : classe représentant la commande PASS.\\
-			\>\>\verb+FTPPasvCommand+ : classe représentant la commande PASV.\\
-			\>\>\verb+FTPPortCommand+ : classe représentant la commande PORT.\\
-			\>\>\verb+FTPPwdCommand+ : classe représentant la commande PWD\\
-			\>\>\verb+FTPQuitCommand+ : classe représentant la commande QUIT.\\
-			\>\>\verb+FTPRetrCommand+ : classe représentant la commande RETR.\\
-			\>\>\verb+FTPStorCommand+ : classe représentant la commande STOR.\\
-			\>\>\verb+FTPSystCommand+ : classe représentant la commande SYST.\\
-			\>\>\verb+FTPTypeCommand+ : classe représentant la commande TYPE.\\
-			\>\>\verb+FTPUserCommand+ : classe représentant la commande USER.\\
-		\>\textit{- package configuration}\\
-			\>\>\verb+FTPClientConfiguration+ : classe représentant la configuration d'un client.\\
-			\>\>\verb+FTPServerConfiguration+ : classe représentant la configuration du serveur.\\
+		\>\textit{- package client}\\
+			\>\>\verb+FTPRequestHandler+ : classe représentant un handler de requête FTP. Une \\\>\>instance de cette classe sera lancée dans un nouveau Thread à chaque fois qu'un \\\>\>client est connecté.\\
+		\>\textit{- package server}\\
+			\>\>\verb+FTPServer+ : classe représentant le serveur du projet. Il se chargera de lancer un \\\>\>processus en parallèle quand un client sera connecté.\\
+			\>\>\textit{- package command}\\
+			\>\>\>\verb+FTPCdupCommand+ : classe représentant la commande CDUP.\\
+			\>\>\>\verb+FTPCommand+ : interface représentant une commande (polymorphisme).\\
+			\>\>\>\verb+FTPCommandManager+ : classe représentant le manager des commandes. \\\>\>\>C'est cette classe qui se chargera d'exécuter la commande adéquate \\\>\>\>quand le serveur en reçoit une.\\
+			\>\>\>\verb+FTPBasicCommand+ : classe abstraite représentant une commande valide.\\
+			\>\>\>\verb+FTPConnectionNeededCommand+ : classe abstraite représentant une commande \\\>\>\>nécessitant que l'utilisateur soit connecté.\\
+			\>\>\>\verb+FTPCwdCommand+ : classe représentant la commande CWD.\\
+			\>\>\>\verb+FTPDeleCommand+ : classe représentant la commande DELE.\\
+			\>\>\>\verb+FTPEprtCommand+ : classe représentant la commande EPRT.\\
+			\>\>\>\verb+FTPEpsvCommand+ : classe représentant la commande EPSV.\\
+			\>\>\>\verb+FTPListCommand+ : classe représentant la commande LIST.\\
+			\>\>\>\verb+FTPNlstCommand+ : classe représentant la commande NLST.\\
+			\>\>\>\verb+FTPNotImplementedCommand+ : classe représentant une commande inconnue.\\
+			\>\>\>\verb+FTPPassCommand+ : classe représentant la commande PASS.\\
+			\>\>\>\verb+FTPPasvCommand+ : classe représentant la commande PASV.\\
+			\>\>\>\verb+FTPPortCommand+ : classe représentant la commande PORT.\\
+			\>\>\>\verb+FTPPwdCommand+ : classe représentant la commande PWD\\
+			\>\>\>\verb+FTPQuitCommand+ : classe représentant la commande QUIT.\\
+			\>\>\>\verb+FTPRetrCommand+ : classe représentant la commande RETR.\\
+			\>\>\>\verb+FTPStorCommand+ : classe représentant la commande STOR.\\
+			\>\>\>\verb+FTPSystCommand+ : classe représentant la commande SYST.\\
+			\>\>\>\verb+FTPTypeCommand+ : classe représentant la commande TYPE.\\
+			\>\>\>\verb+FTPUserCommand+ : classe représentant la commande USER.\\
+		\>\>\textit{- package util}\\
+			\>\>\>\verb+FailedCwdCommandException+\\
+		\>\textit{- package shared}\\
+		\>\>\verb+FTPClientConfiguration+ : classe représentant la configuration d'un client.\\
+		\>\>\verb+FTPDatabase+ : classe représentant la base de données du projet. Elle contient les \\\>\>informations relatives aux comptes authentifiés, l'adresse IP du serveur ou encore la \\\>\>liste des codes de retour et des messages.\\
+		\>\>\verb+FTPLoggerFactory+ : factory de loggers\\
+		\>\>\verb+FTPLoggerSimpleFormatter+ : formatter qui nous abstient du sucre syntaxique des \\\>\>loggers habituels\\
+		\>\>\verb+FTPMessageSender+ : classe abstraite représentant un "envoyeur de messages". Toute \\\>\>classe héritant de cette classe est capable d'envoyer des commandes ou des données \\\>\>à travers les sockets.\\
+		\>\>\verb+FTPRequest+ : classe représentant une requête FTP. Une requête FTP est définie par \\\>\>une commande (obligatoire) et un argument (optionnel).\\
+		\>\>\verb+FTPServerConfiguration+ : classe représentant la configuration du serveur.\\
+	\>\verb+FTPMain+ : classe principale.\\
 \end{tabbing}
+Les diagrammes de classes sont répertoriés dans le dossier \verb+uml/+.
 
 \section*{Parcours de code}
 En premier lieu, une base de données est mise en place en créant une instance de la classe \verb+FTPDatabase+, instance que l'on injectera en constructeur de la classe \verb+FTPServer+ avec un numéro de port (> 1023) et un répertoire de base. La configuration du client (\verb+FTPClientConfiguration+) sera paramétrée dans \verb+FTPServer+.

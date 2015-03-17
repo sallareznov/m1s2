@@ -13,13 +13,22 @@
 		<description>Main target</description>
 	</target>
 
+	<path id="classpath">
+		<fileset dir="lib">
+			<include name="*.jar" />
+		</fileset>
+	</path>
+
 	<target name="compile">
-		<mkdir dir="${bin.dir}"/>
-		<javac includeantruntime="false" srcdir="${src.dir}" destdir="${bin.dir}" />
+		<mkdir dir="${bin.dir}" />
+		<javac includeantruntime="false" srcdir="${src.dir}" destdir="${bin.dir}">
+			<classpath refid="classpath"/>
+		</javac>
 	</target>
 
 	<target name="run" depends="compile">
 		<java classname="${main-class}">
+			<classpath refid="classpath" />
 			<classpath path="bin" />
 		</java>
 	</target>
@@ -43,7 +52,7 @@
 	</target>
 
 	<target name="javadoc" depends="compile">
-		<mkdir dir="${doc.dir}"/>
+		<mkdir dir="${doc.dir}" />
 		<javadoc packagenames="*" sourcepath="${src.dir}" destdir="${doc.dir}">
 			<fileset dir="${src.dir}">
 				<include name="*" />
@@ -51,14 +60,13 @@
 		</javadoc>
 	</target>
 
-	<target name="zip" depends="package, javadoc">
+	<target name="zip" depends="compile, javadoc">
 		<zip destfile="tp2_tello-diagne.zip">
 			<fileset dir=".">
-				<include name="**"/>
-				<exclude name="bin/*"/>
-				<exclude name="lib/*"/>
-				<exclude name="rapport/*"/>
-				<exclude name="sonar-project.properties"/>
+				<include name="**" />
+				<exclude name="bin/*" />
+				<exclude name="lib/*" />
+				<exclude name="rapport/*" />
 			</fileset>
 		</zip>
 	</target>
@@ -66,13 +74,9 @@
 	<target name="test" depends="compile">
 		<junit printsummary="on" fork="true" haltonfailure="yes">
 			<classpath>
-				<pathelement location="${bin.dir}" />
-				<pathelement location="${bin.dir}/test" />
-				<pathelement location="${lib.dir}/junit-4.12.jar" />
-				<pathelement location="${lib.dir}/hamcrest-core-1.3.jar" />
-				<pathelement location="${lib.dir}/mockito-all-1.10.8.jar" />
-				<pathelement location="${lib.dir}/powermock-mockito-1.6.1-full.jar" />
-				<pathelement location="${lib.dir}/javassist-3.18.2-GA.jar" />
+				<fileset dir="lib">
+					<include name="**" />
+				</fileset>
 			</classpath>
 			<batchtest>
 				<fileset dir="${test.dir}">
