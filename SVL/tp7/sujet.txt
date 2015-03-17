@@ -1,0 +1,9 @@
+TP6: test d'acceptation avec Selenium
+
+En utilisant cherrypy pour programmer le serveur, développer en TDD une application web basique permettant de calculer le "poids idéal" d'une personne en utilisant la formule de Lorentz:
+pour un homme: taille x 100 - 100 - (taille x 100 - 150) / 4
+pour une femme: taille x 100 - 100 - (taille x 100 - 150) / 2.5
+Pour commencer:ne traiter que la formule "homme", et s'il reste du temps passer aux cases homme/femme à cocher. Vous pouvez vous inspirer de cet exemple. 
+On utilisera Selenium:
+d'abord Selenium Webdriver: écrire les tests d'acceptation et unitaires en TDD
+puis Selenium IDE (plugin à installer dans Firefox, puis menu Tools): pour tester autrement votre application, ou si vous préférez l'exemple ci-dessus.
