@@ -35,11 +35,9 @@ public class FTPNlstCommand extends FTPConnectionNeededCommand {
 		for (final File entry : directoryListing) {
 			if (!entry.isHidden()) {
 				if (entry.isDirectory())
-					messageBuilder.append(entry.getName()
-							+ clientConfiguration.getDirectorySeparator()
-							+ "\n");
+					messageBuilder.append(entry.getName()).append(clientConfiguration.getDirectorySeparator()).append("\n");
 				else
-					messageBuilder.append(entry.getName() + "\n");
+					messageBuilder.append(entry.getName()).append("\n");
 			}
 		}
 		return messageBuilder.toString();

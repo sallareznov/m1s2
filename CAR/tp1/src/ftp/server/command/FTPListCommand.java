@@ -69,7 +69,7 @@ public class FTPListCommand extends FTPConnectionNeededCommand {
 		final StringBuilder messageBuilder = new StringBuilder();
 		for (final File entry : directoryListing) {
 			if (!entry.isHidden())
-				messageBuilder.append(buildListItem(entry) + "\n");
+				messageBuilder.append(buildListItem(entry)).append("\n");
 		}
 		sendData(clientConfiguration.getDataSocket(), messageBuilder.toString());
 
