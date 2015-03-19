@@ -9,8 +9,16 @@ import java.rmi.RMISecurityManager;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.logging.Logger;
+
+import site.shared.LoggerFactory;
 
 public class Server {
+	
+	private static final Logger LOGGER = LoggerFactory.create(Server.class);
+
+	private Server() {
+	}
 
 	public static void main(String[] args) throws MalformedURLException,
 			RemoteException, UnknownHostException, AlreadyBoundException {
@@ -18,7 +26,7 @@ public class Server {
 			System.setSecurityManager(new RMISecurityManager());
 		}
 		LocateRegistry.createRegistry(1099);
-		System.out.println("Hello ! I'm the remote server");
+		LOGGER.info("Hello ! I'm the remote server");
 		final SiteFactoryImpl siteFactoryImpl = new SiteFactoryImpl();
 		final SiteFactory factory = (SiteFactory) UnicastRemoteObject
 				.toStub(siteFactoryImpl);

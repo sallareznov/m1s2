@@ -1,9 +1,6 @@
 package site.server;
 
 import java.io.Serializable;
-import java.util.logging.Logger;
-
-import site.shared.LoggerFactory;
 
 public class Site implements Serializable {
 
@@ -11,17 +8,17 @@ public class Site implements Serializable {
 	private int id;
 	private Site pere;
 	private Site[] fils;
-	private byte[] donnees;
-	private static final Logger LOGGER = LoggerFactory.create(Site.class);
+	private String message;
 
 	public Site() {
 	}
 
 	public Site(int id) {
+		this();
 		this.id = id;
 		pere = null;
 		fils = null;
-		donnees = null;
+		message = "";
 	}
 
 	public int getId() {
@@ -36,8 +33,8 @@ public class Site implements Serializable {
 		return fils;
 	}
 
-	public byte[] getDonnees() {
-		return donnees;
+	public String getMessage() {
+		return message;
 	}
 
 	public void setPere(Site pere) {
@@ -51,26 +48,25 @@ public class Site implements Serializable {
 		}
 	}
 
-	public void setDonnees(byte[] donnees) {
-		this.donnees = donnees;
+	public synchronized void setMessage(String message) {
+		this.message = message;
 	}
 
-	public void resetDonnees() {
-		donnees = null;
+	public void reset() {
+		message = "";
 	}
 
-	public void propageDonnees(Site expediteur) {
-		LOGGER.info("Site " + id + " : " + "Reception de donnees venant de Site " + expediteur.getId());
-		setDonnees(expediteur.getDonnees());
-		if (fils == null) {
-			return;
-		}
-		for (final Site unFils : fils) {
-			if (!unFils.equals(expediteur)) {
-				LOGGER.info("Site " + id + " : " + "Propagation des donnees vers Site " + unFils.getId());
-				unFils.propageDonnees(this);
-			}
-		}
+	@Override
+	public String toString() {
+		return "Site " + id;
+	}
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + id;
+		return result;
 	}
 
 	@Override

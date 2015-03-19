@@ -9,17 +9,21 @@ import java.rmi.RMISecurityManager;
 import java.rmi.RemoteException;
 import java.util.logging.Logger;
 
-import site.server.AfficheurSite;
-import site.server.DataSendingMethod;
-import site.server.DataSendingFromAnySite;
-import site.server.DataSendingFromTheRootSite;
+import site.server.ConcurrentMessageSendingFromAnySite;
+import site.server.ConcurrentMessageSendingFromTheRootSite;
+import site.server.MessageSendingManagerImpl;
+import site.server.SimpleMessageSendingFromAnySite;
 import site.server.Site;
 import site.server.SiteFactory;
+import site.server.SuperPrinter;
 import site.shared.LoggerFactory;
 
 public class Client {
 
 	private static final Logger LOGGER = LoggerFactory.create(Client.class);
+
+	private Client() {
+	}
 
 	public static void main(String[] args) throws UnknownHostException,
 			MalformedURLException, RemoteException, NotBoundException,
@@ -29,10 +33,10 @@ public class Client {
 		}
 		final String key = "rmi://"
 				+ InetAddress.getLocalHost().getHostAddress() + "/SiteFactory";
-		
+
 		// Obtention of the factory at the server
 		final SiteFactory siteFactory = (SiteFactory) Naming.lookup(key);
-		
+
 		// Construction of the tree-like structure
 		final Site site1 = siteFactory.create(1);
 		final Site site2 = siteFactory.create(2);
@@ -43,38 +47,62 @@ public class Client {
 		site1.setFils(site2, site5);
 		site2.setFils(site3, site4);
 		site5.setFils(site6);
-		
-		// Instanciation of the data to send and the site printer 
-		final byte[] donnees = { 127, 0, 0, 1, 25, 70 };
-		final AfficheurSite afficheurSite = new AfficheurSite();
-		
-		// Data sending from the root site
-		LOGGER.info("**** ENVOI DE DONNEES DEPUIS LA RACINE ****\n");
-		site1.setDonnees(donnees);
-		LOGGER.info("Avant envoi");
-		afficheurSite.affiche(site1, site2, site3, site4, site5, site6);
-		final DataSendingMethod envoiRacine = new DataSendingFromTheRootSite();
-		envoiRacine.envoieDonnees(site1);
-		LOGGER.info("Après envoi");
-		afficheurSite.affiche(site1, site2, site3, site4, site5, site6);
-		
+
+		// Instanciation of the data to send and the site printer
+		final String message = "RMI rocks !";
+		final SuperPrinter superPrinter = new SuperPrinter();
+		final MessageSendingManagerImpl messageSendingManager = new MessageSendingManagerImpl();
+
+		LOGGER.info("\n**** SENDING A MESSAGE SEQUENTIALLY FROM THE ROOT SITE ****");
+		messageSendingManager
+				.setMessageSendingMethod(new SimpleMessageSendingFromAnySite());
+		site5.setMessage(message);
+		superPrinter.printBeforeSending();
+		superPrinter.printSites(site1, site2, site3, site4, site5, site6);
+		superPrinter.printDuringSending();
+		messageSendingManager.sendMessage(site5);
+		superPrinter.printAfterSending();
+		superPrinter.printSites(site1, site2, site3, site4, site5, site6);
+
 		// Data resetting
-		site1.resetDonnees();
-		site2.resetDonnees();
-		site3.resetDonnees();
-		site4.resetDonnees();
-		site5.resetDonnees();
-		site6.resetDonnees();
-		
+		site1.reset();
+		site2.reset();
+		site3.reset();
+		site4.reset();
+		site5.reset();
+		site6.reset();
+
+		// Data sending from the root site
+		LOGGER.info("\n**** SENDING A MESSAGE SIMULTANEOUSLY FROM THE ROOT SITE ****");
+		messageSendingManager
+				.setMessageSendingMethod(new ConcurrentMessageSendingFromTheRootSite());
+		site1.setMessage(message);
+		superPrinter.printBeforeSending();
+		superPrinter.printSites(site1, site2, site3, site4, site5, site6);
+		superPrinter.printDuringSending();
+		messageSendingManager.sendMessage(site1);
+		superPrinter.printAfterSending();
+		superPrinter.printSites(site1, site2, site3, site4, site5, site6);
+
+		// Data resetting
+		site1.reset();
+		site2.reset();
+		site3.reset();
+		site4.reset();
+		site5.reset();
+		site6.reset();
+
 		// Data sending from any site
-		LOGGER.info("**** ENVOI DE DONNEES DEPUIS N'IMPORTE QUEL SITE ****\n");
-		site5.setDonnees(donnees);
-		LOGGER.info("Avant envoi");
-		afficheurSite.affiche(site1, site2, site3, site4, site5, site6);
-		final DataSendingMethod envoiQuelconque = new DataSendingFromAnySite();
-		envoiQuelconque.envoieDonnees(site5);
-		LOGGER.info("Après envoi");
-		afficheurSite.affiche(site1, site2, site3, site4, site5, site6);
+		LOGGER.info("\n**** SENDING A MESSAGE SIMULTANEOUSLY FROM ANY SITE ****\n");
+		messageSendingManager
+				.setMessageSendingMethod(new ConcurrentMessageSendingFromAnySite());
+		site5.setMessage(message);
+		superPrinter.printBeforeSending();
+		superPrinter.printSites(site1, site2, site3, site4, site5, site6);
+		superPrinter.printDuringSending();
+		messageSendingManager.sendMessage(site5);
+		superPrinter.printAfterSending();
+		superPrinter.printSites(site1, site2, site3, site4, site5, site6);
 	}
 
 }

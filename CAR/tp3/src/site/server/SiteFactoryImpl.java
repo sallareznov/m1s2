@@ -7,7 +7,7 @@ public class SiteFactoryImpl extends UnicastRemoteObject implements SiteFactory 
 
 	private static final long serialVersionUID = -724629253681607589L;
 
-	protected SiteFactoryImpl() throws RemoteException {
+	public SiteFactoryImpl() throws RemoteException {
 	}
 
 	@Override

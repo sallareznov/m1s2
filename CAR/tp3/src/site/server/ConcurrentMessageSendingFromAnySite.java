@@ -1,18 +1,20 @@
 package site.server;
 
+public class ConcurrentMessageSendingFromAnySite implements MessageSendingMethod {
 
-public class DataSendingFromAnySite implements DataSendingMethod {
-	
 	@Override
-	public void envoieDonnees(final Site expediteur)
+	public void sendMessage(final Site expediteur,
+			VisitedSitesManager visitedSitesManager,
+			final MessageSendingManagerImpl messageSendingManager)
 			throws InterruptedException {
+		visitedSitesManager.markAsVisited(expediteur);
 		final Site pere = expediteur.getPere();
 		if (pere != null) {
 			final Thread thread = new Thread(new Runnable() {
 
 				@Override
 				public void run() {
-					pere.propageDonnees(expediteur);
+					messageSendingManager.spreadMessage(expediteur, pere);
 				}
 
 			});
@@ -26,7 +28,7 @@ public class DataSendingFromAnySite implements DataSendingMethod {
 
 					@Override
 					public void run() {
-						unFils.propageDonnees(expediteur);
+						messageSendingManager.spreadMessage(expediteur, unFils);
 					}
 
 				});
