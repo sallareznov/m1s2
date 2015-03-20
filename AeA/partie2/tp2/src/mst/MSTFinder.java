@@ -7,6 +7,6 @@ public abstract class MSTFinder {
 //		return null;
 //	}
 	
-	public abstract MST findMST(WeightedGraph graphe);
+	public abstract WeightedGraph findMST(WeightedGraph graphe) throws CloneNotSupportedException;
 	
 }

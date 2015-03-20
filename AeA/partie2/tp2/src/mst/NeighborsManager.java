@@ -2,6 +2,7 @@ package mst;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -23,7 +24,11 @@ public class NeighborsManager {
 	}
 	
 	public Set<Vertex> getNeighbors(Vertex vertex) {
-		return vertexesToNeighbors.get(vertex);
+		final Set<Vertex> neighbors = vertexesToNeighbors.get(vertex); 
+		if (neighbors == null) {
+			return new HashSet<Vertex>();
+		}
+		return neighbors;
 	}
 	
 	public void addNeighbors(Ridge ridge) {
@@ -33,7 +38,7 @@ public class NeighborsManager {
 
 	public void initNeighbors(WeightedGraph graph) {
 		vertexesToNeighbors.clear();
-		final Set<Ridge> graphRidges = graph.getRidges();
+		final List<Ridge> graphRidges = graph.getRidges();
 		for (final Ridge ridge : graphRidges) {
 			addNeighbors(ridge);
 		}
@@ -43,5 +48,5 @@ public class NeighborsManager {
 		final Set<Vertex> vertex2Neighbors = vertexesToNeighbors.get(vertex2);
 		return vertex2Neighbors.contains(vertex1);
 	}
-
+	
 }

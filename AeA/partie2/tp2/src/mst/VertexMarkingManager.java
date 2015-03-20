@@ -1,25 +1,30 @@
 package mst;
 
-import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 public class VertexMarkingManager {
 	
-	private boolean[] markings;
+	private Map<Vertex, Vertex> visitedVertexes; 
 	
-	public VertexMarkingManager(int n) {
-		markings = new boolean[n];
+	public VertexMarkingManager() {
+		visitedVertexes = new HashMap<Vertex, Vertex>();
 	}
 	
-	public void mark(int i) {
-		markings[i] = true;
+	public void mark(Vertex vertex, Vertex father) {
+		visitedVertexes.put(vertex, father);
 	}
 	
-	public boolean isMarked(int i) {
-		return markings[i];
+	public boolean isMarked(Vertex vertex) {
+		return visitedVertexes.containsKey(vertex);
+	}
+	
+	public Vertex getFather(Vertex vertex) {
+		return visitedVertexes.get(vertex);
 	}
 	
 	public void reset() {
-		Arrays.fill(markings, false);
+		visitedVertexes.clear();
 	}
 
 }
