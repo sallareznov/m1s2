@@ -1,0 +1,90 @@
+Contract
+Pre-conditions, post-conditions, and invariants for Python code.
+
+Quick Start
+===========
+
+Installation
+------------
+After unpacking the source distribution, install this in your site-
+specific Python extension directory::
+
+          python setup.py build
+   [sudo] python setup.py install
+
+Document your code with contracts
+---------------------------------
+Docstrings for modules and classes can have inv: statements,
+docstrings for functions and methods can have pre: and post:
+statements.  Example::
+
+    class test:
+        """Test class.
+
+        inv: 0 <= self.len < 512
+        """
+
+        def pop(self, a):
+            """Remove element.
+
+            pre:
+                self.len > 0
+            post[self.len]:
+                self.len == __old__.self.len - 1
+            """
+
+Enable Contract Checking
+------------------------
+To enable run-time checking of the contracts, use the contract.checkmod
+function.  For example, at the very end of mymodule.py::
+    import contract, mymodule
+    contract.checkmod(mymodule)
+
+
+Description
+===========
+Contract enforces high-level assertions placed in docstrings.  Modules
+and classes can have invariants: expressions that must be true on
+entry and exit to public functions.  Methods and functions can have
+pre-conditions, which must be true on entry; and post-conditions,
+which must be true on exit.
+
+Example::
+    def mid(a, b):
+        """The midpoint between two numbers.
+
+        pre:
+            operator.isNumberType(a)
+            operator.isNumberType(b)
+        post:
+            __return__ == a/2 + b/2
+        """
+        return (a + b) / 2
+
+When Python is running in non-optimized mode (with no -O command line
+argument) and the module has had contract checking enabled, the two
+expressions 'operator.isNumberType(a)' and 'operator.isNumberType(b)'
+are tested every time the mid function is called.  These are
+pre-conditions.  If either expression isn't true, an assertion is
+raised.
+
+The expression '__return__ == a/b + b/2' is tested after the function
+returns.  If this expression is false, an assertion is raised.
+
+When Python is running in optimized mode, the checks are disabled.
+
+To enable contract checking, use the contract.checkmod function.
+Example::
+    if __name__ == '__main__':
+        import contract, doctest, mid
+        contract.checkmod(mid)  # <--
+        doctest.testmod(mid)
+
+For more information, please see the Python Contract specification
+pep-0316.txt
+
+
+License: Python Software Foundation License
+
+Terence Way terry@wayforward.net
+http://www.wayforward.net/pycontract/

@@ -1,0 +1,21 @@
+Metadata-Version: 1.0
+Name: contract
+Version: 1.4
+Summary: Programming by Contract for Python
+Home-page: http://www.wayforward.net/pycontract/
+Author: Terence Way
+Author-email: terry@wayforward.net
+License: Artistic; LPGL; Python Software Foundation License
+Download-URL: http://www.wayforward.net/pycontract/contract-1.4.tar.gz
+Description: Annotate function docstrings with pre- and post-conditions,
+        and class/module docstrings with invariants, and this
+        automatically checks the contracts while debugging.
+Platform: UNKNOWN
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: Artistic License
+Classifier: License :: OSI Approved :: GNU Library or Lesser General Public License (LGPL)
+Classifier: License :: OSI Approved :: Python Software Foundation License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Topic :: Software Development :: Testing
