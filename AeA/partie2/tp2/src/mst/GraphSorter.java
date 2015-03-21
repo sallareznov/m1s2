@@ -17,7 +17,7 @@ public class GraphSorter {
 	
 	public WeightedGraph sort(WeightedGraph graph) throws CloneNotSupportedException {
 		final WeightedGraph sortedCopy = (WeightedGraph) graph.clone();
-		Collections.sort(graph.getRidges(), comparator);
+		Collections.sort(sortedCopy.getRidges(), comparator);
 		return sortedCopy;
 	}
 	

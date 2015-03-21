@@ -23,16 +23,16 @@ public class CycleManager {
 		return levels.get(vertex);
 	}
 
-	public boolean isAcyclic(WeightedGraph graph, Vertex vertex) {
+	public boolean hasACycle(WeightedGraph graph, Vertex vertex) {
 		levels.clear();
-		boolean acyclic = true;
+		boolean cyclic = false;
 		final NeighborsManager neighborsManager = new NeighborsManager();
 		neighborsManager.initNeighbors(graph);
 		initLevels(graph);
 		final Queue<Vertex> queueVertexes = new LinkedList<Vertex>();
 		levels.put(vertex, 0);
 		queueVertexes.add(vertex);
-		while (!queueVertexes.isEmpty() && acyclic) {
+		while (!queueVertexes.isEmpty() && !cyclic) {
 			final Vertex topVertex = queueVertexes.remove();
 			for (Vertex neighbor : neighborsManager.getNeighbors(topVertex)) {
 				if (getLevel(neighbor) == -1) {
@@ -40,12 +40,11 @@ public class CycleManager {
 					queueVertexes.add(neighbor);
 				} else {
 					if (getLevel(topVertex) <= getLevel(neighbor))
-						acyclic = false;
+						cyclic = true;
 				}
 			}
-			System.out.println(topVertex + " ");
 		}
-		return acyclic;
+		return cyclic;
 	}
 
 }

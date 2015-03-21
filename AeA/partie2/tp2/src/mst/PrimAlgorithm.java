@@ -1,6 +1,8 @@
 package mst;
 
-public class PrimAlgorithm extends MSTFinder {
+import java.util.Random;
+
+public class PrimAlgorithm implements MSTFinder {
 	
 	private GraphSorter graphSorter;
 	
@@ -11,14 +13,21 @@ public class PrimAlgorithm extends MSTFinder {
 
 	@Override
 	public WeightedGraph findMST(WeightedGraph graph) throws CloneNotSupportedException {
-		final WeightedGraph sortedCopy = graphSorter.sort(graph);
-//		final MST mst = new MST();
-//		final VertexMarkingManager markingManager = new VertexMarkingManager(graph.getSize());
-//		final NeighborsManager neighborsManager = new NeighborsManager();
-//		markingManager.mark(0);
-//		neighborsManager.initNeighbors(graph);
-//		return null;
-		return null;
+		final WeightedGraph mst = new WeightedGraph();
+		final NeighborsManager neighborsManager = new NeighborsManager();
+		neighborsManager.initNeighbors(graph);
+		final Random randomizer = new Random();
+		final int graphSize = graph.getSize();
+		final int randomVertexIndex = randomizer.nextInt(graphSize);
+		final Vertex firstVertex = graph.getVertex(randomVertexIndex);
+		mst.addVertex(firstVertex);
+		while (mst.getSize() < graphSize) {
+			final Ridge weakerOutgoingRidge = neighborsManager.getWeakerOutgoingRidge(mst, graph);
+			mst.addRidge(weakerOutgoingRidge);
+			neighborsManager.removeNeighbor(weakerOutgoingRidge.getVertex1());
+			neighborsManager.removeNeighbor(weakerOutgoingRidge.getVertex2());
+		}
+		return mst;
 	}
-
+	
 }
