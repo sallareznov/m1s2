@@ -1,0 +1,20 @@
+graph {
+G [color=blue]
+E [color=blue]
+F [color=blue]
+C [color=blue]
+D [color=blue]
+A [color=blue]
+B [color=blue]
+A -- B [color=green, label="7"]
+A -- D [color=green, label="5"]
+B -- C
+B -- D
+B -- E [color=green, label="7"]
+C -- E [color=green, label="5"]
+D -- E
+D -- F [color=green, label="6"]
+E -- F
+E -- G [color=green, label="9"]
+F -- G
+}

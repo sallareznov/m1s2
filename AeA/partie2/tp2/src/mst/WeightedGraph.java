@@ -67,6 +67,10 @@ public class WeightedGraph implements Cloneable {
 		addVertex(ridge.getVertex1());
 		addVertex(ridge.getVertex2());
 	}
+	
+	public boolean containsRidge(Ridge ridge) {
+		return ridges.contains(ridge);
+	}
 
 	public void addVertex(Vertex vertex) {
 		vertexes.add(vertex);

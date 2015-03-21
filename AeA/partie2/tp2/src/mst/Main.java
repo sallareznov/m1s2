@@ -1,8 +1,10 @@
 package mst;
 
+import java.io.IOException;
+
 public class Main {
 	
-	public static void main(String[] args) throws CloneNotSupportedException {
+	public static void main(String[] args) throws CloneNotSupportedException, IOException {
 		final WeightedGraph graph = new WeightedGraph();
 		final Vertex a = new Vertex("A");
 		final Vertex b = new Vertex("B");
@@ -22,17 +24,13 @@ public class Main {
 		graph.addRidge(e, f, 8);
 		graph.addRidge(e, g, 9);
 		graph.addRidge(f, g, 11);
-		new NeighborsManager().initNeighbors(graph);
-		System.out.println("**** KRUSKAL ****");
+		final MSTPrinter mstPrinter = new MSTPrinter();
 		final MSTFinder algoKruskal = new KruskalAlgorithm();
 		final WeightedGraph mstKruskal = algoKruskal.findMST(graph);
-		System.out.println(mstKruskal);
-		System.out.println("weight = " + mstKruskal.getTotalWeight() + "\n");
-		System.out.println("**** PRIM ****");
+		mstPrinter.printMST("kruskal.dot", graph, mstKruskal);
 		final MSTFinder algoPrim = new PrimAlgorithm();
 		final WeightedGraph mstPrim = algoPrim.findMST(graph);
-		System.out.println(mstPrim);
-		System.out.println("weight = " + mstPrim.getTotalWeight());
+		mstPrinter.printMST("prim.dot", graph, mstPrim);
 	}
 
 }
