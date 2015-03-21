@@ -2,9 +2,19 @@ package mst;
 
 import java.io.IOException;
 
+import mst.algorithm.KruskalAlgorithm;
+import mst.algorithm.MSTFinder;
+import mst.algorithm.PrimAlgorithm;
+import mst.bean.Vertex;
+import mst.bean.WeightedGraph;
+import mst.manager.MSTViewerManager;
+
 public class Main {
 	
-	public static void main(String[] args) throws CloneNotSupportedException, IOException {
+	private Main() {
+	}
+	
+	public static void main(String[] args) throws CloneNotSupportedException, IOException, InterruptedException {
 		final WeightedGraph graph = new WeightedGraph();
 		final Vertex a = new Vertex("A");
 		final Vertex b = new Vertex("B");
@@ -13,24 +23,32 @@ public class Main {
 		final Vertex e = new Vertex("E");
 		final Vertex f = new Vertex("F");
 		final Vertex g = new Vertex("G");
-		graph.addRidge(a, b, 7);
-		graph.addRidge(a, d, 5);
-		graph.addRidge(b, c, 8);
-		graph.addRidge(b, d, 9);
-		graph.addRidge(b, e, 7);
-		graph.addRidge(c, e, 5);
-		graph.addRidge(d, e, 15);
-		graph.addRidge(d, f, 6);
-		graph.addRidge(e, f, 8);
-		graph.addRidge(e, g, 9);
-		graph.addRidge(f, g, 11);
-		final MSTPrinter mstPrinter = new MSTPrinter();
+		graph.addEdge(a, b, 7);
+		graph.addEdge(a, d, 5);
+		graph.addEdge(b, c, 8);
+		graph.addEdge(b, d, 9);
+		graph.addEdge(b, e, 7);
+		graph.addEdge(c, e, 5);
+		graph.addEdge(d, e, 15);
+		graph.addEdge(d, f, 6);
+		graph.addEdge(e, f, 8);
+		graph.addEdge(e, g, 9);
+		graph.addEdge(f, g, 11);
+		final MSTViewerManager mstPrinter = new MSTViewerManager();
 		final MSTFinder algoKruskal = new KruskalAlgorithm();
 		final WeightedGraph mstKruskal = algoKruskal.findMST(graph);
-		mstPrinter.printMST("kruskal.dot", graph, mstKruskal);
+		final String kruskalDotFilename = "kruskal.dot";
+		//final String kruskalPsFilename = "kruskal.ps";
+		mstPrinter.generateDotFileFromMST(kruskalDotFilename, algoKruskal, graph, mstKruskal);
+		//mstPrinter.makeViewable(kruskalDotFilename, kruskalPsFilename);
+		//mstPrinter.viewMST(kruskalPsFilename);
 		final MSTFinder algoPrim = new PrimAlgorithm();
 		final WeightedGraph mstPrim = algoPrim.findMST(graph);
-		mstPrinter.printMST("prim.dot", graph, mstPrim);
+		final String primDotFilename = "prim.dot";
+		//final String primPsFilename = "prim.ps";
+		mstPrinter.generateDotFileFromMST(primDotFilename, algoPrim, graph, mstPrim);
+		//mstPrinter.makeViewable(primDotFilename, primPsFilename);
+		//mstPrinter.viewMST(primPsFilename);
 	}
 
 }

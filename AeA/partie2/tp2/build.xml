@@ -4,10 +4,10 @@
 
 	<property name="src.dir" value="src" />
 	<property name="bin.dir" value="bin" />
-	<property name="lib.dir" value="lib" />
 	<property name="doc.dir" value="doc" />
+	<property name="lib.dir" value="lib" />
 	<property name="test.dir" value="test" />
-	<property name="main-class" value="ftp.FTPMain" />
+	<property name="main-class" value="mst.Main" />
 
 	<target name="main" depends="compile, package, javadoc">
 		<description>Main target</description>
@@ -35,7 +35,7 @@
 
 	<target name="package" depends="compile">
 		<touch file="manifest" />
-		<jar destfile="ftpServer.jar" manifest="manifest" basedir="${bin.dir}">
+		<jar destfile="mstFinder.jar" manifest="manifest" basedir="${bin.dir}">
 			<manifest>
 				<attribute name="Main-Class" value="${main-class}" />
 			</manifest>
@@ -51,17 +51,17 @@
 		</javadoc>
 	</target>
 
-	<target name="zip" depends="package, javadoc">
+	<!-- <target name="zip" depends="package, javadoc">
 		<zip destfile="tp1_tello-diagne.zip">
 			<fileset dir=".">
 				<include name="**"/>
 				<exclude name="bin/*"/>
 				<exclude name="lib/*"/>
 				<exclude name="rapport/*"/>
-				<exclude name="sonar-project.properties"/>
+				<exclude name="sonar-project.properties" />
 			</fileset>
 		</zip>
-	</target>
+	</target> -->
 
 	<target name="test" depends="compile">
 		<junit printsummary="on" fork="true" haltonfailure="yes">
