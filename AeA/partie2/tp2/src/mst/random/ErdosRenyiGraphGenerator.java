@@ -10,6 +10,7 @@ import java.util.Set;
 import mst.bean.Edge;
 import mst.bean.Vertex;
 import mst.bean.WeightedGraph;
+import mst.manager.NeighborsManager;
 
 public class ErdosRenyiGraphGenerator {
 	
@@ -18,6 +19,7 @@ public class ErdosRenyiGraphGenerator {
 		for (int i = 0 ; i < n ; i++) {
 			vertexes[i] = new Vertex((i + 1) + "");
 		}
+		final int threshold = (int)Math.pow(n, 4) + 1;
 		final List<Edge> edges = new LinkedList<Edge>();
 		final Random random = new Random();
 		for (int i = 0 ; i < n ; i++) {
@@ -25,7 +27,7 @@ public class ErdosRenyiGraphGenerator {
 				final Vertex vertex1 = vertexes[i];
 				final Vertex vertex2 = vertexes[j];
 				final float edgeProba = random.nextFloat();
-				final int randomWeight = random.nextInt((int)Math.pow(n, 4) + 1);
+				final int randomWeight = random.nextInt(threshold);
 				final boolean condition1 = !vertex1.equals(vertex2);
 				final boolean condition2 = !edges.contains(new Edge(vertex1, vertex2, randomWeight));
 				final boolean condition3 = edgeProba < p;
@@ -34,7 +36,18 @@ public class ErdosRenyiGraphGenerator {
 			}
 		}
 		final Set<Vertex> setVertexes = new HashSet<Vertex>(Arrays.asList(vertexes)); 
-		return new WeightedGraph(setVertexes, edges);
+		final WeightedGraph graph = new WeightedGraph(setVertexes, edges);
+		final NeighborsManager neighborsManager = new NeighborsManager();
+		neighborsManager.initNeighbors(graph);
+		for (int i = 0 ; i < vertexes.length ; i++) {
+			if (neighborsManager.getNeighbors(vertexes[i]).size() == 0) {
+				final Vertex currentVertex = vertexes[i];
+				final Vertex nextVertex = vertexes[(i + 1) % vertexes.length];
+				graph.addEdge(currentVertex, nextVertex, random.nextInt(threshold));
+				neighborsManager.addNeighbors(vertexes[i], vertexes[(i + 1) % vertexes.length]);
+			}
+		}
+		return graph;
 	}
 
 }

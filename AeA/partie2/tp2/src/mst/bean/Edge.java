@@ -39,8 +39,9 @@ public class Edge {
 			return false;
 		}
 		final Edge edge = (Edge) obj;
-		return vertex1.equals(edge.getVertex1())
-				&& vertex2.equals(edge.getVertex2());
+		final boolean condition1 = vertex1.equals(edge.getVertex1()) && vertex2.equals(edge.getVertex2());
+		final boolean condition2 = vertex1.equals(edge.getVertex2()) && vertex2.equals(edge.getVertex1());
+		return condition1 || condition2;
 	}
 
 }
