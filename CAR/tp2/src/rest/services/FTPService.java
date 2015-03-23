@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,7 @@ import rest.model.FTPRestServiceConfiguration;
 import rest.model.ItemBuilder;
 
 /**
- * @author  diagne
+ * @author diagne
  */
 @Service
 public class FTPService {
@@ -88,23 +89,32 @@ public class FTPService {
 		return response;
 	}
 
-	public Response upload(InputStream fileInputStream)
-			throws IOException {
-		final FTPClient client = clientFactory.create();
+	public Response upload(String dirname, InputStream fileInputStream,
+			String filename) throws IOException {
+		System.out.println(dirname);
+		System.out.println(filename);
+		FTPClient client = clientFactory.create();
 		boolean directoryFound = true;
-		if ("." != null) {
-			directoryFound = client.changeWorkingDirectory(".");
+		if (dirname != null) {
+			directoryFound = client.changeWorkingDirectory(dirname);
 		}
 		if (!directoryFound) {
 			client.disconnect();
-			return Response.status(Response.Status.NOT_FOUND).build();
+			return Response.status(Response.Status.NOT_FOUND)
+					.entity("directory " + dirname + " not found").build();
 		}
 		Response response;
-		String filename = "fileUploaded";
+		client.setFileType(FTP.BINARY_FILE_TYPE);
 		if (client.storeFile(filename, fileInputStream)) {
-			response = Response.status(Response.Status.CREATED).build();
+			response = Response
+					.status(Response.Status.CREATED)
+					.entity("File " + filename + " created in directory "
+							+ dirname).build();
 		} else {
-			response = Response.status(Response.Status.FORBIDDEN).build();
+			response = Response
+					.status(Response.Status.FORBIDDEN)
+					.entity("Not allowed to create " + filename
+							+ " in directory " + dirname).build();
 		}
 		return response;
 	}

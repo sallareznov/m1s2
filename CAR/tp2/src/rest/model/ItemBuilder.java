@@ -18,10 +18,13 @@ public class ItemBuilder {
 		menu.append("<hr>");
 		menu.append("<img src=\"/static/back.gif\" alt=\"[DIR]\"> <a href=\"..\">Parent Directory</a><br/>");
 		for (final FTPFile file : files) {
-			menu.append(buildItem(canonicalPath, file, configuration));
+			menu.append(buildItem(file, configuration));
 			menu.append("<br>");
 		}
-		menu.append("<hr></pre>");
+		menu.append("<hr>");
+		menu.append("<br><br>");
+		menu.append(createUploadForm(canonicalPath));
+		menu.append("</pre>");
 		return menu.toString();
 	}
 
@@ -35,7 +38,7 @@ public class ItemBuilder {
 		return String.format("%.1f %sB", bytes / Math.pow(unit, exp), pre);
 	}
 
-	private String buildItem(String canonicalPath, FTPFile file,
+	private String buildItem(FTPFile file,
 			FTPRestServiceConfiguration configuration) {
 		String itemPath = file.getName();
 		if (file.isDirectory()) {
@@ -56,5 +59,15 @@ public class ItemBuilder {
 		builder.append("         "
 				+ humanReadableByteCount(file.getSize(), true));
 		return builder.toString();
+	}
+	
+	public String createUploadForm(String pathname) {
+		String uploadform="<form action =\"";
+		uploadform += pathname;
+		uploadform += "\" method=\"post\" enctype=\"multipart/form-data\">";
+		uploadform += "<input type=\"file\" name=\"file\"/>";
+		uploadform += "<input type=\"submit\" value=\"Upload file\" />";
+		uploadform += "</form>";
+		return uploadform;
 	}
 }

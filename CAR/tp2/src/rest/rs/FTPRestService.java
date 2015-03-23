@@ -8,6 +8,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
@@ -15,12 +16,13 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import org.apache.cxf.jaxrs.ext.multipart.Multipart;
+import org.apache.cxf.jaxrs.ext.multipart.MultipartBody;
 
 import rest.model.FTPRestServiceConfiguration;
 import rest.services.FTPService;
 
 /**
- * @author  diagne
+ * @author diagne
  */
 @Path("/repo/")
 public class FTPRestService {
@@ -88,14 +90,38 @@ public class FTPRestService {
 		}
 		return Response.status(Response.Status.BAD_GATEWAY).build();
 	}
-	
+
 	@POST
-	@Path("/upload")
+	//@Path("/")
 	@Consumes({ MediaType.MULTIPART_FORM_DATA })
-	public Response postFile(@Multipart("link") InputStream link) {
-		System.out.println("Here");
+	@Produces({ MediaType.TEXT_HTML })
+	public Response postFile(@PathParam("dirname") String dirname,
+			@Multipart("file") MultipartBody file) {
 		try {
-			return service.upload(link);
+			dirname = ".";
+			String filename = file.getRootAttachment().getDataHandler()
+					.getName();
+			InputStream fileStream = file.getRootAttachment().getDataHandler()
+					.getInputStream();
+			return service.upload(dirname, fileStream, filename);
+		} catch (IOException e) {
+			return Response.status(Response.Status.BAD_GATEWAY)
+					.entity("Connexion non disponible").build();
+		}
+	}
+
+	@PUT
+	@Path("/{dirname: .*/}")
+	@Consumes({ MediaType.MULTIPART_FORM_DATA })
+	@Produces({ MediaType.TEXT_HTML })
+	public Response putFile(@PathParam("dirname") String dirname,
+			@Multipart("file") MultipartBody file) {
+		try {
+			String filename = file.getRootAttachment().getDataHandler()
+					.getName();
+			InputStream fileStream = file.getRootAttachment().getDataHandler()
+					.getInputStream();
+			return service.upload(dirname, fileStream, filename);
 		} catch (IOException e) {
 			return Response.status(Response.Status.BAD_GATEWAY)
 					.entity("Connexion non disponible").build();
