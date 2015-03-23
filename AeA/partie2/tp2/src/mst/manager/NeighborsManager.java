@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.PriorityQueue;
 import java.util.Queue;
 
@@ -16,6 +15,8 @@ import mst.sort.EdgesComparator;
 public class NeighborsManager {
 
 	private Map<Vertex, List<Vertex>> vertexesToNeighbors;
+	private Queue<Edge> graphEdges;
+	private List<Edge> visitedEdges;
 
 	public NeighborsManager() {
 		vertexesToNeighbors = new HashMap<Vertex, List<Vertex>>();
@@ -45,8 +46,11 @@ public class NeighborsManager {
 
 	public void initNeighbors(WeightedGraph graph) {
 		vertexesToNeighbors.clear();
-		final Queue<Edge> graphEdges = new PriorityQueue<Edge>(
-				graph.getSize(), new EdgesComparator());
+		graphEdges = new PriorityQueue<Edge>(graph.getSize(),
+				new EdgesComparator());
+		visitedEdges = new LinkedList<Edge>();
+		final Queue<Edge> graphEdges = new PriorityQueue<Edge>(graph.getSize(),
+				new EdgesComparator());
 		graphEdges.addAll(graph.getEdges());
 		while (!graphEdges.isEmpty()) {
 			final Edge poll = graphEdges.poll();
@@ -54,29 +58,31 @@ public class NeighborsManager {
 		}
 	}
 
-	public Edge getWeakerOutgoingEdge(WeightedGraph subGraph, WeightedGraph graph) {
-		final Queue<Edge> graphEdges = new PriorityQueue<Edge>(
-				subGraph.getSize(), new EdgesComparator());
+	public Edge getWeakerOutgoingEdge(WeightedGraph subGraph,
+			WeightedGraph graph) {
 		for (Vertex vertex : subGraph.getVertexes()) {
 			for (Vertex neighbor : getNeighbors(vertex)) {
 				final Edge edge = graph.getEdge(vertex, neighbor);
-				graphEdges.add(edge);
+				if (!visitedEdges.contains(edge) && !graphEdges.contains(edge))
+					graphEdges.add(edge);
 			}
 		}
-		return graphEdges.peek();
+		return graphEdges.poll();
 	}
 
-	public void removeNeighbor(Vertex vertex) {
-		for (final Entry<Vertex, List<Vertex>> entry : vertexesToNeighbors
-				.entrySet()) {
-			final List<Vertex> currentNeighbors = entry.getValue();
-			currentNeighbors.remove(vertex);
+	public void removeNeighbors(WeightedGraph mst) {
+		for (Edge edge : mst.getEdges()) {
+			graphEdges.remove(edge);
+			visitedEdges.add(edge);
 		}
-	}
-
-	public boolean isANeighbor(Vertex vertex1, Vertex vertex2) {
-		final List<Vertex> vertex2Neighbors = vertexesToNeighbors.get(vertex2);
-		return vertex2Neighbors.contains(vertex1);
+		for (Vertex vertex : mst.getVertexes()) {
+			for (Vertex neighbor : mst.getVertexes()) {
+				if (graphEdges.contains(new Edge(vertex, neighbor, 0))) {
+					graphEdges.remove(new Edge(vertex, neighbor, 0));
+					visitedEdges.add(new Edge(vertex, neighbor, 0));
+				}
+			}
+		}
 	}
 
 }

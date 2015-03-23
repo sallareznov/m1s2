@@ -34,8 +34,7 @@ public class PrimAlgorithm implements MSTFinder {
 				return mst;
 			}
 			mst.addEdge(weakerOutgoingEdge);
-			neighborsManager.removeNeighbor(weakerOutgoingEdge.getVertex1());
-			neighborsManager.removeNeighbor(weakerOutgoingEdge.getVertex2());
+			neighborsManager.removeNeighbors(mst);
 		}
 		return mst;
 	}

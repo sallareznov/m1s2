@@ -4,7 +4,9 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import mst.algorithm.KruskalAlgorithm;
 import mst.algorithm.MSTFinder;
+import mst.algorithm.PrimAlgorithm;
 import mst.bean.WeightedGraph;
 import mst.random.ErdosRenyiGraphGenerator;
 
@@ -45,6 +47,12 @@ public class MSTAlgorithmPerformanceEvaluator {
 			}
 		}
 		writer.close();
+	}
+	
+	public static void main(String[] args) throws CloneNotSupportedException, IOException {
+		final MSTAlgorithmPerformanceEvaluator evaluator = new MSTAlgorithmPerformanceEvaluator();
+		final ErdosRenyiGraphGenerator graphGenerator = new ErdosRenyiGraphGenerator();
+		evaluator.evaluate(15, graphGenerator, "test.txt", new PrimAlgorithm(), new KruskalAlgorithm());
 	}
 
 }

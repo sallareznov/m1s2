@@ -43,5 +43,10 @@ public class Edge {
 		final boolean condition2 = vertex1.equals(edge.getVertex2()) && vertex2.equals(edge.getVertex1());
 		return condition1 || condition2;
 	}
+	
+	@Override
+	public String toString() {
+		return vertex1 + " -- " + vertex2 + " : " + weight;
+	}
 
 }
