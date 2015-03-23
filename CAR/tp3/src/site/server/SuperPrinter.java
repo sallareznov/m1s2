@@ -13,15 +13,15 @@ public class SuperPrinter implements Serializable {
 	public SuperPrinter() {
 	}
 	
-	public void printMessageReceived(Site sender, Site receiver) {
+	public void printMessageReceived(TreeSite sender, TreeSite receiver) {
 		LOGGER.info("<--- [" + receiver + "] : " + "Just a received a message coming from " + sender);
 	}
 	
-	public void printMessageBeingSpreaded(Site sender, Site receiver) {
+	public void printMessageBeingSpreaded(TreeSite sender, TreeSite receiver) {
 		LOGGER.info("---> [" + sender + "] : " + "Spreading message towards " + receiver);
 	}
 	
-	public void printSite(Site site) {
+	public void printSite(TreeSite site) {
 		final StringBuilder builder = new StringBuilder();
 		builder.append("Site ");
 		builder.append(site.getId());
@@ -32,8 +32,8 @@ public class SuperPrinter implements Serializable {
 		LOGGER.info(builder.toString());
 	}
 	
-	public void printSites(Site ... sites) {
-		for (final Site site : sites) {
+	public void printSites(TreeSite ... sites) {
+		for (final TreeSite site : sites) {
 			printSite(site);
 		}
 	}

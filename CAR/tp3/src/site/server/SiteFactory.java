@@ -5,6 +5,6 @@ import java.rmi.RemoteException;
 
 public interface SiteFactory extends Remote {
 	
-	Site create(int id) throws RemoteException;
+	TreeSite create(int id) throws RemoteException;
 
 }

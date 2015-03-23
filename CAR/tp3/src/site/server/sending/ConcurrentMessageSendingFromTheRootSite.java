@@ -1,19 +1,22 @@
-package site.server;
+package site.server.sending;
 
 import java.util.LinkedList;
 import java.util.List;
+
+import site.server.TreeSite;
+import site.server.VisitedSitesManager;
 
 
 public class ConcurrentMessageSendingFromTheRootSite implements MessageSendingMethod {
 	
 	@Override
-	public void sendMessage(final Site sender, VisitedSitesManager visitedSitesManager, final MessageSendingManagerImpl messageSendingManager) throws InterruptedException {
-		final Site[] sons = sender.getFils();
+	public void sendMessage(final TreeSite sender, VisitedSitesManager visitedSitesManager, final MessageSendingManagerImpl messageSendingManager) throws InterruptedException {
+		final TreeSite[] sons = sender.getFils();
 		if (sons == null) {
 			return;
 		}
 		final List<Thread> threads = new LinkedList<Thread>();
-		for (final Site aSon : sons) {
+		for (final TreeSite aSon : sons) {
 			final Thread thread = new Thread(new Runnable() {
 
 				@Override

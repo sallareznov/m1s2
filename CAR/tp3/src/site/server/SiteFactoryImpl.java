@@ -11,8 +11,8 @@ public class SiteFactoryImpl extends UnicastRemoteObject implements SiteFactory 
 	}
 
 	@Override
-	public Site create(int id) throws RemoteException {
-		return new Site(id);
+	public TreeSite create(int id) throws RemoteException {
+		return new TreeSite(id);
 	}
 
 }

@@ -1,20 +1,23 @@
-package site.server;
+package site.server.sending;
+
+import site.server.TreeSite;
+import site.server.VisitedSitesManager;
 
 public class SimpleMessageSendingFromAnySite implements MessageSendingMethod {
 
 	@Override
-	public void sendMessage(final Site expediteur,
+	public void sendMessage(final TreeSite expediteur,
 			VisitedSitesManager visitedSitesManager,
 			final MessageSendingManagerImpl messageSendingManager)
 			throws InterruptedException {
 		visitedSitesManager.markAsVisited(expediteur);
-		final Site pere = expediteur.getPere();
+		final TreeSite pere = expediteur.getPere();
 		if (pere != null) {
 			messageSendingManager.spreadMessage(expediteur, pere);
 		}
-		final Site[] fils = expediteur.getFils();
+		final TreeSite[] fils = expediteur.getFils();
 		if (fils != null) {
-			for (final Site unFils : fils) {
+			for (final TreeSite unFils : fils) {
 				messageSendingManager.spreadMessage(expediteur, unFils);
 			}
 		}

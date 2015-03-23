@@ -9,13 +9,13 @@ import java.rmi.RMISecurityManager;
 import java.rmi.RemoteException;
 import java.util.logging.Logger;
 
-import site.server.ConcurrentMessageSendingFromAnySite;
-import site.server.ConcurrentMessageSendingFromTheRootSite;
-import site.server.MessageSendingManagerImpl;
-import site.server.SimpleMessageSendingFromAnySite;
-import site.server.Site;
+import site.server.TreeSite;
 import site.server.SiteFactory;
 import site.server.SuperPrinter;
+import site.server.sending.ConcurrentMessageSendingFromAnySite;
+import site.server.sending.ConcurrentMessageSendingFromTheRootSite;
+import site.server.sending.MessageSendingManagerImpl;
+import site.server.sending.SimpleMessageSendingFromAnySite;
 import site.shared.LoggerFactory;
 
 public class Client {
@@ -38,12 +38,12 @@ public class Client {
 		final SiteFactory siteFactory = (SiteFactory) Naming.lookup(key);
 
 		// Construction of the tree-like structure
-		final Site site1 = siteFactory.create(1);
-		final Site site2 = siteFactory.create(2);
-		final Site site3 = siteFactory.create(3);
-		final Site site4 = siteFactory.create(4);
-		final Site site5 = siteFactory.create(5);
-		final Site site6 = siteFactory.create(6);
+		final TreeSite site1 = siteFactory.create(1);
+		final TreeSite site2 = siteFactory.create(2);
+		final TreeSite site3 = siteFactory.create(3);
+		final TreeSite site4 = siteFactory.create(4);
+		final TreeSite site5 = siteFactory.create(5);
+		final TreeSite site6 = siteFactory.create(6);
 		site1.setFils(site2, site5);
 		site2.setFils(site3, site4);
 		site5.setFils(site6);

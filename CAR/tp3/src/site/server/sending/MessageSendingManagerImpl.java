@@ -1,4 +1,8 @@
-package site.server;
+package site.server.sending;
+
+import site.server.TreeSite;
+import site.server.SuperPrinter;
+import site.server.VisitedSitesManager;
 
 public class MessageSendingManagerImpl {
 	
@@ -16,20 +20,20 @@ public class MessageSendingManagerImpl {
 		this.sendingMethod = dataSendingMethod;
 	}
 	
-	public void sendMessage(Site sender) throws InterruptedException {
+	public void sendMessage(TreeSite sender) throws InterruptedException {
 		visitedSites.reset();
 		visitedSites.markAsVisited(sender);
 		sendingMethod.sendMessage(sender, visitedSites, this);
 	}
 	
-	public void spreadMessage(Site sender, Site receiver) {
+	public void spreadMessage(TreeSite sender, TreeSite receiver) {
 		tracePrinter.printMessageReceived(sender, receiver);
 		receiver.setMessage(sender.getMessage());
 		visitedSites.markAsVisited(receiver);
 		if (receiver.getFils() == null) {
 			return;
 		}
-		for (final Site unFils : receiver.getFils()) {
+		for (final TreeSite unFils : receiver.getFils()) {
 			if (!visitedSites.isVisited(unFils) && !unFils.equals(sender)) {
 				tracePrinter.printMessageBeingSpreaded(receiver, unFils);
 				spreadMessage(receiver, unFils);
