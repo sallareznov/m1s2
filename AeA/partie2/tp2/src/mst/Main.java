@@ -7,7 +7,7 @@ import mst.algorithm.MSTFinder;
 import mst.algorithm.PrimAlgorithm;
 import mst.bean.Vertex;
 import mst.bean.WeightedGraph;
-import mst.manager.MSTViewerManager;
+import mst.export.GraphExporter;
 
 public class Main {
 	
@@ -34,19 +34,19 @@ public class Main {
 		graph.addEdge(e, f, 8);
 		graph.addEdge(e, g, 9);
 		graph.addEdge(f, g, 11);
-		final MSTViewerManager mstPrinter = new MSTViewerManager();
+		final GraphExporter graphExporter = new GraphExporter();
 		final MSTFinder algoKruskal = new KruskalAlgorithm();
 		final WeightedGraph mstKruskal = algoKruskal.findMST(graph);
 		final String kruskalDotFilename = "kruskal.dot";
 		//final String kruskalPsFilename = "kruskal.ps";
-		mstPrinter.generateDotFileFromMST(kruskalDotFilename, algoKruskal, graph, mstKruskal);
+		graphExporter.exportMstToDotFile(kruskalDotFilename, algoKruskal, graph, mstKruskal);
 		//mstPrinter.makeViewable(kruskalDotFilename, kruskalPsFilename);
 		//mstPrinter.viewMST(kruskalPsFilename);
 		final MSTFinder algoPrim = new PrimAlgorithm();
 		final WeightedGraph mstPrim = algoPrim.findMST(graph);
 		final String primDotFilename = "prim.dot";
 		//final String primPsFilename = "prim.ps";
-		mstPrinter.generateDotFileFromMST(primDotFilename, algoPrim, graph, mstPrim);
+		graphExporter.exportMstToDotFile(primDotFilename, algoPrim, graph, mstPrim);
 		//mstPrinter.makeViewable(primDotFilename, primPsFilename);
 		//mstPrinter.viewMST(primPsFilename);
 	}
