@@ -1,8 +1,11 @@
-package site.server;
+package site.client;
 
 import java.io.Serializable;
+import java.rmi.RemoteException;
 import java.util.logging.Logger;
 
+import site.server.bean.Node;
+import site.server.bean.tree.TreeNode;
 import site.shared.LoggerFactory;
 
 public class SuperPrinter implements Serializable {
@@ -13,15 +16,15 @@ public class SuperPrinter implements Serializable {
 	public SuperPrinter() {
 	}
 	
-	public void printMessageReceived(TreeSite sender, TreeSite receiver) {
-		LOGGER.info("<--- [" + receiver + "] : " + "Just a received a message coming from " + sender);
+	public void printMessageReceived(TreeNode sender, TreeNode receiver) throws RemoteException {
+		LOGGER.info("<--- [" + receiver.printMe() + "] : " + "Just a received a message coming from " + sender.printMe());
 	}
 	
-	public void printMessageBeingSpreaded(TreeSite sender, TreeSite receiver) {
-		LOGGER.info("---> [" + sender + "] : " + "Spreading message towards " + receiver);
+	public void printMessageBeingSpreaded(TreeNode sender, TreeNode receiver) throws RemoteException {
+		LOGGER.info("---> [" + sender.printMe() + "] : " + "Spreading message towards " + receiver.printMe());
 	}
 	
-	public void printSite(TreeSite site) {
+	public void printSite(Node site) throws RemoteException {
 		final StringBuilder builder = new StringBuilder();
 		builder.append("Site ");
 		builder.append(site.getId());
@@ -32,8 +35,8 @@ public class SuperPrinter implements Serializable {
 		LOGGER.info(builder.toString());
 	}
 	
-	public void printSites(TreeSite ... sites) {
-		for (final TreeSite site : sites) {
+	public void printSites(Node ... sites) throws RemoteException {
+		for (final Node site : sites) {
 			printSite(site);
 		}
 	}

@@ -1,108 +1,121 @@
 package site.client;
 
-import java.net.InetAddress;
-import java.net.MalformedURLException;
-import java.net.UnknownHostException;
-import java.rmi.Naming;
+import java.rmi.AccessException;
 import java.rmi.NotBoundException;
 import java.rmi.RMISecurityManager;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
 import java.util.logging.Logger;
 
-import site.server.TreeSite;
-import site.server.SiteFactory;
-import site.server.SuperPrinter;
-import site.server.sending.ConcurrentMessageSendingFromAnySite;
-import site.server.sending.ConcurrentMessageSendingFromTheRootSite;
-import site.server.sending.MessageSendingManagerImpl;
-import site.server.sending.SimpleMessageSendingFromAnySite;
+import site.server.bean.tree.TreeNode;
+import site.server.sending.tree.TreeMessageSendingManagerImpl;
+import site.server.sending.tree.concurrent.ConcurrentMessageSendingFromAnySite;
+import site.server.sending.tree.sequential.SequentialMessageSendingFromAnySite;
+import site.server.sending.tree.sequential.SequentialMessageSendingFromTheRootSite;
 import site.shared.LoggerFactory;
 
 public class Client {
 
 	private static final Logger LOGGER = LoggerFactory.create(Client.class);
 
-	private Client() {
-	}
-
-	public static void main(String[] args) throws UnknownHostException,
-			MalformedURLException, RemoteException, NotBoundException,
-			InterruptedException {
+	public static void main(String[] args) throws AccessException,
+			RemoteException, NotBoundException, InterruptedException {
 		if (System.getSecurityManager() == null) {
 			System.setSecurityManager(new RMISecurityManager());
 		}
-		final String key = "rmi://"
-				+ InetAddress.getLocalHost().getHostAddress() + "/SiteFactory";
+		final TreeNode node1 = (TreeNode) LocateRegistry.getRegistry(1099)
+				.lookup("node1");
+		final TreeNode node2 = (TreeNode) LocateRegistry.getRegistry(1099)
+				.lookup("node2");
+		final TreeNode node3 = (TreeNode) LocateRegistry.getRegistry(1099)
+				.lookup("node3");
+		final TreeNode node4 = (TreeNode) LocateRegistry.getRegistry(1099)
+				.lookup("node4");
+		final TreeNode node5 = (TreeNode) LocateRegistry.getRegistry(1099)
+				.lookup("node5");
+		final TreeNode node6 = (TreeNode) LocateRegistry.getRegistry(1099)
+				.lookup("node6");
 
-		// Obtention of the factory at the server
-		final SiteFactory siteFactory = (SiteFactory) Naming.lookup(key);
+		node1.setSons(node2, node5);
+		node2.setSons(node3, node4);
+		node5.setSons(node6);
 
-		// Construction of the tree-like structure
-		final TreeSite site1 = siteFactory.create(1);
-		final TreeSite site2 = siteFactory.create(2);
-		final TreeSite site3 = siteFactory.create(3);
-		final TreeSite site4 = siteFactory.create(4);
-		final TreeSite site5 = siteFactory.create(5);
-		final TreeSite site6 = siteFactory.create(6);
-		site1.setFils(site2, site5);
-		site2.setFils(site3, site4);
-		site5.setFils(site6);
-
-		// Instanciation of the data to send and the site printer
+		// Instanciation of the data to send and the node printer
 		final String message = "RMI rocks !";
 		final SuperPrinter superPrinter = new SuperPrinter();
-		final MessageSendingManagerImpl messageSendingManager = new MessageSendingManagerImpl();
+		final TreeMessageSendingManagerImpl messageSendingManager = new TreeMessageSendingManagerImpl();
 
 		LOGGER.info("\n**** SENDING A MESSAGE SEQUENTIALLY FROM THE ROOT SITE ****");
 		messageSendingManager
-				.setMessageSendingMethod(new SimpleMessageSendingFromAnySite());
-		site5.setMessage(message);
+				.setMessageSendingMethod(new SequentialMessageSendingFromTheRootSite());
+		node1.setMessage(message);
 		superPrinter.printBeforeSending();
-		superPrinter.printSites(site1, site2, site3, site4, site5, site6);
+		superPrinter.printSites(node1, node2, node3, node4, node5, node6);
 		superPrinter.printDuringSending();
-		messageSendingManager.sendMessage(site5);
+		messageSendingManager.sendMessage(node1);
 		superPrinter.printAfterSending();
-		superPrinter.printSites(site1, site2, site3, site4, site5, site6);
+		superPrinter.printSites(node1, node2, node3, node4, node5, node6);
 
 		// Data resetting
-		site1.reset();
-		site2.reset();
-		site3.reset();
-		site4.reset();
-		site5.reset();
-		site6.reset();
+		node1.resetMessage();
+		node2.resetMessage();
+		node3.resetMessage();
+		node4.resetMessage();
+		node5.resetMessage();
+		node6.resetMessage();
 
-		// Data sending from the root site
+		// Data sending from the root node
+		LOGGER.info("\n**** SENDING A MESSAGE SEQUENTIALLY FROM ANY SITE ****");
+		messageSendingManager
+				.setMessageSendingMethod(new SequentialMessageSendingFromAnySite());
+		node5.setMessage(message);
+		superPrinter.printBeforeSending();
+		superPrinter.printSites(node1, node2, node3, node4, node5, node6);
+		superPrinter.printDuringSending();
+		messageSendingManager.sendMessage(node5);
+		superPrinter.printAfterSending();
+		superPrinter.printSites(node1, node2, node3, node4, node5, node6);
+
+		// Data resetting
+		node1.resetMessage();
+		node2.resetMessage();
+		node3.resetMessage();
+		node4.resetMessage();
+		node5.resetMessage();
+		node6.resetMessage();
+
+		// Data sending from the root node
 		LOGGER.info("\n**** SENDING A MESSAGE SIMULTANEOUSLY FROM THE ROOT SITE ****");
 		messageSendingManager
-				.setMessageSendingMethod(new ConcurrentMessageSendingFromTheRootSite());
-		site1.setMessage(message);
+				.setMessageSendingMethod(new ConcurrentMessageSendingFromAnySite());
+		node1.setMessage(message);
 		superPrinter.printBeforeSending();
-		superPrinter.printSites(site1, site2, site3, site4, site5, site6);
+		superPrinter.printSites(node1, node2, node3, node4, node5, node6);
 		superPrinter.printDuringSending();
-		messageSendingManager.sendMessage(site1);
+		messageSendingManager.sendMessage(node1);
 		superPrinter.printAfterSending();
-		superPrinter.printSites(site1, site2, site3, site4, site5, site6);
+		superPrinter.printSites(node1, node2, node3, node4, node5, node6);
 
 		// Data resetting
-		site1.reset();
-		site2.reset();
-		site3.reset();
-		site4.reset();
-		site5.reset();
-		site6.reset();
+		node1.resetMessage();
+		node2.resetMessage();
+		node3.resetMessage();
+		node4.resetMessage();
+		node5.resetMessage();
+		node6.resetMessage();
 
-		// Data sending from any site
+		// Data sending from any node
 		LOGGER.info("\n**** SENDING A MESSAGE SIMULTANEOUSLY FROM ANY SITE ****\n");
 		messageSendingManager
 				.setMessageSendingMethod(new ConcurrentMessageSendingFromAnySite());
-		site5.setMessage(message);
+		node5.setMessage(message);
 		superPrinter.printBeforeSending();
-		superPrinter.printSites(site1, site2, site3, site4, site5, site6);
+		superPrinter.printSites(node1, node2, node3, node4, node5, node6);
 		superPrinter.printDuringSending();
-		messageSendingManager.sendMessage(site5);
+		messageSendingManager.sendMessage(node5);
 		superPrinter.printAfterSending();
-		superPrinter.printSites(site1, site2, site3, site4, site5, site6);
+		superPrinter.printSites(node1, node2, node3, node4, node5, node6);
+
 	}
 
 }

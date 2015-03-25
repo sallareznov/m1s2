@@ -1,24 +1,25 @@
-package site.server.sending;
+package site.server.sending.graph;
 
+import java.rmi.RemoteException;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import site.server.GraphSite;
 import site.server.VisitedSitesManager;
+import site.server.bean.graph.GraphNode;
 
 public class BFSMessageSending {
 
-	public void sendMessage(GraphSite sender,
+	public void sendMessage(GraphNode sender,
 			VisitedSitesManager visitedSitesManager)
-			throws InterruptedException {
-		final Queue<GraphSite> queuedSites = new LinkedList<GraphSite>();
+			throws InterruptedException, RemoteException {
+		final Queue<GraphNode> queuedSites = new LinkedList<GraphNode>();
 		queuedSites.add(sender);
 		while (!queuedSites.isEmpty()) {
-			final GraphSite topSite = queuedSites.poll();
+			final GraphNode topSite = queuedSites.poll();
 			final String messageToSend = sender.getMessage();
 			visitedSitesManager.markAsVisited(topSite);
 			topSite.setMessage(messageToSend);
-			for (final GraphSite neighbor : topSite.getNeighbors()) {
+			for (final GraphNode neighbor : topSite.getNeighbors()) {
 				if (!visitedSitesManager.isVisited(neighbor))
 					queuedSites.add(neighbor);
 			}
