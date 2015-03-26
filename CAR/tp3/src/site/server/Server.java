@@ -30,6 +30,7 @@ public class Server {
 			LocateRegistry.createRegistry(1099);
 		}
 		catch(ExportException e) {
+			LOGGER.throwing("Server", "main()", e);
 		}
 		final int clientId = Integer.parseInt(args[0]);
 		final TreeNode treeNode = new TreeNodeImpl(clientId);

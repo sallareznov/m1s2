@@ -1,4 +1,4 @@
-package site.client;
+package site.server;
 
 import java.io.Serializable;
 import java.rmi.RemoteException;
@@ -52,5 +52,5 @@ public class SuperPrinter implements Serializable {
 	public void printAfterSending() {
 		LOGGER.info("------- After sending -------");
 	}
-
+	
 }

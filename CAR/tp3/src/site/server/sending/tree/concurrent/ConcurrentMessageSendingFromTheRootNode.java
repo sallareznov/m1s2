@@ -3,19 +3,23 @@ package site.server.sending.tree.concurrent;
 import java.rmi.RemoteException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Logger;
 
-import site.server.VisitedSitesManager;
+import site.server.VisitedNodesManager;
 import site.server.bean.tree.TreeNode;
-import site.server.sending.tree.TreeMessageSendingManagerImpl;
+import site.server.sending.tree.TreeMessageSendingManager;
 import site.server.sending.tree.TreeMessageSendingMethod;
+import site.shared.LoggerFactory;
 
-public class ConcurrentMessageSendingFromTheRootSite implements
+public class ConcurrentMessageSendingFromTheRootNode implements
 		TreeMessageSendingMethod {
+	
+	private static final Logger LOGGER = LoggerFactory.create(ConcurrentMessageSendingFromTheRootNode.class);
 
 	@Override
 	public void sendMessage(final TreeNode sender,
-			VisitedSitesManager visitedSitesManager,
-			final TreeMessageSendingManagerImpl messageSendingManager)
+			VisitedNodesManager visitedSitesManager,
+			final TreeMessageSendingManager messageSendingManager)
 			throws RemoteException, InterruptedException {
 		final TreeNode[] sons = sender.getSons();
 		if (sons == null) {
@@ -30,7 +34,7 @@ public class ConcurrentMessageSendingFromTheRootSite implements
 					try {
 						messageSendingManager.spreadMessage(sender, aSon);
 					} catch (RemoteException e) {
-						e.printStackTrace();
+						LOGGER.throwing("ConcurrentMessageSendingFromTheRootSite", "sendMessage()", e);
 					}
 				}
 

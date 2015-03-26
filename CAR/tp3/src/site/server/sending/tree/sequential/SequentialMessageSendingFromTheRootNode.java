@@ -2,18 +2,18 @@ package site.server.sending.tree.sequential;
 
 import java.rmi.RemoteException;
 
-import site.server.VisitedSitesManager;
+import site.server.VisitedNodesManager;
 import site.server.bean.tree.TreeNode;
-import site.server.sending.tree.TreeMessageSendingManagerImpl;
+import site.server.sending.tree.TreeMessageSendingManager;
 import site.server.sending.tree.TreeMessageSendingMethod;
 
-public class SequentialMessageSendingFromTheRootSite implements
+public class SequentialMessageSendingFromTheRootNode implements
 		TreeMessageSendingMethod {
 
 	@Override
 	public void sendMessage(final TreeNode sender,
-			VisitedSitesManager visitedSitesManager,
-			final TreeMessageSendingManagerImpl messageSendingManager)
+			VisitedNodesManager visitedSitesManager,
+			final TreeMessageSendingManager messageSendingManager)
 			throws RemoteException, InterruptedException {
 		final TreeNode[] sons = sender.getSons();
 		if (sons == null) {

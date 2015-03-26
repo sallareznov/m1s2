@@ -7,8 +7,8 @@ import site.server.bean.AbstractNode;
 public class TreeNodeImpl extends AbstractNode implements TreeNode {
 
 	private static final long serialVersionUID = 2785546018274519218L;
-	private TreeNode father;
-	private TreeNode[] sons;
+	private transient TreeNode father;
+	private transient TreeNode[] sons;
 	
 	public TreeNodeImpl(int id) throws RemoteException {
 		super(id);

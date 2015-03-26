@@ -1,18 +1,22 @@
 package site.server.sending.tree.concurrent;
 
 import java.rmi.RemoteException;
+import java.util.logging.Logger;
 
-import site.server.VisitedSitesManager;
+import site.server.VisitedNodesManager;
 import site.server.bean.tree.TreeNode;
-import site.server.sending.tree.TreeMessageSendingManagerImpl;
+import site.server.sending.tree.TreeMessageSendingManager;
 import site.server.sending.tree.TreeMessageSendingMethod;
+import site.shared.LoggerFactory;
 
-public class ConcurrentMessageSendingFromAnySite implements TreeMessageSendingMethod {
+public class ConcurrentMessageSendingFromAnyNode implements TreeMessageSendingMethod {
+	
+	private static final Logger LOGGER = LoggerFactory.create(ConcurrentMessageSendingFromAnyNode.class);
 
 	@Override
 	public void sendMessage(final TreeNode expediteur,
-			VisitedSitesManager visitedSitesManager,
-			final TreeMessageSendingManagerImpl messageSendingManager)
+			VisitedNodesManager visitedSitesManager,
+			final TreeMessageSendingManager messageSendingManager)
 			throws RemoteException, InterruptedException {
 		visitedSitesManager.markAsVisited(expediteur);
 		final TreeNode pere = expediteur.getFather();
@@ -24,7 +28,7 @@ public class ConcurrentMessageSendingFromAnySite implements TreeMessageSendingMe
 					try {
 						messageSendingManager.spreadMessage(expediteur, pere);
 					} catch (RemoteException e) {
-						e.printStackTrace();
+						LOGGER.throwing("ConcurrentMessageSendingFromAnySite", "sendMessage()", e);
 					}
 				}
 
@@ -42,7 +46,7 @@ public class ConcurrentMessageSendingFromAnySite implements TreeMessageSendingMe
 						try {
 							messageSendingManager.spreadMessage(expediteur, unFils);
 						} catch (RemoteException e) {
-							e.printStackTrace();
+							LOGGER.throwing("ConcurrentMessageSendingFromAnySite", "sendMessage()", e);
 						}
 					}
 

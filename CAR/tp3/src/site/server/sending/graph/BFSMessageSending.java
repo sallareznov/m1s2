@@ -4,13 +4,13 @@ import java.rmi.RemoteException;
 import java.util.LinkedList;
 import java.util.Queue;
 
-import site.server.VisitedSitesManager;
+import site.server.VisitedNodesManager;
 import site.server.bean.graph.GraphNode;
 
 public class BFSMessageSending {
 
 	public void sendMessage(GraphNode sender,
-			VisitedSitesManager visitedSitesManager)
+			VisitedNodesManager visitedSitesManager)
 			throws InterruptedException, RemoteException {
 		final Queue<GraphNode> queuedSites = new LinkedList<GraphNode>();
 		queuedSites.add(sender);

@@ -7,7 +7,7 @@ import site.server.bean.AbstractNode;
 public class GraphNodeImpl extends AbstractNode implements GraphNode {
 	
 	private static final long serialVersionUID = -7690340498334817408L;
-	private GraphNode[] neighbors;
+	private transient GraphNode[] neighbors;
 	
 	public GraphNodeImpl(int id) throws RemoteException {
 		super(id);

@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project name="ftp" default="main" basedir=".">
+<project name="rmi" default="main" basedir=".">
 
 	<property name="src.dir" value="src" />
 	<property name="bin.dir" value="bin" />
-	<property name="lib.dir" value="lib" />
 	<property name="doc.dir" value="doc" />
 	<property name="test.dir" value="test" />
-	<property name="main-class" value="site.client.Client" />
+	<property name="server.main.class" value="site.server.Server"/>
+	<property name="client.main.class" value="site.client.Client"/>
 
-	<target name="main" depends="compile, package, javadoc">
+	<target name="main" depends="compile, jarserver, jarclient, javadoc">
 		<description>Main target</description>
 	</target>
 
@@ -18,15 +18,15 @@
 		<javac includeantruntime="false" srcdir="${src.dir}" destdir="${bin.dir}" />
 	</target>
 
-	<target name="server" depends="compile">
-		<java classname="${main-class}">
+	<target name="runserver" depends="compile">
+		<java classname="${server.main.class}">
 			<classpath path="bin" />
 			<arg value="-Djava.security.policy=java.policy"/>
 		</java>
 	</target>
 
-	<target name="client" depends="compile">
-		<java classname="${main-class}">
+	<target name="runclient" depends="compile">
+		<java classname="${client.main.class}">
 			<classpath path="bin" />
 			<arg value="-Djava.security.policy=java.policy"/>
 		</java>
@@ -41,14 +41,24 @@
 		</delete>
 	</target>
 
-	<target name="package" depends="compile">
-		<touch file="manifest" />
-		<jar destfile="ftpServer.jar" manifest="manifest" basedir="${bin.dir}">
+	<target name="jarserver" depends="compile">
+		<touch file="manifestserver" />
+		<jar destfile="server.jar" manifest="manifestserver" basedir="${bin.dir}">
 			<manifest>
-				<attribute name="Main-Class" value="${main-class}" />
+				<attribute name="Main-Class" value="${server.main.class}" />
 			</manifest>
 		</jar>
 	</target>
+
+	<target name="jarclient" depends="compile">
+                <touch file="manifestclient" />
+                <jar destfile="client.jar" manifest="manifestclient" basedir="${bin.dir}">
+                        <manifest>
+                                <attribute name="Main-Class" value="${client.main.class}" />
+                        </manifest>
+                </jar>
+        </target>
+
 
 	<target name="javadoc" depends="compile">
 		<mkdir dir="${doc.dir}" />
@@ -59,8 +69,8 @@
 		</javadoc>
 	</target>
 
-	<target name="zip" depends="package, javadoc">
-		<zip destfile="tp1_tello-diagne.zip">
+	<target name="zip" depends="jarserver, jarclient, javadoc">
+		<zip destfile="tp3_tello-diagne.zip">
 			<fileset dir=".">
 				<include name="**" />
 				<exclude name="bin/*" />

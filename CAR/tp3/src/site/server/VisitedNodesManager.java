@@ -6,11 +6,11 @@ import java.util.List;
 import site.server.bean.Node;
 
 
-public class VisitedSitesManager {
+public class VisitedNodesManager {
 	
 	private List<Node> visitedSites;
 	
-	public VisitedSitesManager() {
+	public VisitedNodesManager() {
 		visitedSites = new LinkedList<Node>();
 	}
 	
