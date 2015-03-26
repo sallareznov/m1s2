@@ -1,5 +1,6 @@
 package site.server;
 
+import java.net.InetAddress;
 import java.net.MalformedURLException;
 import java.net.UnknownHostException;
 import java.rmi.AlreadyBoundException;
@@ -34,6 +35,7 @@ public class Server {
 		if (System.getSecurityManager() == null) {
 			System.setSecurityManager(new RMISecurityManager());
 		}
+		System.setProperty("java.rmi.server.hostname", InetAddress.getLocalHost().getHostName());
 		try {
 			LocateRegistry.createRegistry(1099);
 		}
@@ -56,6 +58,6 @@ public class Server {
 			return;
 		}
 		LOGGER.info("Hello ! My name is #Node " + clientId + ". I'm a remote server");
+		LOGGER.info("I don't have any message right now");
 	}
-
 }

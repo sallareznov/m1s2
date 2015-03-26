@@ -19,9 +19,12 @@ public class BFSMessageSending {
 			final String messageToSend = sender.getMessage();
 			visitedSitesManager.markAsVisited(topSite);
 			topSite.setMessage(messageToSend);
+			System.out.println(topSite.printMe());
 			for (final GraphNode neighbor : topSite.getNeighbors()) {
-				if (!visitedSitesManager.isVisited(neighbor))
+				if (!visitedSitesManager.isVisited(neighbor)) {
 					queuedSites.add(neighbor);
+					visitedSitesManager.markAsVisited(neighbor);
+				}
 			}
 		}
 	}

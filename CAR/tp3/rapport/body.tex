@@ -1,0 +1,41 @@
+\section*{Introduction}
+Ce TP est une implémentation en JAVA d'une passerelle REST communiquant avec un serveur FTP.
+
+\section*{Listing des dossiers et fichiers du projet}
+\begin{description}
+	\item[doc/ :] javadoc du projet
+	\item[lib/ :] contient les librairies (\verb+.jar+) dont le projet est dépendant
+	\item[src/ :] contient les fichiers sources (\verb+.java+) du projet
+	\item[test/ :] contient les fichiers de tests
+	\item[uml/ :] contient les diagrammes de classes du projet
+	\item[restBridge.jar :] archive exécutable du projet
+\end{description}
+
+\section*{Utilisation}
+	Pour lancer l'exécutable, deux solutions sont possibles :
+		\begin{itemize}
+			\item \verb+ant run+
+			\item \verb+ant package+ puis \verb+java -jar restBridge.jar+ 
+		\end{itemize}
+
+\section*{Architecture}
+\begin{tabbing}
+	\hspace{1cm}\=\hspace{1cm}\=\kill
+	\textit{- package rest}\\
+		\>\textit{- package config}\\
+			\>\>\verb+AppConfig+ : classe contenant la configuration de l'application\\
+		\>\textit{- package logger}\\
+			\>\>\verb+FTPLoggerFactory+ : factory de loggers\\
+			\>\>\verb+FTPLoggerSimpleFormatter+ : formatter qui nous abstient du sucre syntaxique des \\\>\>loggers habituels \\
+		\>\textit{- package model}\\
+			\>\>\verb+FileServlet+ : servlet de fichiers (typiquement pour les icônes)\\
+			\>\>\verb+FTPClientFactory+ : factory chargée de créer des instances de FTPClient\\
+			\>\>\verb+FTPRestServiceConfiguration+ : configuration du service\\
+			\>\>\verb+ItemBuilder+ : builder d'items d'un répertoire donné (en HTML)\\
+		\>\textit{- package rs}\\
+			\>\>\verb+FTPRestService+ : service REST-FTP\\
+			\>\>\verb+JaxRsApiApplication+\\
+		\>\textit{- package services}\\
+			\>\>\verb+FTPRestService+ : service REST\\	
+	\>\verb+Starter+ : classe principale
+\end{tabbing}

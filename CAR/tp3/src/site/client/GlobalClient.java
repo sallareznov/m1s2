@@ -1,5 +1,6 @@
 package site.client;
 
+import java.net.UnknownHostException;
 import java.rmi.NotBoundException;
 import java.rmi.RMISecurityManager;
 import java.rmi.RemoteException;
@@ -13,18 +14,16 @@ public class GlobalClient {
 	}
 
 	public static void main(String[] args) throws RemoteException,
-			NotBoundException, InterruptedException {
+			NotBoundException, InterruptedException, UnknownHostException {
 		if (System.getSecurityManager() == null) {
 			System.setSecurityManager(new RMISecurityManager());
 		}
-		
 		if (TREE_NODE.equals(args[0])) {
-			new TreeClient().execute();
+			new TreeClient().execute(args[1]);
 		}
 		else if (GRAPH_NODE.equals(args[0])) {
-			new GraphClient().execute();
+			new GraphClient().execute(args[1]);
 		}
-
 	}
 
 }

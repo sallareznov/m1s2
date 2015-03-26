@@ -5,7 +5,6 @@ import java.rmi.RemoteException;
 import java.util.logging.Logger;
 
 import site.server.bean.Node;
-import site.server.bean.tree.TreeNode;
 import site.shared.LoggerFactory;
 
 public class SuperPrinter implements Serializable {
@@ -16,11 +15,11 @@ public class SuperPrinter implements Serializable {
 	public SuperPrinter() {
 	}
 	
-	public void printMessageReceived(TreeNode sender, TreeNode receiver) throws RemoteException {
+	public void printMessageReceived(Node sender, Node receiver) throws RemoteException {
 		LOGGER.info("<--- [" + receiver.printMe() + "] : " + "Just a received a message coming from " + sender.printMe());
 	}
 	
-	public void printMessageBeingSpreaded(TreeNode sender, TreeNode receiver) throws RemoteException {
+	public void printMessageBeingSpreaded(Node sender, Node receiver) throws RemoteException {
 		LOGGER.info("---> [" + sender.printMe() + "] : " + "Spreading message towards " + receiver.printMe());
 	}
 	

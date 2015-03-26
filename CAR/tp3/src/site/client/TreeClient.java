@@ -1,5 +1,6 @@
 package site.client;
 
+import java.net.UnknownHostException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -18,19 +19,19 @@ public class TreeClient {
 
 	private static final Logger LOGGER = LoggerFactory.create(GlobalClient.class);
 
-	public void execute() throws RemoteException, InterruptedException,
-			NotBoundException {
-		final TreeNode node1 = (TreeNode) LocateRegistry.getRegistry(1099)
+	public void execute(String serverAddress) throws RemoteException, InterruptedException,
+			NotBoundException, UnknownHostException {
+		final TreeNode node1 = (TreeNode) LocateRegistry.getRegistry(serverAddress, 1099)
 				.lookup("node1");
-		final TreeNode node2 = (TreeNode) LocateRegistry.getRegistry(1099)
+		final TreeNode node2 = (TreeNode) LocateRegistry.getRegistry(serverAddress, 1099)
 				.lookup("node2");
-		final TreeNode node3 = (TreeNode) LocateRegistry.getRegistry(1099)
+		final TreeNode node3 = (TreeNode) LocateRegistry.getRegistry(serverAddress, 1099)
 				.lookup("node3");
-		final TreeNode node4 = (TreeNode) LocateRegistry.getRegistry(1099)
+		final TreeNode node4 = (TreeNode) LocateRegistry.getRegistry(serverAddress, 1099)
 				.lookup("node4");
-		final TreeNode node5 = (TreeNode) LocateRegistry.getRegistry(1099)
+		final TreeNode node5 = (TreeNode) LocateRegistry.getRegistry(serverAddress, 1099)
 				.lookup("node5");
-		final TreeNode node6 = (TreeNode) LocateRegistry.getRegistry(1099)
+		final TreeNode node6 = (TreeNode) LocateRegistry.getRegistry(serverAddress, 1099)
 				.lookup("node6");
 
 		node1.setSons(node2, node5);
