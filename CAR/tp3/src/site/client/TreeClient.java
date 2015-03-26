@@ -1,7 +1,6 @@
 package site.client;
 
 import java.rmi.NotBoundException;
-import java.rmi.RMISecurityManager;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.util.logging.Logger;
@@ -15,18 +14,12 @@ import site.server.sending.tree.sequential.SequentialMessageSendingFromAnyNode;
 import site.server.sending.tree.sequential.SequentialMessageSendingFromTheRootNode;
 import site.shared.LoggerFactory;
 
-public class Client {
+public class TreeClient {
 
-	private static final Logger LOGGER = LoggerFactory.create(Client.class);
+	private static final Logger LOGGER = LoggerFactory.create(GlobalClient.class);
 
-	private Client() {
-	}
-
-	public static void main(String[] args) throws RemoteException,
-			NotBoundException, InterruptedException {
-		if (System.getSecurityManager() == null) {
-			System.setSecurityManager(new RMISecurityManager());
-		}
+	public void execute() throws RemoteException, InterruptedException,
+			NotBoundException {
 		final TreeNode node1 = (TreeNode) LocateRegistry.getRegistry(1099)
 				.lookup("node1");
 		final TreeNode node2 = (TreeNode) LocateRegistry.getRegistry(1099)
@@ -43,10 +36,11 @@ public class Client {
 		node1.setSons(node2, node5);
 		node2.setSons(node3, node4);
 		node5.setSons(node6);
-		
+
 		final TreeNode[] nodes = { node1, node2, node3, node4, node5, node6 };
 
-		// Instanciation of the data to send, the node printer and the message sending manager
+		// Instanciation of the data to send, the node printer and the message
+		// sending manager
 		final String message = "RMI rocks !";
 		final SuperPrinter superPrinter = new SuperPrinter();
 		final TreeMessageSendingManager messageSendingManager = new TreeMessageSendingManager();
@@ -55,31 +49,33 @@ public class Client {
 		LOGGER.info("\n**** SENDING A MESSAGE SEQUENTIALLY FROM THE ROOT NODE ****");
 		messageSendingManager
 				.setMessageSendingMethod(new SequentialMessageSendingFromTheRootNode());
-		messageSendingManager.fullMessageSendingProcess(message, node1, superPrinter, nodes);
+		messageSendingManager.fullMessageSendingProcess(message, node1,
+				superPrinter, nodes);
 		messageSendingManager.resetDatas(nodes);
 
 		// Sequential data sending from any node
 		LOGGER.info("\n**** SENDING A MESSAGE SEQUENTIALLY FROM ANY NODE ****");
 		messageSendingManager
 				.setMessageSendingMethod(new SequentialMessageSendingFromAnyNode());
-		messageSendingManager.fullMessageSendingProcess(message, node5, superPrinter, nodes);
+		messageSendingManager.fullMessageSendingProcess(message, node5,
+				superPrinter, nodes);
 		messageSendingManager.resetDatas(nodes);
 
 		// Concurrent data sending from the root node
 		LOGGER.info("\n**** SENDING A MESSAGE SIMULTANEOUSLY FROM THE ROOT NODE ****");
 		messageSendingManager
 				.setMessageSendingMethod(new ConcurrentMessageSendingFromTheRootNode());
-		messageSendingManager.fullMessageSendingProcess(message, node1, superPrinter, nodes);
+		messageSendingManager.fullMessageSendingProcess(message, node1,
+				superPrinter, nodes);
 		messageSendingManager.resetDatas(nodes);
 
 		// Data sending from any node
 		LOGGER.info("\n**** SENDING A MESSAGE SIMULTANEOUSLY FROM ANY NODE ****\n");
 		messageSendingManager
 				.setMessageSendingMethod(new ConcurrentMessageSendingFromAnyNode());
-		messageSendingManager.fullMessageSendingProcess(message, node5, superPrinter, nodes);
+		messageSendingManager.fullMessageSendingProcess(message, node5,
+				superPrinter, nodes);
 		messageSendingManager.resetDatas(nodes);
-
-
 	}
 
 }

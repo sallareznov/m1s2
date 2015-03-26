@@ -1,1 +1,1 @@
-x-terminal-emulator -e java -Djava.security.policy=java.policy -jar client.jar
+x-terminal-emulator -e java -Djava.security.policy=java.policy -jar client.jar -$1 &

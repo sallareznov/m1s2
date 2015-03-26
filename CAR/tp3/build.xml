@@ -7,7 +7,7 @@
 	<property name="doc.dir" value="doc" />
 	<property name="test.dir" value="test" />
 	<property name="server.main.class" value="site.server.Server"/>
-	<property name="client.main.class" value="site.client.Client"/>
+	<property name="client.main.class" value="site.client.GlobalClient"/>
 
 	<target name="main" depends="compile, jarserver, jarclient, javadoc">
 		<description>Main target</description>
