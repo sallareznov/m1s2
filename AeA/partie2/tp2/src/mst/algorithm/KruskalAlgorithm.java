@@ -26,6 +26,7 @@ public class KruskalAlgorithm implements MSTFinder {
 			if (cycleManager.hasACycle(mst, edge.getVertex1()))
 				mst.removeEdge(edge);
 		}
+		System.out.println("Kruskal : " + mst.getTotalWeight());
 		return mst;
 	}
 	

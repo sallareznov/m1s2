@@ -37,16 +37,16 @@ public class ErdosRenyiGraphGenerator {
 		}
 		final Set<Vertex> setVertexes = new HashSet<Vertex>(Arrays.asList(vertexes)); 
 		final WeightedGraph graph = new WeightedGraph(setVertexes, edges);
-		final NeighborsManager neighborsManager = new NeighborsManager();
-		neighborsManager.initNeighbors(graph);
-		for (int i = 0 ; i < vertexes.length ; i++) {
-			if (neighborsManager.getNeighbors(vertexes[i]).size() == 0) {
-				final Vertex currentVertex = vertexes[i];
-				final Vertex nextVertex = vertexes[(i + 1) % vertexes.length];
-				graph.addEdge(currentVertex, nextVertex, random.nextInt(threshold));
-				neighborsManager.addNeighbors(vertexes[i], vertexes[(i + 1) % vertexes.length]);
-			}
-		}
+//		final NeighborsManager neighborsManager = new NeighborsManager();
+//		neighborsManager.initNeighbors(graph);
+//		for (int i = 0 ; i < vertexes.length ; i++) {
+//			if (neighborsManager.getNeighbors(vertexes[i]).size() == 0) {
+//				final Vertex currentVertex = vertexes[i];
+//				final Vertex nextVertex = vertexes[(i + 1) % vertexes.length];
+//				graph.addEdge(currentVertex, nextVertex, random.nextInt(threshold));
+//				neighborsManager.addNeighbors(vertexes[i], vertexes[(i + 1) % vertexes.length]);
+//			}
+//		}
 		return graph;
 	}
 

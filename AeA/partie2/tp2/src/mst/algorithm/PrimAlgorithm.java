@@ -28,14 +28,20 @@ public class PrimAlgorithm implements MSTFinder {
 		final int randomVertexIndex = randomizer.nextInt(graphSize);
 		final Vertex firstVertex = graph.getVertex(randomVertexIndex);
 		mst.addVertex(firstVertex);
+		Vertex lastAddedVertex = firstVertex;
 		while (mst.getSize() < graphSize) {
-			final Edge weakerOutgoingEdge = neighborsManager.getWeakerOutgoingEdge(mst, graph);
+			final Edge weakerOutgoingEdge = neighborsManager.getWeakerOutgoingEdge(mst, graph, lastAddedVertex);
 			if (weakerOutgoingEdge == null) {
 				return mst;
 			}
+			if (!lastAddedVertex.equals(weakerOutgoingEdge.getVertex1()))
+				lastAddedVertex = weakerOutgoingEdge.getVertex1();
+			else
+				lastAddedVertex = weakerOutgoingEdge.getVertex2();
 			mst.addEdge(weakerOutgoingEdge);
-			neighborsManager.removeNeighbors(mst);
+			neighborsManager.removeNeighbors(mst, lastAddedVertex);
 		}
+		System.out.println("Prim : " + mst.getTotalWeight());
 		return mst;
 	}
 	

@@ -59,28 +59,21 @@ public class NeighborsManager {
 	}
 
 	public Edge getWeakerOutgoingEdge(WeightedGraph subGraph,
-			WeightedGraph graph) {
-		for (Vertex vertex : subGraph.getVertexes()) {
-			for (Vertex neighbor : getNeighbors(vertex)) {
-				final Edge edge = graph.getEdge(vertex, neighbor);
-				if (!visitedEdges.contains(edge) && !graphEdges.contains(edge))
-					graphEdges.add(edge);
+			WeightedGraph graph, Vertex lastAddedVertex) {
+		for (final Vertex neighbor : getNeighbors(lastAddedVertex)) {
+			final Edge edge = graph.getEdge(lastAddedVertex, neighbor);
+			if (!subGraph.containsEdge(edge) && !graphEdges.contains(edge) && !subGraph.containsVertexes(edge)) {
+				graphEdges.add(edge);
 			}
 		}
-		return graphEdges.poll();
+		final Edge weakerEdge = graphEdges.poll();
+		return weakerEdge;
 	}
 
-	public void removeNeighbors(WeightedGraph mst) {
-		for (Edge edge : mst.getEdges()) {
-			graphEdges.remove(edge);
-			visitedEdges.add(edge);
-		}
-		for (Vertex vertex : mst.getVertexes()) {
-			for (Vertex neighbor : mst.getVertexes()) {
-				if (graphEdges.contains(new Edge(vertex, neighbor, 0))) {
-					graphEdges.remove(new Edge(vertex, neighbor, 0));
-					visitedEdges.add(new Edge(vertex, neighbor, 0));
-				}
+	public void removeNeighbors(WeightedGraph mst, Vertex lastAddedVertex) {
+		for (final Vertex neighbor : mst.getVertexes()) {
+			if (graphEdges.contains(new Edge(lastAddedVertex, neighbor, 0))) {
+				graphEdges.remove(new Edge(lastAddedVertex, neighbor, 0));
 			}
 		}
 	}

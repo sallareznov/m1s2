@@ -49,7 +49,7 @@ public class GraphExporter {
 			String edgeProperties = "[label=\"" + edge.getWeight() + "\"";
 			final Vertex vertex1 = edge.getVertex1();
 			final Vertex vertex2 = edge.getVertex2();
-			reader.write(vertex1 + "  " + vertex2);
+			reader.write(vertex1 + "--" + vertex2);
 			if (mst.containsEdge(edge)) {
 				edgeProperties += ",color=green]";
 			} else {

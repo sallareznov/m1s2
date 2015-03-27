@@ -21,7 +21,7 @@ public class MSTAlgorithmPerformanceEvaluator {
 	public void write(String text) throws IOException {
 		writer.write(text);
 	}
-	
+
 	public void close() throws IOException {
 		writer.close();
 	}
@@ -31,28 +31,26 @@ public class MSTAlgorithmPerformanceEvaluator {
 			throws CloneNotSupportedException, IOException {
 		initFilenameWriting(filename);
 		for (int n = 4; n <= maxN; n++) {
-			float p = 0.2f;
-			while (p < 1) {
-				final WeightedGraph graph = graphGenerator
-						.generateErdosRenyiGraph(n, p);
-				write(n + " ");
-				for (MSTFinder algorithm : mstAlgorithms) {
-					final double beginning = System.currentTimeMillis();
-					algorithm.findMST(graph);
-					final double totalTime = System.currentTimeMillis() - beginning;
-					write(totalTime + " ");
-				}
-				write("\n");
-				p += 0.2f;
+			final WeightedGraph graph = graphGenerator.generateErdosRenyiGraph(
+					n, 0.8f);
+			write(n + " ");
+			for (MSTFinder algorithm : mstAlgorithms) {
+				final double beginning = System.currentTimeMillis();
+				algorithm.findMST(graph);
+				final double totalTime = System.currentTimeMillis() - beginning;
+				write(totalTime + " ");
 			}
+			write("\n");
 		}
 		writer.close();
 	}
-	
-	public static void main(String[] args) throws CloneNotSupportedException, IOException {
+
+	public static void main(String[] args) throws CloneNotSupportedException,
+			IOException {
 		final MSTAlgorithmPerformanceEvaluator evaluator = new MSTAlgorithmPerformanceEvaluator();
 		final ErdosRenyiGraphGenerator graphGenerator = new ErdosRenyiGraphGenerator();
-		evaluator.evaluate(15, graphGenerator, "test.txt", new PrimAlgorithm(), new KruskalAlgorithm());
+		evaluator.evaluate(100, graphGenerator, "test.txt", new PrimAlgorithm(),
+				new KruskalAlgorithm());
 	}
 
 }
