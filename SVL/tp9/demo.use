@@ -1,0 +1,24 @@
+model compte_sans_navigation
+
+class Compte
+attributes
+  montant : Real
+operations
+  debiter(somme : Real)
+  crediter(somme : Real)
+  get_solde() : Real = self.montant
+  remuneration() : Real =
+     if self.montant < 100
+     then 0.0
+     else self.montant * 0.01
+     endif
+end
+
+constraints
+
+context Compte inv montantPositif:
+  self.montant >= 0.0
+
+context Compte::debiter(somme : Real)
+pre sommePositive : somme >= 0.0
+post debitCorrect : self.montant = self.montant@pre - somme

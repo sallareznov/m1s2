@@ -1,0 +1,20 @@
+model Navigation
+
+class A
+end
+
+class B
+end
+
+class C
+end
+
+association AAndB between
+   A[1] role a
+   B[*] role b ordered
+end
+
+association BAndC between
+   B[*] role b
+   C[*] role c ordered
+end

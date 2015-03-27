@@ -1,0 +1,97 @@
+model banque
+
+enum Genre { masculin, feminin }
+
+class Banque
+end
+
+class Agence
+attributes 
+  id : String
+operations
+  ageClients() : Set(Integer)
+  creerCompte(p : Personne) : Compte
+end
+
+class Personne
+attributes
+  age : Integer
+  genre : Genre
+  revenu : Integer
+operations
+  majeur() : Boolean = self.age >= 18
+end
+
+associationclass Contrat between
+  Agence[*] role agence
+  Personne[*] role client
+attributes
+  id : String
+end
+
+class Compte
+attributes
+  solde : Integer
+  plancher : Integer
+  noCompte : String
+operations
+  debiter(montant : Integer)
+  crediter(montant : Integer)
+end
+
+class Livret
+attributes
+  solde : Integer
+end
+
+association Conseil between
+  Personne[*] role conseille
+  Personne[1] role conseiller
+end
+
+association CompteAgence between
+  Agence[0..1] role domiciliation
+  Compte[*] role compte
+end
+
+association GestionCompte between
+  Compte[*] role compteGere
+  Personne[1..*] role gestionnaire
+end
+
+association ProprieteCompte between
+  Compte[*] role compte
+  Personne[1] role proprietaire
+end
+
+association CompteLivret between
+  Compte[1] role compteRattachement
+  Livret[0..1] role livret
+end
+
+association BanqueAgences between
+  Banque[1] role banque	    
+  Agence[*] role agence
+end
+
+constraints
+
+context Livret inv soldePositif:
+  self.solde >= 0
+
+context Compte inv montantPositif:
+  self.solde >= 0
+
+context Compte::debiter(montant : Integer)
+pre montantPositive : montant >= 0
+post debitCorrect : self.solde = self.solde@pre - montant
+
+context Compte::crediter(montant : Integer)
+pre montantPositive : montant >= 0
+post creditCorrect : self.solde = self.solde@pre + montant
+
+context Personne inv revenuPositif:
+  self.revenu >= 0
+
+context Personne::majeur() : Boolean
+post estMajeur : self.age >= 18 implies self.majeur()
