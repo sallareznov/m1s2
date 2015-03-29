@@ -1,6 +1,5 @@
 package site.client;
 
-import java.net.UnknownHostException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -15,12 +14,13 @@ import site.server.sending.tree.sequential.SequentialMessageSendingFromAnyNode;
 import site.server.sending.tree.sequential.SequentialMessageSendingFromTheRootNode;
 import site.shared.LoggerFactory;
 
-public class TreeClient {
+public class TreeClientHandler implements ClientHandler {
 
-	private static final Logger LOGGER = LoggerFactory.create(GlobalClient.class);
+	private static final Logger LOGGER = LoggerFactory.create(Client.class);
 
-	public void execute(String serverAddress) throws RemoteException, InterruptedException,
-			NotBoundException, UnknownHostException {
+	@Override
+	public void execute(String serverAddress, String message) throws RemoteException, InterruptedException,
+			NotBoundException {
 		final TreeNode node1 = (TreeNode) LocateRegistry.getRegistry(serverAddress, 1099)
 				.lookup("node1");
 		final TreeNode node2 = (TreeNode) LocateRegistry.getRegistry(serverAddress, 1099)
@@ -42,7 +42,6 @@ public class TreeClient {
 
 		// Instanciation of the data to send, the node printer and the message
 		// sending manager
-		final String message = "RMI rocks !";
 		final SuperPrinter superPrinter = new SuperPrinter();
 		final TreeMessageSendingManager messageSendingManager = new TreeMessageSendingManager();
 
