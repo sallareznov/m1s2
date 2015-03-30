@@ -17,12 +17,12 @@ public class SequentialMessageSendingFromAnyNode implements TreeMessageSendingMe
 		visitedSitesManager.markAsVisited(expediteur);
 		final TreeNode pere = expediteur.getFather();
 		if (pere != null) {
-			messageSendingManager.spreadMessage(expediteur, pere);
+			messageSendingManager.spreadMessageToFatherAndSons(expediteur, pere);
 		}
 		final TreeNode[] fils = expediteur.getSons();
 		if (fils != null) {
 			for (final TreeNode unFils : fils) {
-				messageSendingManager.spreadMessage(expediteur, unFils);
+				messageSendingManager.spreadMessageToSons(expediteur, unFils);
 			}
 		}
 	}

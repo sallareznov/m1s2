@@ -1,19 +1,25 @@
 package site.client.executor;
 
-import site.client.reader.SiteReader;
+import java.util.Map;
 
 public class ClientExecutorParameters {
 	
-	private SiteReader reader;
+	private Map<Integer, Integer[]> nodesToSons;
+	private String nodeType;
 	private String[] args;
 	
-	public ClientExecutorParameters(SiteReader reader, String[] args) {
-		this.reader = reader;
+	public ClientExecutorParameters(String nodeType, Map<Integer, Integer[]> nodesToSons, String[] args) {
+		this.nodeType = nodeType;
+		this.nodesToSons = nodesToSons;
 		this.args = args;
 	}
 	
-	public SiteReader getReader() {
-		return reader;
+	public Map<Integer, Integer[]> getNodesToSons() {
+		return nodesToSons;
+	}
+	
+	public String getNodeType() {
+		return nodeType;
 	}
 	
 	public String[] getArgs() {

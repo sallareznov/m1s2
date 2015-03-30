@@ -32,7 +32,7 @@ public class ConcurrentMessageSendingFromTheRootNode implements
 				@Override
 				public void run() {
 					try {
-						messageSendingManager.spreadMessage(sender, aSon);
+						messageSendingManager.spreadMessageToSons(sender, aSon);
 					} catch (RemoteException e) {
 						LOGGER.throwing(getClass().getName(), "sendMessage()", e);
 					}

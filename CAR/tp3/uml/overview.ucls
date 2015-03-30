@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.1.8" icons="true" automaticImage="PNG" always-add-relationships="true" generalizations="true" 
+  realizations="true" associations="true" dependencies="true" nesting-relationships="true">  
+  <package id="1" language="java" name="site.client" project="rmi" file="/rmi/src/site/client" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="48" width="100" x="418" y="37"/>    
+    <display autosize="true" stereotype="true" sort-features="false" accessors="true"/>  
+  </package>  
+  <package id="2" language="java" name="site.server.bean.tree" project="rmi" file="/rmi/src/site/server/bean/tree" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="48" width="142" x="62" y="565"/>    
+    <display autosize="true" stereotype="true" sort-features="false" accessors="true"/>  
+  </package>  
+  <package id="3" language="java" name="site.client.executor" project="rmi" file="/rmi/src/site/client/executor" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="48" width="133" x="418" y="125"/>    
+    <display autosize="true" stereotype="true" sort-features="false" accessors="true"/>  
+  </package>  
+  <package id="4" language="java" name="site.server.bean.graph" project="rmi" file="/rmi/src/site/server/bean/graph" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="48" width="152" x="265" y="565"/>    
+    <display autosize="true" stereotype="true" sort-features="false" accessors="true"/>  
+  </package>  
+  <package id="5" language="java" name="site.client.executor.handler" project="rmi" 
+    file="/rmi/src/site/client/executor/handler" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="48" width="178" x="178" y="213"/>    
+    <display autosize="true" stereotype="true" sort-features="false" accessors="true"/>  
+  </package>  
+  <package id="6" language="java" name="site.server.bean" project="rmi" file="/rmi/src/site/server/bean" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="48" width="116" x="322" y="653"/>    
+    <display autosize="true" stereotype="true" sort-features="false" accessors="true"/>  
+  </package>  
+  <package id="7" language="java" name="site.server" project="rmi" file="/rmi/src/site/server" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="48" width="100" x="317" y="389"/>    
+    <display autosize="true" stereotype="true" sort-features="false" accessors="true"/>  
+  </package>  
+  <package id="8" language="java" name="site.client.reader" project="rmi" file="/rmi/src/site/client/reader" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="48" width="120" x="258" y="125"/>    
+    <display autosize="true" stereotype="true" sort-features="false" accessors="true"/>  
+  </package>  
+  <package id="9" language="java" name="site.server.sending.tree" project="rmi" file="/rmi/src/site/server/sending/tree" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="48" width="159" x="176" y="301"/>    
+    <display autosize="true" stereotype="true" sort-features="false" accessors="true"/>  
+  </package>  
+  <package id="10" language="java" name="site.shared.behavior" project="rmi" file="/rmi/src/site/shared/behavior" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="48" width="141" x="499" y="565"/>    
+    <display autosize="true" stereotype="true" sort-features="false" accessors="true"/>  
+  </package>  
+  <package id="11" language="java" name="site.server.sending.graph" project="rmi" 
+    file="/rmi/src/site/server/sending/graph" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="48" width="169" x="438" y="301"/>    
+    <display autosize="true" stereotype="true" sort-features="false" accessors="true"/>  
+  </package>  
+  <package id="12" language="java" name="site.shared.logger" project="rmi" file="/rmi/src/site/shared/logger" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="48" width="127" x="459" y="741"/>    
+    <display autosize="true" stereotype="true" sort-features="false" accessors="true"/>  
+  </package>  
+  <package id="13" language="java" name="site.server.executor" project="rmi" file="/rmi/src/site/server/executor" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="48" width="139" x="257" y="477"/>    
+    <display autosize="true" stereotype="true" sort-features="false" accessors="true"/>  
+  </package>  
+  <dependency id="14">    
+    <bendpoint x="658" y="213"/>    
+    <bendpoint x="658" y="301"/>    
+    <bendpoint x="700" y="389"/>    
+    <bendpoint x="700" y="477"/>    
+    <bendpoint x="700" y="565"/>    
+    <bendpoint x="700" y="653"/>    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="12"/>  
+  </dependency>  
+  <dependency id="15">    
+    <bendpoint x="145" y="301"/>    
+    <bendpoint x="122" y="389"/>    
+    <bendpoint x="122" y="477"/>    
+    <end type="SOURCE" refId="5"/>    
+    <end type="TARGET" refId="2"/>  
+  </dependency>  
+  <dependency id="16">    
+    <end type="SOURCE" refId="6"/>    
+    <end type="TARGET" refId="12"/>  
+  </dependency>  
+  <dependency id="17">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="6"/>  
+  </dependency>  
+  <dependency id="18">    
+    <bendpoint x="637" y="213"/>    
+    <bendpoint x="637" y="301"/>    
+    <bendpoint x="637" y="389"/>    
+    <bendpoint x="637" y="477"/>    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="10"/>  
+  </dependency>  
+  <dependency id="19">    
+    <end type="SOURCE" refId="13"/>    
+    <end type="TARGET" refId="10"/>  
+  </dependency>  
+  <dependency id="20">    
+    <bendpoint x="407" y="301"/>    
+    <bendpoint x="468" y="389"/>    
+    <bendpoint x="510" y="477"/>    
+    <end type="SOURCE" refId="5"/>    
+    <end type="TARGET" refId="10"/>  
+  </dependency>  
+  <dependency id="21">    
+    <bendpoint x="468" y="477"/>    
+    <bendpoint x="468" y="565"/>    
+    <bendpoint x="468" y="653"/>    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="12"/>  
+  </dependency>  
+  <dependency id="22">    
+    <bendpoint x="437" y="213"/>    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="11"/>  
+  </dependency>  
+  <dependency id="23">    
+    <bendpoint x="164" y="389"/>    
+    <bendpoint x="146" y="477"/>    
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="2"/>  
+  </dependency>  
+  <dependency id="24">    
+    <bendpoint x="365" y="301"/>    
+    <end type="SOURCE" refId="5"/>    
+    <end type="TARGET" refId="7"/>  
+  </dependency>  
+  <dependency id="25">    
+    <bendpoint x="426" y="477"/>    
+    <bendpoint x="447" y="565"/>    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="6"/>  
+  </dependency>  
+  <dependency id="26">    
+    <end type="SOURCE" refId="1"/>    
+    <end type="TARGET" refId="3"/>  
+  </dependency>  
+  <dependency id="27">    
+    <end type="SOURCE" refId="11"/>    
+    <end type="TARGET" refId="7"/>  
+  </dependency>  
+  <dependency id="28">    
+    <bendpoint x="658" y="389"/>    
+    <bendpoint x="658" y="477"/>    
+    <bendpoint x="670" y="565"/>    
+    <bendpoint x="670" y="653"/>    
+    <end type="SOURCE" refId="11"/>    
+    <end type="TARGET" refId="12"/>  
+  </dependency>  
+  <dependency id="29">    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="13"/>  
+  </dependency>  
+  <dependency id="30">    
+    <bendpoint x="489" y="477"/>    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="10"/>  
+  </dependency>  
+  <dependency id="31">    
+    <bendpoint x="234" y="565"/>    
+    <bendpoint x="234" y="653"/>    
+    <end type="SOURCE" refId="13"/>    
+    <end type="TARGET" refId="12"/>  
+  </dependency>  
+  <dependency id="32">    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="5"/>  
+  </dependency>  
+  <dependency id="33">    
+    <bendpoint x="679" y="125"/>    
+    <bendpoint x="679" y="213"/>    
+    <bendpoint x="679" y="301"/>    
+    <bendpoint x="679" y="389"/>    
+    <bendpoint x="679" y="477"/>    
+    <end type="SOURCE" refId="1"/>    
+    <end type="TARGET" refId="10"/>  
+  </dependency>  
+  <dependency id="34">    
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="7"/>  
+  </dependency>  
+  <dependency id="35">    
+    <bendpoint x="447" y="389"/>    
+    <bendpoint x="447" y="477"/>    
+    <end type="SOURCE" refId="11"/>    
+    <end type="TARGET" refId="4"/>  
+  </dependency>  
+  <dependency id="36">    
+    <bendpoint x="386" y="213"/>    
+    <bendpoint x="386" y="301"/>    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="7"/>  
+  </dependency>  
+  <dependency id="37">    
+    <end type="SOURCE" refId="1"/>    
+    <end type="TARGET" refId="8"/>  
+  </dependency>  
+  <dependency id="38">    
+    <bendpoint x="73" y="301"/>    
+    <bendpoint x="73" y="389"/>    
+    <bendpoint x="31" y="477"/>    
+    <bendpoint x="31" y="565"/>    
+    <bendpoint x="31" y="653"/>    
+    <end type="SOURCE" refId="5"/>    
+    <end type="TARGET" refId="12"/>  
+  </dependency>  
+  <dependency id="39">    
+    <end type="SOURCE" refId="5"/>    
+    <end type="TARGET" refId="9"/>  
+  </dependency>  
+  <dependency id="40">    
+    <bendpoint x="124" y="213"/>    
+    <bendpoint x="124" y="301"/>    
+    <bendpoint x="143" y="389"/>    
+    <bendpoint x="167" y="477"/>    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="4"/>  
+  </dependency>  
+  <dependency id="41">    
+    <bendpoint x="52" y="213"/>    
+    <bendpoint x="52" y="301"/>    
+    <bendpoint x="52" y="389"/>    
+    <bendpoint x="52" y="477"/>    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="2"/>  
+  </dependency>  
+  <dependency id="42">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="6"/>  
+  </dependency>  
+  <dependency id="43">    
+    <end type="SOURCE" refId="13"/>    
+    <end type="TARGET" refId="2"/>  
+  </dependency>  
+  <dependency id="44">    
+    <end type="SOURCE" refId="13"/>    
+    <end type="TARGET" refId="4"/>  
+  </dependency>  
+  <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    sort-features="false" accessors="true" visibility="true">    
+    <attributes public="true" package="true" protected="true" private="true" static="true"/>    
+    <operations public="true" package="true" protected="true" private="true" static="true"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>

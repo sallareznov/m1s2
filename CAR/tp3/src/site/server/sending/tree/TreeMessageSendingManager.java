@@ -30,10 +30,10 @@ public class TreeMessageSendingManager {
 		sendingMethod.sendMessage(sender, visitedNodes, this);
 	}
 
-	public void spreadMessage(TreeNode sender, TreeNode receiver)
+	public void spreadMessageToSons(TreeNode sender, TreeNode receiver)
 			throws RemoteException {
 		tracePrinter.printMessageReceived(sender, receiver);
-		receiver.setMessage(sender.getMessage());
+		receiver.setMessageWithSender(sender.getMessage(), sender);
 		visitedNodes.markAsVisited(receiver);
 		if (receiver.getSons() == null) {
 			return;
@@ -41,7 +41,28 @@ public class TreeMessageSendingManager {
 		for (final TreeNode aSon : receiver.getSons()) {
 			if (!visitedNodes.isVisited(aSon) && !aSon.equals(sender)) {
 				tracePrinter.printMessageBeingSpreaded(receiver, aSon);
-				spreadMessage(receiver, aSon );
+				spreadMessageToSons(receiver, aSon );
+			}
+		}
+	}
+	
+	public void spreadMessageToFatherAndSons(TreeNode sender, TreeNode receiver)
+			throws RemoteException {
+		tracePrinter.printMessageReceived(sender, receiver);
+		receiver.setMessageWithSender(sender.getMessage(), sender);
+		visitedNodes.markAsVisited(receiver);
+		if (receiver.getSons() == null) {
+			return;
+		}
+		if (receiver.getFather() != null && !visitedNodes.isVisited(receiver.getFather())) {
+			receiver.getFather().setMessageWithSender(receiver.getMessage(), receiver);
+			visitedNodes.markAsVisited(receiver.getFather());
+			spreadMessageToFatherAndSons(receiver.getFather(), receiver);
+		}
+		for (final TreeNode aSon : receiver.getSons()) {
+			if (!visitedNodes.isVisited(aSon)) {
+				tracePrinter.printMessageBeingSpreaded(receiver, aSon);
+				spreadMessageToSons(receiver, aSon);
 			}
 		}
 	}

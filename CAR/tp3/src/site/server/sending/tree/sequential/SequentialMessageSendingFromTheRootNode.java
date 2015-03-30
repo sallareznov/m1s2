@@ -20,7 +20,7 @@ public class SequentialMessageSendingFromTheRootNode implements
 			return;
 		}
 		for (final TreeNode aSon : sons) {
-			messageSendingManager.spreadMessage(sender, aSon);
+			messageSendingManager.spreadMessageToSons(sender, aSon);
 		}
 	}
 

@@ -31,8 +31,18 @@ public abstract class AbstractNode extends UnicastRemoteObject implements Node {
 	@Override
 	public void setMessage(String message) throws RemoteException {
 		this.message = message;
+		if ("".equals(message)) {
+			LOGGER.info("My message has been resetted ! I don't have any message now");
+			return;
+		}
+		LOGGER.info("I've just received a message ! My message is now : \"" + this.message + "\"");
+	}
+	
+	@Override
+	public void setMessageWithSender(String message, Node sender) throws RemoteException {
+		this.message = message;
 		if (!"".equals(message)) {
-			LOGGER.info("I've just received a message :D ! Now it's : \"" + message + "\"");
+			LOGGER.info("I've just received a message from " + sender.printId() + " ! Now my message is : \"" + this.message + "\"");
 			return;
 		}
 		LOGGER.info("My message has been resetted ! I don't have any message now");

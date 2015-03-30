@@ -26,7 +26,7 @@ public class ConcurrentMessageSendingFromAnyNode implements TreeMessageSendingMe
 				@Override
 				public void run() {
 					try {
-						messageSendingManager.spreadMessage(expediteur, pere);
+						messageSendingManager.spreadMessageToSons(expediteur, pere);
 					} catch (RemoteException e) {
 						LOGGER.throwing(getClass().getName(), "sendMessage()", e);
 					}
@@ -44,7 +44,7 @@ public class ConcurrentMessageSendingFromAnyNode implements TreeMessageSendingMe
 					@Override
 					public void run() {
 						try {
-							messageSendingManager.spreadMessage(expediteur, aSon);
+							messageSendingManager.spreadMessageToSons(expediteur, aSon);
 						} catch (RemoteException e) {
 							LOGGER.throwing(getClass().getName(), "sendMessage()", e);
 						}
