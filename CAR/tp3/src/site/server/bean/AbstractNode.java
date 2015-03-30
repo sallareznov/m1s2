@@ -4,7 +4,7 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.logging.Logger;
 
-import site.shared.LoggerFactory;
+import site.shared.logger.LoggerFactory;
 
 public abstract class AbstractNode extends UnicastRemoteObject implements Node {
 	

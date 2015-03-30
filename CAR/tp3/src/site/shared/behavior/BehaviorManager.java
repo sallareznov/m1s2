@@ -1,4 +1,4 @@
-package site.shared;
+package site.shared.behavior;
 
 import java.net.UnknownHostException;
 import java.rmi.NotBoundException;

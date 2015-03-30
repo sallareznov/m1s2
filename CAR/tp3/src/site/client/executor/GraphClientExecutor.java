@@ -1,8 +1,8 @@
 package site.client.executor;
 
-import site.client.GraphClientHandler;
+import site.client.executor.handler.GraphClientHandler;
 
-public class GraphClientExecutor extends BasicClientExecutor {
+public class GraphClientExecutor extends AbstractClientExecutor {
 
 	public GraphClientExecutor() {
 		super("-graph", new GraphClientHandler());

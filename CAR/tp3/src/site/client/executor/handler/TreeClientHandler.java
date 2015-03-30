@@ -1,4 +1,4 @@
-package site.client;
+package site.client.executor.handler;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -12,11 +12,11 @@ import site.server.sending.tree.concurrent.ConcurrentMessageSendingFromAnyNode;
 import site.server.sending.tree.concurrent.ConcurrentMessageSendingFromTheRootNode;
 import site.server.sending.tree.sequential.SequentialMessageSendingFromAnyNode;
 import site.server.sending.tree.sequential.SequentialMessageSendingFromTheRootNode;
-import site.shared.LoggerFactory;
+import site.shared.logger.LoggerFactory;
 
 public class TreeClientHandler implements ClientHandler {
 
-	private static final Logger LOGGER = LoggerFactory.create(Client.class);
+	private static final Logger LOGGER = LoggerFactory.create(TreeClientHandler.class);
 
 	@Override
 	public void execute(String serverAddress, String message) throws RemoteException, InterruptedException,

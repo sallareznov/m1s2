@@ -4,14 +4,14 @@ import java.net.UnknownHostException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
-import site.client.ClientHandler;
+import site.client.executor.handler.ClientHandler;
 
-public abstract class BasicClientExecutor implements ClientExecutor {
+public abstract class AbstractClientExecutor implements ClientExecutor {
 
 	private String acceptedNodeType;
 	private ClientHandler handler;
 
-	public BasicClientExecutor(String acceptedOption, ClientHandler handler) {
+	public AbstractClientExecutor(String acceptedOption, ClientHandler handler) {
 		this.acceptedNodeType = acceptedOption;
 		this.handler = handler;
 	}

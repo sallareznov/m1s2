@@ -1,8 +1,8 @@
 package site.client.executor;
 
-import site.client.TreeClientHandler;
+import site.client.executor.handler.TreeClientHandler;
 
-public class TreeClientExecutor extends BasicClientExecutor {
+public class TreeClientExecutor extends AbstractClientExecutor {
 
 	public TreeClientExecutor() {
 		super("-tree", new TreeClientHandler());

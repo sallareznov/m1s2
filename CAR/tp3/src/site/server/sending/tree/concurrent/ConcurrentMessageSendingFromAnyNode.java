@@ -7,7 +7,7 @@ import site.server.VisitedNodesManager;
 import site.server.bean.tree.TreeNode;
 import site.server.sending.tree.TreeMessageSendingManager;
 import site.server.sending.tree.TreeMessageSendingMethod;
-import site.shared.LoggerFactory;
+import site.shared.logger.LoggerFactory;
 
 public class ConcurrentMessageSendingFromAnyNode implements TreeMessageSendingMethod {
 	

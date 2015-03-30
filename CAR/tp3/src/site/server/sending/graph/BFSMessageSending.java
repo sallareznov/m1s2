@@ -3,11 +3,15 @@ package site.server.sending.graph;
 import java.rmi.RemoteException;
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.logging.Logger;
 
 import site.server.VisitedNodesManager;
 import site.server.bean.graph.GraphNode;
+import site.shared.logger.LoggerFactory;
 
 public class BFSMessageSending {
+	
+	private static final Logger LOGGER = LoggerFactory.create(BFSMessageSending.class);
 
 	public void sendMessage(GraphNode sender,
 			VisitedNodesManager visitedSitesManager)
@@ -19,7 +23,7 @@ public class BFSMessageSending {
 			final String messageToSend = sender.getMessage();
 			visitedSitesManager.markAsVisited(topSite);
 			topSite.setMessage(messageToSend);
-			System.out.println(topSite.printMe());
+			LOGGER.info(topSite.printMe());
 			for (final GraphNode neighbor : topSite.getNeighbors()) {
 				if (!visitedSitesManager.isVisited(neighbor)) {
 					queuedSites.add(neighbor);

@@ -1,4 +1,4 @@
-package site.client;
+package site.client.executor.handler;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;

@@ -1,4 +1,4 @@
-package site.shared;
+package site.shared.logger;
 
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Logger;

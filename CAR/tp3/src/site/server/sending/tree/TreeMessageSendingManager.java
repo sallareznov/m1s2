@@ -51,11 +51,11 @@ public class TreeMessageSendingManager {
 			InterruptedException {
 		sender.setMessage(message);
 		printer.printBeforeSending();
-		printer.printSites(nodes);
+		printer.printNodes(nodes);
 		printer.printDuringSending();
 		sendMessage(sender);
 		printer.printAfterSending();
-		printer.printSites(nodes);
+		printer.printNodes(nodes);
 	}
 	
 	public void resetDatas(TreeNode... nodes) throws RemoteException {

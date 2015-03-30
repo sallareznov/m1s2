@@ -5,7 +5,7 @@ import java.rmi.RemoteException;
 import java.util.logging.Logger;
 
 import site.server.bean.Node;
-import site.shared.LoggerFactory;
+import site.shared.logger.LoggerFactory;
 
 public class SuperPrinter implements Serializable {
 	
@@ -23,20 +23,20 @@ public class SuperPrinter implements Serializable {
 		LOGGER.info("---> [" + sender.printMe() + "] : " + "Spreading message towards " + receiver.printMe());
 	}
 	
-	public void printSite(Node site) throws RemoteException {
+	public void printNode(Node node) throws RemoteException {
 		final StringBuilder builder = new StringBuilder();
 		builder.append("Site ");
-		builder.append(site.getId());
+		builder.append(node.getId());
 		builder.append(" : ");
 		builder.append("\n");
 		builder.append("message = ");
-		builder.append("".equals(site.getMessage()) ? "No message" : site.getMessage());
+		builder.append("".equals(node.getMessage()) ? "No message" : node.getMessage());
 		LOGGER.info(builder.toString());
 	}
 	
-	public void printSites(Node ... sites) throws RemoteException {
+	public void printNodes(Node ... sites) throws RemoteException {
 		for (final Node site : sites) {
-			printSite(site);
+			printNode(site);
 		}
 	}
 	

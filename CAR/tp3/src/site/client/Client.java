@@ -8,7 +8,7 @@ import java.rmi.RemoteException;
 import site.client.executor.ClientExecutorParameters;
 import site.client.executor.GraphClientExecutor;
 import site.client.executor.TreeClientExecutor;
-import site.shared.BehaviorManager;
+import site.shared.behavior.BehaviorManager;
 
 public class Client {
 
