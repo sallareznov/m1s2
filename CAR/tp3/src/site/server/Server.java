@@ -1,12 +1,10 @@
 package site.server;
 
+import java.io.IOException;
 import java.net.InetAddress;
-import java.net.MalformedURLException;
-import java.net.UnknownHostException;
 import java.rmi.AlreadyBoundException;
 import java.rmi.NotBoundException;
 import java.rmi.RMISecurityManager;
-import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.server.ExportException;
 import java.util.logging.Logger;
@@ -31,15 +29,12 @@ public class Server {
 	/**
 	 * main method
 	 * @param args the arguments
-	 * @throws MalformedURLException
-	 * @throws RemoteException
-	 * @throws UnknownHostException
 	 * @throws AlreadyBoundException
 	 * @throws InterruptedException
 	 * @throws NotBoundException
+	 * @throws IOException 
 	 */
-	public static void main(String[] args) throws MalformedURLException,
-			RemoteException, UnknownHostException, AlreadyBoundException, InterruptedException, NotBoundException {
+	public static void main(String[] args) throws AlreadyBoundException, InterruptedException, NotBoundException, IOException {
 		if (System.getSecurityManager() == null) {
 			System.setSecurityManager(new RMISecurityManager());
 		}

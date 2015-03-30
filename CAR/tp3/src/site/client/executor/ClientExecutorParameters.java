@@ -1,27 +1,23 @@
 package site.client.executor;
 
+import site.client.reader.SiteReader;
+
 public class ClientExecutorParameters {
 	
-	private String nodeType;
-	private String serverAddress;
-	private String message;
+	private SiteReader reader;
+	private String[] args;
 	
-	public ClientExecutorParameters(String nodeType, String serverAddress, String message) {
-		this.nodeType = nodeType;
-		this.serverAddress = serverAddress;
-		this.message = message;
+	public ClientExecutorParameters(SiteReader reader, String[] args) {
+		this.reader = reader;
+		this.args = args;
 	}
 	
-	public String getNodeType() {
-		return nodeType;
+	public SiteReader getReader() {
+		return reader;
 	}
 	
-	public String getServerAddress() {
-		return serverAddress;
-	}
-	
-	public String getMessage() {
-		return message;
+	public String[] getArgs() {
+		return args;
 	}
 	
 }

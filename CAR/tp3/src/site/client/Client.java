@@ -1,9 +1,8 @@
 package site.client;
 
-import java.net.UnknownHostException;
+import java.io.IOException;
 import java.rmi.NotBoundException;
 import java.rmi.RMISecurityManager;
-import java.rmi.RemoteException;
 
 import site.client.executor.ClientExecutorParameters;
 import site.client.executor.DefaultClientExecutor;
@@ -16,8 +15,7 @@ public class Client {
 	private Client() {
 	}
 
-	public static void main(String[] args) throws RemoteException,
-			NotBoundException, InterruptedException, UnknownHostException {
+	public static void main(String[] args) throws NotBoundException, InterruptedException, IOException {
 		if (System.getSecurityManager() == null) {
 			System.setSecurityManager(new RMISecurityManager());
 		}
@@ -25,7 +23,7 @@ public class Client {
 		manager.addBehavior(new TreeClientExecutor());
 		manager.addBehavior(new GraphClientExecutor());
 		manager.addBehavior(new DefaultClientExecutor());
-		final ClientExecutorParameters parameters = new ClientExecutorParameters(args[0], args[1], args[2]);
+		final ClientExecutorParameters parameters = new ClientExecutorParameters(args);
 		manager.execute(parameters);
 	}
 

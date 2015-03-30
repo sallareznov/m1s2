@@ -1,8 +1,7 @@
 package site.shared.behavior;
 
-import java.net.UnknownHostException;
+import java.io.IOException;
 import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -38,13 +37,11 @@ public class BehaviorManager<P> {
 	 * 
 	 * @param parameters
 	 *            the parameters to pass to the behaviors
-	 * @throws RemoteException
-	 * @throws UnknownHostException
 	 * @throws InterruptedException
 	 * @throws NotBoundException
+	 * @throws IOException 
 	 */
-	public void execute(P parameters) throws RemoteException,
-			UnknownHostException, InterruptedException, NotBoundException {
+	public void execute(P parameters) throws InterruptedException, NotBoundException, IOException {
 		// the manager iterates on every behavior and executes the first one
 		// which accepts the parameters
 		for (final Behavior<P> behavior : behaviors) {

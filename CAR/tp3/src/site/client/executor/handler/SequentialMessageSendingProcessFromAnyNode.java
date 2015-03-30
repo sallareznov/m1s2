@@ -29,7 +29,7 @@ public class SequentialMessageSendingProcessFromAnyNode extends
 			TreeMessageSendingManager messageSendingManager,
 			SuperPrinter superPrinter) throws RemoteException,
 			InterruptedException {
-		int senderIndex = Integer.parseInt(args[3]);
+		int senderIndex = Integer.parseInt(args[4]) - 1;
 		messageSendingManager.fullMessageSendingProcess(args[2],
 				nodesArray[senderIndex], superPrinter, nodesArray);
 	}

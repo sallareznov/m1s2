@@ -1,5 +1,6 @@
 package site.shared.behavior;
 
+import java.io.IOException;
 import java.net.UnknownHostException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -24,8 +25,9 @@ public interface Behavior<P> {
 	 * @throws UnknownHostException
 	 * @throws InterruptedException
 	 * @throws NotBoundException
+	 * @throws IOException 
 	 */
 	void execute(P parameters) throws RemoteException, UnknownHostException,
-			InterruptedException, NotBoundException;
+			InterruptedException, NotBoundException, IOException;
 
 }

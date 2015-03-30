@@ -5,6 +5,7 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 
+import site.client.reader.SiteReader;
 import site.server.VisitedNodesManager;
 import site.server.bean.graph.GraphNode;
 import site.server.sending.graph.BFSMessageSending;
@@ -12,7 +13,7 @@ import site.server.sending.graph.BFSMessageSending;
 public class GraphClientHandler implements ClientHandler {
 
 	@Override
-	public void execute(String[] args) throws RemoteException,
+	public void execute(SiteReader reader, String[] args) throws RemoteException,
 			InterruptedException, NotBoundException, UnknownHostException {
 		final GraphNode node1 = (GraphNode) LocateRegistry.getRegistry(1099)
 				.lookup("node1");
@@ -36,7 +37,7 @@ public class GraphClientHandler implements ClientHandler {
 		node4.addNeighbor(node6);
 
 		final VisitedNodesManager manager = new VisitedNodesManager();
-		node1.setMessage(message);
+		node1.setMessage(args[2]);
 		new BFSMessageSending().sendMessage(node1, manager);
 	}
 
