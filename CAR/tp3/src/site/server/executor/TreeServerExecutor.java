@@ -7,9 +7,9 @@ import java.rmi.server.UnicastRemoteObject;
 import site.server.bean.tree.TreeNode;
 import site.server.bean.tree.TreeNodeImpl;
 
-public class TreeNodeExecutor extends AbstractServerExecutor {
+public class TreeServerExecutor extends AbstractServerExecutor {
 	
-	public TreeNodeExecutor() {
+	public TreeServerExecutor() {
 		super("-tree");
 	}
 

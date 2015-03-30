@@ -7,9 +7,9 @@ import java.rmi.server.UnicastRemoteObject;
 import site.server.bean.graph.GraphNode;
 import site.server.bean.graph.GraphNodeImpl;
 
-public class GraphNodeExecutor extends AbstractServerExecutor {
+public class GraphServerExecutor extends AbstractServerExecutor {
 
-	public GraphNodeExecutor() {
+	public GraphServerExecutor() {
 		super("-graph");
 	}
 

@@ -7,9 +7,9 @@ import java.util.logging.Logger;
 
 import site.shared.logger.LoggerFactory;
 
-public class DefaultNodeExecutor implements ServerExecutor {
+public class DefaultServerExecutor implements ServerExecutor {
 	
-	private static final Logger LOGGER = LoggerFactory.create(DefaultNodeExecutor.class);
+	private static final Logger LOGGER = LoggerFactory.create(DefaultServerExecutor.class);
 
 	@Override
 	public boolean accept(ServerExecutorParameters parameters) {

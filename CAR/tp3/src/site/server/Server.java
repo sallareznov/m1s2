@@ -11,10 +11,10 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.server.ExportException;
 import java.util.logging.Logger;
 
-import site.server.executor.DefaultNodeExecutor;
-import site.server.executor.GraphNodeExecutor;
+import site.server.executor.DefaultServerExecutor;
+import site.server.executor.GraphServerExecutor;
 import site.server.executor.ServerExecutorParameters;
-import site.server.executor.TreeNodeExecutor;
+import site.server.executor.TreeServerExecutor;
 import site.shared.behavior.BehaviorManager;
 import site.shared.logger.LoggerFactory;
 
@@ -38,9 +38,9 @@ public class Server {
 			LOGGER.throwing("Server", "main()", e);
 		}
 		final BehaviorManager<ServerExecutorParameters> serverExecutorManager = new BehaviorManager<ServerExecutorParameters>();
-		serverExecutorManager.addExecutor(new TreeNodeExecutor());
-		serverExecutorManager.addExecutor(new GraphNodeExecutor());
-		serverExecutorManager.addExecutor(new DefaultNodeExecutor());
+		serverExecutorManager.addExecutor(new TreeServerExecutor());
+		serverExecutorManager.addExecutor(new GraphServerExecutor());
+		serverExecutorManager.addExecutor(new DefaultServerExecutor());
 		final ServerExecutorParameters parameters = new ServerExecutorParameters(args[0], Integer.parseInt(args[1]));
 		serverExecutorManager.execute(parameters);
 	}
