@@ -1,5 +1,5 @@
 \section*{Introduction}
-Ce TP est une implémentation en JAVA d'une passerelle REST communiquant avec un serveur FTP.
+Ce TP est un exemple de manipulation de RMI.
 
 \section*{Listing des dossiers et fichiers du projet}
 \begin{description}
@@ -19,32 +19,18 @@ Ce TP est une implémentation en JAVA d'une passerelle REST communiquant avec un
 \end{description}
 
 \section*{Utilisation}
-	Pour lancer l'exécutable, deux solutions sont possibles :\\
-		\underline{Via Ant}
-			\begin{itemize}
-				\item \verb+ant compile+
-				\item \verb+ant runserver+ puis \verb+java -jar restBridge.jar+ 
-			\end{itemize}
-		\underline{}
-
+	\underline{Noeud serveur}\\
+		java -Djava.security.policy=java.policy -jar server.jar [-tree|-graph] <id\_noeud>\\
+	\underline{Client}\\
+		java -Djava.security.policy=java.policy -jar client.jar <fichier\_conf> <nom\_pc\_distant> <message>
+	
+			
 \section*{Architecture}
-\begin{tabbing}
-	\hspace{1cm}\=\hspace{1cm}\=\kill
-	\textit{- package rest}\\
-		\>\textit{- package config}\\
-			\>\>\verb+AppConfig+ : classe contenant la configuration de l'application\\
-		\>\textit{- package logger}\\
-			\>\>\verb+FTPLoggerFactory+ : factory de loggers\\
-			\>\>\verb+FTPLoggerSimpleFormatter+ : formatter qui nous abstient du sucre syntaxique des \\\>\>loggers habituels \\
-		\>\textit{- package model}\\
-			\>\>\verb+FileServlet+ : servlet de fichiers (typiquement pour les icônes)\\
-			\>\>\verb+FTPClientFactory+ : factory chargée de créer des instances de FTPClient\\
-			\>\>\verb+FTPRestServiceConfiguration+ : configuration du service\\
-			\>\>\verb+ItemBuilder+ : builder d'items d'un répertoire donné (en HTML)\\
-		\>\textit{- package rs}\\
-			\>\>\verb+FTPRestService+ : service REST-FTP\\
-			\>\>\verb+JaxRsApiApplication+\\
-		\>\textit{- package services}\\
-			\>\>\verb+FTPRestService+ : service REST\\	
-	\>\verb+Starter+ : classe principale
-\end{tabbing}
+\includegraphics[width=\textwidth]{../uml/overview.png}
+\newpage
+\includegraphics[width=\textwidth]{../uml/bean.png}
+\newpage
+\includegraphics[width=\textwidth]{../uml/sending.png}
+\\~\\
+\includegraphics[width=\textwidth]{../uml/behavior.png}
+
