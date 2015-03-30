@@ -14,20 +14,20 @@ public class BFSMessageSending {
 	private static final Logger LOGGER = LoggerFactory.create(BFSMessageSending.class);
 
 	public void sendMessage(GraphNode sender,
-			VisitedNodesManager visitedSitesManager)
+			VisitedNodesManager visitedNodesManager)
 			throws InterruptedException, RemoteException {
-		final Queue<GraphNode> queuedSites = new LinkedList<GraphNode>();
-		queuedSites.add(sender);
-		while (!queuedSites.isEmpty()) {
-			final GraphNode topSite = queuedSites.poll();
+		final Queue<GraphNode> queuedNodes = new LinkedList<GraphNode>();
+		queuedNodes.add(sender);
+		while (!queuedNodes.isEmpty()) {
+			final GraphNode topNode = queuedNodes.poll();
 			final String messageToSend = sender.getMessage();
-			visitedSitesManager.markAsVisited(topSite);
-			topSite.setMessage(messageToSend);
-			LOGGER.info(topSite.printMe());
-			for (final GraphNode neighbor : topSite.getNeighbors()) {
-				if (!visitedSitesManager.isVisited(neighbor)) {
-					queuedSites.add(neighbor);
-					visitedSitesManager.markAsVisited(neighbor);
+			visitedNodesManager.markAsVisited(topNode);
+			topNode.setMessage(messageToSend);
+			LOGGER.info(topNode.printId());
+			for (final GraphNode neighbor : topNode.getNeighbors()) {
+				if (!visitedNodesManager.isVisited(neighbor)) {
+					queuedNodes.add(neighbor);
+					visitedNodesManager.markAsVisited(neighbor);
 				}
 			}
 		}

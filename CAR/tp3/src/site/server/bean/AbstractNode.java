@@ -44,9 +44,20 @@ public abstract class AbstractNode extends UnicastRemoteObject implements Node {
 	}
 	
 	@Override
-	public String printMe() throws RemoteException {
+	public String printId() throws RemoteException {
 		return "Node " + id;
 	}
 	
+	@Override
+	public String getAllInfos() throws RemoteException {
+		final StringBuilder builder = new StringBuilder();
+		builder.append("Node ");
+		builder.append(id);
+		builder.append(" : ");
+		builder.append("\n");
+		builder.append("message = ");
+		builder.append("".equals(message) ? "No message" : message);
+		return builder.toString();
+	}
 
 }

@@ -18,6 +18,9 @@ import site.server.executor.TreeServerExecutor;
 import site.shared.behavior.BehaviorManager;
 import site.shared.logger.LoggerFactory;
 
+/**
+ * A server is a node, and it's defined by its node type and its node id
+ */
 public class Server {
 
 	private static final Logger LOGGER = LoggerFactory.create(Server.class);
@@ -25,6 +28,16 @@ public class Server {
 	private Server() {
 	}
 
+	/**
+	 * main method
+	 * @param args the arguments
+	 * @throws MalformedURLException
+	 * @throws RemoteException
+	 * @throws UnknownHostException
+	 * @throws AlreadyBoundException
+	 * @throws InterruptedException
+	 * @throws NotBoundException
+	 */
 	public static void main(String[] args) throws MalformedURLException,
 			RemoteException, UnknownHostException, AlreadyBoundException, InterruptedException, NotBoundException {
 		if (System.getSecurityManager() == null) {
@@ -38,9 +51,9 @@ public class Server {
 			LOGGER.throwing("Server", "main()", e);
 		}
 		final BehaviorManager<ServerExecutorParameters> serverExecutorManager = new BehaviorManager<ServerExecutorParameters>();
-		serverExecutorManager.addExecutor(new TreeServerExecutor());
-		serverExecutorManager.addExecutor(new GraphServerExecutor());
-		serverExecutorManager.addExecutor(new DefaultServerExecutor());
+		serverExecutorManager.addBehavior(new TreeServerExecutor());
+		serverExecutorManager.addBehavior(new GraphServerExecutor());
+		serverExecutorManager.addBehavior(new DefaultServerExecutor());
 		final ServerExecutorParameters parameters = new ServerExecutorParameters(args[0], Integer.parseInt(args[1]));
 		serverExecutorManager.execute(parameters);
 	}

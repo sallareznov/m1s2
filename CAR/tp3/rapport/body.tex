@@ -8,15 +8,24 @@ Ce TP est une implémentation en JAVA d'une passerelle REST communiquant avec un
 	\item[src/ :] contient les fichiers sources (\verb+.java+) du projet
 	\item[test/ :] contient les fichiers de tests
 	\item[uml/ :] contient les diagrammes de classes du projet
-	\item[restBridge.jar :] archive exécutable du projet
+	\item[build.xml :] fichier de gestion de projet Ant
+	\item[client.jar :] archive exécutable du client
+	\item[java.policy :]
+	\item[rmi.eps :] schéma général de rmi
+	\item[runclient.sh :] script de lancement d'un client
+	\item[runserver.sh :] script de lancement d'un serveur
+	\item[server.jar :] archive exécutable du serveur
+	\item[sonar-project.properties :] fichier .properties pour le contrôle qualité Sonar
 \end{description}
 
 \section*{Utilisation}
-	Pour lancer l'exécutable, deux solutions sont possibles :
-		\begin{itemize}
-			\item \verb+ant run+
-			\item \verb+ant package+ puis \verb+java -jar restBridge.jar+ 
-		\end{itemize}
+	Pour lancer l'exécutable, deux solutions sont possibles :\\
+		\underline{Via Ant}
+			\begin{itemize}
+				\item \verb+ant compile+
+				\item \verb+ant runserver+ puis \verb+java -jar restBridge.jar+ 
+			\end{itemize}
+		\underline{}
 
 \section*{Architecture}
 \begin{tabbing}

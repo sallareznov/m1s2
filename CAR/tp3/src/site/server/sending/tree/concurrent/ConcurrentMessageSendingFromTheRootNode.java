@@ -18,7 +18,7 @@ public class ConcurrentMessageSendingFromTheRootNode implements
 
 	@Override
 	public void sendMessage(final TreeNode sender,
-			VisitedNodesManager visitedSitesManager,
+			VisitedNodesManager visitedNodesManager,
 			final TreeMessageSendingManager messageSendingManager)
 			throws RemoteException, InterruptedException {
 		final TreeNode[] sons = sender.getSons();
@@ -34,7 +34,7 @@ public class ConcurrentMessageSendingFromTheRootNode implements
 					try {
 						messageSendingManager.spreadMessage(sender, aSon);
 					} catch (RemoteException e) {
-						LOGGER.throwing("ConcurrentMessageSendingFromTheRootSite", "sendMessage()", e);
+						LOGGER.throwing(getClass().getName(), "sendMessage()", e);
 					}
 				}
 

@@ -9,12 +9,12 @@ import site.server.bean.tree.TreeNode;
 public class TreeMessageSendingManager {
 
 	private TreeMessageSendingMethod sendingMethod;
-	private VisitedNodesManager visitedSites;
+	private VisitedNodesManager visitedNodes;
 	private SuperPrinter tracePrinter;
 
 	public TreeMessageSendingManager() {
 		sendingMethod = null;
-		visitedSites = new VisitedNodesManager();
+		visitedNodes = new VisitedNodesManager();
 		tracePrinter = new SuperPrinter();
 	}
 
@@ -25,23 +25,23 @@ public class TreeMessageSendingManager {
 
 	public void sendMessage(TreeNode sender) throws InterruptedException,
 			RemoteException {
-		visitedSites.reset();
-		visitedSites.markAsVisited(sender);
-		sendingMethod.sendMessage(sender, visitedSites, this);
+		visitedNodes.reset();
+		visitedNodes.markAsVisited(sender);
+		sendingMethod.sendMessage(sender, visitedNodes, this);
 	}
 
 	public void spreadMessage(TreeNode sender, TreeNode receiver)
 			throws RemoteException {
 		tracePrinter.printMessageReceived(sender, receiver);
 		receiver.setMessage(sender.getMessage());
-		visitedSites.markAsVisited(receiver);
+		visitedNodes.markAsVisited(receiver);
 		if (receiver.getSons() == null) {
 			return;
 		}
-		for (final TreeNode unFils : receiver.getSons()) {
-			if (!visitedSites.isVisited(unFils) && !unFils.equals(sender)) {
-				tracePrinter.printMessageBeingSpreaded(receiver, unFils);
-				spreadMessage(receiver, unFils);
+		for (final TreeNode aSon : receiver.getSons()) {
+			if (!visitedNodes.isVisited(aSon) && !aSon.equals(sender)) {
+				tracePrinter.printMessageBeingSpreaded(receiver, aSon);
+				spreadMessage(receiver, aSon );
 			}
 		}
 	}

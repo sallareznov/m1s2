@@ -1,5 +1,6 @@
 package site.client.executor.handler;
 
+import java.net.UnknownHostException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
@@ -11,8 +12,8 @@ import site.server.sending.graph.BFSMessageSending;
 public class GraphClientHandler implements ClientHandler {
 
 	@Override
-	public void execute(String serverAddress, String message) throws RemoteException,
-			InterruptedException, NotBoundException {
+	public void execute(String[] args) throws RemoteException,
+			InterruptedException, NotBoundException, UnknownHostException {
 		final GraphNode node1 = (GraphNode) LocateRegistry.getRegistry(1099)
 				.lookup("node1");
 		final GraphNode node2 = (GraphNode) LocateRegistry.getRegistry(1099)

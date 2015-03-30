@@ -13,6 +13,8 @@ public interface Node extends Remote {
 
 	void resetMessage() throws RemoteException;
 	
-	String printMe() throws RemoteException;
+	String printId() throws RemoteException;
+	
+	String getAllInfos() throws RemoteException;
 	
 }

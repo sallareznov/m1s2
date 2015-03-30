@@ -15,10 +15,10 @@ public class ConcurrentMessageSendingFromAnyNode implements TreeMessageSendingMe
 
 	@Override
 	public void sendMessage(final TreeNode expediteur,
-			VisitedNodesManager visitedSitesManager,
+			VisitedNodesManager visitedNodesManager,
 			final TreeMessageSendingManager messageSendingManager)
 			throws RemoteException, InterruptedException {
-		visitedSitesManager.markAsVisited(expediteur);
+		visitedNodesManager.markAsVisited(expediteur);
 		final TreeNode pere = expediteur.getFather();
 		if (pere != null) {
 			final Thread thread = new Thread(new Runnable() {
@@ -28,7 +28,7 @@ public class ConcurrentMessageSendingFromAnyNode implements TreeMessageSendingMe
 					try {
 						messageSendingManager.spreadMessage(expediteur, pere);
 					} catch (RemoteException e) {
-						LOGGER.throwing("ConcurrentMessageSendingFromAnySite", "sendMessage()", e);
+						LOGGER.throwing(getClass().getName(), "sendMessage()", e);
 					}
 				}
 
@@ -36,17 +36,17 @@ public class ConcurrentMessageSendingFromAnyNode implements TreeMessageSendingMe
 			thread.start();
 			thread.join();
 		}
-		final TreeNode[] fils = expediteur.getSons();
-		if (fils != null) {
-			for (final TreeNode unFils : fils) {
+		final TreeNode[] sons = expediteur.getSons();
+		if (sons != null) {
+			for (final TreeNode aSon : sons) {
 				final Thread thread = new Thread(new Runnable() {
 
 					@Override
 					public void run() {
 						try {
-							messageSendingManager.spreadMessage(expediteur, unFils);
+							messageSendingManager.spreadMessage(expediteur, aSon);
 						} catch (RemoteException e) {
-							LOGGER.throwing("ConcurrentMessageSendingFromAnySite", "sendMessage()", e);
+							LOGGER.throwing(getClass().getName(), "sendMessage()", e);
 						}
 					}
 

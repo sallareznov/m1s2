@@ -6,6 +6,7 @@ import java.rmi.RMISecurityManager;
 import java.rmi.RemoteException;
 
 import site.client.executor.ClientExecutorParameters;
+import site.client.executor.DefaultClientExecutor;
 import site.client.executor.GraphClientExecutor;
 import site.client.executor.TreeClientExecutor;
 import site.shared.behavior.BehaviorManager;
@@ -21,8 +22,9 @@ public class Client {
 			System.setSecurityManager(new RMISecurityManager());
 		}
 		final BehaviorManager<ClientExecutorParameters> manager = new BehaviorManager<ClientExecutorParameters>();
-		manager.addExecutor(new TreeClientExecutor());
-		manager.addExecutor(new GraphClientExecutor());
+		manager.addBehavior(new TreeClientExecutor());
+		manager.addBehavior(new GraphClientExecutor());
+		manager.addBehavior(new DefaultClientExecutor());
 		final ClientExecutorParameters parameters = new ClientExecutorParameters(args[0], args[1], args[2]);
 		manager.execute(parameters);
 	}

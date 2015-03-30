@@ -21,6 +21,9 @@ public class DefaultServerExecutor implements ServerExecutor {
 			throws RemoteException, UnknownHostException, InterruptedException,
 			NotBoundException {
 		LOGGER.info("java -Djava.security.policy=java.policy -jar server.jar [-tree|-graph] <id>");
+		LOGGER.info("\tcrée un noeud qui servira de serveur");
+		LOGGER.info("\t[-tree|-graph] : le type de noeud qui sera créé");
+		LOGGER.info("\t<id> : l'identifiant du noeud");
 	}
 
 }
