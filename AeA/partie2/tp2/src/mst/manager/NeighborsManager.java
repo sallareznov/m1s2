@@ -11,12 +11,12 @@ import mst.bean.Edge;
 import mst.bean.Vertex;
 import mst.bean.WeightedGraph;
 import mst.sort.EdgesComparator;
+import mst.sort.MinHeap;
 
 public class NeighborsManager {
 
 	private Map<Vertex, List<Vertex>> vertexesToNeighbors;
-	private Queue<Edge> graphEdges;
-	private List<Edge> visitedEdges;
+	private MinHeap<Edge> minHeap;
 
 	public NeighborsManager() {
 		vertexesToNeighbors = new HashMap<Vertex, List<Vertex>>();
@@ -46,9 +46,7 @@ public class NeighborsManager {
 
 	public void initNeighbors(WeightedGraph graph) {
 		vertexesToNeighbors.clear();
-		graphEdges = new PriorityQueue<Edge>(graph.getSize(),
-				new EdgesComparator());
-		visitedEdges = new LinkedList<Edge>();
+		minHeap = new MinHeap<Edge>(graph.getEdges().size());
 		final Queue<Edge> graphEdges = new PriorityQueue<Edge>(graph.getSize(),
 				new EdgesComparator());
 		graphEdges.addAll(graph.getEdges());
@@ -62,20 +60,15 @@ public class NeighborsManager {
 			WeightedGraph graph, Vertex lastAddedVertex) {
 		for (final Vertex neighbor : getNeighbors(lastAddedVertex)) {
 			final Edge edge = graph.getEdge(lastAddedVertex, neighbor);
-			if (!subGraph.containsEdge(edge) && !graphEdges.contains(edge) && !subGraph.containsVertexes(edge)) {
-				graphEdges.add(edge);
+			if (!minHeap.contains(edge) && !subGraph.containsVertexes(edge)) {
+				minHeap.add(edge);
 			}
 		}
-		final Edge weakerEdge = graphEdges.poll();
+		Edge weakerEdge = minHeap.remove();
+		while (weakerEdge != null && subGraph.containsVertexes(weakerEdge)) {
+			weakerEdge =  minHeap.remove();
+		}
 		return weakerEdge;
-	}
-
-	public void removeNeighbors(WeightedGraph mst, Vertex lastAddedVertex) {
-		for (final Vertex neighbor : mst.getVertexes()) {
-			if (graphEdges.contains(new Edge(lastAddedVertex, neighbor, 0))) {
-				graphEdges.remove(new Edge(lastAddedVertex, neighbor, 0));
-			}
-		}
 	}
 
 }

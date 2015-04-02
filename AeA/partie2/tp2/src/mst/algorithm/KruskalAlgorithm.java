@@ -6,9 +6,10 @@ import mst.manager.CycleManager;
 import mst.sort.EdgesComparator;
 import mst.sort.GraphSorter;
 
-public class KruskalAlgorithm implements MSTFinder {
+public class KruskalAlgorithm implements MinimumSpanningTreeFinder {
 
 	private GraphSorter graphSorter;
+	private long executionTime;
 
 	public KruskalAlgorithm() {
 		graphSorter = new GraphSorter();
@@ -16,8 +17,9 @@ public class KruskalAlgorithm implements MSTFinder {
 	}
 
 	@Override
-	public WeightedGraph findMST(WeightedGraph graph)
+	public WeightedGraph findTree(WeightedGraph graph)
 			throws CloneNotSupportedException {
+		final long beginning = System.currentTimeMillis();
 		final WeightedGraph sortedCopy = graphSorter.sort(graph);
 		final WeightedGraph mst = new WeightedGraph();
 		final CycleManager cycleManager = new CycleManager();
@@ -26,8 +28,13 @@ public class KruskalAlgorithm implements MSTFinder {
 			if (cycleManager.hasACycle(mst, edge.getVertex1()))
 				mst.removeEdge(edge);
 		}
-		System.out.println("Kruskal : " + mst.getTotalWeight());
+		executionTime = System.currentTimeMillis() - beginning;
 		return mst;
+	}
+	
+	@Override
+	public long getExecutionTime() {
+		return executionTime;
 	}
 	
 	@Override

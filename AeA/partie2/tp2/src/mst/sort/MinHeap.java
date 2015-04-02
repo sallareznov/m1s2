@@ -1,48 +1,47 @@
 package mst.sort;
 
-public class MinHeap {
 
-	private int[] values;
+public class MinHeap<T extends Comparable<T>> {
+
+	private T[] values;
 	private int lastElementIndex;
 
+	@SuppressWarnings("unchecked")
 	public MinHeap(int size) {
-		values = new int[size];
+		values = (T[]) new Comparable[size];
 		for (int i = 0; i < size; i++) {
-			values[i] = -1;
+			values[i] = null;
 		}
 		lastElementIndex = -1;
 	}
-
-	public int remove() {
-		int topElement = values[0];
-		percolateDown();
-		return topElement;
-	}
-
-	public void addToTree(int value) {
-		lastElementIndex++;
-		values[lastElementIndex] = value;
-	}
-
-	public int[] getValues() {
+	
+	public T[] getValues() {
 		return values;
 	}
-
-	public void percolateUp() {
-		int currentIndex = lastElementIndex;
-		int fatherIndex = getFatherIndex(currentIndex);
-		while (currentIndex != 0 && values[currentIndex] < values[fatherIndex]) {
-			swapValues(currentIndex, fatherIndex);
-			currentIndex = fatherIndex;
-			fatherIndex = getFatherIndex(currentIndex);
-		}
-		System.out.println("heap = ");
-		for (int value : values) {
-			System.out.println(value);
-		}
+	
+	public int size() {
+		return lastElementIndex + 1;
+	}
+	
+	private int getFatherIndex(int index) {
+		return (index - 1) / 2;
 	}
 
-	public boolean add(int value) {
+	private int getLeftChildIndex(int index) {
+		return (2 * index) + 1;
+	}
+
+	private int getRightChildIndex(int index) {
+		return (2 * index) + 2;
+	}
+
+	private void swapValues(int index1, int index2) {
+		final T temp = values[index1];
+		values[index1] = values[index2];
+		values[index2] = temp;
+	}
+	
+	public boolean add(T value) {
 		if (lastElementIndex == values.length - 1) {
 			return false;
 		}
@@ -50,50 +49,76 @@ public class MinHeap {
 		percolateUp();
 		return true;
 	}
-
-	public int getFatherIndex(int index) {
-		return (index - 1) / 2;
+	
+	private void addToTree(T value) {
+		lastElementIndex++;
+		values[lastElementIndex] = value;
+	}
+	
+	public T getValue(int index) {
+		return values[index];
+	}
+	
+	public T top() {
+		if (lastElementIndex < 0) {
+			return null;
+		}
+		return values[0];
 	}
 
-	public int getLeftChildIndex(int index) {
-		return (2 * index) + 1;
+	public T remove() {
+		if (lastElementIndex < 0) {
+			return null;
+		}
+		final T topElement = values[0];
+		percolateDown();
+		return topElement;
 	}
 
-	public int getRightChildIndex(int index) {
-		return (2 * index) + 2;
+	private void percolateUp() {
+		int currentIndex = lastElementIndex;
+		int fatherIndex = getFatherIndex(currentIndex);
+		while (currentIndex != 0
+				&& values[currentIndex].compareTo(values[fatherIndex]) < 0) {
+			swapValues(currentIndex, fatherIndex);
+			currentIndex = fatherIndex;
+			fatherIndex = getFatherIndex(currentIndex);
+		}
 	}
 
-	public void swapValues(int index1, int index2) {
-		int temp = values[index1];
-		values[index1] = values[index2];
-		values[index2] = temp;
-	}
-
-	public void percolateDown() {
+	private void percolateDown() {
 		values[0] = values[lastElementIndex];
-		values[lastElementIndex] = -1;
+		values[lastElementIndex] = null;
 		lastElementIndex--;
 		int currentIndex = 0;
 		int leftChildIndex = getLeftChildIndex(currentIndex);
 		int rightChildIndex = getRightChildIndex(currentIndex);
 		while ((leftChildIndex <= lastElementIndex)) {
-			if ((values[currentIndex] <= values[leftChildIndex] && values[currentIndex] <= values[rightChildIndex])
-					|| (values[leftChildIndex] < 0 && values[rightChildIndex] < 0)) {
+//			System.out.println("currentIndex = " + values[currentIndex]);
+//			System.out.println("leftChild = " + values[leftChildIndex]);
+//			System.out.println("rightChild = " + values[rightChildIndex]);
+			if (((values[leftChildIndex] == null && values[rightChildIndex] == null) || (values[leftChildIndex] != null
+					&& values[rightChildIndex] != null
+					&& values[currentIndex].compareTo(values[leftChildIndex]) <= 0 && values[currentIndex]
+					.compareTo(values[rightChildIndex]) <= 0))) {
 				return;
 			}
-			if (values[rightChildIndex] < 0) {
-				if ((values[currentIndex] > values[leftChildIndex])) {
+			if (values[rightChildIndex] == null) {
+				if ((values[currentIndex].compareTo(values[leftChildIndex]) > 0)) {
 					swapValues(currentIndex, leftChildIndex);
 					currentIndex = leftChildIndex;
 				} else {
 					return;
 				}
 			} else {
-				if ((values[currentIndex] > values[leftChildIndex] && values[leftChildIndex] < values[rightChildIndex])) {
+				if ((values[currentIndex].compareTo(values[leftChildIndex]) > 0 && values[leftChildIndex]
+						.compareTo(values[rightChildIndex]) <= 0)) {
 					swapValues(currentIndex, leftChildIndex);
 					currentIndex = leftChildIndex;
-				} else if (values[leftChildIndex] > values[rightChildIndex]
-						&& values[currentIndex] > values[rightChildIndex]) {
+				} else if (values[leftChildIndex]
+						.compareTo(values[rightChildIndex]) >= 0
+						&& values[currentIndex]
+								.compareTo(values[rightChildIndex]) > 0) {
 					swapValues(currentIndex, rightChildIndex);
 					currentIndex = rightChildIndex;
 				}
@@ -102,31 +127,37 @@ public class MinHeap {
 			rightChildIndex = getRightChildIndex(currentIndex);
 		}
 	}
-
-	public static void main(String[] args) {
-		final MinHeap heap = new MinHeap(11);
-		heap.add(53);
-		heap.add(30);
-		heap.add(46);
-		heap.add(28);
-		heap.add(6);
-		heap.add(36);
-		heap.add(31);
-		heap.add(16);
-		heap.add(21);
-		heap.add(41);
-		heap.add(20);
-		System.out.println("removed = " + heap.remove());
-		System.out.println("removed = " + heap.remove());
-		System.out.println("removed = " + heap.remove());
-		System.out.println("removed = " + heap.remove());
-		System.out.println("removed = " + heap.remove());
-		System.out.println("removed = " + heap.remove());
-		System.out.println("removed = " + heap.remove());
-		System.out.println("removed = " + heap.remove());
-		System.out.println("removed = " + heap.remove());
-		System.out.println("removed = " + heap.remove());
-		System.out.println("removed = " + heap.remove());
+	
+	public boolean contains(T value) {
+		for (int i = 0 ; i < values.length ; i++) {
+			if (values[i] == null)
+				return false;
+			if (values[i].equals(value))
+				return true;
+		}
+		return false;
+	}
+	
+	public boolean remove(T value) {
+		for (int i = 0 ; i < values.length ; i++) {
+			if (values[i] == null)
+				return false;
+			if (values[i].equals(value)) {
+				values[i] = null;
+				percolateDown();
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	@Override
+	public String toString() {
+		final StringBuilder builder = new StringBuilder();
+		for (int i = 0 ; i < size() ; i++) {
+			builder.append(getValue(i) + "\n");
+		}
+		return builder.toString();
 	}
 
 }

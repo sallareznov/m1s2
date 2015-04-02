@@ -5,7 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.logging.Logger;
 
-import mst.algorithm.MSTFinder;
+import mst.algorithm.MinimumSpanningTreeFinder;
 import mst.bean.Edge;
 import mst.bean.Vertex;
 import mst.bean.WeightedGraph;
@@ -35,7 +35,7 @@ public class GraphExporter {
 		reader.close();
 	}
 
-	public void exportMstToDotFile(String dotFilename, MSTFinder finder,
+	public void exportMstToDotFile(String dotFilename, MinimumSpanningTreeFinder finder,
 			WeightedGraph graph, WeightedGraph mst) throws IOException {
 		final BufferedWriter reader = new BufferedWriter(new FileWriter(
 				dotFilename));

@@ -6,23 +6,17 @@ import mst.bean.Edge;
 import mst.bean.Vertex;
 import mst.bean.WeightedGraph;
 import mst.manager.NeighborsManager;
-import mst.sort.EdgesComparator;
-import mst.sort.GraphSorter;
 
-public class PrimAlgorithm implements MSTFinder {
+public class PrimAlgorithm implements MinimumSpanningTreeFinder {
 	
-	private GraphSorter graphSorter;
+	private long executionTime; 
 	
-	public PrimAlgorithm() {
-		graphSorter = new GraphSorter();
-		graphSorter.setComparator(new EdgesComparator());
-	}
-
 	@Override
-	public WeightedGraph findMST(WeightedGraph graph) throws CloneNotSupportedException {
+	public WeightedGraph findTree(WeightedGraph graph) throws CloneNotSupportedException {
 		final WeightedGraph mst = new WeightedGraph();
 		final NeighborsManager neighborsManager = new NeighborsManager();
 		neighborsManager.initNeighbors(graph);
+		final long beginning = System.currentTimeMillis();
 		final Random randomizer = new Random();
 		final int graphSize = graph.getSize();
 		final int randomVertexIndex = randomizer.nextInt(graphSize);
@@ -34,15 +28,18 @@ public class PrimAlgorithm implements MSTFinder {
 			if (weakerOutgoingEdge == null) {
 				return mst;
 			}
-			if (!lastAddedVertex.equals(weakerOutgoingEdge.getVertex1()))
-				lastAddedVertex = weakerOutgoingEdge.getVertex1();
-			else
+			if (mst.getVertexes().contains(weakerOutgoingEdge.getVertex1()))
 				lastAddedVertex = weakerOutgoingEdge.getVertex2();
+			else
+				lastAddedVertex = weakerOutgoingEdge.getVertex1();
 			mst.addEdge(weakerOutgoingEdge);
-			neighborsManager.removeNeighbors(mst, lastAddedVertex);
 		}
-		System.out.println("Prim : " + mst.getTotalWeight());
+		executionTime = System.currentTimeMillis() - beginning;
 		return mst;
+	}
+	
+	public long getExecutionTime() {
+		return executionTime;
 	}
 	
 	@Override
