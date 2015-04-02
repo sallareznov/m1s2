@@ -1,4 +1,4 @@
-package mst.manager;
+package mst.util;
 
 import java.util.HashMap;
 import java.util.LinkedList;

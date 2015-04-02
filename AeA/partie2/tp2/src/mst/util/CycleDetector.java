@@ -1,4 +1,4 @@
-package mst.manager;
+package mst.util;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -8,11 +8,11 @@ import java.util.Queue;
 import mst.bean.Vertex;
 import mst.bean.WeightedGraph;
 
-public class CycleManager {
+public class CycleDetector {
 
 	private Map<Vertex, Integer> levels;
 
-	public CycleManager() {
+	public CycleDetector() {
 		levels = new HashMap<Vertex, Integer>();
 	}
 
