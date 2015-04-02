@@ -5,11 +5,9 @@ import java.util.Random;
 import mst.bean.Edge;
 import mst.bean.Vertex;
 import mst.bean.WeightedGraph;
-import mst.manager.NeighborsManager;
+import mst.util.NeighborsManager;
 
-public class PrimAlgorithm implements MinimumSpanningTreeFinder {
-	
-	private long executionTime; 
+public class PrimAlgorithm extends AbstractMinimumSpanningTreeFinder {
 	
 	@Override
 	public WeightedGraph findTree(WeightedGraph graph) throws CloneNotSupportedException {
@@ -34,12 +32,8 @@ public class PrimAlgorithm implements MinimumSpanningTreeFinder {
 				lastAddedVertex = weakerOutgoingEdge.getVertex1();
 			mst.addEdge(weakerOutgoingEdge);
 		}
-		executionTime = System.currentTimeMillis() - beginning;
+		setExecutionTime(System.currentTimeMillis() - beginning);
 		return mst;
-	}
-	
-	public long getExecutionTime() {
-		return executionTime;
 	}
 	
 	@Override

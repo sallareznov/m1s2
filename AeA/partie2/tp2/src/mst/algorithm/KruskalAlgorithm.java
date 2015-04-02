@@ -2,14 +2,13 @@ package mst.algorithm;
 
 import mst.bean.Edge;
 import mst.bean.WeightedGraph;
-import mst.manager.CycleManager;
 import mst.sort.EdgesComparator;
 import mst.sort.GraphSorter;
+import mst.util.CycleDetector;
 
-public class KruskalAlgorithm implements MinimumSpanningTreeFinder {
+public class KruskalAlgorithm extends AbstractMinimumSpanningTreeFinder {
 
 	private GraphSorter graphSorter;
-	private long executionTime;
 
 	public KruskalAlgorithm() {
 		graphSorter = new GraphSorter();
@@ -22,19 +21,14 @@ public class KruskalAlgorithm implements MinimumSpanningTreeFinder {
 		final long beginning = System.currentTimeMillis();
 		final WeightedGraph sortedCopy = graphSorter.sort(graph);
 		final WeightedGraph mst = new WeightedGraph();
-		final CycleManager cycleManager = new CycleManager();
+		final CycleDetector cycleManager = new CycleDetector();
 		for (final Edge edge : sortedCopy.getEdges()) {
 			mst.addEdge(edge);
 			if (cycleManager.hasACycle(mst, edge.getVertex1()))
 				mst.removeEdge(edge);
 		}
-		executionTime = System.currentTimeMillis() - beginning;
+		setExecutionTime(System.currentTimeMillis() - beginning);
 		return mst;
-	}
-	
-	@Override
-	public long getExecutionTime() {
-		return executionTime;
 	}
 	
 	@Override

@@ -15,5 +15,9 @@ public abstract class AbstractMinimumSpanningTreeFinder implements
 	public long getExecutionTime() {
 		return executionTime;
 	}
+	
+	public void setExecutionTime(long executionTime) {
+		this.executionTime = executionTime;
+	}
 
 }
