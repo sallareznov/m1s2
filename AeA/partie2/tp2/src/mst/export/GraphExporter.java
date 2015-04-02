@@ -68,8 +68,7 @@ public class GraphExporter {
 		LOGGER.info("> Exporting " + dotFilename
 				+ " to viewable PostScript file");
 		final String command = "dot -Tps " + dotFilename + " > " + psFilename;
-		String[] blabla = { "dot", "-Tps", "dotFilename", ">", psFilename };
-		Runtime.getRuntime().exec(blabla);
+		Runtime.getRuntime().exec(command);
 		LOGGER.info("> Finished ! Output is " + psFilename);
 	}
 

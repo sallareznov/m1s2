@@ -3,13 +3,16 @@ package mst.performance;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.logging.Logger;
 
 import mst.algorithm.MinimumSpanningTreeFinder;
 import mst.bean.WeightedGraph;
+import mst.logger.LoggerFactory;
 import mst.random.ErdosRenyiGraphGenerator;
 
-public class MSTAlgorithmPerformanceEvaluator {
+public class AlgorithmPerformanceEvaluator {
 
+	private static final Logger LOGGER = LoggerFactory.getLogger(AlgorithmPerformanceEvaluator.class);
 	private BufferedWriter writer;
 
 	public void initFilenameWriting(String filename) throws IOException {
@@ -27,6 +30,7 @@ public class MSTAlgorithmPerformanceEvaluator {
 	public void evaluate(int maxN, ErdosRenyiGraphGenerator graphGenerator,
 			String filename, MinimumSpanningTreeFinder... mstAlgorithms)
 			throws CloneNotSupportedException, IOException {
+		LOGGER.info("> Performance evaluation in progress...");
 		initFilenameWriting(filename);
 		for (int n = 4; n <= maxN; n++) {
 			final WeightedGraph graph = graphGenerator.generateErdosRenyiGraph(
@@ -39,6 +43,8 @@ public class MSTAlgorithmPerformanceEvaluator {
 			}
 			write("\n");
 		}
+		LOGGER.info("> Performance evaluation terminated");
+		LOGGER.info("You can view results in the file " + filename);
 		writer.close();
 	}
 
