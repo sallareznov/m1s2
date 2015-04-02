@@ -35,8 +35,7 @@ public class ErdosRenyiGraphGenerator {
 			}
 		}
 		final Set<Vertex> setVertexes = new HashSet<Vertex>(Arrays.asList(vertexes)); 
-		final WeightedGraph graph = new WeightedGraph(setVertexes, edges);
-		return graph;
+		return new WeightedGraph(setVertexes, edges);
 	}
 
 }

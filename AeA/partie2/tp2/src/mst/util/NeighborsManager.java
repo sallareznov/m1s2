@@ -15,33 +15,33 @@ import mst.sort.MinHeap;
 
 public class NeighborsManager {
 
-	private Map<Vertex, List<Vertex>> vertexesToNeighbors;
+	private Map<Vertex, List<VertexNeighbor>> vertexesToNeighbors;
 	private MinHeap<Edge> minHeap;
 
 	public NeighborsManager() {
-		vertexesToNeighbors = new HashMap<Vertex, List<Vertex>>();
+		vertexesToNeighbors = new HashMap<Vertex, List<VertexNeighbor>>();
 	}
 
-	public void addNeighbors(Vertex vertex1, Vertex vertex2) {
-		List<Vertex> vertex1Neighbors = vertexesToNeighbors.get(vertex1);
+	public void addNeighbors(Vertex vertex1, Vertex vertex2, int weight) {
+		List<VertexNeighbor> vertex1Neighbors = vertexesToNeighbors.get(vertex1);
 		if (vertex1Neighbors == null) {
-			vertex1Neighbors = new LinkedList<Vertex>();
+			vertex1Neighbors = new LinkedList<VertexNeighbor>();
 		}
-		vertex1Neighbors.add(vertex2);
+		vertex1Neighbors.add(new VertexNeighbor(vertex2, weight));
 		vertexesToNeighbors.put(vertex1, vertex1Neighbors);
 	}
 
-	public List<Vertex> getNeighbors(Vertex vertex) {
-		final List<Vertex> neighbors = vertexesToNeighbors.get(vertex);
+	public List<VertexNeighbor> getNeighbors(Vertex vertex) {
+		final List<VertexNeighbor> neighbors = vertexesToNeighbors.get(vertex);
 		if (neighbors == null) {
-			return new LinkedList<Vertex>();
+			return new LinkedList<VertexNeighbor>();
 		}
 		return neighbors;
 	}
 
 	public void addNeighbors(Edge edge) {
-		addNeighbors(edge.getVertex1(), edge.getVertex2());
-		addNeighbors(edge.getVertex2(), edge.getVertex1());
+		addNeighbors(edge.getVertex1(), edge.getVertex2(), edge.getWeight());
+		addNeighbors(edge.getVertex2(), edge.getVertex1(), edge.getWeight());
 	}
 
 	public void initNeighbors(WeightedGraph graph) {
@@ -58,8 +58,8 @@ public class NeighborsManager {
 
 	public Edge getWeakerOutgoingEdge(WeightedGraph subGraph,
 			WeightedGraph graph, Vertex lastAddedVertex) {
-		for (final Vertex neighbor : getNeighbors(lastAddedVertex)) {
-			final Edge edge = graph.getEdge(lastAddedVertex, neighbor);
+		for (final VertexNeighbor neighbor : getNeighbors(lastAddedVertex)) {
+			final Edge edge = graph.getEdge(lastAddedVertex, neighbor.getNeighbor());
 			if (!minHeap.contains(edge) && !subGraph.containsVertexes(edge)) {
 				minHeap.add(edge);
 			}

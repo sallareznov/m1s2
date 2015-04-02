@@ -63,6 +63,9 @@ public class WeightedGraph implements Cloneable {
 	}
 
 	public void addEdge(Edge edge) {
+		if (edges.contains(edge)) {
+			return;
+		}
 		edges.add(edge);
 		addVertex(edge.getVertex1());
 		addVertex(edge.getVertex2());
@@ -93,9 +96,7 @@ public class WeightedGraph implements Cloneable {
 	}
 	
 	public boolean containsEdge(Edge edge) {
-		final boolean condition1 = edges.contains(edge);
-		//final boolean condition2 = vertexes.contains(edge.getVertex1()) && vertexes.contains(edge.getVertex2());
-		return condition1;
+		return edges.contains(edge);
 	}
 	
 	public boolean containsVertexes(Edge edge) {

@@ -35,8 +35,9 @@ public class GraphExporter {
 		reader.close();
 	}
 
-	public void exportMstToDotFile(String dotFilename, MinimumSpanningTreeFinder finder,
-			WeightedGraph graph, WeightedGraph mst) throws IOException {
+	public void exportMstToDotFile(String dotFilename,
+			MinimumSpanningTreeFinder finder, WeightedGraph graph,
+			WeightedGraph mst) throws IOException {
 		final BufferedWriter reader = new BufferedWriter(new FileWriter(
 				dotFilename));
 		LOGGER.info("> Writing " + finder + " to dotfile ");
@@ -66,8 +67,9 @@ public class GraphExporter {
 			throws IOException {
 		LOGGER.info("> Exporting " + dotFilename
 				+ " to viewable PostScript file");
-		final String command = "dot Tps " + dotFilename + " > " + psFilename;
-		Runtime.getRuntime().exec(command);
+		final String command = "dot -Tps " + dotFilename + " > " + psFilename;
+		String[] blabla = { "dot", "-Tps", "dotFilename", ">", psFilename };
+		Runtime.getRuntime().exec(blabla);
 		LOGGER.info("> Finished ! Output is " + psFilename);
 	}
 
