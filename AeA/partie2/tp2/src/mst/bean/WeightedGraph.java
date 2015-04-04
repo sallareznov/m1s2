@@ -24,7 +24,7 @@ public class WeightedGraph implements Cloneable {
 	public int getSize() {
 		return vertexes.size();
 	}
-
+	
 	public int getTotalWeight() {
 		int totalWeight = 0;
 		for (Edge edge : edges) {
@@ -53,13 +53,10 @@ public class WeightedGraph implements Cloneable {
 	public List<Edge> getEdges() {
 		return edges;
 	}
-
+	
 	public Edge getEdge(Vertex vertex1, Vertex vertex2) {
 		for (final Edge edge : edges) {
-			if ((edge.getVertex1().equals(vertex1) && edge.getVertex2().equals(
-					vertex2))
-					|| (edge.getVertex1().equals(vertex2) && edge.getVertex2()
-							.equals(vertex1)))
+			if ((edge.getVertex1().equals(vertex1) && edge.getVertex2().equals(vertex2)) || (edge.getVertex1().equals(vertex2) && edge.getVertex2().equals(vertex1)))
 				return edge;
 		}
 		return null;
@@ -73,7 +70,7 @@ public class WeightedGraph implements Cloneable {
 		addVertex(edge.getVertex1());
 		addVertex(edge.getVertex2());
 	}
-
+	
 	public void addVertex(Vertex vertex) {
 		vertexes.add(vertex);
 	}
@@ -97,14 +94,13 @@ public class WeightedGraph implements Cloneable {
 		}
 		return builder.toString();
 	}
-
+	
 	public boolean containsEdge(Edge edge) {
 		return edges.contains(edge);
 	}
-
+	
 	public boolean containsVertexes(Edge edge) {
-		return vertexes.contains(edge.getVertex1())
-				&& vertexes.contains(edge.getVertex2());
+		return vertexes.contains(edge.getVertex1()) && vertexes.contains(edge.getVertex2()); 
 	}
 
 	@Override

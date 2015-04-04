@@ -4,14 +4,19 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.PriorityQueue;
+import java.util.Queue;
 
 import mst.bean.Edge;
 import mst.bean.Vertex;
 import mst.bean.WeightedGraph;
+import mst.sort.EdgesComparator;
+import mst.sort.MinHeap;
 
 public class NeighborsManager {
 
 	private Map<Vertex, List<VertexNeighbor>> vertexesToNeighbors;
+	private MinHeap<Edge> minHeap;
 
 	public NeighborsManager() {
 		vertexesToNeighbors = new HashMap<Vertex, List<VertexNeighbor>>();
@@ -41,12 +46,29 @@ public class NeighborsManager {
 
 	public void initNeighbors(WeightedGraph graph) {
 		vertexesToNeighbors.clear();
-		final LinkedList<Edge> graphEdges = new LinkedList<Edge>();
+		minHeap = new MinHeap<Edge>(graph.getEdges().size());
+		final Queue<Edge> graphEdges = new PriorityQueue<Edge>(graph.getSize(),
+				new EdgesComparator());
 		graphEdges.addAll(graph.getEdges());
 		while (!graphEdges.isEmpty()) {
 			final Edge poll = graphEdges.poll();
 			addNeighbors(poll);
 		}
+	}
+
+	public Edge getWeakerOutgoingEdge(WeightedGraph subGraph,
+			WeightedGraph graph, Vertex lastAddedVertex) {
+		for (final VertexNeighbor neighbor : getNeighbors(lastAddedVertex)) {
+			final Edge edge = graph.getEdge(lastAddedVertex, neighbor.getNeighbor());
+			if (!minHeap.contains(edge) && !subGraph.containsVertexes(edge)) {
+				minHeap.add(edge);
+			}
+		}
+		Edge weakerEdge = minHeap.remove();
+		while (weakerEdge != null && subGraph.containsVertexes(weakerEdge)) {
+			weakerEdge =  minHeap.remove();
+		}
+		return weakerEdge;
 	}
 
 }
