@@ -45,6 +45,9 @@ public class NeighborsManager {
 
 	public void initNeighbors(WeightedGraph graph) {
 		vertexesToNeighbors.clear();
+		if (graph.getEdges().size() < 1) {
+			return;
+		}
 		final Queue<Edge> graphEdges = new PriorityQueue<Edge>(graph.getEdges()
 				.size(), new EdgesComparator());
 		graphEdges.addAll(graph.getEdges());
@@ -52,6 +55,7 @@ public class NeighborsManager {
 			final Edge poll = graphEdges.poll();
 			addNeighbors(poll);
 		}
+
 	}
 
 }

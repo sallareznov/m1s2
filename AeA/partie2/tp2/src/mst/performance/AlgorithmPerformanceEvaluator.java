@@ -12,19 +12,31 @@ import mst.random.ErdosRenyiGraphGenerator;
 
 public class AlgorithmPerformanceEvaluator {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(AlgorithmPerformanceEvaluator.class);
-	private BufferedWriter writer;
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(AlgorithmPerformanceEvaluator.class);
+	private BufferedWriter[] writers;
 
 	public void initFilenameWriting(String filename) throws IOException {
-		writer = new BufferedWriter(new FileWriter(filename));
+		final int extensionIndex = filename.lastIndexOf('.');
+		final String filenameWithoutExtension = filename.substring(0,
+				extensionIndex);
+		final String extension = filename.substring(extensionIndex,
+				filename.length());
+		writers = new BufferedWriter[10];
+		for (int i = 0; i < 10; i++) {
+			writers[i] = new BufferedWriter(new FileWriter(
+					filenameWithoutExtension + "_p" + (i + 1) + extension));
+		}
 	}
 
-	public void write(String text) throws IOException {
-		writer.write(text);
+	public void write(int index, String text) throws IOException {
+		writers[index].write(text);
 	}
 
-	public void close() throws IOException {
-		writer.close();
+	public void closeWriters() throws IOException {
+		for (final BufferedWriter writer : writers) {
+			writer.close();
+		}
 	}
 
 	public void evaluate(int maxN, ErdosRenyiGraphGenerator graphGenerator,
@@ -33,19 +45,23 @@ public class AlgorithmPerformanceEvaluator {
 		LOGGER.info("> Performance evaluation in progress...");
 		initFilenameWriting(filename);
 		for (int n = 4; n <= maxN; n++) {
-			final WeightedGraph graph = graphGenerator.generateErdosRenyiGraph(
-					n, 0.8f);
-			write(n + " ");
-			for (MinimumSpanningTreeFinder algorithm : mstAlgorithms) {
-				algorithm.findTree(graph);
-				final long executionTime = algorithm.getExecutionTime();
-				write(executionTime + " ");
+			float p = 0.1f;
+			for (int index = 0 ; index < 10 ; index++) {
+				final WeightedGraph graph = graphGenerator
+						.generateErdosRenyiGraph(n, p);
+				write(index, n + " ");
+				for (MinimumSpanningTreeFinder algorithm : mstAlgorithms) {
+					algorithm.findTree(graph);
+					final long executionTime = algorithm.getExecutionTime();
+					write(index, executionTime + " ");
+				}
+				write(index, "\n");
+				p += 0.1f;
 			}
-			write("\n");
 		}
 		LOGGER.info("> Performance evaluation terminated");
 		LOGGER.info("You can view results in the file " + filename);
-		writer.close();
+		closeWriters();
 	}
 
 }

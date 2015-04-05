@@ -7,8 +7,8 @@ import mst.algorithm.KruskalAlgorithm;
 import mst.algorithm.MinimumSpanningTreeFinder;
 import mst.algorithm.PrimAlgorithm;
 import mst.bean.WeightedGraph;
-import mst.export.GraphExporter;
-import mst.export.GraphTools;
+import mst.export.ViewableGraphExporter;
+import mst.export.TextualGraphTools;
 import mst.logger.LoggerFactory;
 
 public class CustomGraphPerformanceEvaluator {
@@ -36,9 +36,9 @@ public class CustomGraphPerformanceEvaluator {
 			return;
 		}
 		final String filename = args[0];
-		final GraphTools graphTools = new GraphTools();
+		final TextualGraphTools graphTools = new TextualGraphTools();
 		final WeightedGraph graph = graphTools.getGraphFromFile(filename);
-		final GraphExporter graphExporter = new GraphExporter();
+		final ViewableGraphExporter graphExporter = new ViewableGraphExporter();
 		final MinimumSpanningTreeFinder primTreeFinder = new PrimAlgorithm();
 		final MinimumSpanningTreeFinder kruskalTreeFinder = new KruskalAlgorithm();
 		final WeightedGraph primMst = primTreeFinder.findTree(graph);
