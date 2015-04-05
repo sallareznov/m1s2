@@ -38,7 +38,7 @@ public class PrimAlgorithm extends AbstractMinimumSpanningTreeFinder {
 			mst.addEdge(weakerOutgoingEdge);
 		}
 		setExecutionTime(System.currentTimeMillis() - beginning);
-		System.out.println("Prim : " + mst.getTotalWeight());
+		//System.out.println("Prim : " + mst.getTotalWeight());
 		return mst;
 	}
 

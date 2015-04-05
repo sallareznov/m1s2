@@ -19,7 +19,7 @@ public class WeakerOutgoingEdgeProvider {
 	public Edge getWeakerOutgoingEdge(WeightedGraph subGraph,
 			WeightedGraph graph, Vertex lastAddedVertex) {
 		for (final VertexNeighbor neighbor : neighborsManager.getNeighbors(lastAddedVertex)) {
-			final Edge edge = graph.getEdge(lastAddedVertex, neighbor.getNeighbor(), neighbor);
+			final Edge edge = graph.getEdge(lastAddedVertex, neighbor.getNeighbor());
 			if (!minHeap.contains(edge) && !subGraph.containsVertexes(edge)) {
 				minHeap.add(edge);
 			}

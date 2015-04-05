@@ -63,19 +63,11 @@ public class WeightedGraph implements Cloneable {
 	}
 
 	public Edge getEdge(Vertex vertex1, Vertex vertex2) {
-		System.out.println(edges.size());
-		System.out.println(edgesToEdges.size());
-		// for (final Edge edge : edges) {
-		// if ((edge.getVertex1().equals(vertex1) && edge.getVertex2().equals(
-		// vertex2))
-		// || (edge.getVertex1().equals(vertex2) && edge.getVertex2()
-		// .equals(vertex1)))
-		// return edge;
-		// }
-		// return null;
-		System.out.println(". = "
-				+ edgesToEdges.get(new Edge(vertex1, vertex2, 0)));
-		return edgesToEdges.get(new Edge(vertex1, vertex2, 0));
+		Edge edge = edgesToEdges.get(new Edge(vertex1, vertex2, 0));
+		if (edge == null) {
+			edge = edgesToEdges.get(new Edge(vertex2, vertex1, 0));
+		}
+		return edge;
 	}
 
 	public void addEdge(Edge edge) {
@@ -120,8 +112,17 @@ public class WeightedGraph implements Cloneable {
 	}
 
 	public boolean containsVertexes(Edge edge) {
-		return vertexes.contains(edge.getVertex1())
-				&& vertexes.contains(edge.getVertex2());
+		boolean condition1 = false;
+		boolean condition2 = false;
+		final Iterator<Vertex> iter = vertexes.iterator();
+		while (iter.hasNext() && !(condition1 && condition2)) {
+			final Vertex vertex = iter.next();
+			if (vertex.equals(edge.getVertex1()))
+				condition1 = true;
+			if (vertex.equals(edge.getVertex2()))
+				condition2 = true;
+		}
+		return condition1 && condition2;
 	}
 
 	@Override
