@@ -11,10 +11,10 @@ import mst.bean.Vertex;
 import mst.bean.WeightedGraph;
 import mst.logger.LoggerFactory;
 
-public class GraphExporter {
+public class ViewableGraphExporter {
 
 	private static final Logger LOGGER = LoggerFactory
-			.getLogger(GraphExporter.class);
+			.getLogger(ViewableGraphExporter.class);
 
 	public void exportSimpleGraphToDotFile(WeightedGraph graph,
 			String dotFilename) throws IOException {

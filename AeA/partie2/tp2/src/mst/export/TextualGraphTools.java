@@ -15,7 +15,7 @@ import mst.bean.WeightedGraph;
 import mst.util.NeighborsManager;
 import mst.util.VertexNeighbor;
 
-public class GraphTools {
+public class TextualGraphTools {
 
 	private static final String TOKEN_SEPARATOR = " ";
 
