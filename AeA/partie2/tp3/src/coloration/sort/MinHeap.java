@@ -98,9 +98,6 @@ public class MinHeap<T> {
 		int leftChildIndex = getLeftChildIndex(currentIndex);
 		int rightChildIndex = getRightChildIndex(currentIndex);
 		while ((leftChildIndex <= lastElementIndex)) {
-			// System.out.println("currentIndex = " + values[currentIndex]);
-			// System.out.println("leftChild = " + values[leftChildIndex]);
-			// System.out.println("rightChild = " + values[rightChildIndex]);
 			if (((values[leftChildIndex] == null && values[rightChildIndex] == null) || (values[leftChildIndex] != null
 					&& values[rightChildIndex] != null
 					&& comparator.compare(values[currentIndex],
@@ -132,10 +129,6 @@ public class MinHeap<T> {
 			rightChildIndex = getRightChildIndex(currentIndex);
 		}
 	}
-	
-	public boolean isEmpty() {
-		return lastElementIndex == -1;
-	}
 
 	public boolean contains(T value) {
 		for (int i = 0; i < values.length; i++) {
@@ -146,18 +139,9 @@ public class MinHeap<T> {
 		}
 		return false;
 	}
-
-	public boolean remove(T value) {
-		for (int i = 0; i < values.length; i++) {
-			if (values[i] == null)
-				return false;
-			if (values[i].equals(value)) {
-				values[i] = null;
-				percolateDown();
-				return true;
-			}
-		}
-		return false;
+	
+	public boolean isEmpty() {
+		return lastElementIndex < 0;
 	}
 
 	@Override

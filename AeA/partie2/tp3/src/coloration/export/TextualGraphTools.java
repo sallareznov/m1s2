@@ -1,4 +1,4 @@
-package coloration.exporter;
+package coloration.export;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -15,7 +15,7 @@ import coloration.bean.WeightedGraph;
 import coloration.util.NeighborsManager;
 import coloration.util.VertexNeighbor;
 
-public class GraphTools {
+public class TextualGraphTools {
 
 	private static final String TOKEN_SEPARATOR = " ";
 
