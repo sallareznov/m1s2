@@ -4,6 +4,7 @@ To change this license header, choose License Headers in Project Properties.
 To change this template file, choose Tools | Templates
 and open the template in the editor.
 -->
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <html>
     <head>
         <title>BOOK A BOOK !</title>
@@ -17,15 +18,15 @@ and open the template in the editor.
             <table>
                 <tr>
                     <td>Title : </td>
-                    <td><input type="text" name="title" /></td>
+                    <td><input type="text" name="title" value=<%=request.getParameter("title")%>/></td>
                 </tr>
                 <tr>
                     <td>Author : </td>
-                    <td><input type="text" name="author" /></td>
+                    <td><input type="text" name="author" value=<%=request.getParameter("author")%>/></td>
                 </tr>
                 <tr>
                     <td>Release date : </td>
-                    <td><input type="text" name="release" /></td>
+                    <td><input type="text" name="release" value="<%=request.getParameter("release")%>"/></td>
                 </tr>
                 <tr>
                     <td><input type="submit" value="Order" name="order" /></td>
@@ -33,5 +34,11 @@ and open the template in the editor.
             </table>
             </fieldset>
         </form>
+                <h1>Blabla</h1>
+                <form action="https://localhost:8080/tp4/servlet/AuthorServlet">
+                    <tr>
+                        <td><input type="submit" value="Order" name="order" /></td>
+                    </tr>
+                </form>
     </body>
 </html>
