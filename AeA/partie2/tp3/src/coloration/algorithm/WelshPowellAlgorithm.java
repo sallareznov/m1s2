@@ -23,15 +23,11 @@ public class WelshPowellAlgorithm implements VertexesColorationAlgorithm {
 		colorationManager.initColors(graph);
 		int currentColor = 0;
 		for (final Vertex vertex : sortedVertexes) {
-			System.out.println(vertex);
 			setSmallestNotUsedColor(vertex, neighborsManager,
 					colorationManager, currentColor);
 			if (colorationManager.getColor(vertex) > 0) {
 				currentColor++;
 			}
-		}
-		for (final Vertex vertex : graph.getVertexes()) {
-			System.out.println(vertex + " -> " + colorationManager.getColor(vertex));
 		}
 	}
 
@@ -40,7 +36,6 @@ public class WelshPowellAlgorithm implements VertexesColorationAlgorithm {
 			ColorationManager colorationManager, int currentColor) {
 		int smallestColor = Integer.MAX_VALUE;
 		for (final Vertex neighbor : neighborsManager.getNeighbors(vertex)) {
-			System.out.println(neighbor + " __ " + colorationManager.getColor(neighbor));
 			final Integer color = colorationManager.getColor(neighbor);
 			if (color != -1)
 				smallestColor = Math.min(smallestColor, color);
@@ -48,16 +43,27 @@ public class WelshPowellAlgorithm implements VertexesColorationAlgorithm {
 		if (smallestColor > 0) {
 			colorationManager.colourVertex(vertex, 0);
 		} else {
-			colorationManager.colourVertex(vertex, currentColor + 1);
+			for (int i = 0 ; i <= currentColor + 1 ; i++) {
+				boolean usedColor = false;
+				for (final Vertex neighbor : neighborsManager.getNeighbors(vertex)) {
+					if (colorationManager.getColor(neighbor) == i) {
+						usedColor = true;
+						break;
+					}
+				}
+				if (!usedColor) {
+					colorationManager.colourVertex(vertex, i);
+					break;
+				}
+			}
 		}
-		System.out.println("color = " + colorationManager.getColor(vertex));
 	}
 
 	public static void main(String[] args) throws IOException,
 			CloneNotSupportedException {
 		final WelshPowellAlgorithm algo = new WelshPowellAlgorithm();
 		final TextualGraphTools graphTools = new TextualGraphTools();
-		final WeightedGraph graph = graphTools.getGraphFromFile("ex2.grp");
+		final WeightedGraph graph = graphTools.getGraphFromFile("petersen.grp");
 		algo.colorGraph(graph);
 	}
 
