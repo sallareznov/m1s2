@@ -6,14 +6,18 @@ import mst.bean.Edge;
 import mst.bean.Vertex;
 import mst.bean.WeightedGraph;
 import mst.util.NeighborsManager;
+import mst.util.WeakerOutgoingEdgeProvider;
 
 public class PrimAlgorithm extends AbstractMinimumSpanningTreeFinder {
-	
+
 	@Override
-	public WeightedGraph findTree(WeightedGraph graph) throws CloneNotSupportedException {
+	public WeightedGraph findTree(WeightedGraph graph)
+			throws CloneNotSupportedException {
 		final WeightedGraph mst = new WeightedGraph();
 		final NeighborsManager neighborsManager = new NeighborsManager();
 		neighborsManager.initNeighbors(graph);
+		final WeakerOutgoingEdgeProvider weakerOutgoingEdgeProvider = new WeakerOutgoingEdgeProvider(
+				neighborsManager, graph.getEdges().size());
 		final long beginning = System.currentTimeMillis();
 		final Random randomizer = new Random();
 		final int graphSize = graph.getSize();
@@ -22,7 +26,8 @@ public class PrimAlgorithm extends AbstractMinimumSpanningTreeFinder {
 		mst.addVertex(firstVertex);
 		Vertex lastAddedVertex = firstVertex;
 		while (mst.getSize() < graphSize) {
-			final Edge weakerOutgoingEdge = neighborsManager.getWeakerOutgoingEdge(mst, graph, lastAddedVertex);
+			final Edge weakerOutgoingEdge = weakerOutgoingEdgeProvider
+					.getWeakerOutgoingEdge(mst, graph, lastAddedVertex);
 			if (weakerOutgoingEdge == null) {
 				return mst;
 			}
@@ -33,12 +38,13 @@ public class PrimAlgorithm extends AbstractMinimumSpanningTreeFinder {
 			mst.addEdge(weakerOutgoingEdge);
 		}
 		setExecutionTime(System.currentTimeMillis() - beginning);
+		//System.out.println("Prim : " + mst.getTotalWeight());
 		return mst;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Prim algorithm";
 	}
-	
+
 }

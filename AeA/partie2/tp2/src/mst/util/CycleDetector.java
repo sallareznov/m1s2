@@ -37,11 +37,11 @@ public class CycleDetector {
 		queueVertexes.add(vertex);
 		while (!queueVertexes.isEmpty() && !cyclic) {
 			final Vertex topVertex = queueVertexes.remove();
-			for (Vertex neighbor : neighborsManager.getNeighbors(topVertex)) {
-				if (getLevel(neighbor) == -1) {
-					levels.put(neighbor, getLevel(topVertex) + 1);
-					queueVertexes.add(neighbor);
-				} else if (getLevel(topVertex) <= getLevel(neighbor)) {
+			for (VertexNeighbor neighbor : neighborsManager.getNeighbors(topVertex)) {
+				if (getLevel(neighbor.getNeighbor()) == -1) {
+					levels.put(neighbor.getNeighbor(), getLevel(topVertex) + 1);
+					queueVertexes.add(neighbor.getNeighbor());
+				} else if (getLevel(topVertex) <= getLevel(neighbor.getNeighbor())) {
 						cyclic = true;
 				}
 			}

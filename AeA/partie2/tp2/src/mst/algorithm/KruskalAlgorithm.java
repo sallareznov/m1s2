@@ -28,6 +28,7 @@ public class KruskalAlgorithm extends AbstractMinimumSpanningTreeFinder {
 				mst.removeEdge(edge);
 		}
 		setExecutionTime(System.currentTimeMillis() - beginning);
+		//System.out.println("Kruskal : " + mst.getTotalWeight());
 		return mst;
 	}
 	

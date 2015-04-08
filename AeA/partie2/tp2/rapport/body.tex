@@ -1,0 +1,253 @@
+\section*{Introduction}
+Ce TP est une implémentation en JAVA de deux algorithmes de recherche d'un arbre couvrant minimal d'un graphe, Prim et Kruskal. Ce TP permet aussi de tester la performance des deux algorithmes sur des graphes générés aléatoirement selon le modèle d'Erdos-Renyi.
+
+\section*{Listing des dossiers et fichiers du projet}
+\begin{description}
+	\item[doc/ :] javadoc du projet
+	\item[lib/ :] contient les librairies (\verb+.jar+) dont le projet est dépendant
+	\item[src/ :] contient les fichiers sources (\verb+.java+) du projet
+	\item[test/ :] contient les fichiers de tests
+	\item[uml/ :] contient les diagrammes de classes du projet
+	\item[build.xml :] fichier de gestion du projet (Ant)
+	\item[mstFinder.jar :] archive exécutable du projet
+\end{description}
+
+\section*{Utilisation}
+Pour lancer le serveur, il suffit d'ouvrir un terminal et taper les commandes :
+\begin{itemize}
+	\item \verb+ant package+
+	\item \verb+java -jar ftpServer.jar [port] [baseDirectory]+ avec :
+		\begin{description}
+			\item[port] : le numéro du port TCP sur lequel écoutera le serveur
+			\item[baseDirectory] : le répertoire auquel auront accès les clients potentiels
+		\end{description}
+\end{itemize}
+
+\section*{Architecture}
+Ce projet est composé de 33 classes répartis en 3 paquetages :
+\begin{tabbing}
+	\hspace{1cm}\=\hspace{1cm}\=\hspace{1cm}\=\kill
+	\textit{- package ftp}\\
+		\>\textit{- package client}\\
+			\>\>\verb+FTPRequestHandler+ : classe représentant un handler de requête FTP. Une \\\>\>instance de cette classe sera lancée dans un nouveau Thread à chaque fois qu'un \\\>\>client est connecté.\\
+		\>\textit{- package server}\\
+			\>\>\verb+FTPServer+ : classe représentant le serveur du projet. Il se chargera de lancer un \\\>\>processus en parallèle quand un client sera connecté.\\
+			\>\>\textit{- package command}\\
+			\>\>\>\verb+FTPCdupCommand+ : classe représentant la commande CDUP.\\
+			\>\>\>\verb+FTPCommand+ : interface représentant une commande (polymorphisme).\\
+			\>\>\>\verb+FTPCommandManager+ : classe représentant le manager des commandes. \\\>\>\>C'est cette classe qui se chargera d'exécuter la commande adéquate \\\>\>\>quand le serveur en reçoit une.\\
+			\>\>\>\verb+FTPBasicCommand+ : classe abstraite représentant une commande valide.\\
+			\>\>\>\verb+FTPConnectionNeededCommand+ : classe abstraite représentant une commande \\\>\>\>nécessitant que l'utilisateur soit connecté.\\
+			\>\>\>\verb+FTPCwdCommand+ : classe représentant la commande CWD.\\
+			\>\>\>\verb+FTPDeleCommand+ : classe représentant la commande DELE.\\
+			\>\>\>\verb+FTPEprtCommand+ : classe représentant la commande EPRT.\\
+			\>\>\>\verb+FTPEpsvCommand+ : classe représentant la commande EPSV.\\
+			\>\>\>\verb+FTPListCommand+ : classe représentant la commande LIST.\\
+			\>\>\>\verb+FTPNlstCommand+ : classe représentant la commande NLST.\\
+			\>\>\>\verb+FTPNotImplementedCommand+ : classe représentant une commande inconnue.\\
+			\>\>\>\verb+FTPPassCommand+ : classe représentant la commande PASS.\\
+			\>\>\>\verb+FTPPasvCommand+ : classe représentant la commande PASV.\\
+			\>\>\>\verb+FTPPortCommand+ : classe représentant la commande PORT.\\
+			\>\>\>\verb+FTPPwdCommand+ : classe représentant la commande PWD\\
+			\>\>\>\verb+FTPQuitCommand+ : classe représentant la commande QUIT.\\
+			\>\>\>\verb+FTPRetrCommand+ : classe représentant la commande RETR.\\
+			\>\>\>\verb+FTPStorCommand+ : classe représentant la commande STOR.\\
+			\>\>\>\verb+FTPSystCommand+ : classe représentant la commande SYST.\\
+			\>\>\>\verb+FTPTypeCommand+ : classe représentant la commande TYPE.\\
+			\>\>\>\verb+FTPUserCommand+ : classe représentant la commande USER.\\
+		\>\>\textit{- package util}\\
+			\>\>\>\verb+FailedCwdCommandException+\\
+		\>\textit{- package shared}\\
+		\>\>\verb+FTPClientConfiguration+ : classe représentant la configuration d'un client.\\
+		\>\>\verb+FTPDatabase+ : classe représentant la base de données du projet. Elle contient les \\\>\>informations relatives aux comptes authentifiés, l'adresse IP du serveur ou encore la \\\>\>liste des codes de retour et des messages.\\
+		\>\>\verb+FTPLoggerFactory+ : factory de loggers\\
+		\>\>\verb+FTPLoggerSimpleFormatter+ : formatter qui nous abstient du sucre syntaxique des \\\>\>loggers habituels\\
+		\>\>\verb+FTPMessageSender+ : classe abstraite représentant un "envoyeur de messages". Toute \\\>\>classe héritant de cette classe est capable d'envoyer des commandes ou des données \\\>\>à travers les sockets.\\
+		\>\>\verb+FTPRequest+ : classe représentant une requête FTP. Une requête FTP est définie par \\\>\>une commande (obligatoire) et un argument (optionnel).\\
+		\>\>\verb+FTPServerConfiguration+ : classe représentant la configuration du serveur.\\
+	\>\verb+FTPMain+ : classe principale.\\
+\end{tabbing}
+Les diagrammes de classes sont répertoriés dans le dossier \verb+uml/+.
+
+\section*{Parcours de code}
+En premier lieu, une base de données est mise en place en créant une instance de la classe \verb+FTPDatabase+, instance que l'on injectera en constructeur de la classe \verb+FTPServer+ avec un numéro de port (> 1023) et un répertoire de base. La configuration du client (\verb+FTPClientConfiguration+) sera paramétrée dans \verb+FTPServer+.
+\begin{tabbing}
+\hspace{1cm}\=\kill
+\verb+public FTPServer(int port, String baseDirectory, FTPDatabase database) {+\\
+	\>\verb+super(database);+\\
+	\>\verb+_configuration = new FTPServerConfiguration(port, baseDirectory);+\\
+\verb+}+
+\end{tabbing}
+Comme tout bon serveur qui se respecte, le serveur sera en écoute continue sur le port. Une fois connecté à un client, le serveur "traite" le client en lançant un processus en parallèle, et ceci après lui avoir envoyé un message de bienvenuee. Ce Runnable se verra injecter la base de données, la configuration du serveur et le manager de commandes qui contiendra les commandes acceptées par le serveur.
+\begin{tabbing}
+\hspace{1cm}\=\kill
+\verb+final FTPCommandManager commandManager = new FTPCommandManager();+\\
+\verb+commandManager.addCommand(...);+\\
+\verb+...+\\
+\verb+while (true) {+\\
+	\>\verb+ftpServer.connectToClient();+\\
+	\>\verb+System.out.println("--> New client connected on this server.");+\\
+	\>\verb+...+\\
+	\>\verb+final FTPRequestHandler requestHandler = new FTPRequestHandler(ftpDatabase,+\\
+	\>\verb+serverConfiguration, commandManager);+\\
+	\>\verb+new Thread(requestHandler).start();+\\
+		\verb+}+
+\end{tabbing}
+
+La configuration client sera paramétrée dans \verb+FTPRequestHandler+.
+À chaque commande reçue, le command manager se chargera d'exécuter le bon traitement.
+
+\begin{tabbing}
+\hspace{1cm}\=\hspace{1cm}\=\kill
+\verb+FTPRequestHandler {+\\
+	\>\verb+public synchronized void processRequest(FTPRequest request) {+\\
+	\>\>\verb+\_commandManager.execute(request.getCommand(),+\\ 	\>\>\verb+request.getArgument(), \_clientConfiguration);+\\
+\verb+}+
+\end{tabbing}
+
+Le design pattern Command est ici dans le command manager. Ainsi, chaque commande sera visitée (Visitor) pour savoir si elle doit être exécutée ou pas. La requête est donc encapsulée et son mode de traitement est inconnu du \verb+FTPRequestHandler+.
+
+\begin{tabbing}
+\hspace{1cm}\=\hspace{1cm}\=\hspace{1cm}\=\kill
+\verb+public void execute(String commandString, String argument,+\\
+\>\>\verb+FTPClientConfiguration clientConfiguration) {+\\
+		\>\verb+for (final FTPCommand command : \_commands) {+\\
+			\>\>\verb+if (command.accept(commandString)) {+\\
+				\>\>\>\verb+command.execute(argument, clientConfiguration);+\\
+				\>\>\>\verb+break;+\\
+			\>\>\verb+}+\\
+		\>\verb+}+\\
+	\verb+}+\\
+\end{tabbing}
+Chaque commande a un type commun \verb+FTPCommand+.
+
+\begin{tabbing}
+\hspace{1cm}\=\kill
+\verb+public interface FTPCommand {+\\
+\\
+    \>\verb+boolean accept(String command);+\\
+\\
+    \>\verb+void execute(String argument, FTPClientConfiguration clientConfiguration);+\\
+\\
+\verb+}+
+\end{tabbing}
+La commande \verb+FTPNotImplementedCommand+ acceptera toutes les commandes.
+
+\section*{Exemple d'utilisation (mode actif)}
+\subsection*{Lancement du serveur et connexion du client}
+
+\underline{Serveur}\\
+\$ java -jar ftpServer.jar 1500 repo \\
+--> FTP server opened on 0.0.0.0, port 1500\\
+--> Base directory is : /home/salla/workspace/m1s2/CAR/tp1/repo\\
+
+\underline{Client}\\
+\$ ftp 127.0.0.1 1500\\
+Connected to localhost.\\
+220 FTP server ready.\\
+Name (localhost:salla): test\\
+331 Username okay, need password.\\
+Password:\\
+230 User logged in, proceed.\\
+Remote system type is Remote.\\
+
+\underline{Serveur}\\
+--> New client connected on this server.\\
+Connection initiated at 23 fevrier 2015, 19:13:04\\
+\#1 ---> USER test\\
+\#1 ---> PASS test\\
+\#1 ---> SYST
+
+\subsection*{Commande LIST}
+
+\underline{Client}\\
+\$ ftp> ls\\
+200 PORT command successful.\\
+150 File status okay, about to open data connection.\\
+drwxr-xr-x salla salla   4096 f?vr. 23 08:56 test
+-rw-r--r-- salla salla  47886 f?vr. 23 08:56 graphene.odt\\
+-rw-r--r-- salla salla  29810 f?vr. 23 08:56 Ramos2.jpg\\
+WARNING! 3 bare linefeeds received in ASCII mode\\
+File may not have transferred correctly.\\
+226 Closing data connection, requested file action successful.\\
+
+\underline{Serveur}\\
+\#1 ---> PORT 127,0,0,1,233,104\\
+\#1 ---> LIST
+
+\subsection*{Commande CWD}
+
+\underline{Client}\\
+\$ ftp> cd test\\
+250 Requested file action okay, completed.\\
+
+\underline{Serveur}\\
+\#1 ---> CWD test
+
+\subsection*{Commande PWD}
+
+\underline{Client}\\
+ftp> pwd\\
+257 /home/salla/workspace/m1s2/CAR/tp1/repo/test\\
+ftp> ls\\
+200 PORT command successful.\\
+150 File status okay, about to open data connection.\\
+-rw-r--r-- salla salla     45 f?vr. 19 15:12 file.c\\
+WARNING! 1 bare linefeeds received in ASCII mode\\
+File may not have transferred correctly.\\
+226 Closing data connection, requested file action successful.\\
+
+\underline{Serveur}\\
+\#1 ---> PWD\\
+\#1 ---> PORT 127,0,0,1,144,9\\
+\#1 ---> LIST
+
+\subsection*{Commande CDUP}
+
+\underline{Client}\\
+ftp> cdup\\
+250 Requested file action okay, completed.\\
+ftp> pwd\\
+257 /home/salla/workspace/m1s2/CAR/tp1/repo/\\
+
+\underline{Serveur}\\
+\#1 ---> CDUP\\
+\#1 ---> PWD
+
+\subsection*{Commande RETR}
+
+\underline{Client}\\
+ftp> get graphene.odt\\
+local: graphene.odt remote: graphene.odt\\
+200 PORT command successful.\\
+150 File status okay, about to open data connection.\\
+226 Closing data connection, requested file action successful.\\
+47886 bytes received in 0.18 secs (261.1 kB/s)\\
+
+\underline{Serveur}\\
+\#1 ---> PORT 127,0,0,1,165,160\\
+\#1 ---> RETR graphene.odt
+
+\subsection*{Commande STOR}
+
+\underline{Client}\\
+ftp> put signature.html\\
+local: signature.html remote: signature.html\\
+200 PORT command successful.\\
+150 File status okay, about to open data connection.\\
+226 Closing data connection, requested file action successful.\\
+754 bytes sent in 0.00 secs (17959.2 kB/s)\\
+
+\underline{Serveur}\\
+\#1 ---> PORT 127,0,0,1,184,59\\
+\#1 ---> STOR signature.html
+
+\subsection*{Commande QUIT}
+
+\underline{Client}\\
+ftp> quit\\
+221 Service closing control connection.\\
+
+\underline{Serveur}\\
+\#1 ---> QUIT
+
