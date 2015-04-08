@@ -1,7 +1,6 @@
 package coloration.algorithm;
 
 import java.io.IOException;
-import java.util.LinkedList;
 import java.util.List;
 
 import coloration.bean.Vertex;
@@ -9,6 +8,7 @@ import coloration.bean.WeightedGraph;
 import coloration.export.TextualGraphTools;
 import coloration.sort.GraphSorter;
 import coloration.util.NeighborsManager;
+import coloration.util.VertexNeighbor;
 
 public class WelshPowellAlgorithm {
 
@@ -19,37 +19,34 @@ public class WelshPowellAlgorithm {
 		final GraphSorter graphSorter = new GraphSorter();
 		final List<Vertex> sortedVertexes = graphSorter.sort(graph,
 				neighborsManager);
-		final List<Vertex> copy = new LinkedList<Vertex>();
-		copy.addAll(sortedVertexes);
 		int currentColor = 0;
-		while (!copy.isEmpty()) {
-			final Vertex currentVertex = copy.remove(0);
-			currentVertex.setColor(currentColor);
-			for (final Vertex vertex1 : sortedVertexes) {
-				System.out.println("--- " + vertex1);
-				if (!vertex1.isColored()) {
-					for (Vertex vertex2 : sortedVertexes) {
-						if (!neighborsManager.areAdjacent(vertex1, vertex2)
-								&& vertex2.getColor() == currentColor) {
-							vertex1.setColor(currentColor);
-							System.out.println("vertex1 = " + vertex1);
-							System.out.println("vertex2 = " + vertex2);
-							System.out.println("-> " + vertex1);
-							copy.remove(vertex1);
-							break;
-						}
-					}
-				}
+		for (final Vertex vertex : sortedVertexes) {
+			System.out.println(vertex);
+			setSmallestNotUsedColor(vertex,
+					neighborsManager, currentColor);
+			if (vertex.getColor() > 0) {
+				currentColor++;
 			}
-			for (Vertex vertex : graph.getVertexes()) {
-				System.out.println(vertex + " : " + vertex.getColor());
-			}
-			currentColor++;
-			System.out.println("..");
 		}
-		for (Vertex vertex : graph.getVertexes()) {
-			System.out.println(vertex + " : " + vertex.getColor());
+	}
+
+	public void setSmallestNotUsedColor(Vertex vertex,
+			NeighborsManager neighborsManager, int currentColor) {
+		int smallestColor = Integer.MAX_VALUE;
+		for (final VertexNeighbor neighbor : neighborsManager
+				.getNeighbors(vertex)) {
+			System.out.println(neighbor.getNeighbor() + " __ " + neighbor.getNeighbor().getColor());
+			final int color = neighbor.getNeighbor().getColor();
+			if (color >= 0)
+				smallestColor = Math.min(smallestColor, color);
 		}
+		if (smallestColor > 0) {
+			vertex.setColor(0);
+		}
+		else {
+			vertex.setColor(currentColor + 1);
+		}
+		System.out.println("color = " + vertex.getColor());
 	}
 
 	public static void main(String[] args) throws IOException,
@@ -58,6 +55,9 @@ public class WelshPowellAlgorithm {
 		final TextualGraphTools graphTools = new TextualGraphTools();
 		final WeightedGraph graph = graphTools.getGraphFromFile("ex2.grp");
 		algo.colorGraph(graph);
+		for (final Vertex vertex : graph.getVertexes()) {
+			System.out.println(vertex + " -> " + vertex.getColor());
+		}
 	}
 
 }
