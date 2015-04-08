@@ -10,7 +10,7 @@ public class MinHeap<T> {
 
 	@SuppressWarnings("unchecked")
 	public MinHeap(int size, Comparator<T> comparator) {
-		values = (T[]) new Comparable[size];
+		values = (T[]) new Object[size];
 		for (int i = 0; i < size; i++) {
 			values[i] = null;
 		}

@@ -1,6 +1,6 @@
 package mst.bean;
 
-public class Edge implements Comparable<Edge> {
+public class Edge {
 
 	private Vertex vertex1;
 	private Vertex vertex2;
@@ -47,11 +47,6 @@ public class Edge implements Comparable<Edge> {
 	@Override
 	public String toString() {
 		return vertex1 + " -- " + vertex2 + " : " + weight;
-	}
-
-	@Override
-	public int compareTo(Edge edge) {
-		return weight - edge.getWeight();
 	}
 
 }
