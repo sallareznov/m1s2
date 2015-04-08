@@ -3,29 +3,15 @@ package coloration.bean;
 public class Vertex {
 	
 	private String name;
-	private int color;
 
 	public Vertex(String name) {
 		this.name = name;
-		this.color = -1;
 	}
 
 	public String getName() {
 		return name;
 	}
 	
-	public int getColor() {
-		return color;
-	}
-	
-	public void setColor(int color) {
-		this.color = color;
-	}
-	
-	public boolean isColored() {
-		return color != -1;
-	}
-
 	@Override
 	public String toString() {
 		return name;

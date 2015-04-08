@@ -4,43 +4,39 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.PriorityQueue;
-import java.util.Queue;
 
 import coloration.bean.Edge;
 import coloration.bean.Vertex;
 import coloration.bean.WeightedGraph;
-import coloration.sort.EdgesComparator;
 
 public class NeighborsManager {
 
-	private Map<Vertex, List<VertexNeighbor>> vertexesToNeighbors;
+	private Map<Vertex, List<Vertex>> vertexesToNeighbors;
 
 	public NeighborsManager() {
-		vertexesToNeighbors = new HashMap<Vertex, List<VertexNeighbor>>();
+		vertexesToNeighbors = new HashMap<Vertex, List<Vertex>>();
 	}
 
-	public void addNeighbors(Vertex vertex1, Vertex vertex2, int weight) {
-		List<VertexNeighbor> vertex1Neighbors = vertexesToNeighbors
-				.get(vertex1);
+	public void addNeighbors(Vertex vertex1, Vertex vertex2) {
+		List<Vertex> vertex1Neighbors = vertexesToNeighbors.get(vertex1);
 		if (vertex1Neighbors == null) {
-			vertex1Neighbors = new LinkedList<VertexNeighbor>();
+			vertex1Neighbors = new LinkedList<Vertex>();
 		}
-		vertex1Neighbors.add(new VertexNeighbor(vertex2, weight));
+		vertex1Neighbors.add(vertex2);
 		vertexesToNeighbors.put(vertex1, vertex1Neighbors);
 	}
 
-	public List<VertexNeighbor> getNeighbors(Vertex vertex) {
-		final List<VertexNeighbor> neighbors = vertexesToNeighbors.get(vertex);
+	public List<Vertex> getNeighbors(Vertex vertex) {
+		final List<Vertex> neighbors = vertexesToNeighbors.get(vertex);
 		if (neighbors == null) {
-			return new LinkedList<VertexNeighbor>();
+			return new LinkedList<Vertex>();
 		}
 		return neighbors;
 	}
 
 	public void addNeighbors(Edge edge) {
-		addNeighbors(edge.getVertex1(), edge.getVertex2(), edge.getWeight());
-		addNeighbors(edge.getVertex2(), edge.getVertex1(), edge.getWeight());
+		addNeighbors(edge.getVertex1(), edge.getVertex2());
+		addNeighbors(edge.getVertex2(), edge.getVertex1());
 	}
 
 	public void initNeighbors(WeightedGraph graph) {
@@ -48,19 +44,15 @@ public class NeighborsManager {
 		if (graph.getEdges().size() < 1) {
 			return;
 		}
-		final Queue<Edge> graphEdges = new PriorityQueue<Edge>(graph.getEdges()
-				.size(), new EdgesComparator());
-		graphEdges.addAll(graph.getEdges());
-		while (!graphEdges.isEmpty()) {
-			final Edge poll = graphEdges.poll();
-			addNeighbors(poll);
+		for (final Edge edge : graph.getEdges()) {
+			addNeighbors(edge);
 		}
 	}
-	
+
 	public boolean areAdjacent(Vertex vertex1, Vertex vertex2) {
-		return getNeighbors(vertex1).contains(new VertexNeighbor(vertex2, 0));
+		return getNeighbors(vertex1).contains(vertex2);
 	}
-	
+
 	public int getDegree(Vertex vertex) {
 		return getNeighbors(vertex).size();
 	}

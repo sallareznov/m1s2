@@ -1,15 +1,13 @@
 package coloration.bean;
 
-public class Edge implements Comparable<Edge> {
+public class Edge {
 
 	private Vertex vertex1;
 	private Vertex vertex2;
-	private int weight;
 
-	public Edge(Vertex vertex1, Vertex vertex2, int weight) {
+	public Edge(Vertex vertex1, Vertex vertex2) {
 		this.vertex1 = vertex1;
 		this.vertex2 = vertex2;
-		this.weight = weight;
 	}
 
 	public Vertex getVertex1() {
@@ -18,10 +16,6 @@ public class Edge implements Comparable<Edge> {
 
 	public Vertex getVertex2() {
 		return vertex2;
-	}
-
-	public int getWeight() {
-		return weight;
 	}
 
 	@Override
@@ -46,12 +40,7 @@ public class Edge implements Comparable<Edge> {
 	
 	@Override
 	public String toString() {
-		return vertex1 + " -- " + vertex2 + " : " + weight;
-	}
-
-	@Override
-	public int compareTo(Edge edge) {
-		return weight - edge.getWeight();
+		return vertex1 + " -- " + vertex2;
 	}
 
 }

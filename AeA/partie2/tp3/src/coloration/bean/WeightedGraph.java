@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import coloration.util.ColorationManager;
+
 public class WeightedGraph implements Cloneable {
 
 	private Set<Vertex> vertexes;
@@ -33,20 +35,12 @@ public class WeightedGraph implements Cloneable {
 		return vertexes.size();
 	}
 	
-	public boolean containsNotColoredVertexes() {
+	public boolean containsNotColoredVertexes(ColorationManager colorationManager) {
 		for (final Vertex vertex : vertexes) {
-			if (vertex.getColor() == -1)
+			if (!colorationManager.isColored(vertex))
 				return true;
 		}
 		return false;
-	}
-
-	public int getTotalWeight() {
-		int totalWeight = 0;
-		for (Edge edge : edges) {
-			totalWeight += edge.getWeight();
-		}
-		return totalWeight;
 	}
 
 	public Set<Vertex> getVertexes() {
@@ -71,9 +65,9 @@ public class WeightedGraph implements Cloneable {
 	}
 
 	public Edge getEdge(Vertex vertex1, Vertex vertex2) {
-		Edge edge = edgesToEdges.get(new Edge(vertex1, vertex2, 0));
+		Edge edge = edgesToEdges.get(new Edge(vertex1, vertex2));
 		if (edge == null) {
-			edge = edgesToEdges.get(new Edge(vertex2, vertex1, 0));
+			edge = edgesToEdges.get(new Edge(vertex2, vertex1));
 		}
 		return edge;
 	}
@@ -96,8 +90,8 @@ public class WeightedGraph implements Cloneable {
 		vertexes.clear();
 	}
 
-	public void addEdge(Vertex vertex1, Vertex vertex2, int valeur) {
-		final Edge edgeToAdd = new Edge(vertex1, vertex2, valeur);
+	public void addEdge(Vertex vertex1, Vertex vertex2) {
+		final Edge edgeToAdd = new Edge(vertex1, vertex2);
 		edges.add(edgeToAdd);
 		edgesToEdges.put(edgeToAdd, edgeToAdd);
 		addVertex(vertex1);
@@ -113,8 +107,7 @@ public class WeightedGraph implements Cloneable {
 	public String toString() {
 		final StringBuilder builder = new StringBuilder();
 		for (Edge edge : edges) {
-			builder.append(edge.getVertex1() + " --- " + edge.getVertex2()
-					+ " --- " + edge.getWeight() + "\n");
+			builder.append(edge.getVertex1() + " --- " + edge.getVertex2() + "\n");
 		}
 		return builder.toString();
 	}

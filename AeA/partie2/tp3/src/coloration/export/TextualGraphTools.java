@@ -13,7 +13,6 @@ import coloration.bean.Edge;
 import coloration.bean.Vertex;
 import coloration.bean.WeightedGraph;
 import coloration.util.NeighborsManager;
-import coloration.util.VertexNeighbor;
 
 public class TextualGraphTools {
 
@@ -37,8 +36,7 @@ public class TextualGraphTools {
 		final Vertex vertex1 = new Vertex(tokenizer.nextToken());
 		while (tokenizer.hasMoreTokens()) {
 			final Vertex vertex2 = new Vertex(tokenizer.nextToken());
-			final int edgeWeight = Integer.parseInt(tokenizer.nextToken());
-			graph.addEdge(new Edge(vertex1, vertex2, edgeWeight));
+			graph.addEdge(new Edge(vertex1, vertex2));
 		}
 	}
 
@@ -59,14 +57,11 @@ public class TextualGraphTools {
 			NeighborsManager neighborsManager, List<Edge> printedEdges)
 			throws IOException {
 		writer.write(vertex.toString());
-		for (final VertexNeighbor neighbor : neighborsManager
+		for (final Vertex neighbor : neighborsManager
 				.getNeighbors(vertex)) {
-			if (!printedEdges.contains(new Edge(vertex, neighbor.getNeighbor(),
-					neighbor.getWeight()))) {
-				writer.write(TOKEN_SEPARATOR + neighbor.getNeighbor()
-						+ TOKEN_SEPARATOR + neighbor.getWeight());
-				printedEdges.add(new Edge(vertex, neighbor.getNeighbor(),
-						neighbor.getWeight()));
+			if (!printedEdges.contains(new Edge(vertex, neighbor))) {
+				writer.write(TOKEN_SEPARATOR + neighbor);
+				printedEdges.add(new Edge(vertex, neighbor));
 			}
 		}
 		writer.write("\n");
