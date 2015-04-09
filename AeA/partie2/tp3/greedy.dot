@@ -1,28 +1,23 @@
 graph {
 label="Coloured graph"
-6[label="6", style="filled", color="black", fillcolor="blue"]
-10[label="10", style="filled", color="black", fillcolor="green"]
-5[label="5", style="filled", color="black", fillcolor="red"]
-8[label="8", style="filled", color="black", fillcolor="red"]
-7[label="7", style="filled", color="black", fillcolor="red"]
-2[label="2", style="filled", color="black", fillcolor="green"]
-1[label="1", style="filled", color="black", fillcolor="blue"]
-4[label="4", style="filled", color="black", fillcolor="blue"]
-3[label="3", style="filled", color="black", fillcolor="red"]
-9[label="9", style="filled", color="black", fillcolor="green"]
-1 -- 2
-1 -- 5
-1 -- 7
-2 -- 3
-2 -- 8
-3 -- 4
-3 -- 9
-4 -- 5
-4 -- 10
-5 -- 6
-6 -- 8
-6 -- 9
-7 -- 9
-7 -- 10
-8 -- 10
+G[label="G", style="filled", color="black", fillcolor="red"]
+E[label="E", style="filled", color="black", fillcolor="green"]
+F[label="F", style="filled", color="black", fillcolor="red"]
+C[label="C", style="filled", color="black", fillcolor="blue"]
+D[label="D", style="filled", color="black", fillcolor="green"]
+A[label="A", style="filled", color="black", fillcolor="sienna"]
+B[label="B", style="filled", color="black", fillcolor="blue"]
+A -- B
+A -- C
+A -- E
+A -- F
+B -- D
+B -- F
+B -- G
+C -- D
+C -- E
+C -- F
+D -- F
+D -- G
+E -- G
 }

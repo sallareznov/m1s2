@@ -1,6 +1,5 @@
 package coloration.util;
 
-import java.awt.Color;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,21 +30,6 @@ public class IntToColour {
 	
 	public String getColourString(Integer colourInt) {
 		return intToColours.get(colourInt);
-	}
-
-	public static Color hashColor(int value) {
-		int r = 0xff - (Math.abs(1 + value) % 0xce);
-		int g = 0xff - (Math.abs(1 + value) % 0xdd);
-		int b = 0xff - (Math.abs(1 + value) % 0xec);
-		System.out.println(r);
-		return new Color(r, g, b);
-	}
-
-	/**
-	 * @return a hex Color string in the format #rrggbb.
-	 */
-	public static String encodeColor(Color color) {
-		return "#" + String.format("%06x", color.getRGB() & 0xffffff);
 	}
 
 }

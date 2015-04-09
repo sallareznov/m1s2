@@ -9,13 +9,18 @@ public interface VertexesColorationAlgorithm {
 			ColoursHolder coloursHolder)
 			throws CloneNotSupportedException;
 	
-	int getNbUsedColours();
+	int getNbColoursUsed();
 
-	void incrementNbUsedColours();
+	void incrementNbColoursUsed();
 	
-	void resetNbUsedColours();
+	void resetNbColoursUsed();
 	
 	long getExecutionTime();
 	
+	void setExecutionTime(long executionTime);
+	
 	void updateExecutionTime(long endTime);
+	
+	void printMeasures();
+	
 }

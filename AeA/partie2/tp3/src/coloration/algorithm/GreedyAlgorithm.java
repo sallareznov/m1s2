@@ -24,15 +24,19 @@ public class GreedyAlgorithm extends AbstractGreedyAlgorithm {
 			sortedVertexes.add(randomVertex);
 			vertexes.remove(randomIndex);
 		}
-		resetNbUsedColours();
 		for (final Vertex vertex : sortedVertexes) {
 			setSmallestNotUsedColour(vertex, neighborsManager,
 					coloursHolder);
-			if (coloursHolder.getColour(vertex) == getNbUsedColours()) {
-				incrementNbUsedColours();
+			if (coloursHolder.getColour(vertex) == getNbColoursUsed()) {
+				incrementNbColoursUsed();
 			}
 		}
 		updateExecutionTime(System.currentTimeMillis());
+	}
+	
+	@Override
+	public String toString() {
+		return "---> Greedy algorithm";
 	}
 
 }

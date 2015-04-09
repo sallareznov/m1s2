@@ -8,7 +8,6 @@ import coloration.algorithm.WelshPowellAlgorithm;
 import coloration.bean.WeightedGraph;
 import coloration.export.TextualGraphTools;
 import coloration.export.ViewableGraphExporter;
-import coloration.random.ErdosRenyiGraphGenerator;
 import coloration.util.ColoursHolder;
 
 public class Main {
@@ -18,14 +17,16 @@ public class Main {
 		final VertexesColorationAlgorithm greedy = new GreedyAlgorithm();
 		final VertexesColorationAlgorithm welshPowell = new WelshPowellAlgorithm();
 		final TextualGraphTools graphTools = new TextualGraphTools();
-		final ErdosRenyiGraphGenerator graphGenerator = new ErdosRenyiGraphGenerator();
+		//final ErdosRenyiGraphGenerator graphGenerator = new ErdosRenyiGraphGenerator();
 		// final WeightedGraph graph =
 		// graphGenerator.generateErdosRenyiGraph(20,
 		// 0.6f);
-		final WeightedGraph graph = graphTools.getGraphFromFile("petersen.grp");
+		final WeightedGraph graph = graphTools.getGraphFromFile("ex3.grp");
 		final ColoursHolder coloursHolder = new ColoursHolder();
 		welshPowell.colourGraph(graph, coloursHolder);
 		greedy.colourGraph(graph, coloursHolder);
+		welshPowell.printMeasures();
+		greedy.printMeasures();
 		final ViewableGraphExporter exporter = new ViewableGraphExporter();
 		exporter.exportColouredGraphToDotFile(graph, greedy, coloursHolder,
 				"colours.properties", "greedy.dot");

@@ -17,20 +17,19 @@ public class WelshPowellAlgorithm extends AbstractGreedyAlgorithm {
 		final GraphSorter graphSorter = new GraphSorter();
 		final List<Vertex> sortedVertexes = graphSorter.sort(graph,
 				neighborsManager);
-		resetNbUsedColours();
 		for (final Vertex vertex : sortedVertexes) {
 			setSmallestNotUsedColour(vertex, neighborsManager,
 					coloursHolder);
-			if (coloursHolder.getColour(vertex) == getNbUsedColours()) {
-				incrementNbUsedColours();
+			if (coloursHolder.getColour(vertex) == getNbColoursUsed()) {
+				incrementNbColoursUsed();
 			}
 		}
 		updateExecutionTime(System.currentTimeMillis());
 	}
-
+	
 	@Override
 	public String toString() {
-		return "Welsh-Powell's algorithm";
+		return "---> Welsh-Powell's algorithm";
 	}
-
+	
 }

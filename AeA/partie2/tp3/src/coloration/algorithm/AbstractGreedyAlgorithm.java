@@ -5,10 +5,7 @@ import coloration.bean.WeightedGraph;
 import coloration.util.ColoursHolder;
 import coloration.util.NeighborsManager;
 
-public abstract class AbstractGreedyAlgorithm implements VertexesColorationAlgorithm {
-	
-	private int nbUsedColours;
-	private long executionTime;
+public abstract class AbstractGreedyAlgorithm extends AbstractVertexesColorationAlgorithm {
 
 	public void setSmallestNotUsedColour(Vertex vertex,
 			NeighborsManager neighborsManager,
@@ -22,7 +19,7 @@ public abstract class AbstractGreedyAlgorithm implements VertexesColorationAlgor
 		if (smallestColour > 0) {
 			coloursHolder.colorVertex(vertex, 0);
 		} else {
-			for (int i = 0; i <= nbUsedColours + 1; i++) {
+			for (int i = 0; i <= getNbColoursUsed() + 1; i++) {
 				boolean usedColour = false;
 				for (final Vertex neighbor : neighborsManager
 						.getNeighbors(vertex)) {
@@ -39,30 +36,6 @@ public abstract class AbstractGreedyAlgorithm implements VertexesColorationAlgor
 		}
 	}
 	
-	@Override
-	public int getNbUsedColours() {
-		return nbUsedColours;
-	}
-	
-	@Override
-	public void incrementNbUsedColours() {
-		nbUsedColours++;
-	}
-	
-	@Override
-	public void resetNbUsedColours() {
-		nbUsedColours = 0;
-	}
-	
-	@Override
-	public long getExecutionTime() {
-		return executionTime;
-	}
-	
-	@Override
-	public void updateExecutionTime(long endTime) {
-		executionTime = endTime - executionTime;
-	}
 
 	@Override
 	public void colourGraph(WeightedGraph graph,
@@ -71,7 +44,8 @@ public abstract class AbstractGreedyAlgorithm implements VertexesColorationAlgor
 		final NeighborsManager neighborsManager = new NeighborsManager();
 		neighborsManager.initNeighbors(graph);
 		coloursHolder.fadeGraph(graph);
-		executionTime = System.currentTimeMillis();
+		resetNbColoursUsed();
+		setExecutionTime(System.currentTimeMillis());
 		colourVertexes(graph, neighborsManager, coloursHolder);
 	}
 
