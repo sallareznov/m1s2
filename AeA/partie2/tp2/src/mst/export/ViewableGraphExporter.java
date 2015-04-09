@@ -1,8 +1,10 @@
 package mst.export;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.logging.Logger;
 
 import mst.algorithm.MinimumSpanningTreeFinder;
@@ -67,8 +69,16 @@ public class ViewableGraphExporter {
 			throws IOException {
 		LOGGER.info("> Exporting " + dotFilename
 				+ " to viewable PostScript file");
-		final String command = "dot -Tps " + dotFilename + " > " + psFilename;
-		Runtime.getRuntime().exec(command);
+		final String command = "dot -Tps " + dotFilename;
+		final Process process = Runtime.getRuntime().exec(command);
+		final BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+		final BufferedWriter writer = new BufferedWriter(new FileWriter(psFilename));
+		int c = -1;
+		while ((c = reader.read()) != -1) {
+			writer.write(c);
+		}
+		reader.close();
+		writer.close();
 		LOGGER.info("> Finished ! Output is " + psFilename);
 	}
 

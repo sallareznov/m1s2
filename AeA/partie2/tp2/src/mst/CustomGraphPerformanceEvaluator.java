@@ -47,6 +47,8 @@ public class CustomGraphPerformanceEvaluator {
 				primMst);
 		graphExporter.exportMstToDotFile("kruskal.dot", kruskalTreeFinder,
 				graph, kruskalMst);
+		graphExporter.exportDotFileToPsFile("prim.dot", "prim.ps");
+		graphExporter.exportDotFileToPsFile("kruskal.dot", "kruskal.ps");
 	}
 
 }
