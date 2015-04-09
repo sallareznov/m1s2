@@ -6,7 +6,7 @@ import coloration.util.ColoursHolder;
 public interface VertexesColorationAlgorithm {
 
 	void colourGraph(WeightedGraph graph,
-			ColoursHolder colorsHolder)
+			ColoursHolder coloursHolder)
 			throws CloneNotSupportedException;
 	
 	int getNbUsedColours();
