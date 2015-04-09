@@ -5,7 +5,7 @@ import java.util.List;
 
 import coloration.bean.Vertex;
 import coloration.bean.WeightedGraph;
-import coloration.util.NeighborsManager;
+import coloration.neighbor.NeighborsManager;
 
 public class GraphSorter {
 	

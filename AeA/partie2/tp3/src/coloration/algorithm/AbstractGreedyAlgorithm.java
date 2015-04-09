@@ -1,9 +1,8 @@
 package coloration.algorithm;
 
 import coloration.bean.Vertex;
-import coloration.bean.WeightedGraph;
-import coloration.util.ColoursHolder;
-import coloration.util.NeighborsManager;
+import coloration.color.ColoursHolder;
+import coloration.neighbor.NeighborsManager;
 
 public abstract class AbstractGreedyAlgorithm extends AbstractVertexesColorationAlgorithm {
 
@@ -36,22 +35,4 @@ public abstract class AbstractGreedyAlgorithm extends AbstractVertexesColoration
 		}
 	}
 	
-
-	@Override
-	public void colourGraph(WeightedGraph graph,
-			ColoursHolder coloursHolder)
-			throws CloneNotSupportedException {
-		final NeighborsManager neighborsManager = new NeighborsManager();
-		neighborsManager.initNeighbors(graph);
-		coloursHolder.fadeGraph(graph);
-		resetNbColoursUsed();
-		setExecutionTime(System.currentTimeMillis());
-		colourVertexes(graph, neighborsManager, coloursHolder);
-	}
-
-	public abstract void colourVertexes(WeightedGraph graph,
-			NeighborsManager neighborsManager,
-			ColoursHolder coloursHolder)
-			throws CloneNotSupportedException;
-
 }

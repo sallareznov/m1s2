@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import coloration.util.ColoursHolder;
+import coloration.color.ColoursHolder;
 
 public class WeightedGraph implements Cloneable {
 

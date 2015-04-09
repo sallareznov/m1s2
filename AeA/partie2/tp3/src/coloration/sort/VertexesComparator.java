@@ -4,7 +4,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import coloration.bean.Vertex;
-import coloration.util.NeighborsManager;
+import coloration.neighbor.NeighborsManager;
 
 public class VertexesComparator implements Comparator<Vertex> {
 	

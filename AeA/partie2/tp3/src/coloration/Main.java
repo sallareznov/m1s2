@@ -6,9 +6,9 @@ import coloration.algorithm.GreedyAlgorithm;
 import coloration.algorithm.VertexesColorationAlgorithm;
 import coloration.algorithm.WelshPowellAlgorithm;
 import coloration.bean.WeightedGraph;
+import coloration.color.ColoursHolder;
 import coloration.export.TextualGraphTools;
 import coloration.export.ViewableGraphExporter;
-import coloration.util.ColoursHolder;
 
 public class Main {
 

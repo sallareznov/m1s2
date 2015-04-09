@@ -3,8 +3,9 @@ package coloration.algorithm;
 import java.util.logging.Logger;
 
 import coloration.bean.WeightedGraph;
+import coloration.color.ColoursHolder;
 import coloration.logger.LoggerFactory;
-import coloration.util.ColoursHolder;
+import coloration.neighbor.NeighborsManager;
 
 public abstract class AbstractVertexesColorationAlgorithm implements
 		VertexesColorationAlgorithm {
@@ -15,8 +16,19 @@ public abstract class AbstractVertexesColorationAlgorithm implements
 			.getLogger(AbstractVertexesColorationAlgorithm.class);
 
 	@Override
-	public abstract void colourGraph(WeightedGraph graph,
-			ColoursHolder coloursHolder) throws CloneNotSupportedException;
+	public void colourGraph(WeightedGraph graph, ColoursHolder coloursHolder)
+			throws CloneNotSupportedException {
+		final NeighborsManager neighborsManager = new NeighborsManager();
+		neighborsManager.initNeighbors(graph);
+		coloursHolder.fadeGraph(graph);
+		resetNbColoursUsed();
+		setExecutionTime(System.currentTimeMillis());
+		colourVertexes(graph, neighborsManager, coloursHolder);
+	}
+
+	public abstract void colourVertexes(WeightedGraph graph,
+			NeighborsManager neighborsManager, ColoursHolder coloursHolder)
+			throws CloneNotSupportedException;
 
 	@Override
 	public int getNbColoursUsed() {

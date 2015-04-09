@@ -4,9 +4,9 @@ import java.util.List;
 
 import coloration.bean.Vertex;
 import coloration.bean.WeightedGraph;
+import coloration.color.ColoursHolder;
+import coloration.neighbor.NeighborsManager;
 import coloration.sort.GraphSorter;
-import coloration.util.ColoursHolder;
-import coloration.util.NeighborsManager;
 
 public class WelshPowellAlgorithm extends AbstractGreedyAlgorithm {
 	

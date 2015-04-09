@@ -11,9 +11,9 @@ import coloration.algorithm.VertexesColorationAlgorithm;
 import coloration.bean.Edge;
 import coloration.bean.Vertex;
 import coloration.bean.WeightedGraph;
+import coloration.color.ColoursHolder;
+import coloration.color.IntToColour;
 import coloration.logger.LoggerFactory;
-import coloration.util.ColoursHolder;
-import coloration.util.IntToColour;
 
 public class ViewableGraphExporter {
 

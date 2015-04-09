@@ -6,8 +6,8 @@ import java.util.Random;
 
 import coloration.bean.Vertex;
 import coloration.bean.WeightedGraph;
-import coloration.util.ColoursHolder;
-import coloration.util.NeighborsManager;
+import coloration.color.ColoursHolder;
+import coloration.neighbor.NeighborsManager;
 
 public class GreedyAlgorithm extends AbstractGreedyAlgorithm {
 

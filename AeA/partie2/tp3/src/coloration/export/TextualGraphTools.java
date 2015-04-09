@@ -12,7 +12,7 @@ import java.util.StringTokenizer;
 import coloration.bean.Edge;
 import coloration.bean.Vertex;
 import coloration.bean.WeightedGraph;
-import coloration.util.NeighborsManager;
+import coloration.neighbor.NeighborsManager;
 
 public class TextualGraphTools {
 

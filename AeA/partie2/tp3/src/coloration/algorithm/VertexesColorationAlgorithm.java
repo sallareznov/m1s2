@@ -1,7 +1,7 @@
 package coloration.algorithm;
 
 import coloration.bean.WeightedGraph;
-import coloration.util.ColoursHolder;
+import coloration.color.ColoursHolder;
 
 public interface VertexesColorationAlgorithm {
 
