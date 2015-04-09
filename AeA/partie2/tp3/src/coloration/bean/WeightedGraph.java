@@ -8,8 +8,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import coloration.color.ColoursHolder;
-
 public class WeightedGraph implements Cloneable {
 
 	private Set<Vertex> vertexes;
@@ -35,14 +33,6 @@ public class WeightedGraph implements Cloneable {
 		return vertexes.size();
 	}
 	
-	public boolean containsNotColoredVertexes(ColoursHolder colorationManager) {
-		for (final Vertex vertex : vertexes) {
-			if (!colorationManager.isColored(vertex))
-				return true;
-		}
-		return false;
-	}
-
 	public Set<Vertex> getVertexes() {
 		return vertexes;
 	}

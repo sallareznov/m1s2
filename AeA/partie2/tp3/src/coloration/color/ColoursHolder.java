@@ -36,5 +36,13 @@ public class ColoursHolder {
 	public int getColour(Vertex vertex) {
 		return vertexesToColours.get(vertex);
 	}
+	
+	public boolean containsNotColoredVertexes(WeightedGraph graph) {
+		for (final Vertex vertex : graph.getVertexes()) {
+			if (!isColored(vertex))
+				return true;
+		}
+		return false;
+	}
 
 }
