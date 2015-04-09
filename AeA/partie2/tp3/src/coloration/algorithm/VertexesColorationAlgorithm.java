@@ -1,9 +1,21 @@
 package coloration.algorithm;
 
 import coloration.bean.WeightedGraph;
+import coloration.util.ColoursHolder;
 
 public interface VertexesColorationAlgorithm {
-	
-	public void colorGraph(WeightedGraph graph) throws CloneNotSupportedException;
 
+	void colourGraph(WeightedGraph graph,
+			ColoursHolder colorsHolder)
+			throws CloneNotSupportedException;
+	
+	int getNbUsedColours();
+
+	void incrementNbUsedColours();
+	
+	void resetNbUsedColours();
+	
+	long getExecutionTime();
+	
+	void updateExecutionTime(long endTime);
 }
