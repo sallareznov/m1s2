@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.logging.Logger;
 
-import coloration.algorithm.VertexesColorationAlgorithm;
+import coloration.algorithm.VerticesColorationAlgorithm;
 import coloration.bean.Edge;
 import coloration.bean.Vertex;
 import coloration.bean.WeightedGraph;
@@ -21,7 +21,7 @@ public class ViewableGraphExporter {
 			.getLogger(ViewableGraphExporter.class);
 
 	public void exportColouredGraphToDotFile(WeightedGraph graph,
-			VertexesColorationAlgorithm colorationAlgorithm,
+			VerticesColorationAlgorithm colorationAlgorithm,
 			ColoursHolder coloursHolder, String colorsFilename,
 			String dotFilename) throws IOException {
 		final IntToColour intToColor = new IntToColour();
@@ -30,7 +30,7 @@ public class ViewableGraphExporter {
 				dotFilename));
 		reader.write("graph {\n");
 		reader.write("label=\"Coloured graph\"\n");
-		for (final Vertex vertex : graph.getVertexes()) {
+		for (final Vertex vertex : graph.getVertices()) {
 			final Integer intColour = coloursHolder.getColour(vertex);
 			final String stringColour = intToColor.getColourString(intColour);
 			// final String stringColour = IntToColour.encodeColor(IntToColour

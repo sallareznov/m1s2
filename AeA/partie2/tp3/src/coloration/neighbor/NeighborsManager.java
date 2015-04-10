@@ -11,23 +11,23 @@ import coloration.bean.WeightedGraph;
 
 public class NeighborsManager {
 
-	private Map<Vertex, List<Vertex>> vertexesToNeighbors;
+	private Map<Vertex, List<Vertex>> verticesToNeighbors;
 
 	public NeighborsManager() {
-		vertexesToNeighbors = new HashMap<Vertex, List<Vertex>>();
+		verticesToNeighbors = new HashMap<Vertex, List<Vertex>>();
 	}
 
 	public void addNeighbors(Vertex vertex1, Vertex vertex2) {
-		List<Vertex> vertex1Neighbors = vertexesToNeighbors.get(vertex1);
+		List<Vertex> vertex1Neighbors = verticesToNeighbors.get(vertex1);
 		if (vertex1Neighbors == null) {
 			vertex1Neighbors = new LinkedList<Vertex>();
 		}
 		vertex1Neighbors.add(vertex2);
-		vertexesToNeighbors.put(vertex1, vertex1Neighbors);
+		verticesToNeighbors.put(vertex1, vertex1Neighbors);
 	}
 
 	public List<Vertex> getNeighbors(Vertex vertex) {
-		final List<Vertex> neighbors = vertexesToNeighbors.get(vertex);
+		final List<Vertex> neighbors = verticesToNeighbors.get(vertex);
 		if (neighbors == null) {
 			return new LinkedList<Vertex>();
 		}
@@ -40,7 +40,7 @@ public class NeighborsManager {
 	}
 
 	public void initNeighbors(WeightedGraph graph) {
-		vertexesToNeighbors.clear();
+		verticesToNeighbors.clear();
 		if (graph.getEdges().size() < 1) {
 			return;
 		}

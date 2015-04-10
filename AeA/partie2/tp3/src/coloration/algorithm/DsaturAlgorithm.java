@@ -10,26 +10,26 @@ import coloration.color.ColoursHolder;
 import coloration.dsat.DsatManager;
 import coloration.neighbor.NeighborsManager;
 import coloration.sort.GraphSorter;
-import coloration.sort.VertexesComparator;
+import coloration.sort.VerticesComparator;
 
 public class DsaturAlgorithm extends AbstractGreedyAlgorithm {
 
 	@Override
-	public void colourVertexes(WeightedGraph graph,
+	public void colourVertices(WeightedGraph graph,
 			NeighborsManager neighborsManager, ColoursHolder coloursHolder)
 			throws CloneNotSupportedException {
 		final GraphSorter graphSorter = new GraphSorter();
-		final List<Vertex> sortedVertexes = graphSorter.sort(graph,
+		final List<Vertex> sortedVertices = graphSorter.sort(graph,
 				neighborsManager);
-		final Vertex firstVertex = sortedVertexes.get(0);
+		final Vertex firstVertex = sortedVertices.get(0);
 		final DsatManager dsatManager = new DsatManager();
 		dsatManager.resetGraph(graph);
 		coloursHolder.colorVertex(firstVertex, 0);
 		dsatManager.updateDsat(firstVertex, neighborsManager, coloursHolder);
 		incrementNbColoursUsed();
-		while (coloursHolder.containsNotColoredVertexes(graph)) {
+		while (coloursHolder.containsNotColoredVertices(graph)) {
 			final Vertex chosenVertex = getVertexWithBiggestDsat(
-					sortedVertexes, neighborsManager, coloursHolder,
+					sortedVertices, neighborsManager, coloursHolder,
 					dsatManager);
 			setSmallestNotUsedColour(chosenVertex, neighborsManager,
 					coloursHolder);
@@ -42,22 +42,22 @@ public class DsaturAlgorithm extends AbstractGreedyAlgorithm {
 		updateExecutionTime(System.currentTimeMillis());
 	}
 
-	public Vertex getVertexWithBiggestDsat(List<Vertex> sortedVertexes,
+	public Vertex getVertexWithBiggestDsat(List<Vertex> sortedVertices,
 			NeighborsManager neighborsManager, ColoursHolder coloursHolder,
 			DsatManager dsatManager) {
-		final Queue<Vertex> possibleVertexes = new PriorityQueue<Vertex>(
-				sortedVertexes.size(), new VertexesComparator(neighborsManager));
+		final Queue<Vertex> possibleVertices = new PriorityQueue<Vertex>(
+				sortedVertices.size(), new VerticesComparator(neighborsManager));
 		int dsatMax = 1;
 		Vertex chosenVertex = null;
 		Vertex lastMax = null;
-		for (final Vertex vertex : sortedVertexes) {
+		for (final Vertex vertex : sortedVertices) {
 			final int dsatVertex = dsatManager.getDsat(vertex);
 			if (!coloursHolder.isColored(vertex)) {
 				if (dsatVertex >= dsatMax) {
 					if (dsatVertex == dsatMax) {
-						possibleVertexes.add(vertex);
+						possibleVertices.add(vertex);
 						if (lastMax != null)
-							possibleVertexes.add(lastMax);
+							possibleVertices.add(lastMax);
 					}
 					chosenVertex = vertex;
 					dsatMax = dsatVertex;
@@ -65,8 +65,8 @@ public class DsaturAlgorithm extends AbstractGreedyAlgorithm {
 				}
 			}
 		}
-		if (possibleVertexes.size() > 1) {
-			chosenVertex = possibleVertexes.remove();
+		if (possibleVertices.size() > 1) {
+			chosenVertex = possibleVertices.remove();
 		}
 		return chosenVertex;
 	}

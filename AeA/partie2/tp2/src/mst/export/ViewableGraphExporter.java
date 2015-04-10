@@ -24,7 +24,7 @@ public class ViewableGraphExporter {
 				dotFilename));
 		reader.write("graph {\n");
 		reader.write("label=\"Random graph\"\n");
-		for (final Vertex vertex : graph.getVertexes()) {
+		for (final Vertex vertex : graph.getVertices()) {
 			reader.write(vertex + "\n");
 		}
 		for (final Edge edge : graph.getEdges()) {
@@ -45,7 +45,7 @@ public class ViewableGraphExporter {
 		LOGGER.info("> Writing " + finder + " to dotfile ");
 		reader.write("graph {\n");
 		reader.write("label=\"" + finder + "\"\n");
-		for (final Vertex vertex : graph.getVertexes()) {
+		for (final Vertex vertex : graph.getVertices()) {
 			reader.write(vertex + " [color=blue]\n");
 		}
 		for (final Edge edge : graph.getEdges()) {

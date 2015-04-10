@@ -7,13 +7,13 @@ import coloration.color.ColoursHolder;
 import coloration.logger.LoggerFactory;
 import coloration.neighbor.NeighborsManager;
 
-public abstract class AbstractVertexesColorationAlgorithm implements
-		VertexesColorationAlgorithm {
+public abstract class AbstractVerticesColorationAlgorithm implements
+		VerticesColorationAlgorithm {
 
 	private int nbColoursUsed;
 	private long executionTime;
 	private static final Logger LOGGER = LoggerFactory
-			.getLogger(AbstractVertexesColorationAlgorithm.class);
+			.getLogger(AbstractVerticesColorationAlgorithm.class);
 
 	@Override
 	public void colourGraph(WeightedGraph graph, ColoursHolder coloursHolder)
@@ -23,10 +23,10 @@ public abstract class AbstractVertexesColorationAlgorithm implements
 		coloursHolder.fadeGraph(graph);
 		resetNbColoursUsed();
 		setExecutionTime(System.currentTimeMillis());
-		colourVertexes(graph, neighborsManager, coloursHolder);
+		colourVertices(graph, neighborsManager, coloursHolder);
 	}
 
-	public abstract void colourVertexes(WeightedGraph graph,
+	public abstract void colourVertices(WeightedGraph graph,
 			NeighborsManager neighborsManager, ColoursHolder coloursHolder)
 			throws CloneNotSupportedException;
 

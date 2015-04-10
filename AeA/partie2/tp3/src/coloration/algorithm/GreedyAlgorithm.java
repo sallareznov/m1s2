@@ -12,12 +12,12 @@ import coloration.neighbor.NeighborsManager;
 public class GreedyAlgorithm extends AbstractGreedyAlgorithm {
 
 	@Override
-	public void colourVertexes(WeightedGraph graph,
+	public void colourVertices(WeightedGraph graph,
 			NeighborsManager neighborsManager, ColoursHolder coloursHolder)
 			throws CloneNotSupportedException {
-		final List<Vertex> vertexes = new LinkedList<Vertex>(graph.getVertexes());
-		Collections.shuffle(vertexes);
-		for (final Vertex vertex : vertexes) {
+		final List<Vertex> vertices = new LinkedList<Vertex>(graph.getVertices());
+		Collections.shuffle(vertices);
+		for (final Vertex vertex : vertices) {
 			setSmallestNotUsedColour(vertex, neighborsManager,
 					coloursHolder);
 			if (coloursHolder.getColour(vertex) == getNbColoursUsed()) {

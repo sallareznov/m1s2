@@ -3,7 +3,7 @@ package coloration.algorithm;
 import coloration.bean.WeightedGraph;
 import coloration.color.ColoursHolder;
 
-public interface VertexesColorationAlgorithm {
+public interface VerticesColorationAlgorithm {
 
 	void colourGraph(WeightedGraph graph,
 			ColoursHolder coloursHolder)

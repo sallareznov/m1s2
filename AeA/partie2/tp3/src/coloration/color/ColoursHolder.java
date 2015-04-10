@@ -9,25 +9,25 @@ import coloration.bean.WeightedGraph;
 
 public class ColoursHolder {
 	
-	private Map<Vertex, Integer> vertexesToColours;
+	private Map<Vertex, Integer> verticesToColours;
 	
 	public ColoursHolder() {
-		vertexesToColours = new HashMap<Vertex, Integer>();
+		verticesToColours = new HashMap<Vertex, Integer>();
 	}
 	
-	public Map<Vertex, Integer> getVertexesToColours() {
-		return vertexesToColours;
+	public Map<Vertex, Integer> getVerticesToColours() {
+		return verticesToColours;
 	}
 	
 	public void fadeGraph(WeightedGraph graph) {
-		vertexesToColours.clear();
-		for (final Vertex vertex : graph.getVertexes()) {
-			vertexesToColours.put(vertex, -1);
+		verticesToColours.clear();
+		for (final Vertex vertex : graph.getVertices()) {
+			verticesToColours.put(vertex, -1);
 		}
 	}
 	
 	public void colorVertex(Vertex vertex, Integer color) {
-		vertexesToColours.put(vertex, color);
+		verticesToColours.put(vertex, color);
 	}
 	
 	public boolean isColored(Vertex vertex) {
@@ -35,11 +35,11 @@ public class ColoursHolder {
 	}
 	
 	public int getColour(Vertex vertex) {
-		return vertexesToColours.get(vertex);
+		return verticesToColours.get(vertex);
 	}
 	
-	public boolean containsNotColoredVertexes(WeightedGraph graph) {
-		for (final Vertex vertex : graph.getVertexes()) {
+	public boolean containsNotColoredVertices(WeightedGraph graph) {
+		for (final Vertex vertex : graph.getVertices()) {
 			if (!isColored(vertex))
 				return true;
 		}
@@ -47,7 +47,7 @@ public class ColoursHolder {
 	}
 	
 	public void print() {
-		for (final Entry<Vertex, Integer>entry : vertexesToColours.entrySet())  {
+		for (final Entry<Vertex, Integer>entry : verticesToColours.entrySet())  {
 			System.out.println(entry.getKey() + " -> " + entry.getValue());
 		}
 	}

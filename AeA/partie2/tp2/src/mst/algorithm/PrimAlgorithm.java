@@ -31,14 +31,13 @@ public class PrimAlgorithm extends AbstractMinimumSpanningTreeFinder {
 			if (weakerOutgoingEdge == null) {
 				return mst;
 			}
-			if (mst.getVertexes().contains(weakerOutgoingEdge.getVertex1()))
+			if (mst.getVertices().contains(weakerOutgoingEdge.getVertex1()))
 				lastAddedVertex = weakerOutgoingEdge.getVertex2();
 			else
 				lastAddedVertex = weakerOutgoingEdge.getVertex1();
 			mst.addEdge(weakerOutgoingEdge);
 		}
 		setExecutionTime(System.currentTimeMillis() - beginning);
-		//System.out.println("Prim : " + mst.getTotalWeight());
 		return mst;
 	}
 

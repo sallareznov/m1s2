@@ -14,24 +14,24 @@ import mst.sort.EdgesComparator;
 
 public class NeighborsManager {
 
-	private Map<Vertex, List<VertexNeighbor>> vertexesToNeighbors;
+	private Map<Vertex, List<VertexNeighbor>> verticesToNeighbors;
 
 	public NeighborsManager() {
-		vertexesToNeighbors = new HashMap<Vertex, List<VertexNeighbor>>();
+		verticesToNeighbors = new HashMap<Vertex, List<VertexNeighbor>>();
 	}
 
 	public void addNeighbors(Vertex vertex1, Vertex vertex2, int weight) {
-		List<VertexNeighbor> vertex1Neighbors = vertexesToNeighbors
+		List<VertexNeighbor> vertex1Neighbors = verticesToNeighbors
 				.get(vertex1);
 		if (vertex1Neighbors == null) {
 			vertex1Neighbors = new LinkedList<VertexNeighbor>();
 		}
 		vertex1Neighbors.add(new VertexNeighbor(vertex2, weight));
-		vertexesToNeighbors.put(vertex1, vertex1Neighbors);
+		verticesToNeighbors.put(vertex1, vertex1Neighbors);
 	}
 
 	public List<VertexNeighbor> getNeighbors(Vertex vertex) {
-		final List<VertexNeighbor> neighbors = vertexesToNeighbors.get(vertex);
+		final List<VertexNeighbor> neighbors = verticesToNeighbors.get(vertex);
 		if (neighbors == null) {
 			return new LinkedList<VertexNeighbor>();
 		}
@@ -44,7 +44,7 @@ public class NeighborsManager {
 	}
 
 	public void initNeighbors(WeightedGraph graph) {
-		vertexesToNeighbors.clear();
+		verticesToNeighbors.clear();
 		if (graph.getEdges().size() < 1) {
 			return;
 		}

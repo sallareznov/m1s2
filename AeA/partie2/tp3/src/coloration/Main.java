@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import coloration.algorithm.DsaturAlgorithm;
 import coloration.algorithm.GreedyAlgorithm;
-import coloration.algorithm.VertexesColorationAlgorithm;
+import coloration.algorithm.VerticesColorationAlgorithm;
 import coloration.algorithm.WelshPowellAlgorithm;
 import coloration.bean.WeightedGraph;
 import coloration.color.ColoursHolder;
@@ -18,9 +18,9 @@ public class Main {
 			CloneNotSupportedException {
 		int n = 1000;
 		float p = 0.8f;
-		final VertexesColorationAlgorithm greedy = new GreedyAlgorithm();
-		final VertexesColorationAlgorithm welshPowell = new WelshPowellAlgorithm();
-		final VertexesColorationAlgorithm dsatur = new DsaturAlgorithm();
+		final VerticesColorationAlgorithm greedy = new GreedyAlgorithm();
+		final VerticesColorationAlgorithm welshPowell = new WelshPowellAlgorithm();
+		final VerticesColorationAlgorithm dsatur = new DsaturAlgorithm();
 		final TextualGraphTools graphTools = new TextualGraphTools();
 		final ErdosRenyiGraphGenerator graphGenerator = new ErdosRenyiGraphGenerator();
 //		final WeightedGraph graph = graphGenerator.generateErdosRenyiGraph(10,

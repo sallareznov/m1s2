@@ -6,11 +6,11 @@ import java.util.List;
 import coloration.bean.Vertex;
 import coloration.neighbor.NeighborsManager;
 
-public class VertexesComparator implements Comparator<Vertex> {
+public class VerticesComparator implements Comparator<Vertex> {
 	
 	private NeighborsManager neighborsManager;
 	
-	public VertexesComparator(NeighborsManager neighborsManager) {
+	public VerticesComparator(NeighborsManager neighborsManager) {
 		this.neighborsManager = neighborsManager;
 	}
 

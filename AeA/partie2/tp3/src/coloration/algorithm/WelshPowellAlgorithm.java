@@ -11,13 +11,13 @@ import coloration.sort.GraphSorter;
 public class WelshPowellAlgorithm extends AbstractGreedyAlgorithm {
 	
 	@Override
-	public void colourVertexes(WeightedGraph graph, NeighborsManager neighborsManager,
+	public void colourVertices(WeightedGraph graph, NeighborsManager neighborsManager,
 			ColoursHolder coloursHolder)
 			throws CloneNotSupportedException {
 		final GraphSorter graphSorter = new GraphSorter();
-		final List<Vertex> sortedVertexes = graphSorter.sort(graph,
+		final List<Vertex> sortedVertices = graphSorter.sort(graph,
 				neighborsManager);
-		for (final Vertex vertex : sortedVertexes) {
+		for (final Vertex vertex : sortedVertices) {
 			setSmallestNotUsedColour(vertex, neighborsManager,
 					coloursHolder);
 			if (coloursHolder.getColour(vertex) == getNbColoursUsed()) {

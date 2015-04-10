@@ -3,6 +3,7 @@ package coloration.dsat;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import coloration.bean.Vertex;
 import coloration.bean.WeightedGraph;
@@ -12,14 +13,17 @@ import coloration.neighbor.NeighborsManager;
 public class DsatManager {
 	
 	private Map<Vertex, Integer> dsatPerVertex;
+	private Map<Vertex, Set<Integer>> colorsInNeighborhood;
 	
 	public DsatManager() {
 		dsatPerVertex = new HashMap<Vertex, Integer>();
+		colorsInNeighborhood = new HashMap<Vertex, Set<Integer>>();
 	}
 	
 	public void resetGraph(WeightedGraph graph) {
 		dsatPerVertex.clear();
-		for (Vertex vertex : graph.getVertexes()) {
+		colorsInNeighborhood.clear();
+		for (Vertex vertex : graph.getVertices()) {
 			dsatPerVertex.put(vertex, 0);
 		}
 	}
@@ -35,8 +39,9 @@ public class DsatManager {
 	
 	public void updateDsat(Vertex vertex, NeighborsManager neighborsManager,
 			ColoursHolder coloursHolder) {
-		for (Vertex neighbor : neighborsManager.getNeighbors(vertex)) {
-			if (!coloursHolder.isColored(neighbor))
+		final Integer vertexColour = coloursHolder.getColour(vertex);
+		for (final Vertex neighbor : neighborsManager.getNeighbors(vertex)) {
+			if (!coloursHolder.isColored(neighbor) && !colorsInNeighborhood.containsKey(vertexColour))
 				incrDsat(neighbor);
 		}
 	}

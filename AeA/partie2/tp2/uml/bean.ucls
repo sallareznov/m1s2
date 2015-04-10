@@ -29,19 +29,20 @@
     </display>  
   </class>  
   <association id="4">    
-    <end type="SOURCE" refId="2" navigable="false">      
-      <attribute id="5" name="vertex2">        
+    <bendpoint x="316" y="488"/>    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="5" name="edgesToEdges">        
         <position height="0" width="0" x="0" y="0"/>      
       </attribute>      
-      <multiplicity id="6" minimum="0" maximum="1">        
+      <multiplicity id="6" minimum="0" maximum="2147483647">        
         <position height="0" width="0" x="0" y="0"/>      
       </multiplicity>    
     </end>    
-    <end type="TARGET" refId="3" navigable="true"/>    
+    <end type="TARGET" refId="2" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="7">    
-    <bendpoint x="13" y="495"/>    
+    <bendpoint x="102" y="426"/>    
     <end type="SOURCE" refId="1" navigable="false">      
       <attribute id="8" name="edgesToEdges">        
         <position height="0" width="0" x="0" y="0"/>      
@@ -54,12 +55,13 @@
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="10">    
-    <bendpoint x="58" y="709"/>    
-    <end type="SOURCE" refId="2" navigable="false">      
-      <attribute id="11" name="vertex1">        
+    <bendpoint x="331" y="450"/>    
+    <bendpoint x="337" y="598"/>    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="11" name="vertices">        
         <position height="0" width="0" x="0" y="0"/>      
       </attribute>      
-      <multiplicity id="12" minimum="0" maximum="1">        
+      <multiplicity id="12" minimum="0" maximum="2147483647">        
         <position height="0" width="0" x="0" y="0"/>      
       </multiplicity>    
     </end>    
@@ -67,66 +69,64 @@
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="13">    
-    <bendpoint x="269" y="443"/>    
+    <bendpoint x="13" y="495"/>    
     <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="14" name="edges">        
-        <position height="0" width="0" x="42" y="37"/>      
+      <attribute id="14" name="edgesToEdges">        
+        <position height="0" width="0" x="0" y="0"/>      
       </attribute>      
       <multiplicity id="15" minimum="0" maximum="2147483647">        
-        <position height="0" width="0" x="42" y="37"/>      
+        <position height="0" width="0" x="0" y="0"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="2" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="16">    
-    <bendpoint x="316" y="488"/>    
-    <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="17" name="edgesToEdges">        
+    <bendpoint x="58" y="709"/>    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="17" name="vertex1">        
         <position height="0" width="0" x="0" y="0"/>      
       </attribute>      
-      <multiplicity id="18" minimum="0" maximum="2147483647">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="2" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="19">    
-    <bendpoint x="232" y="428"/>    
-    <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="20" name="edgesToEdges">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </attribute>      
-      <multiplicity id="21" minimum="0" maximum="2147483647">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="2" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="22">    
-    <bendpoint x="331" y="450"/>    
-    <bendpoint x="337" y="598"/>    
-    <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="23" name="vertexes">        
-        <position height="0" width="0" x="0" y="0"/>      
-      </attribute>      
-      <multiplicity id="24" minimum="0" maximum="2147483647">        
+      <multiplicity id="18" minimum="0" maximum="1">        
         <position height="0" width="0" x="0" y="0"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="3" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="25">    
-    <bendpoint x="102" y="426"/>    
-    <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="26" name="edgesToEdges">        
+  <association id="19">    
+    <end type="SOURCE" refId="2" navigable="false">      
+      <attribute id="20" name="vertex2">        
         <position height="0" width="0" x="0" y="0"/>      
       </attribute>      
-      <multiplicity id="27" minimum="0" maximum="2147483647">        
+      <multiplicity id="21" minimum="0" maximum="1">        
         <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="3" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="22">    
+    <bendpoint x="232" y="428"/>    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="23" name="edgesToEdges">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="24" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="2" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="25">    
+    <bendpoint x="269" y="443"/>    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="26" name="edges">        
+        <position height="0" width="0" x="42" y="37"/>      
+      </attribute>      
+      <multiplicity id="27" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="42" y="37"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="2" navigable="true"/>    

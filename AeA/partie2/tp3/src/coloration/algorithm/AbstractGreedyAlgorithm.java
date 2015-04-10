@@ -5,7 +5,7 @@ import coloration.color.ColoursHolder;
 import coloration.neighbor.NeighborsManager;
 
 public abstract class AbstractGreedyAlgorithm extends
-		AbstractVertexesColorationAlgorithm {
+		AbstractVerticesColorationAlgorithm {
 
 	public void setSmallestNotUsedColour(Vertex vertex,
 			NeighborsManager neighborsManager, ColoursHolder coloursHolder) {
@@ -19,14 +19,11 @@ public abstract class AbstractGreedyAlgorithm extends
 			coloursHolder.colorVertex(vertex, 0);
 		} else {
 			for (int i = 0; i <= getNbColoursUsed() + 1; i++) {
-				//System.out.println("here");
 				boolean usedColour = false;
 				for (final Vertex neighbor : neighborsManager
 						.getNeighbors(vertex)) {
-					//System.out.println("neighbor = " + neighbor);
 					if (coloursHolder.isColored(neighbor)
 							&& coloursHolder.getColour(neighbor) == i) {
-						//System.out.println(neighbor + " : used");
 						usedColour = true;
 						break;
 					}

@@ -17,7 +17,7 @@ public class CycleDetector {
 	}
 
 	public void initLevels(WeightedGraph graph) {
-		for (Vertex vertex : graph.getVertexes()) {
+		for (Vertex vertex : graph.getVertices()) {
 			levels.put(vertex, -1);
 		}
 	}
@@ -32,15 +32,15 @@ public class CycleDetector {
 		final NeighborsManager neighborsManager = new NeighborsManager();
 		neighborsManager.initNeighbors(graph);
 		initLevels(graph);
-		final Queue<Vertex> queueVertexes = new LinkedList<Vertex>();
+		final Queue<Vertex> queueVertices = new LinkedList<Vertex>();
 		levels.put(vertex, 0);
-		queueVertexes.add(vertex);
-		while (!queueVertexes.isEmpty() && !cyclic) {
-			final Vertex topVertex = queueVertexes.remove();
+		queueVertices.add(vertex);
+		while (!queueVertices.isEmpty() && !cyclic) {
+			final Vertex topVertex = queueVertices.remove();
 			for (VertexNeighbor neighbor : neighborsManager.getNeighbors(topVertex)) {
 				if (getLevel(neighbor.getNeighbor()) == -1) {
 					levels.put(neighbor.getNeighbor(), getLevel(topVertex) + 1);
-					queueVertexes.add(neighbor.getNeighbor());
+					queueVertices.add(neighbor.getNeighbor());
 				} else if (getLevel(topVertex) <= getLevel(neighbor.getNeighbor())) {
 						cyclic = true;
 				}

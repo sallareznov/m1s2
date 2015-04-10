@@ -10,16 +10,16 @@ import coloration.neighbor.NeighborsManager;
 public class GraphSorter {
 	
 	public List<Vertex> sort(WeightedGraph graph, NeighborsManager neighborsManager) throws CloneNotSupportedException {
-		final List<Vertex> vertexes = new LinkedList<Vertex>();
-		final MinHeap<Vertex> heap = new MinHeap<Vertex>(graph.getSize(), new VertexesComparator(neighborsManager));
-		for (final Vertex vertex : graph.getVertexes()) {
+		final List<Vertex> vertices = new LinkedList<Vertex>();
+		final MinHeap<Vertex> heap = new MinHeap<Vertex>(graph.getSize(), new VerticesComparator(neighborsManager));
+		for (final Vertex vertex : graph.getVertices()) {
 			heap.add(vertex);
 		}
 		while (!heap.isEmpty()) {
 			final Vertex topVertex = heap.remove();
-			vertexes.add(topVertex);
+			vertices.add(topVertex);
 		}
-		return vertexes;
+		return vertices;
 	}
 	
 }

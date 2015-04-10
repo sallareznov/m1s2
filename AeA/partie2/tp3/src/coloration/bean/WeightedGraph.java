@@ -10,12 +10,12 @@ import java.util.Set;
 
 public class WeightedGraph implements Cloneable {
 
-	private Set<Vertex> vertexes;
+	private Set<Vertex> vertices;
 	private List<Edge> edges;
 	private Map<Edge, Edge> edgesToEdges;
 
 	public WeightedGraph(Set<Vertex> vertexes, List<Edge> edges) {
-		this.vertexes = vertexes;
+		this.vertices = vertexes;
 		this.edges = edges;
 		edgesToEdges = new HashMap<Edge, Edge>();
 		for (final Edge edge : edges) {
@@ -24,17 +24,17 @@ public class WeightedGraph implements Cloneable {
 	}
 
 	public WeightedGraph() {
-		vertexes = new HashSet<Vertex>();
+		vertices = new HashSet<Vertex>();
 		edges = new LinkedList<Edge>();
 		edgesToEdges = new HashMap<Edge, Edge>();
 	}
 
 	public int getSize() {
-		return vertexes.size();
+		return vertices.size();
 	}
 	
-	public Set<Vertex> getVertexes() {
-		return vertexes;
+	public Set<Vertex> getVertices() {
+		return vertices;
 	}
 
 	public Vertex getVertex(int i) {
@@ -42,12 +42,12 @@ public class WeightedGraph implements Cloneable {
 			throw new IllegalArgumentException();
 		}
 		int currentIndex = 0;
-		final Iterator<Vertex> iterVertexes = vertexes.iterator();
-		while (iterVertexes.hasNext() && currentIndex < i) {
-			iterVertexes.next();
+		final Iterator<Vertex> iterVertices = vertices.iterator();
+		while (iterVertices.hasNext() && currentIndex < i) {
+			iterVertices.next();
 			currentIndex++;
 		}
-		return iterVertexes.next();
+		return iterVertices.next();
 	}
 
 	public List<Edge> getEdges() {
@@ -73,11 +73,11 @@ public class WeightedGraph implements Cloneable {
 	}
 
 	public void addVertex(Vertex vertex) {
-		vertexes.add(vertex);
+		vertices.add(vertex);
 	}
 	
 	public void removeVertexes() {
-		vertexes.clear();
+		vertices.clear();
 	}
 
 	public void addEdge(Vertex vertex1, Vertex vertex2) {
@@ -109,7 +109,7 @@ public class WeightedGraph implements Cloneable {
 	public boolean containsVertexes(Edge edge) {
 		boolean condition1 = false;
 		boolean condition2 = false;
-		final Iterator<Vertex> iter = vertexes.iterator();
+		final Iterator<Vertex> iter = vertices.iterator();
 		while (iter.hasNext() && !(condition1 && condition2)) {
 			final Vertex vertex = iter.next();
 			if (vertex.equals(edge.getVertex1()))
@@ -124,7 +124,7 @@ public class WeightedGraph implements Cloneable {
 	public Object clone() throws CloneNotSupportedException {
 		super.clone();
 		final WeightedGraph clone = new WeightedGraph();
-		for (Vertex vertex : vertexes) {
+		for (Vertex vertex : vertices) {
 			clone.addVertex(vertex);
 		}
 		for (Edge edge : edges) {

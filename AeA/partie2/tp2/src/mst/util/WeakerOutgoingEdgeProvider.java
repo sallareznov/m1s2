@@ -20,12 +20,12 @@ public class WeakerOutgoingEdgeProvider {
 			WeightedGraph graph, Vertex lastAddedVertex) {
 		for (final VertexNeighbor neighbor : neighborsManager.getNeighbors(lastAddedVertex)) {
 			final Edge edge = graph.getEdge(lastAddedVertex, neighbor.getNeighbor());
-			if (!minHeap.contains(edge) && !subGraph.containsVertexes(edge)) {
+			if (!minHeap.contains(edge) && !subGraph.containsVertices(edge)) {
 				minHeap.add(edge);
 			}
 		}
 		Edge weakerEdge = minHeap.remove();
-		while (weakerEdge != null && subGraph.containsVertexes(weakerEdge)) {
+		while (weakerEdge != null && subGraph.containsVertices(weakerEdge)) {
 			weakerEdge =  minHeap.remove();
 		}
 		return weakerEdge;

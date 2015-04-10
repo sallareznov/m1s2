@@ -14,9 +14,9 @@ import mst.bean.WeightedGraph;
 public class ErdosRenyiGraphGenerator {
 	
 	public WeightedGraph generateErdosRenyiGraph(int n, float p) {
-		final Vertex[] vertexes = new Vertex[n];
+		final Vertex[] vertices = new Vertex[n];
 		for (int i = 0 ; i < n ; i++) {
-			vertexes[i] = new Vertex((i + 1) + "");
+			vertices[i] = new Vertex((i + 1) + "");
 		}
 		final List<Edge> edges = new LinkedList<Edge>();
 		final Random random = new Random();
@@ -24,11 +24,11 @@ public class ErdosRenyiGraphGenerator {
 			for (int j = i + 1 ; j < n ; j++) {
 				final int randomWeight = random.nextInt(Integer.MAX_VALUE);
 				if (random.nextFloat() < p)
-					edges.add(new Edge(vertexes[i], vertexes[j], randomWeight));
+					edges.add(new Edge(vertices[i], vertices[j], randomWeight));
 			}
 		}
-		final Set<Vertex> setVertexes = new HashSet<Vertex>(Arrays.asList(vertexes)); 
-		return new WeightedGraph(setVertexes, edges);
+		final Set<Vertex> setVertices = new HashSet<Vertex>(Arrays.asList(vertices)); 
+		return new WeightedGraph(setVertices, edges);
 	}
 
 }

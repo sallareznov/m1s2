@@ -47,7 +47,7 @@ public class TextualGraphTools {
 		final NeighborsManager neighborsManager = new NeighborsManager();
 		final List<Edge> printedEdges = new LinkedList<Edge>();
 		neighborsManager.initNeighbors(graph);
-		for (final Vertex vertex : graph.getVertexes()) {
+		for (final Vertex vertex : graph.getVertices()) {
 			treatVertex(vertex, writer, neighborsManager, printedEdges);
 		}
 		writer.close();
