@@ -64,7 +64,7 @@ public abstract class AbstractVertexesColorationAlgorithm implements
 	public void printMeasures() {
 		LOGGER.info(toString() + " : {");
 		LOGGER.info("    - Number of colours used : " + nbColoursUsed);
-		LOGGER.info("    - Execution time : " + executionTime);
+		LOGGER.info("    - Execution time : " + executionTime + " milliseconds");
 		LOGGER.info("}");
 	}
 

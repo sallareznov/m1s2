@@ -1,8 +1,8 @@
 package coloration.algorithm;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Random;
 
 import coloration.bean.Vertex;
 import coloration.bean.WeightedGraph;
@@ -15,16 +15,9 @@ public class GreedyAlgorithm extends AbstractGreedyAlgorithm {
 	public void colourVertexes(WeightedGraph graph,
 			NeighborsManager neighborsManager, ColoursHolder coloursHolder)
 			throws CloneNotSupportedException {
-		final List<Vertex> vertexes = new LinkedList<Vertex>(graph.getVertexes()); 
-		final List<Vertex> sortedVertexes = new LinkedList<Vertex>();
-		final Random random = new Random();
-		while (!vertexes.isEmpty()) {
-			final int randomIndex = random.nextInt(vertexes.size());
-			final Vertex randomVertex = vertexes.get(randomIndex);
-			sortedVertexes.add(randomVertex);
-			vertexes.remove(randomIndex);
-		}
-		for (final Vertex vertex : sortedVertexes) {
+		final List<Vertex> vertexes = new LinkedList<Vertex>(graph.getVertexes());
+		Collections.shuffle(vertexes);
+		for (final Vertex vertex : vertexes) {
 			setSmallestNotUsedColour(vertex, neighborsManager,
 					coloursHolder);
 			if (coloursHolder.getColour(vertex) == getNbColoursUsed()) {
@@ -36,7 +29,7 @@ public class GreedyAlgorithm extends AbstractGreedyAlgorithm {
 	
 	@Override
 	public String toString() {
-		return "---> Greedy algorithm";
+		return "Greedy algorithm";
 	}
 
 }

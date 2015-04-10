@@ -1,23 +1,15 @@
 graph {
 label="Coloured graph"
-G[label="G", style="filled", color="black", fillcolor="sienna"]
-E[label="E", style="filled", color="black", fillcolor="blue"]
+E[label="E", style="filled", color="black", fillcolor="red"]
 F[label="F", style="filled", color="black", fillcolor="blue"]
 C[label="C", style="filled", color="black", fillcolor="green"]
-D[label="D", style="filled", color="black", fillcolor="red"]
-A[label="A", style="filled", color="black", fillcolor="red"]
-B[label="B", style="filled", color="black", fillcolor="green"]
+D[label="D", style="filled", color="black", fillcolor="blue"]
+A[label="A", style="filled", color="black", fillcolor="green"]
+B[label="B", style="filled", color="black", fillcolor="red"]
 A -- B
-A -- C
-A -- E
-A -- F
-B -- D
-B -- F
-B -- G
-C -- D
-C -- E
+B -- C
 C -- F
-D -- F
-D -- G
-E -- G
+F -- E
+E -- D
+D -- A
 }

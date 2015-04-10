@@ -33,8 +33,8 @@ public class ViewableGraphExporter {
 		for (final Vertex vertex : graph.getVertexes()) {
 			final Integer intColour = coloursHolder.getColour(vertex);
 			final String stringColour = intToColor.getColourString(intColour);
-//			final String stringColour = IntToColour.encodeColor(IntToColour
-//					.hashColor(intColour));
+			// final String stringColour = IntToColour.encodeColor(IntToColour
+			// .hashColor(intColour));
 			reader.write(vertex + "[label=\"" + vertex
 					+ "\", style=\"filled\", color=\"black\", fillcolor=\""
 					+ stringColour + "\"]\n");

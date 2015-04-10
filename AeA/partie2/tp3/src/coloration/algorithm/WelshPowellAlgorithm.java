@@ -29,7 +29,7 @@ public class WelshPowellAlgorithm extends AbstractGreedyAlgorithm {
 	
 	@Override
 	public String toString() {
-		return "---> Welsh-Powell's algorithm";
+		return "Welsh-Powell's algorithm";
 	}
 	
 }

@@ -21,14 +21,8 @@ public class ErdosRenyiGraphGenerator {
 		final List<Edge> edges = new LinkedList<Edge>();
 		final Random random = new Random();
 		for (int i = 0 ; i < n ; i++) {
-			for (int j = 0 ; j < n ; j++) {
-				final Vertex vertex1 = vertexes[i];
-				final Vertex vertex2 = vertexes[j];
-				final float edgeProba = random.nextFloat();
-				final boolean condition1 = !vertex1.equals(vertex2);
-				final boolean condition2 = !edges.contains(new Edge(vertex1, vertex2));
-				final boolean condition3 = edgeProba < p;
-				if (condition1 && condition2 && condition3)
+			for (int j = i + 1 ; j < n ; j++) {
+				if (random.nextFloat() < p)
 					edges.add(new Edge(vertexes[i], vertexes[j]));
 			}
 		}
