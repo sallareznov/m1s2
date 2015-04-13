@@ -34,11 +34,5 @@ and open the template in the editor.
             </table>
             </fieldset>
         </form>
-                <h1>Blabla</h1>
-                <form action="https://localhost:8080/tp4/servlet/AuthorServlet">
-                    <tr>
-                        <td><input type="submit" value="Order" name="order" /></td>
-                    </tr>
-                </form>
     </body>
 </html>

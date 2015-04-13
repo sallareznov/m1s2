@@ -6,6 +6,7 @@
 package ejb;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -18,10 +19,16 @@ public class InitServlet extends HttpServlet {
     public InitServlet(BooksManager booksManager) {
         this.booksManager = booksManager;
     }
+
+    public BooksManager getBooksManager() {
+        return booksManager;
+    }
     
     @Override
     public void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         booksManager.init();
+        final PrintWriter out = response.getWriter();
+        out.println("Initlization done");
     }
 
 }
