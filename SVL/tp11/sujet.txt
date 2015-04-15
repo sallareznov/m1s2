@@ -1,0 +1,37 @@
+TP10 : le problème du fermier avec Alloy
+
+    Un fermier, son loup, sa chèvre et son chou sont d'un côté de la rivière. Le fermier dispose d'une barque qui ne peut contenir (en plus de lui) que le loup ou la chèvre ou le chou. S'il laisse le loup et la chèvre seuls, le loup mange la chèvre. De même la chèvre mange le chou. Comment faire pour passer tout le monde de l'autre côté de la rivière ?
+    On utilise Alloy pour générer la suite des déplacements de la barque amenant à l'état final.
+
+
+Les personnages :
+
+    Définir un type Personnage abstrait, sous-classé par 4 singletons (utiliser one pour forcer un type à être un singleton, par ex one sig Fermier extends Personnage)
+    le type Personnage possède un attribut qui définit qui mange qui: définir cet attribut pour les 4 singletons en utilisant un invariant (un fact Alloy)
+    définir une fonction Alloy qui prend en paramètre un ensemble de personnages et représente les personnages de cet ensemble qui se font manger.
+    vérifier que la spécification fait bien ce qu'on attend à ce stade, en demandant à Alloy de générer des instances
+
+
+Les états :
+
+    Définir un type Etat qui représente par 2 attributs l'ensemble des personnages d'un côté de la rivière, et celui de l'autre côté de la rivière (on peut ajouter un 3ème attribut qui contient les personnages s'étant fait manger)
+    définir un invariant sur les états
+
+
+Les passages en barque :
+
+    Définir un prédicat paramétré par les états avant / après le passage, qui fait passer le fermier de la rive A vers la rive B, sans autre personnage dans la barque. Vérifier par des générations d'instances que ce prédicat fait bien ce qu'on attend de lui.
+    Définir un prédicat symétrique qui couvre le cas B vers A
+    Définir un prédicat qui fait passer le fermier de la rive A vers la rive B, accompagné par exactement un personnage. Vérifier que ce prédicat fait bien ce qu'on attend de lui.
+    Définir un prédicat symétrique qui couvre le cas B vers A
+    Définir un prédicat passage qui, en utilisant les prédicats définis précédemment, fait traverser le fermier, accompagné ou non par un personnage, de A vers B ou de B vers A.
+
+
+Les traces :
+
+    Importer util/ordering pour ordonner les états dans une trace
+    définir l'état initial et l'état final
+    définir dans un invariant les paires d'états qui sont des next, en utilisant le prédicat passage, vérifier que tout marche bien à ce stade en utilisant un état final intermédiaire.
+    demander à Alloy de générer une trace qui résoud le problème, attention 8 états sont nécessaires (pas de solution trouvée si on lance un run avec 3 états, par ex)
+    pour finir on peut supprimer l'invariant sur les états et le remplacer par une assertion, pour vérifier que l'état initial satisfait l'invariant et que les passages en barque le préservent.
+

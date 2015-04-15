@@ -24,9 +24,12 @@ fact qui_mange_qui {
 	Chou.mange = none
 }
 
-//fact etats {
-	//no (Loup and Chevre not in Etat.cote_gauche and Chevre in Etat.cote_gauche)
-//}
+fact personne_ne_mange_personne {
+	not (Fermier not in Etat.cote_gauche and Loup + Chevre in Etat.cote_gauche)
+	not (Fermier not in Etat.cote_droit and Loup + Chevre in Etat.cote_droit)
+	not (Fermier not in Etat.cote_gauche and Chevre + Chou in Etat.cote_gauche)
+	not (Fermier not in Etat.cote_droit and Chevre + Chou in Etat.cote_droit)
+}
 
 /** Fonctions */
 
@@ -36,7 +39,7 @@ fun liste_personnages_manges(ensemble_personnages : set Personnage) : set Person
 
 /** Prédicats */
 
-pred etat_inital(etat : Etat) {
+pred etat_initial(etat : Etat) {
 	some cote_gauche
 	no cote_droit
 }
@@ -49,17 +52,13 @@ pred etat_final(etat : Etat) {
 pred passage_fermier_seulement_de_gauche_a_droite(etat_initial : Etat, etat_final : Etat) {
 	Fermier in etat_initial.cote_gauche
 	etat_final.cote_droit = etat_initial.cote_droit  + Fermier
-	#liste_personnages_manges[etat_final.cote_gauche] = 0
+	#liste_personnages_manges[etat_final.cote_droit] = 0
 }
 
 pred passage_fermier_seulement_de_droite_a_gauche(etat_initial : Etat, etat_final : Etat) {
 	Fermier in etat_initial.cote_droit
 	etat_final.cote_gauche = etat_initial.cote_gauche + Fermier
 	#liste_personnages_manges[etat_final.cote_gauche] = 0
-}
-
-pred test(persos : set Personnage) {
-	#liste_personnages_manges[persos] = 2
 }
 
 //pred passage_fermier_et_un_objet_de_gauche_a_droite(etat_initial : Etat, etat_final : Etat, objet : Objet) {
@@ -88,8 +87,10 @@ assert bon_nombre_de_personnages_manges {
 
 /** Commandes */
 
+run etat_initial for 3
+run etat_final for 3
+run passage_fermier_seulement_de_gauche_a_droite for 3
+run passage_fermier_seulement_de_droite_a_gauche for 3
 check bon_nombre_de_personnages_manges for 1
-
-//run generer_instances for 4 but 1 Carnet
 	
 	
