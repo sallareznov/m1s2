@@ -1,0 +1,8 @@
+Fermier, Loup, Chevre, Chou | None
+Loup, Chou | Fermier, Chevre
+Fermier, Loup, Chou | Chevre
+Loup | Fermier, Chou, Chevre
+Fermier, Loup, Chevre | Chou
+Chevre | Fermier, Loup, Chou
+Fermier, Chevre | Loup, Chou
+None | Fermier, Loup, Chevre, Chou
