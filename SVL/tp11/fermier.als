@@ -41,7 +41,7 @@ fact chaque_personnage_est_sur_un_cote {
 	all p : Personnage, e : Etat | p in e.cote_gauche or p in e.cote_droit
 }
 
-fact next_etat {
+fact paires_etats_successifs {
 	all e1, e2, e3 : Etat | e2 = next[e1] and e3 = next[e2] implies passage[e1, e2] and passage[e2, e3]
 }
 
@@ -83,16 +83,16 @@ pred passage_fermier_seul_de_droite_a_gauche(etat_initial : Etat, etat_final : E
 	etat_final.cote_droit = etat_initial.cote_droit - Fermier
 }
 
-// problem
 pred passage_fermier_accompagne_de_gauche_a_droite(etat_initial : Etat, etat_final : Etat) {
 	etat_initial != etat_final
 	Fermier in etat_initial.cote_gauche
 	Fermier not in etat_initial.cote_droit
 	Fermier not in etat_final.cote_gauche
 	Fermier in etat_final.cote_droit
-	#(etat_final.cote_droit - Fermier - etat_initial.cote_droit) = 1
-	#(etat_initial.cote_gauche - Fermier - etat_final.cote_gauche) = 1
-	etat_final.cote_droit - etat_initial.cote_droit = etat_initial.cote_gauche - etat_final.cote_gauche
+	(#(etat_final.cote_droit)).sub[#(etat_initial.cote_droit)] = 2
+	(#(etat_initial.cote_gauche)).sub[#(etat_final.cote_gauche)] = 2
+	#(etat_final.cote_droit - etat_initial.cote_droit - Fermier) = 1
+	#(etat_initial.cote_gauche - etat_final.cote_gauche - Fermier) = 1
 }
 
 pred passage_fermier_accompagne_de_droite_a_gauche(etat_initial : Etat, etat_final : Etat) {
@@ -101,9 +101,10 @@ pred passage_fermier_accompagne_de_droite_a_gauche(etat_initial : Etat, etat_fin
 	Fermier not in etat_initial.cote_gauche
 	Fermier not in etat_final.cote_droit
 	Fermier in etat_final.cote_gauche
-	#(etat_final.cote_gauche - Fermier - etat_initial.cote_gauche) = 1
-	#(etat_initial.cote_droit - Fermier - etat_final.cote_droit) = 1
-	etat_initial.cote_droit - etat_final.cote_droit = etat_final.cote_gauche - etat_initial.cote_gauche
+	(#(etat_final.cote_gauche)).sub[#(etat_initial.cote_gauche)] = 2
+	(#(etat_initial.cote_droit)).sub[#(etat_final.cote_droit)] = 2
+	#(etat_final.cote_gauche - etat_initial.cote_gauche - Fermier) = 1
+	#(etat_initial.cote_droit - etat_final.cote_droit - Fermier) = 1
 }
 
 pred passage(etat_initial : Etat, etat_final : Etat) {
