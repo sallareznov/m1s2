@@ -83,12 +83,6 @@ public final class index_jsp extends org.apache.jasper.runtime.HttpJspBase
       out.write("            </table>\n");
       out.write("            </fieldset>\n");
       out.write("        </form>\n");
-      out.write("                <h1>Blabla</h1>\n");
-      out.write("                <form action=\"https://localhost:8080/tp4/servlet/AuthorServlet\">\n");
-      out.write("                    <tr>\n");
-      out.write("                        <td><input type=\"submit\" value=\"Order\" name=\"order\" /></td>\n");
-      out.write("                    </tr>\n");
-      out.write("                </form>\n");
       out.write("    </body>\n");
       out.write("</html>\n");
     } catch (Throwable t) {
