@@ -131,8 +131,8 @@ assert bon_personnages_manges {
 
 /** Commandes */
 
-run etat_initial for 2
-run etat_final for 2
+run etat_initial for 1
+run etat_final for 1
 run passage_fermier_seul_de_gauche_a_droite for 2
 run passage_fermier_seul_de_droite_a_gauche for 2
 run passage_fermier_accompagne_de_gauche_a_droite for 2
