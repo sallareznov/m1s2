@@ -2,7 +2,6 @@ package coloration.dsat;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 
 import coloration.bean.Vertex;
@@ -43,12 +42,6 @@ public class DsatManager {
 		for (final Vertex neighbor : neighborsManager.getNeighbors(vertex)) {
 			if (!coloursHolder.isColored(neighbor) && !colorsInNeighborhood.containsKey(vertexColour))
 				incrDsat(neighbor);
-		}
-	}
-	
-	public void print() {
-		for (final Entry<Vertex, Integer>entry : dsatPerVertex.entrySet())  {
-			System.out.println(entry.getKey() + " -> " + entry.getValue());
 		}
 	}
 

@@ -29,6 +29,7 @@ public class PrimAlgorithm extends AbstractMinimumSpanningTreeFinder {
 			final Edge weakerOutgoingEdge = weakerOutgoingEdgeProvider
 					.getWeakerOutgoingEdge(mst, graph, lastAddedVertex);
 			if (weakerOutgoingEdge == null) {
+				//System.out.println("Prim : " + mst.getTotalWeight());
 				return mst;
 			}
 			if (mst.getVertices().contains(weakerOutgoingEdge.getVertex1()))
@@ -38,6 +39,7 @@ public class PrimAlgorithm extends AbstractMinimumSpanningTreeFinder {
 			mst.addEdge(weakerOutgoingEdge);
 		}
 		setExecutionTime(System.currentTimeMillis() - beginning);
+		//System.out.println("Prim : " + mst.getTotalWeight());
 		return mst;
 	}
 

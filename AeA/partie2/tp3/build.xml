@@ -5,11 +5,10 @@
 	<property name="src.dir" value="src" />
 	<property name="bin.dir" value="bin" />
 	<property name="doc.dir" value="doc" />
-	<property name="random-main-class" value="mst.RandomGraphSolver" />
-	<property name="custom-main-class" value="mst.CustomGraphSolver" />
-	<property name="performance-main-class" value="mst.RandomGraphsPerformanceEvaluator" />
+	<property name="random-main-class" value="mst.RandomGraphColoration" />
+	<property name="custom-main-class" value="mst.CustomGraphColoration" />
 
-	<target name="main" depends="compile, package-random, package-custom, package-performance">
+	<target name="main" depends="compile, package-random, package-custom">
 		<description>Main target</description>
 	</target>
 
@@ -40,7 +39,7 @@
 	</target>
 	
 	<target name="package-random" depends="compile">
-			<jar destfile="randomGraphSolver.jar" basedir="${bin.dir}">
+			<jar destfile="randomGraphColoration.jar" basedir="${bin.dir}">
 				<manifest>
 					<attribute name="Main-Class" value="${random-main-class}" />
 				</manifest>
@@ -48,17 +47,9 @@
 		</target>
 
 	<target name="package-custom" depends="compile">
-		<jar destfile="customGraphSolver.jar" basedir="${bin.dir}">
+		<jar destfile="customGraphColoration.jar" basedir="${bin.dir}">
 			<manifest>
 				<attribute name="Main-Class" value="${custom-main-class}" />
-			</manifest>
-		</jar>
-	</target>
-	
-	<target name="package-performance" depends="compile">
-		<jar destfile="performanceEvaluator.jar" basedir="${bin.dir}">
-			<manifest>
-				<attribute name="Main-Class" value="${performance-main-class}" />
 			</manifest>
 		</jar>
 	</target>
