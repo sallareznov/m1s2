@@ -5,8 +5,8 @@
 	<property name="src.dir" value="src" />
 	<property name="bin.dir" value="bin" />
 	<property name="doc.dir" value="doc" />
-	<property name="random-main-class" value="mst.RandomGraphColoration" />
-	<property name="custom-main-class" value="mst.CustomGraphColoration" />
+	<property name="random-main-class" value="coloration.RandomGraphColoration" />
+	<property name="custom-main-class" value="coloration.CustomGraphColoration" />
 
 	<target name="main" depends="compile, package-random, package-custom">
 		<description>Main target</description>

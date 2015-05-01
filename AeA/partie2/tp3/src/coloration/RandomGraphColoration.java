@@ -20,18 +20,19 @@ public class RandomGraphColoration {
 	}
 	
 	private static void usage() {
-		LOGGER.info("java -jar customGraphColoration.jar <n> <output>");
+		LOGGER.info("java -jar randomGraphColoration.jar <n>");
 		LOGGER.info("\tn : le nombre de sommets des graphes generes");
 		LOGGER.info("\toutput : le fichier de sortie des résultats");
 		LOGGER.info("Ce programme générera 50 graphes aléatoires de n sommets,");
-		LOGGER.info("coloriera ces sommets avec Greedy, Welsh-Powell et Dsatur,");
-		LOGGER.info("et répertoriera ces resultats dans le fichier output");
+		LOGGER.info("coloriera ces sommets avec Greedy, Welsh-Powell et Dsatur.");
+		LOGGER.info("Exemple : java -jar randomGraphColoration.jar 500");
 	}
 
 	public static void main(String[] args) throws CloneNotSupportedException,
 			IOException {
 		if (args.length < 1) {
 			usage();
+			return;
 		}
 		final int n = Integer.parseInt(args[0]); 
 		final AlgorithmPerformanceEvaluator evaluator = new AlgorithmPerformanceEvaluator();

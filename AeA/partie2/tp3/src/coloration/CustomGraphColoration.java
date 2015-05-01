@@ -28,6 +28,7 @@ public class CustomGraphColoration {
 		LOGGER.info("coloriera ses sommets avec Greedy, Welsh-Powell et Dsatur,");
 		LOGGER.info("et répertoriera ces resultats dans les fichiers greedy.{dot, ps}");
 		LOGGER.info("welshpowell.{dot, ps} et dsatur.{dot, ps}");
+		LOGGER.info("java -jar customGraphColoration.jar graph.grp");
 	}
 
 	public static void main(String[] args) throws IOException,

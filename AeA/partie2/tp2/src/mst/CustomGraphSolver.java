@@ -26,7 +26,8 @@ public class CustomGraphSolver {
 		LOGGER.info("recherchera un arbre couvrant minimal avec Prim et Kruskal,");
 		LOGGER.info("et répertoriera ces resultats dans les fichiers prim.dot et");
 		LOGGER.info("kruskal.dot");
-		LOGGER.info("Pour visualiser les résultats, dot -Tps file.dot > file.ps");
+		LOGGER.info("Pour visualiser les résultats : evince prim.ps et evince kruskal.ps");
+		LOGGER.info("Exemple : java -jar customGraphSolver.jar graph.grp");
 	}
 
 	public static void main(String[] args) throws IOException,

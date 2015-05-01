@@ -26,6 +26,7 @@ public class RandomGraphsPerformanceEvaluator {
 		LOGGER.info("des graphes générés aléatoirement selon le modèle d'Erdos-Renyi");
 		LOGGER.info("Pour générer le fichier results.png représentant les résultats");
 		LOGGER.info("obtenus sous forme de graphe, exécuter : gnuplot plotter.plot");
+		LOGGER.info("Exemple : java -jar performanceEvaluator.jar 20 0.6");
 	}
 
 	public static void main(String[] args) throws CloneNotSupportedException,

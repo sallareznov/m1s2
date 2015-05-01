@@ -19,12 +19,13 @@ public class RandomGraphSolver {
 	}
 
 	private static void usage() {
-		LOGGER.info("java -jar randomGraphSolver.jar <filename>");
+		LOGGER.info("java -jar randomGraphSolver.jar <n> <p>");
 		LOGGER.info("\tn : le nombre de sommets maximal des graphes generes");
 		LOGGER.info("\tp : la probabilité d'existence d'arête entre 2 sommets");
 		LOGGER.info("Ce programme générera dans le fichier <output> les résultats");
 		LOGGER.info("des temps d'exécution des algorithmes de Prim et de Kruskal sur");
 		LOGGER.info("un graphe généré aléatoirement selon le modèle d'Erdos-Renyi");
+		LOGGER.info("Exemple : java -jar randomGraphSolver.jar 100 0.7");
 	}
 
 	public static void main(String[] args) throws IOException,
