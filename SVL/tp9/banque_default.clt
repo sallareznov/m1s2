@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <diagram_Layout version="13">
   <diagramOptions>
-    <autolayout>true</autolayout>
+    <autolayout>false</autolayout>
     <antialiasing>false</antialiasing>
     <showassocnames>true</showassocnames>
     <showattributes>false</showattributes>
@@ -13,16 +13,16 @@
   <node id="Compte" sizeCalculated="true" type="Class">
     <name>Compte</name>
     <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyFixed">
-      <x>749.1577490361244</x>
-      <y>270.05764943209414</y>
+      <x>415.1739865524023</x>
+      <y>216.16508514277314</y>
     </strategy>
     <hidden>false</hidden>
   </node>
   <node id="Contrat" sizeCalculated="true" type="Class">
     <name>Contrat</name>
     <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyRelativeToCorner">
-      <userOffsetX>80.0</userOffsetX>
-      <userOffsetY>407.0</userOffsetY>
+      <userOffsetX>-108.0</userOffsetX>
+      <userOffsetY>276.0</userOffsetY>
       <basisDeltaX>ABSOLUTE</basisDeltaX>
       <deltaX>0.0</deltaX>
       <maxDeltaX>1.7976931348623157E308</maxDeltaX>
@@ -37,40 +37,40 @@
   <node id="Banque" sizeCalculated="true" type="Class">
     <name>Banque</name>
     <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyFixed">
-      <x>539.2276848306095</x>
-      <y>170.40775007956137</y>
+      <x>496.4392079362991</x>
+      <y>74.96484774318688</y>
     </strategy>
     <hidden>false</hidden>
   </node>
   <node id="Personne" sizeCalculated="true" type="Class">
     <name>Personne</name>
     <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyFixed">
-      <x>831.0111136999026</x>
-      <y>148.35627165063244</y>
+      <x>704.4059632887057</x>
+      <y>322.7032249780916</y>
     </strategy>
     <hidden>false</hidden>
   </node>
   <node id="Agence" sizeCalculated="true" type="Class">
     <name>Agence</name>
     <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyFixed">
-      <x>686.2792989530308</x>
-      <y>133.25070657505756</y>
+      <x>602.8703051515882</x>
+      <y>182.5677059236549</y>
     </strategy>
     <hidden>false</hidden>
   </node>
   <node id="Livret" sizeCalculated="true" type="Class">
     <name>Livret</name>
     <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyFixed">
-      <x>739.8504879751197</x>
-      <y>420.4908712987126</y>
+      <x>404.2096818788542</x>
+      <y>401.329282842443</y>
     </strategy>
     <hidden>false</hidden>
   </node>
   <node id="Genre" sizeCalculated="true" type="Enumeration">
     <name>Genre</name>
     <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyFixed">
-      <x>1333.7823126905673</x>
-      <y>646.0</y>
+      <x>900.7080208855374</x>
+      <y>566.7113991991534</y>
     </strategy>
     <hidden>false</hidden>
   </node>
@@ -79,6 +79,47 @@
     <target>Compte</target>
     <name>CompteAgence</name>
     <properties>
+      <edgeproperty id="CompteAgence::AssociationName"
+        sizeCalculated="true" type="associationName" userDefined="false" visible="true">
+        <name>CompteAgence</name>
+        <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyInBetween">
+          <userOffsetX>0.0</userOffsetX>
+          <userOffsetY>0.0</userOffsetY>
+          <offsetX>0.0</offsetX>
+          <offsetY>-10.0</offsetY>
+          <related length="2">
+            <related0>CompteAgence::WayPoint::0</related0>
+            <related1>CompteAgence::WayPoint::1</related1>
+          </related>
+        </strategy>
+        <hidden>false</hidden>
+      </edgeproperty>
+      <edgeproperty id="CompteAgence::target::rolename"
+        sizeCalculated="true" type="rolename" userDefined="false" visible="true">
+        <name>compte</name>
+        <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyRelativeToAttached">
+          <userOffsetX>0.0</userOffsetX>
+          <userOffsetY>0.0</userOffsetY>
+          <attached>CompteAgence::WayPoint::1</attached>
+          <offset_x>8</offset_x>
+          <offset_y>8</offset_y>
+          <placement>TOP</placement>
+        </strategy>
+        <hidden>false</hidden>
+      </edgeproperty>
+      <edgeproperty id="CompteAgence::target::multiplicity"
+        sizeCalculated="true" type="multiplicity" userDefined="false" visible="true">
+        <name>*</name>
+        <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyRelativeToAttached">
+          <userOffsetX>0.0</userOffsetX>
+          <userOffsetY>0.0</userOffsetY>
+          <attached>CompteAgence::WayPoint::1</attached>
+          <offset_x>8</offset_x>
+          <offset_y>8</offset_y>
+          <placement>BOTTOM</placement>
+        </strategy>
+        <hidden>false</hidden>
+      </edgeproperty>
       <edgeproperty id="CompteAgence::source::multiplicity"
         sizeCalculated="true" type="multiplicity" userDefined="false" visible="true">
         <name>0..1</name>
@@ -99,47 +140,6 @@
           <userOffsetX>0.0</userOffsetX>
           <userOffsetY>0.0</userOffsetY>
           <attached>CompteAgence::WayPoint::0</attached>
-          <offset_x>8</offset_x>
-          <offset_y>8</offset_y>
-          <placement>TOP</placement>
-        </strategy>
-        <hidden>false</hidden>
-      </edgeproperty>
-      <edgeproperty id="CompteAgence::AssociationName"
-        sizeCalculated="true" type="associationName" userDefined="false" visible="true">
-        <name>CompteAgence</name>
-        <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyInBetween">
-          <userOffsetX>0.0</userOffsetX>
-          <userOffsetY>0.0</userOffsetY>
-          <offsetX>0.0</offsetX>
-          <offsetY>-10.0</offsetY>
-          <related length="2">
-            <related0>CompteAgence::WayPoint::0</related0>
-            <related1>CompteAgence::WayPoint::1</related1>
-          </related>
-        </strategy>
-        <hidden>false</hidden>
-      </edgeproperty>
-      <edgeproperty id="CompteAgence::target::multiplicity"
-        sizeCalculated="true" type="multiplicity" userDefined="false" visible="true">
-        <name>*</name>
-        <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyRelativeToAttached">
-          <userOffsetX>0.0</userOffsetX>
-          <userOffsetY>0.0</userOffsetY>
-          <attached>CompteAgence::WayPoint::1</attached>
-          <offset_x>8</offset_x>
-          <offset_y>8</offset_y>
-          <placement>BOTTOM</placement>
-        </strategy>
-        <hidden>false</hidden>
-      </edgeproperty>
-      <edgeproperty id="CompteAgence::target::rolename"
-        sizeCalculated="true" type="rolename" userDefined="false" visible="true">
-        <name>compte</name>
-        <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyRelativeToAttached">
-          <userOffsetX>0.0</userOffsetX>
-          <userOffsetY>0.0</userOffsetY>
-          <attached>CompteAgence::WayPoint::1</attached>
           <offset_x>8</offset_x>
           <offset_y>8</offset_y>
           <placement>TOP</placement>
@@ -178,13 +178,41 @@
     <target>Agence</target>
     <name>BanqueAgences</name>
     <properties>
-      <edgeproperty id="BanqueAgences::source::multiplicity"
-        sizeCalculated="true" type="multiplicity" userDefined="false" visible="true">
-        <name>1</name>
+      <edgeproperty id="BanqueAgences::AssociationName"
+        sizeCalculated="true" type="associationName" userDefined="false" visible="true">
+        <name>BanqueAgences</name>
+        <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyInBetween">
+          <userOffsetX>0.0</userOffsetX>
+          <userOffsetY>0.0</userOffsetY>
+          <offsetX>0.0</offsetX>
+          <offsetY>-10.0</offsetY>
+          <related length="2">
+            <related0>BanqueAgences::WayPoint::0</related0>
+            <related1>BanqueAgences::WayPoint::1</related1>
+          </related>
+        </strategy>
+        <hidden>false</hidden>
+      </edgeproperty>
+      <edgeproperty id="BanqueAgences::target::rolename"
+        sizeCalculated="true" type="rolename" userDefined="false" visible="true">
+        <name>agence</name>
         <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyRelativeToAttached">
           <userOffsetX>0.0</userOffsetX>
           <userOffsetY>0.0</userOffsetY>
-          <attached>BanqueAgences::WayPoint::0</attached>
+          <attached>BanqueAgences::WayPoint::1</attached>
+          <offset_x>8</offset_x>
+          <offset_y>8</offset_y>
+          <placement>TOP</placement>
+        </strategy>
+        <hidden>false</hidden>
+      </edgeproperty>
+      <edgeproperty id="BanqueAgences::target::multiplicity"
+        sizeCalculated="true" type="multiplicity" userDefined="false" visible="true">
+        <name>*</name>
+        <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyRelativeToAttached">
+          <userOffsetX>0.0</userOffsetX>
+          <userOffsetY>0.0</userOffsetY>
+          <attached>BanqueAgences::WayPoint::1</attached>
           <offset_x>8</offset_x>
           <offset_y>8</offset_y>
           <placement>BOTTOM</placement>
@@ -204,44 +232,16 @@
         </strategy>
         <hidden>false</hidden>
       </edgeproperty>
-      <edgeproperty id="BanqueAgences::AssociationName"
-        sizeCalculated="true" type="associationName" userDefined="false" visible="true">
-        <name>BanqueAgences</name>
-        <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyInBetween">
-          <userOffsetX>0.0</userOffsetX>
-          <userOffsetY>0.0</userOffsetY>
-          <offsetX>0.0</offsetX>
-          <offsetY>-10.0</offsetY>
-          <related length="2">
-            <related0>BanqueAgences::WayPoint::0</related0>
-            <related1>BanqueAgences::WayPoint::1</related1>
-          </related>
-        </strategy>
-        <hidden>false</hidden>
-      </edgeproperty>
-      <edgeproperty id="BanqueAgences::target::multiplicity"
+      <edgeproperty id="BanqueAgences::source::multiplicity"
         sizeCalculated="true" type="multiplicity" userDefined="false" visible="true">
-        <name>*</name>
+        <name>1</name>
         <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyRelativeToAttached">
           <userOffsetX>0.0</userOffsetX>
           <userOffsetY>0.0</userOffsetY>
-          <attached>BanqueAgences::WayPoint::1</attached>
+          <attached>BanqueAgences::WayPoint::0</attached>
           <offset_x>8</offset_x>
           <offset_y>8</offset_y>
           <placement>BOTTOM</placement>
-        </strategy>
-        <hidden>false</hidden>
-      </edgeproperty>
-      <edgeproperty id="BanqueAgences::target::rolename"
-        sizeCalculated="true" type="rolename" userDefined="false" visible="true">
-        <name>agence</name>
-        <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyRelativeToAttached">
-          <userOffsetX>0.0</userOffsetX>
-          <userOffsetY>0.0</userOffsetY>
-          <attached>BanqueAgences::WayPoint::1</attached>
-          <offset_x>8</offset_x>
-          <offset_y>8</offset_y>
-          <placement>TOP</placement>
         </strategy>
         <hidden>false</hidden>
       </edgeproperty>
@@ -277,32 +277,6 @@
     <target>Livret</target>
     <name>CompteLivret</name>
     <properties>
-      <edgeproperty id="CompteLivret::source::multiplicity"
-        sizeCalculated="true" type="multiplicity" userDefined="false" visible="true">
-        <name>1</name>
-        <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyRelativeToAttached">
-          <userOffsetX>0.0</userOffsetX>
-          <userOffsetY>0.0</userOffsetY>
-          <attached>CompteLivret::WayPoint::0</attached>
-          <offset_x>8</offset_x>
-          <offset_y>8</offset_y>
-          <placement>BOTTOM</placement>
-        </strategy>
-        <hidden>false</hidden>
-      </edgeproperty>
-      <edgeproperty id="CompteLivret::source::rolename"
-        sizeCalculated="true" type="rolename" userDefined="false" visible="true">
-        <name>compteRattachement</name>
-        <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyRelativeToAttached">
-          <userOffsetX>0.0</userOffsetX>
-          <userOffsetY>0.0</userOffsetY>
-          <attached>CompteLivret::WayPoint::0</attached>
-          <offset_x>8</offset_x>
-          <offset_y>8</offset_y>
-          <placement>TOP</placement>
-        </strategy>
-        <hidden>false</hidden>
-      </edgeproperty>
       <edgeproperty id="CompteLivret::AssociationName"
         sizeCalculated="true" type="associationName" userDefined="false" visible="true">
         <name>CompteLivret</name>
@@ -344,6 +318,32 @@
         </strategy>
         <hidden>false</hidden>
       </edgeproperty>
+      <edgeproperty id="CompteLivret::source::rolename"
+        sizeCalculated="true" type="rolename" userDefined="false" visible="true">
+        <name>compteRattachement</name>
+        <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyRelativeToAttached">
+          <userOffsetX>0.0</userOffsetX>
+          <userOffsetY>0.0</userOffsetY>
+          <attached>CompteLivret::WayPoint::0</attached>
+          <offset_x>8</offset_x>
+          <offset_y>8</offset_y>
+          <placement>TOP</placement>
+        </strategy>
+        <hidden>false</hidden>
+      </edgeproperty>
+      <edgeproperty id="CompteLivret::source::multiplicity"
+        sizeCalculated="true" type="multiplicity" userDefined="false" visible="true">
+        <name>1</name>
+        <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyRelativeToAttached">
+          <userOffsetX>0.0</userOffsetX>
+          <userOffsetY>0.0</userOffsetY>
+          <attached>CompteLivret::WayPoint::0</attached>
+          <offset_x>8</offset_x>
+          <offset_y>8</offset_y>
+          <placement>BOTTOM</placement>
+        </strategy>
+        <hidden>false</hidden>
+      </edgeproperty>
     </properties>
     <waypoints>
       <edgeproperty id="CompteLivret::WayPoint::0" sizeCalculated="true"
@@ -376,32 +376,6 @@
     <target>Personne</target>
     <name>GestionCompte</name>
     <properties>
-      <edgeproperty id="GestionCompte::source::multiplicity"
-        sizeCalculated="true" type="multiplicity" userDefined="false" visible="true">
-        <name>*</name>
-        <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyRelativeToAttached">
-          <userOffsetX>0.0</userOffsetX>
-          <userOffsetY>0.0</userOffsetY>
-          <attached>GestionCompte::WayPoint::0</attached>
-          <offset_x>8</offset_x>
-          <offset_y>8</offset_y>
-          <placement>BOTTOM</placement>
-        </strategy>
-        <hidden>false</hidden>
-      </edgeproperty>
-      <edgeproperty id="GestionCompte::source::rolename"
-        sizeCalculated="true" type="rolename" userDefined="false" visible="true">
-        <name>compteGere</name>
-        <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyRelativeToAttached">
-          <userOffsetX>0.0</userOffsetX>
-          <userOffsetY>0.0</userOffsetY>
-          <attached>GestionCompte::WayPoint::0</attached>
-          <offset_x>8</offset_x>
-          <offset_y>8</offset_y>
-          <placement>TOP</placement>
-        </strategy>
-        <hidden>false</hidden>
-      </edgeproperty>
       <edgeproperty id="GestionCompte::AssociationName"
         sizeCalculated="true" type="associationName" userDefined="false" visible="true">
         <name>GestionCompte</name>
@@ -437,6 +411,32 @@
           <userOffsetX>0.0</userOffsetX>
           <userOffsetY>0.0</userOffsetY>
           <attached>GestionCompte::WayPoint::1</attached>
+          <offset_x>8</offset_x>
+          <offset_y>8</offset_y>
+          <placement>TOP</placement>
+        </strategy>
+        <hidden>false</hidden>
+      </edgeproperty>
+      <edgeproperty id="GestionCompte::source::multiplicity"
+        sizeCalculated="true" type="multiplicity" userDefined="false" visible="true">
+        <name>*</name>
+        <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyRelativeToAttached">
+          <userOffsetX>0.0</userOffsetX>
+          <userOffsetY>0.0</userOffsetY>
+          <attached>GestionCompte::WayPoint::0</attached>
+          <offset_x>8</offset_x>
+          <offset_y>8</offset_y>
+          <placement>BOTTOM</placement>
+        </strategy>
+        <hidden>false</hidden>
+      </edgeproperty>
+      <edgeproperty id="GestionCompte::source::rolename"
+        sizeCalculated="true" type="rolename" userDefined="false" visible="true">
+        <name>compteGere</name>
+        <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyRelativeToAttached">
+          <userOffsetX>0.0</userOffsetX>
+          <userOffsetY>0.0</userOffsetY>
+          <attached>GestionCompte::WayPoint::0</attached>
           <offset_x>8</offset_x>
           <offset_y>8</offset_y>
           <placement>TOP</placement>
@@ -483,13 +483,41 @@
     <target>Personne</target>
     <name>Conseil</name>
     <properties>
-      <edgeproperty id="Conseil::source::rolename" sizeCalculated="true"
-        type="rolename" userDefined="false" visible="true">
-        <name>conseille</name>
+      <edgeproperty id="Conseil::AssociationName" sizeCalculated="true"
+        type="associationName" userDefined="false" visible="true">
+        <name>Conseil</name>
+        <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyInBetween">
+          <userOffsetX>0.0</userOffsetX>
+          <userOffsetY>0.0</userOffsetY>
+          <offsetX>0.0</offsetX>
+          <offsetY>-10.0</offsetY>
+          <related length="2">
+            <related0>Conseil::WayPoint::2</related0>
+            <related1>Conseil::WayPoint::3</related1>
+          </related>
+        </strategy>
+        <hidden>false</hidden>
+      </edgeproperty>
+      <edgeproperty id="Conseil::target::multiplicity"
+        sizeCalculated="true" type="multiplicity" userDefined="false" visible="true">
+        <name>1</name>
         <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyRelativeToAttached">
           <userOffsetX>0.0</userOffsetX>
           <userOffsetY>0.0</userOffsetY>
-          <attached>Conseil::WayPoint::0</attached>
+          <attached>Conseil::WayPoint::4</attached>
+          <offset_x>8</offset_x>
+          <offset_y>8</offset_y>
+          <placement>BOTTOM</placement>
+        </strategy>
+        <hidden>false</hidden>
+      </edgeproperty>
+      <edgeproperty id="Conseil::target::rolename" sizeCalculated="true"
+        type="rolename" userDefined="false" visible="true">
+        <name>conseiller</name>
+        <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyRelativeToAttached">
+          <userOffsetX>0.0</userOffsetX>
+          <userOffsetY>0.0</userOffsetY>
+          <attached>Conseil::WayPoint::4</attached>
           <offset_x>8</offset_x>
           <offset_y>8</offset_y>
           <placement>TOP</placement>
@@ -509,44 +537,16 @@
         </strategy>
         <hidden>false</hidden>
       </edgeproperty>
-      <edgeproperty id="Conseil::AssociationName" sizeCalculated="true"
-        type="associationName" userDefined="false" visible="true">
-        <name>Conseil</name>
-        <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyInBetween">
-          <userOffsetX>0.0</userOffsetX>
-          <userOffsetY>0.0</userOffsetY>
-          <offsetX>0.0</offsetX>
-          <offsetY>-10.0</offsetY>
-          <related length="2">
-            <related0>Conseil::WayPoint::2</related0>
-            <related1>Conseil::WayPoint::3</related1>
-          </related>
-        </strategy>
-        <hidden>false</hidden>
-      </edgeproperty>
-      <edgeproperty id="Conseil::target::rolename" sizeCalculated="true"
+      <edgeproperty id="Conseil::source::rolename" sizeCalculated="true"
         type="rolename" userDefined="false" visible="true">
-        <name>conseiller</name>
+        <name>conseille</name>
         <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyRelativeToAttached">
           <userOffsetX>0.0</userOffsetX>
           <userOffsetY>0.0</userOffsetY>
-          <attached>Conseil::WayPoint::4</attached>
+          <attached>Conseil::WayPoint::0</attached>
           <offset_x>8</offset_x>
           <offset_y>8</offset_y>
           <placement>TOP</placement>
-        </strategy>
-        <hidden>false</hidden>
-      </edgeproperty>
-      <edgeproperty id="Conseil::target::multiplicity"
-        sizeCalculated="true" type="multiplicity" userDefined="false" visible="true">
-        <name>1</name>
-        <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyRelativeToAttached">
-          <userOffsetX>0.0</userOffsetX>
-          <userOffsetY>0.0</userOffsetY>
-          <attached>Conseil::WayPoint::4</attached>
-          <offset_x>8</offset_x>
-          <offset_y>8</offset_y>
-          <placement>BOTTOM</placement>
         </strategy>
         <hidden>false</hidden>
       </edgeproperty>
@@ -655,32 +655,6 @@
     <target>Personne</target>
     <name>ProprieteCompte</name>
     <properties>
-      <edgeproperty id="ProprieteCompte::source::multiplicity"
-        sizeCalculated="true" type="multiplicity" userDefined="false" visible="true">
-        <name>*</name>
-        <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyRelativeToAttached">
-          <userOffsetX>0.0</userOffsetX>
-          <userOffsetY>0.0</userOffsetY>
-          <attached>ProprieteCompte::WayPoint::0</attached>
-          <offset_x>8</offset_x>
-          <offset_y>8</offset_y>
-          <placement>BOTTOM</placement>
-        </strategy>
-        <hidden>false</hidden>
-      </edgeproperty>
-      <edgeproperty id="ProprieteCompte::source::rolename"
-        sizeCalculated="true" type="rolename" userDefined="false" visible="true">
-        <name>compte</name>
-        <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyRelativeToAttached">
-          <userOffsetX>0.0</userOffsetX>
-          <userOffsetY>0.0</userOffsetY>
-          <attached>ProprieteCompte::WayPoint::0</attached>
-          <offset_x>8</offset_x>
-          <offset_y>8</offset_y>
-          <placement>TOP</placement>
-        </strategy>
-        <hidden>false</hidden>
-      </edgeproperty>
       <edgeproperty id="ProprieteCompte::AssociationName"
         sizeCalculated="true" type="associationName" userDefined="false" visible="true">
         <name>ProprieteCompte</name>
@@ -722,6 +696,32 @@
         </strategy>
         <hidden>false</hidden>
       </edgeproperty>
+      <edgeproperty id="ProprieteCompte::source::multiplicity"
+        sizeCalculated="true" type="multiplicity" userDefined="false" visible="true">
+        <name>*</name>
+        <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyRelativeToAttached">
+          <userOffsetX>0.0</userOffsetX>
+          <userOffsetY>0.0</userOffsetY>
+          <attached>ProprieteCompte::WayPoint::0</attached>
+          <offset_x>8</offset_x>
+          <offset_y>8</offset_y>
+          <placement>BOTTOM</placement>
+        </strategy>
+        <hidden>false</hidden>
+      </edgeproperty>
+      <edgeproperty id="ProprieteCompte::source::rolename"
+        sizeCalculated="true" type="rolename" userDefined="false" visible="true">
+        <name>compte</name>
+        <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyRelativeToAttached">
+          <userOffsetX>0.0</userOffsetX>
+          <userOffsetY>0.0</userOffsetY>
+          <attached>ProprieteCompte::WayPoint::0</attached>
+          <offset_x>8</offset_x>
+          <offset_y>8</offset_y>
+          <placement>TOP</placement>
+        </strategy>
+        <hidden>false</hidden>
+      </edgeproperty>
     </properties>
     <waypoints>
       <edgeproperty id="ProprieteCompte::WayPoint::0"
@@ -754,13 +754,41 @@
     <target>Personne</target>
     <name>Contrat</name>
     <properties>
-      <edgeproperty id="Contrat::source::rolename" sizeCalculated="true"
-        type="rolename" userDefined="false" visible="true">
-        <name>agence</name>
+      <edgeproperty id="Contrat::AssociationName" sizeCalculated="true"
+        type="associationName" userDefined="false" visible="true">
+        <name>Contrat</name>
+        <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyInBetween">
+          <userOffsetX>0.0</userOffsetX>
+          <userOffsetY>0.0</userOffsetY>
+          <offsetX>0.0</offsetX>
+          <offsetY>-10.0</offsetY>
+          <related length="2">
+            <related0>Contrat::WayPoint::0</related0>
+            <related1>Contrat::WayPoint::1</related1>
+          </related>
+        </strategy>
+        <hidden>false</hidden>
+      </edgeproperty>
+      <edgeproperty id="Contrat::target::multiplicity"
+        sizeCalculated="true" type="multiplicity" userDefined="false" visible="true">
+        <name>*</name>
         <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyRelativeToAttached">
           <userOffsetX>0.0</userOffsetX>
           <userOffsetY>0.0</userOffsetY>
-          <attached>Contrat::WayPoint::0</attached>
+          <attached>Contrat::WayPoint::1</attached>
+          <offset_x>8</offset_x>
+          <offset_y>8</offset_y>
+          <placement>BOTTOM</placement>
+        </strategy>
+        <hidden>false</hidden>
+      </edgeproperty>
+      <edgeproperty id="Contrat::target::rolename" sizeCalculated="true"
+        type="rolename" userDefined="false" visible="true">
+        <name>client</name>
+        <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyRelativeToAttached">
+          <userOffsetX>0.0</userOffsetX>
+          <userOffsetY>0.0</userOffsetY>
+          <attached>Contrat::WayPoint::1</attached>
           <offset_x>8</offset_x>
           <offset_y>8</offset_y>
           <placement>TOP</placement>
@@ -780,44 +808,16 @@
         </strategy>
         <hidden>false</hidden>
       </edgeproperty>
-      <edgeproperty id="Contrat::AssociationName" sizeCalculated="true"
-        type="associationName" userDefined="false" visible="true">
-        <name>Contrat</name>
-        <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyInBetween">
-          <userOffsetX>0.0</userOffsetX>
-          <userOffsetY>0.0</userOffsetY>
-          <offsetX>0.0</offsetX>
-          <offsetY>-10.0</offsetY>
-          <related length="2">
-            <related0>Contrat::WayPoint::0</related0>
-            <related1>Contrat::WayPoint::1</related1>
-          </related>
-        </strategy>
-        <hidden>false</hidden>
-      </edgeproperty>
-      <edgeproperty id="Contrat::target::rolename" sizeCalculated="true"
+      <edgeproperty id="Contrat::source::rolename" sizeCalculated="true"
         type="rolename" userDefined="false" visible="true">
-        <name>client</name>
+        <name>agence</name>
         <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyRelativeToAttached">
           <userOffsetX>0.0</userOffsetX>
           <userOffsetY>0.0</userOffsetY>
-          <attached>Contrat::WayPoint::1</attached>
+          <attached>Contrat::WayPoint::0</attached>
           <offset_x>8</offset_x>
           <offset_y>8</offset_y>
           <placement>TOP</placement>
-        </strategy>
-        <hidden>false</hidden>
-      </edgeproperty>
-      <edgeproperty id="Contrat::target::multiplicity"
-        sizeCalculated="true" type="multiplicity" userDefined="false" visible="true">
-        <name>*</name>
-        <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyRelativeToAttached">
-          <userOffsetX>0.0</userOffsetX>
-          <userOffsetY>0.0</userOffsetY>
-          <attached>Contrat::WayPoint::1</attached>
-          <offset_x>8</offset_x>
-          <offset_y>8</offset_y>
-          <placement>BOTTOM</placement>
         </strategy>
         <hidden>false</hidden>
       </edgeproperty>
@@ -870,8 +870,8 @@
       <node id="Contrat" sizeCalculated="true" type="Class">
         <name>Contrat</name>
         <strategy type="org.tzi.use.gui.views.diagrams.elements.positioning.StrategyRelativeToCorner">
-          <userOffsetX>80.0</userOffsetX>
-          <userOffsetY>407.0</userOffsetY>
+          <userOffsetX>-108.0</userOffsetX>
+          <userOffsetY>276.0</userOffsetY>
           <basisDeltaX>ABSOLUTE</basisDeltaX>
           <deltaX>0.0</deltaX>
           <maxDeltaX>1.7976931348623157E308</maxDeltaX>

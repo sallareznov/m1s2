@@ -1,3 +1,5 @@
+-- model
+
 model banque
 
 enum Genre { masculin, feminin }
@@ -42,7 +44,11 @@ end
 class Livret
 attributes
   solde : Integer
+operations
+  getSolde() : Integer = self.solde
 end
+
+-- associations
 
 association Conseil between
   Personne[*] role conseille
@@ -70,28 +76,27 @@ association CompteLivret between
 end
 
 association BanqueAgences between
-  Banque[1] role banque	    
+  Banque[1] role banque     
   Agence[*] role agence
 end
 
+-- constraints
+
 constraints
 
-context Livret inv soldePositif:
-  self.solde >= 0
+context Personne
+  inv : self.revenu >= 0
 
-context Compte inv montantPositif:
-  self.solde >= 0
+context Compte
+  inv : self.solde >= self.plancher
+
+context Livret
+  inv : self.solde >= 0
 
 context Compte::debiter(montant : Integer)
-pre montantPositive : montant >= 0
-post debitCorrect : self.solde = self.solde@pre - montant
+  pre montantDebit : montant > 0
+  post debitEffectue : self.solde = self.solde@pre - montant
 
 context Compte::crediter(montant : Integer)
-pre montantPositive : montant >= 0
-post creditCorrect : self.solde = self.solde@pre + montant
-
-context Personne inv revenuPositif:
-  self.revenu >= 0
-
-context Personne::majeur() : Boolean
-post estMajeur : self.age >= 18 implies self.majeur()
+  pre montantCreditPositif : montant > 0
+  post creditEffectue : self.solde = self.solde@pre + montant
