@@ -18,13 +18,15 @@ public class RandomGraphsPerformanceEvaluator {
 	}
 
 	private static void usage() {
-		LOGGER.info("java -jar randomPE.jar <n> <output>");
+		LOGGER.info("java -jar performanceEvaluator.jar <n> <p>");
 		LOGGER.info("\tn : le nombre de sommets maximal des graphes generes");
+		LOGGER.info("\tp : la probabilité d'existence d'arête entre 2 sommets");
 		LOGGER.info("Ce programme générera dans le fichier <output> les résultats");
 		LOGGER.info("des temps d'exécution des algorithmes de Prim et de Kruskal sur");
 		LOGGER.info("des graphes générés aléatoirement selon le modèle d'Erdos-Renyi");
 		LOGGER.info("Pour générer le fichier results.png représentant les résultats");
 		LOGGER.info("obtenus sous forme de graphe, exécuter : gnuplot plotter.plot");
+		LOGGER.info("Exemple : java -jar performanceEvaluator.jar 20 0.6");
 	}
 
 	public static void main(String[] args) throws CloneNotSupportedException,

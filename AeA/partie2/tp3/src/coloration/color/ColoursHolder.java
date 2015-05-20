@@ -2,7 +2,6 @@ package coloration.color;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import coloration.bean.Vertex;
 import coloration.bean.WeightedGraph;
@@ -44,12 +43,6 @@ public class ColoursHolder {
 				return true;
 		}
 		return false;
-	}
-	
-	public void print() {
-		for (final Entry<Vertex, Integer>entry : verticesToColours.entrySet())  {
-			System.out.println(entry.getKey() + " -> " + entry.getValue());
-		}
 	}
 
 }

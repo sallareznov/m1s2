@@ -15,20 +15,22 @@ public class AlgorithmPerformanceEvaluator {
 			.getLogger(AlgorithmPerformanceEvaluator.class);
 
 	public void evaluate(int n, ErdosRenyiGraphGenerator graphGenerator,
-			String filename, ColoursHolder coloursHolder, VerticesColorationAlgorithm... algorithms) throws CloneNotSupportedException, IOException {
+			ColoursHolder coloursHolder,
+			VerticesColorationAlgorithm... algorithms)
+			throws CloneNotSupportedException, IOException {
 		LOGGER.info("> Performance evaluation in progress...");
 		float p = 0.1f;
 		for (int i = 1; i <= 50; i++) {
-				final WeightedGraph graph = graphGenerator
-					.generateErdosRenyiGraph(n, p);
-				LOGGER.info("---> Graph n°" + i);
-				LOGGER.info("n = " + n + " | p = " + p);
-				for (VerticesColorationAlgorithm algorithm : algorithms) {
-					algorithm.colourGraph(graph, coloursHolder);
-					algorithm.printMeasures();
-				}
-				LOGGER.info("");
-				p = (p + 0.2f) % 1;
+			final WeightedGraph graph = graphGenerator.generateErdosRenyiGraph(
+					n, p);
+			LOGGER.info("---> Graph n°" + i);
+			LOGGER.info("n = " + n + " | p = " + p);
+			for (VerticesColorationAlgorithm algorithm : algorithms) {
+				algorithm.colourGraph(graph, coloursHolder);
+				algorithm.printMeasures();
+			}
+			LOGGER.info("");
+			p = (p + 0.2f) % 1;
 		}
 		LOGGER.info("> Performance evaluation terminated");
 	}

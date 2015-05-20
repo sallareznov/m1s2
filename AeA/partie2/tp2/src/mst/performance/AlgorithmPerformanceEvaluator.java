@@ -45,6 +45,7 @@ public class AlgorithmPerformanceEvaluator {
 		LOGGER.info("> Performance evaluation in progress...");
 		initFilenameWriting(filename);
 		for (int n = 4; n <= maxN; n++) {
+			LOGGER.info(n + "");
 			float p = 0.1f;
 			for (int index = 0 ; index < 10 ; index++) {
 				final WeightedGraph graph = graphGenerator

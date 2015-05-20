@@ -41,7 +41,7 @@ public class NeighborsManager {
 
 	public void initNeighbors(WeightedGraph graph) {
 		verticesToNeighbors.clear();
-		if (graph.getEdges().size() < 1) {
+		if (graph.getEdges().isEmpty()) {
 			return;
 		}
 		for (final Edge edge : graph.getEdges()) {

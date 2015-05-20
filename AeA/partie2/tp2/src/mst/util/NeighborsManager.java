@@ -45,7 +45,7 @@ public class NeighborsManager {
 
 	public void initNeighbors(WeightedGraph graph) {
 		verticesToNeighbors.clear();
-		if (graph.getEdges().size() < 1) {
+		if (graph.getEdges().isEmpty()) {
 			return;
 		}
 		final Queue<Edge> graphEdges = new PriorityQueue<Edge>(graph.getEdges()
